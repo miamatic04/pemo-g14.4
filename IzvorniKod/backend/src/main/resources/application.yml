@@ -1,0 +1,16 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 128191605968-jg0b3nos05aieno3lel20kli5f8eobr7.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: "http://localhost:3000/home"
+            scope: email, profile
+            client-name: Google
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://openidconnect.googleapis.com/v1/userinfo
