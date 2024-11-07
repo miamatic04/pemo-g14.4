@@ -1,7 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.model.ShopUser;
-import com.example.backend.repository.UserRepository;
+import com.example.backend.repository.ShopUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private ShopUserRepository shopUserRepository;
 
     public ShopUser findUser(String email) {
-        return userRepository.findByEmail(email);
+        return shopUserRepository.findByEmail(email);
     }
 
     public ShopUser saveUser(ShopUser shopUser) {
-        return userRepository.save(shopUser);
+        return shopUserRepository.save(shopUser);
     }
 }
