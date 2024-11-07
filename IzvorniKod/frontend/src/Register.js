@@ -1,4 +1,5 @@
 import React, { useState }from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
 
@@ -8,10 +9,12 @@ const Register = () => {
         lastName: '',
         email: '',
         pass: '',
-        passConfirm: '',
+        passConfirm: ''
     });
 
     const [backendResult, setBackendResult] = useState(null);
+
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -34,13 +37,18 @@ const Register = () => {
                 body: JSON.stringify(formData)
             });
 
-            console.log(JSON.stringify(formData));
+            console.log('Response Status:', response.status); // Provjeri status koda
+            console.log('Response OK:', response.ok); // Provjeri je li odgovor OK
 
-            if (response.ok) {
-                const result = await response.json();
-                setBackendResult(result);
+            if (!response.ok) {
+                // Ako odgovor nije OK, obraditi grešku
+                const errorData = await response.json();
+                setBackendResult(errorData);
             } else {
-                console.error('Error:', response.statusText);
+                // Ako je odgovor uspješan, obradi uspješan rezultat
+                const data = await response.json();
+                setBackendResult(data);
+                navigate('/home');
             }
         } catch (error) {
             console.error('Network Error:', error);

@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Start = () => {
 
@@ -8,6 +9,8 @@ const Start = () => {
     });
 
     const [backendResult, setBackendResult] = useState(null);
+
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -30,14 +33,16 @@ const Start = () => {
                 body: JSON.stringify(formData)
             });
 
-            console.log(JSON.stringify(formData));
-
-            if (response.ok) {
-                const result = await response.json();
-                setBackendResult(result);
+            if (!response.ok) {
+                // Ako status nije u opsegu 2xx, baci grešku
+                const errorData = await response.json();
+                setBackendResult(errorData);
             } else {
-                console.error('Error:', response.statusText);
+                const data = await response.json();
+                setBackendResult(data);
+                navigate('/home');
             }
+
         } catch (error) {
             console.error('Network Error:', error);
         }
