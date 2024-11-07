@@ -2,8 +2,11 @@ package com.example.backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -18,26 +21,20 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/oauth2/**", "/register", "/register/addUser", "/login").permitAll()  // Public access to login and error pages
-                        .anyRequest().authenticated()  // All other requests require authentication
-
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow preflight requests
+                        .requestMatchers("/**", "/oauth2/**", "/register", "/register/addUser", "/login").permitAll() // /** privremeno dok ne napravimo autentikaciju http
+                        .anyRequest().authenticated() // All other requests require authentication
+                ).oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login")  // Prilagođena stranica za prijavu
+                        .defaultSuccessUrl("/home", true)  // URL nakon uspješne prijave
                 )
-                .oauth2Login(oauth2 -> oauth2  // Configure OAuth2 login explicitly
-                        .loginPage("/")  // Custom login page if desired
-                        .defaultSuccessUrl("/home", true)  // Redirect to a specific page upon success
-                ).csrf().disable();
+                .csrf().disable(); // Disable CSRF if not needed
+
         return http.build();
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // Allow your frontend
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Allowed methods
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); // Allowed headers
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // Apply to all endpoints
-        return source;
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

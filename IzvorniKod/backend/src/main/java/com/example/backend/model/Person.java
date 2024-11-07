@@ -10,22 +10,18 @@ public abstract class Person {
 
     private String firstName;
     private String lastName;
-    private Date dateOfBirth;
+    //private Date dateOfBirth;
     @Id
     private String email;
     private String pass;
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public Date getDateOfBirth() {
+   /* public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
-    }
+    }*/
 
     public String getEmail() {
         return email;

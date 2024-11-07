@@ -14,31 +14,20 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
-public class UserController {
+public class ShopController {
 
-    @Autowired
-    private UserService userService;
     @Autowired
     private ShopService shopService;
 
-
-    @PostMapping("/register/addUser")
-    public ResponseEntity<Map<String, Object>> addUser(@RequestBody ShopUser shopUser) {
-
-        return userService.addUser(shopUser);
+    @GetMapping("/home/getShopsAZ")
+    public ResponseEntity<List<Shop>> getShopsAZ() {
+        List<Shop> shops = shopService.getShopsSortedByNameAsc();
+        return ResponseEntity.ok(shops);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody ShopUser shopUser) {
-
-        return userService.login(shopUser);
-
-    }
-
-    @GetMapping("/home")
-    public ResponseEntity<List<Shop>> home() {
-        List<Shop> shops = shopService.findAll();
-        System.out.println(shops.get(0).getShopName());
+    @GetMapping("/home/getShopsZA")
+    public ResponseEntity<List<Shop>> getShopsZA() {
+        List<Shop> shops = shopService.getShopsSortedByNameDesc();
         return ResponseEntity.ok(shops);
     }
 }

@@ -14,11 +14,11 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
     List<Shop> findAll();
 
     // sortiraj trgovine abecednim redoslijedom
-    @Query("SELECT shopName, id FROM Shop  ORDER BY shopName ASC")
+    @Query("SELECT s FROM Shop s ORDER BY s.shopName ASC")
     List<Shop> findAllSortedByNameAsc();
 
     // sortiraj trgovine obrnutim abecednim redoslijedom
-    @Query("SELECT shopName, id FROM Shop  ORDER BY shopName DESC")
+    @Query("SELECT s FROM Shop s ORDER BY s.shopName DESC")
     List<Shop> findAllSortedByNameDesc();
 
 
