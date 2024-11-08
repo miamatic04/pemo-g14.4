@@ -3,7 +3,11 @@ package com.example.backend.service;
 import com.example.backend.exception.EmailAlreadyInUseException;
 import com.example.backend.exception.InvalidLoginException;
 import com.example.backend.exception.PasswordsDontMatchException;
+import com.example.backend.model.LoginInfo;
+import com.example.backend.model.Moderator;
+import com.example.backend.model.ShopOwner;
 import com.example.backend.model.ShopUser;
+import com.example.backend.repository.ShopOwnerRepository;
 import com.example.backend.repository.ShopUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +21,11 @@ import java.util.Map;
 @Service
 public class UserService {
 
+    @Autowired
+    private ShopOwnerService shopOwnerService;
+
+    @Autowired
+    private ModeratorService moderatorService;
 
     private final ShopUserRepository shopUserRepository;
     private final PasswordEncoder passwordEncoder;
@@ -39,9 +48,9 @@ public class UserService {
 
         Map<String, Object> response = new HashMap<>();
 
-        if(findUser(shopUser.getEmail()) != null) {
+        if (findUser(shopUser.getEmail()) != null) {
             throw new EmailAlreadyInUseException("Email already in use");
-        } else if(!shopUser.getPass().equals(shopUser.getPassConfirm())) {
+        } else if (!shopUser.getPass().equals(shopUser.getPassConfirm())) {
             throw new PasswordsDontMatchException("Passwords don't match");
         } else {
             response.put("message", "Account successfully created");
@@ -52,19 +61,5 @@ public class UserService {
         return ResponseEntity.ok(response);
     }
 
-    public ResponseEntity<Map<String, Object>> login(ShopUser shopUser) {
 
-        Map<String, Object> response = new HashMap<>();
-
-        ShopUser foundUser = findUser(shopUser.getEmail());
-        if(foundUser != null) {
-            if(passwordEncoder.matches(shopUser.getPass(), foundUser.getPass())) {
-                response.put("message", "Login successful");
-                return ResponseEntity.ok(response);
-            }
-        }
-
-        throw new InvalidLoginException("Invalid login credentials");
-
-    }
 }

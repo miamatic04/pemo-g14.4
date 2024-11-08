@@ -1,12 +1,15 @@
 package com.example.backend.controller;
 
+import com.example.backend.model.LoginInfo;
 import com.example.backend.model.Shop;
 import com.example.backend.model.ShopUser;
+import com.example.backend.service.LoginService;
 import com.example.backend.service.ShopService;
 import com.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,17 +25,11 @@ public class UserController {
     private ShopService shopService;
 
 
+
     @PostMapping("/register/addUser")
     public ResponseEntity<Map<String, Object>> addUser(@RequestBody ShopUser shopUser) {
 
         return userService.addUser(shopUser);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody ShopUser shopUser) {
-
-        return userService.login(shopUser);
-
     }
 
     @GetMapping("/home")

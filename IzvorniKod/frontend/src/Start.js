@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
 const Start = () => {
@@ -9,6 +9,7 @@ const Start = () => {
     });
 
     const [backendResult, setBackendResult] = useState(null);
+    const [message, setMessage] = useState("");
 
     const navigate = useNavigate();
 
@@ -30,7 +31,8 @@ const Start = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(formData),
+                cache: "no-store"
             });
 
             if (!response.ok) {
@@ -39,8 +41,7 @@ const Start = () => {
                 setBackendResult(errorData);
             } else {
                 const data = await response.json();
-                setBackendResult(data);
-                navigate('/home');
+                navigate(data.redirectUrl);
             }
 
         } catch (error) {
@@ -48,10 +49,21 @@ const Start = () => {
         }
     };
 
+    useEffect(() => {
+        // Pročitaj poruku iz sessionStorage
+        const storedMessage = sessionStorage.getItem("registrationMessage");
+        if (storedMessage) {
+            setMessage(storedMessage);
+            // Obriši poruku iz sessionStorage nakon što je prikazana
+            sessionStorage.removeItem("registrationMessage");
+        }
+    }, []);
+
     return (
         <div>
             <div>
                 <h1>Welcome</h1>
+                {message && <p style={{ color: "green" }}>{message}</p>}
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="email">E-mail address: </label>
                     <input type="email" id="email" name="email" onChange={handleChange} value={formData.email} required/>

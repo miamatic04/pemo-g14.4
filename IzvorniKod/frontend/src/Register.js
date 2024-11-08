@@ -48,7 +48,8 @@ const Register = () => {
                 // Ako je odgovor uspješan, obradi uspješan rezultat
                 const data = await response.json();
                 setBackendResult(data);
-                navigate('/home');
+                sessionStorage.setItem("registrationMessage", "Registracija uspješna, molim ulogirajte se");
+                navigate('/');
             }
         } catch (error) {
             console.error('Network Error:', error);
