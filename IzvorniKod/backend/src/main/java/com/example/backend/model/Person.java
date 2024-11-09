@@ -1,12 +1,18 @@
 package com.example.backend.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @MappedSuperclass
 public abstract class Person {
-
 
     private String firstName;
     private String lastName;
@@ -14,34 +20,4 @@ public abstract class Person {
     @Id
     private String email;
     private String pass;
-
-   /* public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }*/
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPass() {
-        return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-
-    public String getfirstName() { return firstName; }
-    public void setFirstName(String ime) { this.firstName = ime; }
-
-    public String getLastName() { return lastName; }
-    public void setLastName(String prezime) { this.lastName = prezime; }
 }

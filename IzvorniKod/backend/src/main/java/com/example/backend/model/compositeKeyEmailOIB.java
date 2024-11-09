@@ -1,38 +1,22 @@
 package com.example.backend.model;
 
+import jakarta.persistence.Embeddable;
+import lombok.*;
+
 import java.io.Serializable;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Embeddable
+@EqualsAndHashCode
 public class compositeKeyEmailOIB implements Serializable {
 
     private String email;    // primarni ključ iz Person
     private String OIB;      // OIB vlasnika
 
-    public compositeKeyEmailOIB() {
-
-    }
-
-    public compositeKeyEmailOIB(String email, String OIB) {
-        this.email = email;
-        this.OIB = OIB;
-    }
-
-    // getteri i setteri
-    public String getEmail() {
-        return email;
-    }
-
-    public void setId(String id) {
-        this.email = id;
-    }
-
-    public String getOIB() {
-        return OIB;
-    }
-
-    public void setOIB(String OIB) {
-        this.OIB = OIB;
-    }
-
+/*
     // jedinstvenost kompozitnog ključa se osigurava preko equals() i hashCode()
     @Override
     public boolean equals(Object o) {
@@ -51,4 +35,5 @@ public class compositeKeyEmailOIB implements Serializable {
         result = 31 * result + OIB.hashCode();
         return result;
     }
+ */
 }
