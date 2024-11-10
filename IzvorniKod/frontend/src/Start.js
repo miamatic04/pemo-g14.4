@@ -35,13 +35,17 @@ const Start = () => {
                 cache: "no-store"
             });
 
-            if (!response.ok) {
-                // Ako status nije u opsegu 2xx, baci grešku
-                const errorData = await response.json();
-                setBackendResult(errorData);
+            console.log(JSON.stringify(formData));
+
+            if(response.ok) {
+                const data = await response.json();
+                console.log(data);
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("role", data.role.substring(1, data.role.length - 1))
+                navigate("/" + localStorage.getItem("role") + "home");
             } else {
                 const data = await response.json();
-                navigate(data.redirectUrl);
+                setBackendResult(data);
             }
 
         } catch (error) {

@@ -1,18 +1,13 @@
 package com.example.backend.controller;
 
-import com.example.backend.model.LoginInfo;
-import com.example.backend.model.Shop;
-import com.example.backend.model.ShopUser;
-import com.example.backend.service.LoginService;
+import com.example.backend.model.*;
+import com.example.backend.service.JWTService;
 import com.example.backend.service.ShopService;
-import com.example.backend.service.UserService;
+import com.example.backend.service.ShopUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -20,22 +15,31 @@ import java.util.Map;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private ShopUserService shopUserService;
     @Autowired
     private ShopService shopService;
+
+    @Autowired
+    JWTService jwtService;
 
 
 
     @PostMapping("/register/addUser")
     public ResponseEntity<Map<String, Object>> addUser(@RequestBody ShopUser shopUser) {
 
-        return userService.addUser(shopUser);
+        return shopUserService.addUser(shopUser);
     }
 
-    @GetMapping("/home")
-    public ResponseEntity<List<Shop>> home() {
-        List<Shop> shops = shopService.findAll();
-        System.out.println(shops.get(0).getShopName());
-        return ResponseEntity.ok(shops);
+    @GetMapping("/userhome/getUserInfo")
+    public ResponseEntity<Map<String, Object>> getUserInfo(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+
+        String email = jwtService.extractUsername(authHeader.substring(7));
+
+        return ResponseEntity.ok(Map.of("email", email));
+    }
+
+    @PostMapping
+    public ResponseEntity<Map<String, String>> updateUserLocation(LocationInfo locationInfo) {
+        return shopUserService.updateUserLocation(locationInfo);
     }
 }

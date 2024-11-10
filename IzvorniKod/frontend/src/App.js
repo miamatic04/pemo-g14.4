@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Start from './Start';
-import Home from './Home';
+import UserHome from './UserHome';
 import Register from './Register'
 
 const App = () => {
@@ -9,7 +9,7 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Start />}  />
-          <Route path="/home" element={<Home />}  />
+          <Route path="/userhome" element={<UserHome />}  />
           <Route path="/register" element={<Register />} />
         </Routes>
       </Router>

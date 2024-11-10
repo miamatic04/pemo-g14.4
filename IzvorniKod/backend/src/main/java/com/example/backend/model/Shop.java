@@ -29,43 +29,5 @@ public class Shop {
     })
     private ShopOwner shopOwner;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getShopName() {
-        return shopName;
-    }
-
-    public void setShopName(String shopName) {
-        this.shopName = shopName;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public ShopOwner getShopOwner() {
-        return shopOwner;
-    }
-
-    public void setShopOwner(ShopOwner shopOwner) {
-        this.shopOwner = shopOwner;
-    }
 }

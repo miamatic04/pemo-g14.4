@@ -9,7 +9,8 @@ const Register = () => {
         lastName: '',
         email: '',
         pass: '',
-        passConfirm: ''
+        passConfirm: '',
+        role: 'user'
     });
 
     const [backendResult, setBackendResult] = useState(null);

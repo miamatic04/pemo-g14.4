@@ -1,25 +1,19 @@
 package com.example.backend.service;
 
 import com.example.backend.exception.EmailAlreadyInUseException;
-import com.example.backend.exception.InvalidLoginException;
 import com.example.backend.exception.PasswordsDontMatchException;
-import com.example.backend.model.LoginInfo;
-import com.example.backend.model.Moderator;
-import com.example.backend.model.ShopOwner;
-import com.example.backend.model.ShopUser;
-import com.example.backend.repository.ShopOwnerRepository;
+import com.example.backend.model.*;
 import com.example.backend.repository.ShopUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class UserService {
+public class ShopUserService {
 
     @Autowired
     private ShopOwnerService shopOwnerService;
@@ -31,7 +25,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(ShopUserRepository shopUserRepository, PasswordEncoder passwordEncoder) {
+    public ShopUserService(ShopUserRepository shopUserRepository, PasswordEncoder passwordEncoder) {
         this.shopUserRepository = shopUserRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -59,6 +53,10 @@ public class UserService {
         }
 
         return ResponseEntity.ok(response);
+    }
+
+    public ResponseEntity<Map<String, String>> updateUserLocation(LocationInfo locationInfo) {
+        return null; // nedovrseno
     }
 
 
