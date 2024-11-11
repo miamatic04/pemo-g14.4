@@ -1,13 +1,66 @@
 import React, { useEffect, useState } from 'react';
 import './stilovi/home.css'
 import logo from './logo1.png'
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const UserHome = () => {
+    const navigate = useNavigate();
+    const url = useLocation();  // Access the location object
     const [shops, setShops] = useState([]);
     const [loading, setLoading] = useState(true);
     const [sortOrder, setSortOrder] = useState('AZ'); // početni odabir sortiranja
     const [location, setLocation] = useState(null);
     const [email, setEmail] = useState(null);
+    const [locationTried, setLocationTried] = useState(false);
+    const [authenticationTried, setAuthenticationTried] = useState(false);
+
+    const checkTokenValidation = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/validateToken", {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            if (!response.ok) {
+                navigate("/");
+            }
+
+        } catch (error) {
+            navigate("/");
+        }
+    };
+
+    useEffect(() => {
+        if(!authenticationTried && !url.search) {
+            setAuthenticationTried(true);
+            checkTokenValidation();
+        }
+    }, []);
+
+    useEffect(() => {
+        const params = new URLSearchParams(url.search);
+
+        const tokenValue = params.get('token');
+        const roleValue = params.get('role');
+
+        if (tokenValue) {
+            localStorage.setItem("token" , params.get("token"));
+        }
+
+        if (roleValue) {
+            localStorage.setItem("role" , params.get("role"));
+        }
+
+        if(!authenticationTried && url.search) {
+            setAuthenticationTried(true);
+            checkTokenValidation();
+        }
+
+    }, [url.search]);
 
     const handleSortChange = (event) => {
         const selectedSortOrder = event.target.value;
@@ -120,7 +173,10 @@ const UserHome = () => {
         // fetch poziv nakon što korisnik dozvoli pristup lokaciji
 
         if (location) {
-            updateLocation();
+            if(!locationTried) {
+                setLocationTried(true);
+                updateLocation();
+            }
         }
     }, [location]);
 

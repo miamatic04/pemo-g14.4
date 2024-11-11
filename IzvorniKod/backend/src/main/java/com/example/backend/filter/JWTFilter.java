@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.catalina.core.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -36,9 +37,9 @@ public class JWTFilter extends OncePerRequestFilter {
 
         if(authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
-            System.out.println(token);
-            email = jwtService.extractUsername(token);
-            System.out.println(email);
+            if(token != null && !token.equals("null")) {
+                email = jwtService.extractUsername(token);
+            }
         }
 
         if(email != null && SecurityContextHolder.getContext().getAuthentication() == null) {

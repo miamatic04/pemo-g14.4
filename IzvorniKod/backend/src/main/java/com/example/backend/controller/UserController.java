@@ -6,6 +6,8 @@ import com.example.backend.service.ShopService;
 import com.example.backend.service.ShopUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -31,7 +33,7 @@ public class UserController {
     }
 
     @GetMapping("/userhome/getUserInfo")
-    public ResponseEntity<Map<String, Object>> getUserInfo(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+    public ResponseEntity<Map<String, Object>> getUserInfo(@RequestHeader(value = "Authorization", required = false) String authHeader, @AuthenticationPrincipal OAuth2User oauth2User) {
 
         String email = jwtService.extractUsername(authHeader.substring(7));
 

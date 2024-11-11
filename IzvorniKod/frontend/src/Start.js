@@ -13,6 +13,7 @@ const Start = () => {
     const [backendResult, setBackendResult] = useState(null);
     const navigate = useNavigate();
 
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -33,12 +34,12 @@ const Start = () => {
             });
 
             if (!response.ok) {
-                const errorData = await response.json();
-                setBackendResult(errorData);
+                setBackendResult({"message": "Invalid login credentials"});
             } else {
                 const data = await response.json();
-                setBackendResult(data);
-                navigate('/home');
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("role", data.role.substring(1, data.role.length - 1));
+                navigate("/" + localStorage.getItem("role") + "home");
             }
         } catch (error) {
             console.error('Network Error:', error);

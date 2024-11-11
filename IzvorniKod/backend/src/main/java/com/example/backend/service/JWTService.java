@@ -105,7 +105,10 @@ public class JWTService {
 
     public String extractUsername(String token) {
         // extract the username from jwt token
-        return extractClaim(token, Claims::getSubject);
+        if(token != null && !token.equals("null"))
+            return extractClaim(token, Claims::getSubject);
+        else
+            return null;
     }
 
     private <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
