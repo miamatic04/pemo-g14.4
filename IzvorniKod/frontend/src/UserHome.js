@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './home.css'
+import './stilovi/home.css'
 import logo from './logo1.png'
 
 const UserHome = () => {
@@ -133,7 +133,7 @@ const UserHome = () => {
 
     return (
         <div className="body">
-           <div className="home">
+            <div className="home">
                <div className="header">
                    <img src={logo} alt="logo" className="logo"></img>
                    <ul className="lista">
@@ -148,33 +148,35 @@ const UserHome = () => {
                    <button className="btn1">Povijest kupovina</button>
                </div>
            </div>
-            <form>
-                <label>
-                    Sortiraj po:
-                    <select value={sortOrder} onChange={handleSortChange}>
-                        <option value="AZ">nazivu A-Z</option>
-                        <option value="ZA">nazivu Z-A</option>
-                    </select>
-                </label>
-            </form>
+            <div className="klasa1">
+                <form>
+                    <label>
+                        Sortiraj trgovine po:
+                        <select value={sortOrder} onChange={handleSortChange}>
+                            <option value="AZ">nazivu A-Z</option>
+                            <option value="ZA">nazivu Z-A</option>
+                        </select>
+                    </label>
+                </form>
 
-            <h1>Shops</h1>
-            <table>
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Shop Name</th>
-                </tr>
-                </thead>
-                <tbody>
-                {shops.map(shop => (
-                    <tr key={shop.id}>
-                        <td>{shop.id}</td>
-                        <td>{shop.shopName}</td>
+                <h1>Shops</h1>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Shop Name</th>
                     </tr>
-                ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {shops.map(shop => (
+                        <tr key={shop.id}>
+                            <td>{shop.id}</td>
+                            <td>{shop.shopName}</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };

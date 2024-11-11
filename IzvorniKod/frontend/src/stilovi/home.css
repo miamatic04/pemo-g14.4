@@ -1,10 +1,14 @@
 .body{
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 .home{
     height: 100vh;
     width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .header{
@@ -36,6 +40,8 @@ li{
 }
 
 .glavna{
+    padding: 0;
+    margin: 0;
     height:91%;
     display: flex;
     flex-direction: column;
@@ -78,4 +84,20 @@ i{
 
 i:hover{
     background-color: #e3e3de;
+}
+
+.klasa1{
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(to bottom,#f9faac,#9bd7eb) no-repeat center center;
+    margin-top: -1px;
+}
+
+form{
+    margin: 30px 60px;
+    font-size: 30px;
+}
+
+form select{
+    font-size:22px;
 }
