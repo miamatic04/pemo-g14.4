@@ -46,6 +46,7 @@ const Start = () => {
     };
 
     return (
+        <div className="pozadina">
         <div className='wrapper'>
             <div className='login-form'>
                 <h1>PRIJAVA</h1>
@@ -87,6 +88,7 @@ const Start = () => {
             <div className='image-container'>
                 <img src={loginImage} alt='loginPicture' />
             </div>
+        </div>
         </div>
     );
 };

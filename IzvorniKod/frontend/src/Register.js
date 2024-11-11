@@ -62,6 +62,7 @@ const Register = () => {
     };
 
     return (
+        <div className="pozadina">
         <div className="wrapper">
             <form className="register-form" onSubmit={handleSubmit}>
                 <h1>REGISTRACIJA</h1>
@@ -116,6 +117,7 @@ const Register = () => {
             <div className='image-container'>
                 <img src={loginImage} alt='loginPicture'/>
             </div>
+        </div>
         </div>
     );
 };
