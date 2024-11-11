@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import './home.css'
+import logo from './logo1.png'
 
 const UserHome = () => {
     const [shops, setShops] = useState([]);
@@ -130,12 +132,22 @@ const UserHome = () => {
 
 
     return (
-        <div>
-            EMAIL: {email && (
-            <div>
-                <h2>{email.email}</h2>
-            </div>
-        )}
+        <div className="body">
+           <div className="home">
+               <div className="header">
+                   <img src={logo} alt="logo" className="logo"></img>
+                   <ul className="lista">
+                       <li><a>Kvart</a></li>
+                       <li><a>Događaji</a></li>
+                       <li><a>Popis trgovina</a></li>
+                       <li><a>Ostali</a></li>
+                   </ul>
+               </div>
+               <div className="glavna">
+                   <h1 className="naslov">Kupovina koja prati tvoj ritam</h1>
+                   <button className="btn1">Povijest kupovina</button>
+               </div>
+           </div>
             <form>
                 <label>
                     Sortiraj po:

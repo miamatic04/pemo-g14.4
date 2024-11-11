@@ -41,7 +41,7 @@ li{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background:linear-gradient(to bottom,#9bd7eb,#f9faac);
+    background:linear-gradient(to bottom,#9bd7eb,#f9faac) no-repeat center center;
 }
 
 .btn1{
