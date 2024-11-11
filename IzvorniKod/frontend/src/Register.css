@@ -1,0 +1,26 @@
+#firstName, #lastName, #passConfirm {
+    background-color: rgba(164, 213, 236, 0.29);
+    border-radius: 1vw;
+    position: relative;
+    height: 3vw;
+    max-height: 20px;
+    font-family:"Courier New", serif;
+    padding-left: 2%;
+    font-weight: bold;
+}
+
+.icon {
+    position: absolute;
+    right: 0.5vw;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+.register-form {
+    flex: 1;
+    padding: 2%;
+    margin: 5%;
+    border: 0.5vw solid #9bd7eb;
+    border-radius: 5%;
+}

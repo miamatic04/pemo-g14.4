@@ -1,5 +1,9 @@
 import React, { useState }from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Register.css';
+import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
+import loginImage from './Components/Assets/loginPicture.jpg';
+
 
 const Register = () => {
 
@@ -58,34 +62,50 @@ const Register = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="firstName">First name: </label>
-                <input type="text" id="firstName" name="firstName" onChange={handleChange} value={formData.firstName} required/>
+        <div className="wrapper">
+            <form className="register-form" onSubmit={handleSubmit}>
+                <h1>REGISTRACIJA</h1>
+
+                <div className="input-box">
+                    <input type="text" id="firstName" name="firstName" placeholder="ime" onChange={handleChange}
+                           value={formData.firstName} required/>
+                    <FaUser className='icon'/>
+                </div>
+
+                <br/><br/>
+                <div className="input-box">
+                    <input type="text" id="lastName" name="lastName" placeholder="prezime" onChange={handleChange}
+                           value={formData.lastName} required/>
+                    <FaUser className='icon'/>
+                </div>
 
                 <br/><br/>
 
-                <label htmlFor="lastName">Last name: </label>
-                <input type="text" id="lastName" name="lastName" onChange={handleChange} value={formData.lastName} required/>
+                <div className="input-box">
+                    <input type="email" id="email" name="email" placeholder="email" onChange={handleChange}
+                           value={formData.email} required/>
+                    <FaEnvelope className='icon'/>
+                </div>
 
                 <br/><br/>
 
-                <label htmlFor="email">E-mail address: </label>
-                <input type="email" id="email" name="email" onChange={handleChange} value={formData.email} required/>
+                <div className="input-box">
+                    <input type="password" id="pass" name="pass" placeholder="lozinka" onChange={handleChange}
+                           value={formData.pass} required/>
+                    <FaLock className='icon'/>
+                </div>
 
                 <br/><br/>
 
-                <label htmlFor="pass">Password: </label>
-                <input type="password" id="pass" name="pass" onChange={handleChange} value={formData.pass} required/>
+                <div className="input-box">
+                    <input type="password" id="passConfirm" name="passConfirm" placeholder="ponovljena lozinka"
+                           onChange={handleChange} value={formData.passConfirm} required/>
+                    <FaLock className='icon'/>
+                </div>
 
                 <br/><br/>
 
-                <label htmlFor="passConfirm">Password again: </label>
-                <input type="password" id="passConfirm" name="passConfirm" onChange={handleChange} value={formData.passConfirm} required/>
-
-                <br/><br/>
-
-                <input type="submit"/>
+                <input type="submit" id="submit" value="Registriraj se"/>
 
                 {backendResult && (
                     <div>
@@ -93,6 +113,9 @@ const Register = () => {
                     </div>
                 )}
             </form>
+            <div className='image-container'>
+                <img src={loginImage} alt='loginPicture'/>
+            </div>
         </div>
     );
 };
