@@ -50,7 +50,7 @@ const Start = () => {
         <div className='wrapper'>
             <div className='login-form'>
                 <h1>PRIJAVA</h1>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="form">
                     <div className="input-box">
                         <b><input type="email" id="email" name="email" placeholder='email' onChange={handleChange} value={formData.email} required /></b>
                         <FaUser className='icon' />
