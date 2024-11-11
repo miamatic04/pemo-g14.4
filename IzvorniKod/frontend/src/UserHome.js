@@ -137,10 +137,10 @@ const UserHome = () => {
                <div className="header">
                    <img src={logo} alt="logo" className="logo"></img>
                    <ul className="lista">
-                       <li><a>Kvart</a></li>
-                       <li><a>Događaji</a></li>
-                       <li><a>Popis trgovina</a></li>
-                       <li><a>Ostali</a></li>
+                       <li className="el"><a className="a1">Kvart</a></li>
+                       <li className="el"><a className="a1">Događaji</a></li>
+                       <li className="el"><a className="a1">Popis trgovina</a></li>
+                       <li className="el"><a className="a1">Ostali</a></li>
                    </ul>
                </div>
                <div className="glavna">
@@ -149,7 +149,7 @@ const UserHome = () => {
                </div>
            </div>
             <div className="klasa1">
-                <form>
+                <form className="forma1">
                     <label>
                         Sortiraj trgovine po:
                         <select value={sortOrder} onChange={handleSortChange}>

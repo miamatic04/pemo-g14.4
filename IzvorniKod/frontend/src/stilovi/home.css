@@ -24,7 +24,7 @@
     float: right;
 }
 
-li{
+.el{
     display:inline;
     margin-right: 50px;
     font-size: 22px;
@@ -66,23 +66,14 @@ li{
     border-color: #757572;
 }
 
-a{
+.a1{
     text-decoration: none;
     color:#3e423f;
     padding: 5px 10px;
 }
 
-a:hover{
+.a1:hover{
     border-radius: 10px;
-    background-color: #e3e3de;
-}
-
-i{
-    cursor: pointer;
-    padding: 5px 10px;
-}
-
-i:hover{
     background-color: #e3e3de;
 }
 
@@ -93,11 +84,11 @@ i:hover{
     margin-top: -1px;
 }
 
-form{
+.forma1{
     margin: 30px 60px;
     font-size: 30px;
 }
 
-form select{
+.forma1 select{
     font-size:22px;
 }
