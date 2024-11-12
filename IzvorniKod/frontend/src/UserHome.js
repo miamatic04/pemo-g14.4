@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './stilovi/home.css'
-import logo from './logo1.png'
+import logo from './Components/Assets/logo1.png'
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
