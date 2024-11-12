@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './stilovi/home.css'
-import logo from './Components/Assets/logo1.png'
+import logo from './logo1.png'
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
@@ -188,7 +188,7 @@ const UserHome = () => {
 
 
     return (
-        <div className="body-klasa">
+        <div className="body">
             <div className="home">
                <div className="header">
                    <img src={logo} alt="logo" className="logo"></img>
@@ -200,7 +200,7 @@ const UserHome = () => {
                    </ul>
                </div>
                <div className="glavna">
-                   <h1 className="naslov">Kupovina koja prati tvoj ritam!</h1>
+                   <h1 className="naslov">Kupovina koja prati tvoj ritam</h1>
                    <button className="btn1">Povijest kupovina</button>
                </div>
            </div>
@@ -217,11 +217,24 @@ const UserHome = () => {
                         </label>
                     </form>
                 </div>
+                <form className="forma1">
+                    <label>
+                        Sortiraj trgovine po:
+                        <select value={sortOrder} onChange={handleSortChange}>
+                            <option value="AZ">nazivu A-Z</option>
+                            <option value="ZA">nazivu Z-A</option>
+                            <option value="udaljenostAsc">udaljenosti (prvo bliži)</option>
+                        </select>
+                    </label>
+                </form>
+
+                <h1>Shops</h1>
                 <table>
                     <thead>
                     <tr>
                         <th>ID</th>
                         <th>Shop Name</th>
+                        <th>Udaljenost</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -229,6 +242,7 @@ const UserHome = () => {
                         <tr key={shop.id}>
                             <td>{shop.id}</td>
                             <td>{shop.shopName}</td>
+                            <td>{shop.distance} km</td>
                         </tr>
                     ))}
                     </tbody>
