@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './stilovi/home.css'
-import logo from './logo1.png'
+import logo from './Components/Assets/logo1.png'
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
@@ -188,7 +188,7 @@ const UserHome = () => {
 
 
     return (
-        <div className="body">
+        <div className="body-klasa">
             <div className="home">
                <div className="header">
                    <img src={logo} alt="logo" className="logo"></img>
@@ -200,22 +200,23 @@ const UserHome = () => {
                    </ul>
                </div>
                <div className="glavna">
-                   <h1 className="naslov">Kupovina koja prati tvoj ritam</h1>
+                   <h1 className="naslov">Kupovina koja prati tvoj ritam!</h1>
                    <button className="btn1">Povijest kupovina</button>
                </div>
            </div>
             <div className="klasa1">
-                <form className="forma1">
-                    <label>
-                        Sortiraj trgovine po:
-                        <select value={sortOrder} onChange={handleSortChange}>
-                            <option value="AZ">nazivu A-Z</option>
-                            <option value="ZA">nazivu Z-A</option>
-                        </select>
-                    </label>
-                </form>
-
-                <h1>Shops</h1>
+                <div className="klasa2">
+                    <h1>Trgovine</h1>
+                    <form className="forma1">
+                        <label>
+                            Sortiraj trgovine po:
+                            <select value={sortOrder} onChange={handleSortChange}>
+                                <option value="AZ">nazivu A-Z</option>
+                                <option value="ZA">nazivu Z-A</option>
+                            </select>
+                        </label>
+                    </form>
+                </div>
                 <table>
                     <thead>
                     <tr>
