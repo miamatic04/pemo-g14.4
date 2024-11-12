@@ -121,9 +121,11 @@ const UserHome = () => {
         try {
             var url;
             if(sortOrder === 'AZ')
-                url = 'http://localhost:8080/home/getShopsAZ'
+                url = 'http://localhost:8080/home/getShopsAZ';
             else if(sortOrder === 'ZA')
                 url = 'http://localhost:8080/home/getShopsZA';
+            else if(sortOrder === "udaljenostAsc")
+                url = 'http://localhost:8080/home/getShopsByDistanceAsc';
 
             const response = await fetch(url,{
                 method: 'GET',
@@ -137,6 +139,8 @@ const UserHome = () => {
                 throw new Error('Failed to fetch data');
             }
             const data = await response.json();
+
+            console.log(data);
 
             setShops(data);
 
@@ -211,6 +215,7 @@ const UserHome = () => {
                         <select value={sortOrder} onChange={handleSortChange}>
                             <option value="AZ">nazivu A-Z</option>
                             <option value="ZA">nazivu Z-A</option>
+                            <option value="udaljenostAsc">udaljenosti (prvo bliži)</option>
                         </select>
                     </label>
                 </form>
@@ -221,6 +226,7 @@ const UserHome = () => {
                     <tr>
                         <th>ID</th>
                         <th>Shop Name</th>
+                        <th>Udaljenost</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -228,6 +234,7 @@ const UserHome = () => {
                         <tr key={shop.id}>
                             <td>{shop.id}</td>
                             <td>{shop.shopName}</td>
+                            <td>{shop.distance} km</td>
                         </tr>
                     ))}
                     </tbody>

@@ -29,5 +29,4 @@ public class Shop {
     })
     private ShopOwner shopOwner;
 
-
 }
