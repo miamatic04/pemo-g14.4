@@ -1,4 +1,5 @@
 #firstName, #lastName, #passConfirm {
+    /* ono sto nema kod login-a */
     background-color: rgba(164, 213, 236, 0.29);
     border-radius: 1vw;
     position: relative;
@@ -9,12 +10,11 @@
     font-weight: bold;
 }
 
-
 .icon {
     position: absolute;
     right: 0.5vw;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-50%); /* za poravnanje s inputom */
 }
 
 
@@ -24,4 +24,12 @@
     margin: 5%;
     border: 0.5vw solid #9bd7eb;
     border-radius: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.registracija{
+    padding-bottom: 7%;
+    padding-top: 5%
 }

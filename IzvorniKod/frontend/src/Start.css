@@ -1,17 +1,17 @@
 .pozadina{
     display: flex;
+    /* centriranje */
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    background: linear-gradient(to bottom, #9bd7eb, #f9faac) no-repeat center center;
-    background-size: cover;
+    background: linear-gradient(to bottom, #9bd7eb, #f9faac) no-repeat center center; /* prelazak iz plave u zutu */
+    background-size: cover; /* da pozadina bude preko cijelog ekrana */
 }
 
 .wrapper {
     display: flex;
     width: 70vw;
-    max-width: 1200px;
     height: 70vh;
     background: white;
     border-radius: 5%;
@@ -22,13 +22,13 @@
     padding: 2%;
     margin: 5%;
     border: 0.5vw solid #9bd7eb;
-    border-radius: 5%;
+    border-radius: 5%; /* zakrivljeni rubovi */
 }
 
 .image-container {
     flex: 0.5;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-end; /* slika je uz desni rub wrappera */
     align-items: center;
     border-radius: 5%;
     border: white solid 2vw;
@@ -37,7 +37,7 @@
 .image-container img {
     max-height: 100%;
     width: auto;
-    border-radius: 5%;
+    border-radius: 5%; /* zakrivljeni rubovi */
     padding: 2%;
 }
 
@@ -45,8 +45,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 1vw;
-    margin-right: 2vw;
+    padding-top: 10%;
 }
 
 .wrapper h1{
@@ -69,8 +68,7 @@
     position: absolute;
     right: 0.5vw;
     top: 50%;
-    transform: translateY(-50%);
-    margin-left: 20%;
+    transform: translateY(-50%); /*  za poravnanje s input-om */
 }
 
 .input-box{
@@ -88,7 +86,7 @@
 #submit{
     border-radius: 1vw;
     background-color: lightskyblue;
-    cursor: pointer;
+    cursor: pointer; /* kada se prede misem preko gumba za predaju, kursor misa se pretvori iz strelice u ruku */
     font-family: Garamond, serif;
     padding: 2%;
     font-size: 100%;
@@ -106,7 +104,8 @@
     margin-bottom: 2vw;
     font-family: Garamond, serif;
     font-size: 120%;
-    text-wrap: nowrap;
+    text-wrap: nowrap; /* da tekst ne prelazi u novi red */
+    padding-top: 5%;
 }
 
 a{

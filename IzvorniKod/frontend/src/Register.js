@@ -1,8 +1,8 @@
 import React, { useState }from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Register.css';
-import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
-import loginImage from './Components/Assets/loginPicture.jpg';
+import { FaUser, FaLock, FaEnvelope } from "react-icons/fa"; /* ikone za covjeka, lokot i mail */
+import loginImage from './Components/Assets/loginPicture.jpg'; /* slika pored forme */
 
 
 const Register = () => {
@@ -63,50 +63,51 @@ const Register = () => {
 
     return (
         <div className="pozadina">
-        <div className="wrapper">
-            <form className="register-form" onSubmit={handleSubmit}>
-                <h1>REGISTRACIJA</h1>
+        <div className="wrapper"> {/* wrapper obuhvaca formu, sliku pored nje i bijelu pozadinu oko toga */}
+            <form className="register-form" onSubmit={handleSubmit}> {/* forma za registraciju */}
+                <h1 className="registracija">REGISTRACIJA</h1> {/* naslov forme: REGISTRACIJA */}
 
-                <div className="input-box">
+                <div className="input-box"> {/* mjesto za unos (imena) */}
                     <input type="text" id="firstName" name="firstName" placeholder="ime" onChange={handleChange}
-                           value={formData.firstName} required/>
-                    <FaUser className='icon'/>
+                           value={formData.firstName} required/> {/* placeholder --> pise dok se ne krene upisivati ime */}
+                    <FaUser className='icon'/> {/* ikona covjeka (user-a) */}
                 </div>
 
                 <br/><br/>
-                <div className="input-box">
+                <div className="input-box"> {/* mjesto za unos (prezimena) */}
                     <input type="text" id="lastName" name="lastName" placeholder="prezime" onChange={handleChange}
-                           value={formData.lastName} required/>
-                    <FaUser className='icon'/>
+                           value={formData.lastName} required/> {/* placeholder --> pise dok se ne krene upisivati prezime */}
+                    <FaUser className='icon'/> {/* ikona covjeka (user-a) */}
                 </div>
 
                 <br/><br/>
 
-                <div className="input-box">
+                <div className="input-box"> {/* mjesto za unos (mail-a) */}
                     <input type="email" id="email" name="email" placeholder="email" onChange={handleChange}
-                           value={formData.email} required/>
-                    <FaEnvelope className='icon'/>
+                           value={formData.email} required/> {/* placeholder --> pise dok se ne krene upisivati mail */}
+                    <FaEnvelope className='icon'/> {/* ikona mail-a */}
                 </div>
 
                 <br/><br/>
 
-                <div className="input-box">
+                <div className="input-box"> {/* mjesto za unos (lozinke) */}
                     <input type="password" id="pass" name="pass" placeholder="lozinka" onChange={handleChange}
-                           value={formData.pass} required/>
-                    <FaLock className='icon'/>
+                           value={formData.pass} required/> {/* placeholder --> pise dok se ne krene upisivati lozinka */}
+                    <FaLock className='icon'/> {/* ikona lokota */}
                 </div>
 
                 <br/><br/>
 
-                <div className="input-box">
+                <div className="input-box"> {/* mjesto za unos (ponovljene lozinke) */}
                     <input type="password" id="passConfirm" name="passConfirm" placeholder="ponovljena lozinka"
-                           onChange={handleChange} value={formData.passConfirm} required/>
-                    <FaLock className='icon'/>
+                           onChange={handleChange} value={formData.passConfirm} required/> {/* placeholder --> pise dok se ne krene
+                           upisivati ponovljena lozinka */}
+                    <FaLock className='icon'/> {/* ikona lokota */}
                 </div>
 
                 <br/><br/>
 
-                <input type="submit" id="submit" value="Registriraj se"/>
+                <input type="submit" id="submit" value="Registriraj se"/> {/* gumb za predavanje registracije */}
 
                 {backendResult && (
                     <div>
@@ -114,8 +115,8 @@ const Register = () => {
                     </div>
                 )}
             </form>
-            <div className='image-container'>
-                <img src={loginImage} alt='loginPicture'/>
+            <div className='image-container'> {/* logo i dodatna slika */}
+                <img src={loginImage} alt='registerPicture'/> {/* ako se slika ne ucita */}
             </div>
         </div>
         </div>
