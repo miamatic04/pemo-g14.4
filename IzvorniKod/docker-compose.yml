@@ -1,0 +1,43 @@
+services:
+  database:
+    container_name: database
+    image: postgres
+    restart: always
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: "StopnShop"
+      POSTGRES_PASSWORD: "123123123"
+    networks:
+      - backend_net
+  
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - database
+    networks:
+      - backend_net
+      - frontend_net
+      
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - frontend_net
+      
+networks:
+  frontend_net:
+  backend_net:
