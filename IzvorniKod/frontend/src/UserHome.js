@@ -3,6 +3,10 @@ import './stilovi/home.css'
 import logo from './Components/Assets/logo1.png'
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import trgovina1 from './Components/Assets/trgovina1.jpg';
+import trgovina2 from './Components/Assets/trgovina2.jpg';
+import trgovina3 from './Components/Assets/trgovina3.jpg';
+import trgovina4 from './Components/Assets/trgovina4.jpg';
 
 const UserHome = () => {
     const navigate = useNavigate();
@@ -14,6 +18,48 @@ const UserHome = () => {
     const [email, setEmail] = useState(null);
     const [locationTried, setLocationTried] = useState(false);
     const [authenticationTried, setAuthenticationTried] = useState(false);
+
+    const trgovine=[
+        {
+            "img": trgovina1,
+            "ime": "Trgovina 1",
+            "opis": "Opis trgovine 1"
+        },
+        {
+            "img": trgovina2 ,
+            "ime": "Trgovina 2",
+            "opis": "Opis trgovine 2"
+        },
+        {
+            "img": trgovina3 ,
+            "ime": "Trgovina 3",
+            "opis": "Opis trgovine 3"
+        },
+        {
+            "img": trgovina4,
+            "ime": "Trgovina 4",
+            "opis": "Opis trgovine 4"
+        }
+    ]
+
+    const [index, setIndex] = useState(0);
+
+    // Funkcija za prebacivanje na prethodne 2 slike
+    const prviBTN = () => {
+        if (index>0) {
+            setIndex(index-2);
+        }
+    };
+
+    // Funkcija za prebacivanje na sljedeće 2 slike
+    const drugiBTN = () => {
+        if (index+2<trgovine.length) {
+            setIndex(index+2);
+        }
+    };
+
+    // Sliced niz slika koje se trenutno prikazuju
+    const visible = trgovine.slice(index, index + 2);
 
     const checkTokenValidation = async () => {
         try {
@@ -117,6 +163,7 @@ const UserHome = () => {
         }
     };
 
+
     const fetchShops = async () => {
         try {
             var url;
@@ -209,7 +256,7 @@ const UserHome = () => {
                     <h1>Trgovine</h1>
                     <form className="forma1">
                         <label>
-                            Sortiraj trgovine po:
+                            <i>Sortiraj trgovine po: </i>
                             <select value={sortOrder} onChange={handleSortChange}>
                                 <option value="AZ">nazivu A-Z</option>
                                 <option value="ZA">nazivu Z-A</option>
@@ -217,8 +264,25 @@ const UserHome = () => {
                         </label>
                     </form>
                 </div>
+                <div className="store-list">
+                    <button id="prvi-btn" className="navigacija" onClick={prviBTN} disabled={index===0}>{"<"}</button>
+                    {visible.map((trgovina,ind) => (
+                        <div className="store-item" key={ind}>
 
-                <h1>Shops</h1>
+                            <div className="image-container1">
+                                <img className="slike" src={trgovina.img} alt={trgovina.ime}/>
+                            </div>
+
+                            <div className="opis">
+                                <h3>{trgovina.ime}</h3>
+                                <p>{trgovina.opis}</p>
+                            </div>
+                        </div>
+                    ))}
+                    <button className="navigacija" onClick={drugiBTN} disabled={index+2>=trgovine.length}>{">"}</button>
+                </div>
+
+                {/*<h1>Shops</h1>
                 <table>
                     <thead>
                     <tr>
@@ -236,7 +300,8 @@ const UserHome = () => {
                         </tr>
                     ))}
                     </tbody>
-                </table>
+
+                </table>*/}
             </div>
         </div>
     );
