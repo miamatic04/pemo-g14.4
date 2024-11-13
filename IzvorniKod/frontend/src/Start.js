@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Start.css';
 import { FaUser, FaLock } from "react-icons/fa"; /* ikone za covjeka i lokot */
@@ -11,6 +11,7 @@ const Start = () => {
     });
 
     const [backendResult, setBackendResult] = useState(null);
+    const [message, setMessage] = useState(null);
     const navigate = useNavigate();
 
 
@@ -45,6 +46,16 @@ const Start = () => {
             console.error('Network Error:', error);
         }
     };
+
+    useEffect(() => {
+        // Pročitaj poruku iz sessionStorage
+        const storedMessage = sessionStorage.getItem("registrationMessage");
+        if (storedMessage) {
+            setMessage(storedMessage);
+            // Obriši poruku iz sessionStorage nakon što je prikazana
+            sessionStorage.removeItem("registrationMessage");
+        }
+    }, []);
 
     return (
         <div className="pozadina">
@@ -86,6 +97,7 @@ const Start = () => {
                     <b><h4>Ostali načini prijave:</h4>
                         <a href="http://localhost:8080/oauth2/authorization/google" id="google">Prijavi se pomoću Google-a</a></b>
                 </div>
+                {message && <p style={{ color: "green" }}>{message}</p>}
             </div>
 
             <div className='image-container'> {/* logo i dodatna slika */}

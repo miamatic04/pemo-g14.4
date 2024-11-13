@@ -217,16 +217,6 @@ const UserHome = () => {
                         </label>
                     </form>
                 </div>
-                <form className="forma1">
-                    <label>
-                        Sortiraj trgovine po:
-                        <select value={sortOrder} onChange={handleSortChange}>
-                            <option value="AZ">nazivu A-Z</option>
-                            <option value="ZA">nazivu Z-A</option>
-                            <option value="udaljenostAsc">udaljenosti (prvo bliži)</option>
-                        </select>
-                    </label>
-                </form>
 
                 <h1>Shops</h1>
                 <table>
