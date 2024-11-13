@@ -1,4 +1,4 @@
-# Programsko inženjerstvo
+# Stop 'n Shop
 Naš je projektni zadatak na kolegiju Programsko inženjerstvo bio izraditi web aplikaciju koja bi ublažila problem nedovoljne povezanosti između stanovništva i njihovih lokalnih trgovina. 
 
 Današnji ubrzani i dinamičan tempo života zahtjeva moderniji pristup kupnji dnevnih potrepština. Dio rješenja problema krije se u olakšavanju pronalaženja informacija kojima se stanovnici vode prilikom donošenja odluke gdje izvršiti svoju kupovinu. Najbitnije informacije saželi smo na jednom, intuitivnom, lako dostupnom mjestu. Ta se aplikacija naziva Stop 'n Shop.
