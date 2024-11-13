@@ -4,9 +4,20 @@
     box-sizing: border-box;
 }
 
+.sticky-background {
+    background:linear-gradient(to bottom,#9bd7eb,#f9faac) no-repeat center center;/* URL vaše pozadine */ /* Pokriva celu stranicu */
+    width: 100%;
+    height: 100vh; /* Visina od 100% prikaza */
+    position: fixed; /* Fiksirana pozicija */
+    top: 0;
+    left: 0;
+    z-index: -1; /* Iza sadržaja */
+}
+
 .body-klasa{
     margin: 0;
     padding: 0;
+
 }
 
 .home{
@@ -16,6 +27,7 @@
 
 /*Postavljanje stilova za zaglavlje i elemente zaglavlja*/
 .header{
+    background-color: white;
     height: 10%;
     display: flex;
     justify-content: space-between;
@@ -53,7 +65,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background:linear-gradient(to bottom,#9bd7eb,#f9faac) no-repeat center center;
+
 }
 
 .btn1{
@@ -88,7 +100,6 @@
 .klasa1{
     height: 100vh;
     width: 100%;
-    background: linear-gradient(to bottom,#f9faac,#9bd7eb) no-repeat center center;
     margin-top: -1%;
 }
 
@@ -121,6 +132,7 @@
     margin-right: 6.5%;
     height: 600px;
     border: 8px solid  #79D3D6;
+    cursor: pointer;
 }
 
 .slike{

@@ -237,20 +237,21 @@ const UserHome = () => {
     return (
         <div className="body">
             <div className="home">
-               <div className="header">
-                   <img src={logo} alt="logo" className="logo"></img>
-                   <ul className="lista">
-                       <li className="el"><a className="a1">Kvart</a></li>
-                       <li className="el"><a className="a1">Događaji</a></li>
-                       <li className="el"><a className="a1">Popis trgovina</a></li>
-                       <li className="el"><a className="a1">Ostali</a></li>
-                   </ul>
-               </div>
-               <div className="glavna">
-                   <h1 className="naslov">Kupovina koja prati tvoj ritam</h1>
-                   <button className="btn1">Povijest kupovina</button>
-               </div>
-           </div>
+                <div className="header">
+                    <img src={logo} alt="logo" className="logo"></img>
+                    <ul className="lista">
+                        <li className="el"><a className="a1">Kvart</a></li>
+                        <li className="el"><a className="a1">Događaji</a></li>
+                        <li className="el"><a className="a1">Popis trgovina</a></li>
+                        <li className="el"><a className="a1">Ostali</a></li>
+                    </ul>
+                </div>
+                <div className="glavna">
+                    <h1 className="naslov">Kupovina koja prati tvoj ritam</h1>
+                    <button className="btn1">Povijest kupovina</button>
+                    <div className="sticky-background"></div>
+                </div>
+            </div>
             <div className="klasa1">
                 <div className="klasa2">
                     <h1>Trgovine</h1>
@@ -265,8 +266,8 @@ const UserHome = () => {
                     </form>
                 </div>
                 <div className="store-list">
-                    <button id="prvi-btn" className="navigacija" onClick={prviBTN} disabled={index===0}>{"<"}</button>
-                    {visible.map((trgovina,ind) => (
+                    <button id="prvi-btn" className="navigacija" onClick={prviBTN} disabled={index === 0}>{"<"}</button>
+                    {visible.map((trgovina, ind) => (
                         <div className="store-item" key={ind}>
 
                             <div className="image-container1">
@@ -279,7 +280,8 @@ const UserHome = () => {
                             </div>
                         </div>
                     ))}
-                    <button className="navigacija" onClick={drugiBTN} disabled={index+2>=trgovine.length}>{">"}</button>
+                    <button className="navigacija" onClick={drugiBTN}
+                            disabled={index + 2 >= trgovine.length}>{">"}</button>
                 </div>
 
                 {/*<h1>Shops</h1>
@@ -302,6 +304,9 @@ const UserHome = () => {
                     </tbody>
 
                 </table>*/}
+            </div>
+            <div>
+
             </div>
         </div>
     );
