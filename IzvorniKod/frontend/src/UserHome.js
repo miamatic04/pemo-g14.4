@@ -253,7 +253,7 @@ const UserHome = () => {
 
 
     return (
-        <div className="body">
+        <div className="body-klasa">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/> {/*link na Font Awesome za ikone kod proizvoda*/}
             <div className="home">
                 <div className="header">
@@ -322,7 +322,7 @@ const UserHome = () => {
 
                 </table>*/}
             </div>
-            <div id="id1" className="klasa1">
+            <div className="klasa1">
                 <div className="klasa2">
                     <h1>Proizvodi</h1>
                     <form className="forma1">
