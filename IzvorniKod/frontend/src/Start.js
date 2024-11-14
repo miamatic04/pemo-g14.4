@@ -26,7 +26,7 @@ const Start = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:8080/login', {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ const Start = () => {
 
                 <div className="others"> {/* ostali nacini za prijavu */}
                     <b><h4>Ostali načini prijave:</h4>
-                        <a href="http://localhost:8080/oauth2/authorization/google" id="google">Prijavi se pomoću Google-a</a></b>
+                        <a href={`http://${process.env.REACT_APP_WEB_URL}:8080/oauth2/authorization/google`} id="google">Prijavi se pomoću Google-a</a></b>
                 </div>
                 {message && <p style={{ color: "green" }}>{message}</p>}
             </div>

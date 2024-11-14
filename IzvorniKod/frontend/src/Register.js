@@ -34,7 +34,7 @@ const Register = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:8080/register/addUser', {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/register/addUser`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

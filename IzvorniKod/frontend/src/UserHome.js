@@ -140,7 +140,7 @@ const UserHome = () => {
 
     const checkTokenValidation = async () => {
         try {
-            const response = await fetch("http://localhost:8080/validateToken", {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/validateToken`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -192,7 +192,7 @@ const UserHome = () => {
 
     const fetchEmail = async () => {
         try {
-            const response = await fetch("http://localhost:8080/userhome/getUserInfo", {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/userhome/getUserInfo`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -219,8 +219,8 @@ const UserHome = () => {
 
     const updateLocation = async () => {
         try {
-            console.log("http://localhost:8080/" + localStorage.getItem("role") + "/updateLocation");
-            const response = await fetch("http://localhost:8080/" + localStorage.getItem("role") + "/updateLocation", {
+            console.log(`http://${process.env.REACT_APP_WEB_URL}:8080/` + localStorage.getItem("role") + "/updateLocation");
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/` + localStorage.getItem("role") + "/updateLocation", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -245,9 +245,9 @@ const UserHome = () => {
         try {
             var url;
             if(sortOrder === 'AZ')
-                url = 'http://localhost:8080/home/getShopsAZ'
+                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsAZ`
             else if(sortOrder === 'ZA')
-                url = 'http://localhost:8080/home/getShopsZA';
+                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsZA`;
 
             const response = await fetch(url,{
                 method: 'GET',
