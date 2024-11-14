@@ -3,6 +3,7 @@ package com.example.backend.config;
 import com.example.backend.filter.JWTFilter;
 import com.example.backend.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,8 @@ public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
 
+    @Value("${spring.boot.web.url}")
+    private String web_url;
 
     public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
         this.customUserDetailsService = customUserDetailsService;
@@ -63,7 +66,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // Allow your frontend
+        configuration.setAllowedOrigins(Arrays.asList("http://" + web_url + ":3000")); // Allow your frontend
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Allowed methods
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); // Allowed headers
 

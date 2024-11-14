@@ -4,6 +4,7 @@ import com.example.backend.model.ShopUser;
 import com.example.backend.repository.ShopUserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.http.MediaType;
@@ -28,6 +29,9 @@ public class OAuth2Service {
 
     private String firstName;
     private String lastName;
+
+    @Value("${spring.boot.web.url}")
+    private String web_url;
 
     @Autowired
     private JWTService jwtService;
@@ -55,7 +59,7 @@ public class OAuth2Service {
             shopUserService.saveUser(user);
         }
 
-        return new RedirectView("http://localhost:3000/userhome?token=" + jwtToken + "&role=" + user.getRole());
+        return new RedirectView("http://" + web_url + ":3000/userhome?token=" + jwtToken + "&role=" + user.getRole());
     }
 
     public OAuth2AuthenticationToken createAuthenticationFromCode(String code) {
@@ -85,7 +89,7 @@ public class OAuth2Service {
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .body(BodyInserters.fromFormData("grant_type", "authorization_code")
                         .with("code", code)
-                        .with("redirect_uri", "http://localhost:8080/oauth2/callback")  // Ensure this matches provider config
+                        .with("redirect_uri", "http://" + web_url + ":8080/oauth2/callback")  // Ensure this matches provider config
                         .with("client_id", "128191605968-jg0b3nos05aieno3lel20kli5f8eobr7.apps.googleusercontent.com")
                         .with("client_secret", "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"))
                 .retrieve()
