@@ -7,6 +7,19 @@ import trgovina1 from './Components/Assets/trgovina1.jpg';
 import trgovina2 from './Components/Assets/trgovina2.jpg';
 import trgovina3 from './Components/Assets/trgovina3.jpg';
 import trgovina4 from './Components/Assets/trgovina4.jpg';
+import proizvod1 from './Components/Assets/proizvod1.jpg';
+import proizvod2 from './Components/Assets/proizvod2.jpg';
+import proizvod3 from './Components/Assets/proizvod3.jpg';
+import proizvod4 from './Components/Assets/proizvod4.jpg';
+import proizvod5 from './Components/Assets/proizvod5.jpg';
+import proizvod6 from './Components/Assets/proizvod6.jpg';
+import proizvod7 from './Components/Assets/proizvod7.jpg';
+import proizvod8 from './Components/Assets/proizvod8.jpg';
+import proizvod9 from './Components/Assets/proizvod9.jpg';
+import proizvod10 from './Components/Assets/proizvod10.jpg';
+import proizvod11 from './Components/Assets/proizvod11.jpg';
+import proizvod12 from './Components/Assets/proizvod12.jpg';
+
 
 const UserHome = () => {
     const navigate = useNavigate();
@@ -43,8 +56,54 @@ const UserHome = () => {
     ]
 
     const proizvodi=[
-        {"ime": "Proizvod 1",}, {"ime": "Proizvod 2",}, {"ime": "Proizvod 3",}, {"ime": "Proizvod 4",}, {"ime": "Proizvod 5",}, {"ime": "Proizvod 6",}, {"ime": "Proizvod 7",},
-        {"ime": "Proizvod 8",}, {"ime": "Proizvod 9",}, {"ime": "Proizvod 10",}, {"ime": "Proizvod 11",}, {"ime": "Proizvod 12",},
+        {
+            "img": proizvod1,
+            "ime": "Proizvod 1",
+        },
+        {
+            "img": proizvod2,
+            "ime": "Proizvod 2",
+        },
+        {
+            "img": proizvod3,
+            "ime": "Proizvod 3",
+        },
+        {
+            "img": proizvod4,
+            "ime": "Proizvod 4",
+        },
+        {
+            "img": proizvod5,
+            "ime": "Proizvod 5",
+        },
+        {
+            "img": proizvod6,
+            "ime": "Proizvod 6",
+        },
+        {
+            "img": proizvod7,
+            "ime": "Proizvod 7",
+        },
+        {
+            "img": proizvod8,
+            "ime": "Proizvod 8",
+        },
+        {
+            "img": proizvod9,
+            "ime": "Proizvod 9",
+        },
+        {
+            "img": proizvod10,
+            "ime": "Proizvod 10",
+        },
+        {
+            "img": proizvod11,
+            "ime": "Proizvod 11",
+        },
+        {
+            "img": proizvod12,
+            "ime": "Proizvod 12",
+        }
     ]
 
     const [index, setIndex] = useState(0);
@@ -338,11 +397,13 @@ const UserHome = () => {
                 <div className="klasa3">
                     <button id="prvi-btn1" className="navigacija" onClick={prviBTN1} disabled={index1 === 0}>{"<"}</button>
                     <div id="proizvodi" className="store-list">
-                        {visible1.map((proizvodi, ind) => (
+                        {visible1.map((proizvod, ind) => (
                             <div className="store-item" id="proizvod" key={ind}>
-                                <div id="img-container2" className="image-container1"></div>
+                                <div id="img-container2" className="image-container1">
+                                    <img className="slike" src={proizvod.img} alt={proizvod.ime}/>
+                                </div>
                                 <div className="opis1">
-                                    <h3>{proizvodi.ime}</h3>
+                                <h3>{proizvod.ime}</h3>
                                     <div className="info">
                                         <p><i className="fas fa-shopping-cart"></i> Trgovina</p>
                                         <p><i className="fas fa-map-marker-alt"></i> Udaljenost</p>
