@@ -42,24 +42,42 @@ const UserHome = () => {
         }
     ]
 
-    const [index, setIndex] = useState(0);
+    const proizvodi=[
+        {"ime": "Proizvod 1",}, {"ime": "Proizvod 2",}, {"ime": "Proizvod 3",}, {"ime": "Proizvod 4",}, {"ime": "Proizvod 5",}, {"ime": "Proizvod 6",}, {"ime": "Proizvod 7",},
+        {"ime": "Proizvod 8",}, {"ime": "Proizvod 9",}, {"ime": "Proizvod 10",}, {"ime": "Proizvod 11",}, {"ime": "Proizvod 12",},
+    ]
 
-    // Funkcija za prebacivanje na prethodne 2 slike
+    const [index, setIndex] = useState(0);
+    // Funkcija za prebacivanje na prethodne 2 slike trgovina
     const prviBTN = () => {
         if (index>0) {
             setIndex(index-2);
         }
     };
-
-    // Funkcija za prebacivanje na sljedeće 2 slike
+    // Funkcija za prebacivanje na sljedeće 2 slike trgovina
     const drugiBTN = () => {
         if (index+2<trgovine.length) {
             setIndex(index+2);
         }
     };
-
-    // Sliced niz slika koje se trenutno prikazuju
+    // Sliced niz slika trgovina koje se trenutno prikazuju
     const visible = trgovine.slice(index, index + 2);
+
+    const [index1, setIndex1] = useState(0);
+    // Funkcija za prebacivanje na prethodnih 6 slika proizvoda
+    const prviBTN1 = () => {
+        if (index1>0) {
+            setIndex1(index1-6);
+        }
+    };
+    // Funkcija za prebacivanje na sljedećih 6 slika proizvoda
+    const drugiBTN1 = () => {
+        if (index1+6<proizvodi.length) {
+            setIndex1(index1+6);
+        }
+    };
+    // Sliced niz slika proizvoda koje se trenutno prikazuju
+    const visible1 = proizvodi.slice(index1, index1 + 6);
 
     const checkTokenValidation = async () => {
         try {
@@ -236,6 +254,7 @@ const UserHome = () => {
 
     return (
         <div className="body">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/> {/*link na Font Awesome za ikone kod proizvoda*/}
             <div className="home">
                 <div className="header">
                     <img src={logo} alt="logo" className="logo"></img>
@@ -249,7 +268,7 @@ const UserHome = () => {
                 <div className="glavna">
                     <h1 className="naslov">Kupovina koja prati tvoj ritam</h1>
                     <button className="btn1">Povijest kupovina</button>
-                    <div className="sticky-background"></div>
+                    <div className="background"></div>
                 </div>
             </div>
             <div className="klasa1">
@@ -269,11 +288,9 @@ const UserHome = () => {
                     <button id="prvi-btn" className="navigacija" onClick={prviBTN} disabled={index === 0}>{"<"}</button>
                     {visible.map((trgovina, ind) => (
                         <div className="store-item" key={ind}>
-
                             <div className="image-container1">
                                 <img className="slike" src={trgovina.img} alt={trgovina.ime}/>
                             </div>
-
                             <div className="opis">
                                 <h3>{trgovina.ime}</h3>
                                 <p>{trgovina.opis}</p>
@@ -305,8 +322,39 @@ const UserHome = () => {
 
                 </table>*/}
             </div>
-            <div>
-
+            <div id="id1" className="klasa1">
+                <div className="klasa2">
+                    <h1>Proizvodi</h1>
+                    <form className="forma1">
+                        <label>
+                            <i>Sortiraj proizvode po: </i>
+                            <select value={sortOrder} onChange={handleSortChange}>
+                                <option value="AZ">nazivu A-Z</option>
+                                <option value="ZA">nazivu Z-A</option>
+                            </select>
+                        </label>
+                    </form>
+                </div>
+                <div className="klasa3">
+                    <button id="prvi-btn1" className="navigacija" onClick={prviBTN1} disabled={index1 === 0}>{"<"}</button>
+                    <div id="proizvodi" className="store-list">
+                        {visible1.map((proizvodi, ind) => (
+                            <div className="store-item" id="proizvod" key={ind}>
+                                <div id="img-container2" className="image-container1"></div>
+                                <div className="opis1">
+                                    <h3>{proizvodi.ime}</h3>
+                                    <div className="info">
+                                        <p><i className="fas fa-shopping-cart"></i> Trgovina</p>
+                                        <p><i className="fas fa-map-marker-alt"></i> Udaljenost</p>
+                                        <p><i className="fas fa-tag"></i> Kategorija</p>
+                                        <p><i className="fas fa-euro-sign"></i> Cijena</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <button className="navigacija" onClick={drugiBTN1} disabled={index1 + 6 >= proizvodi.length}>{">"}</button>
+                </div>
             </div>
         </div>
     );
