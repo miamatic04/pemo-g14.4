@@ -215,8 +215,7 @@ const UserHome = () => {
     useEffect(() => {
         fetchEmail();
     }, []);
-
-
+    
     const updateLocation = async () => {
         try {
             const response = await fetch("http://localhost:8080/user/updateLocation", {
