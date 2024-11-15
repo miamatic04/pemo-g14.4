@@ -264,7 +264,7 @@ const UserHome = () => {
             else if(sortOrder === 'ZA')
                 url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsZA`;
             else if(sortOrder === 'udaljenostBlizi')
-                url = 'http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsByDistanceAsc';
+                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsByDistanceAsc`;
 
 
             const response = await fetch(url,{

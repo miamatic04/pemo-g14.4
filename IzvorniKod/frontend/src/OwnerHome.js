@@ -132,7 +132,7 @@ const UserHome = () => {
 
     const checkTokenValidation = async () => {
         try {
-            const response = await fetch("http://localhost:8080/validateToken", {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/validateToken`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -192,7 +192,7 @@ const UserHome = () => {
 
     const fetchEmail = async () => {
         try {
-            const response = await fetch("http://localhost:8080/userhome/getUserInfo", {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/userhome/getUserInfo`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -215,10 +215,10 @@ const UserHome = () => {
     useEffect(() => {
         fetchEmail();
     }, []);
-    
+
     const updateLocation = async () => {
         try {
-            const response = await fetch("http://localhost:8080/user/updateLocation", {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/user/updateLocation`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -243,11 +243,11 @@ const UserHome = () => {
         try {
             var url;
             if(sortOrder === 'AZ')
-                url = 'http://localhost:8080/home/getShopsAZ'
+                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsAZ`
             else if(sortOrder === 'ZA')
-                url = 'http://localhost:8080/home/getShopsZA';
+                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsZA`;
             else if(sortOrder === 'udaljenostBlizi')
-                url = 'http://localhost:8080/home/getShopsByDistanceAsc';
+                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsByDistanceAsc`;
 
 
             const response = await fetch(url,{

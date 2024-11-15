@@ -17,7 +17,7 @@ const AddShop = () => {
 
     const checkTokenValidation = async () => {
         try {
-            const response = await fetch("http://localhost:8080/validateToken", {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/validateToken`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -93,7 +93,7 @@ const AddShop = () => {
         formData.append('description', description);
 
         try {
-            const response = await fetch('http://localhost:8080/addShop', {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/addShop`, {
                 method: 'POST',
                 body: formData,
                 headers: {

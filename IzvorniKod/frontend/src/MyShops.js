@@ -8,7 +8,7 @@ const MyShops = () => {
 
     const checkTokenValidation = async () => {
         try {
-            const response = await fetch("http://localhost:8080/validateToken", {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/validateToken`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -42,7 +42,7 @@ const MyShops = () => {
 
     const getShops = async (e) => {
         try {
-            const response = await fetch("http://localhost:8080/owner/getMyShops", {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/owner/getMyShops`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("token")}`,
@@ -65,7 +65,7 @@ const MyShops = () => {
 
     const deleteShop = async (shopId) => {
         try {
-            const response = await fetch("http://localhost:8080/owner/deleteShop?id=" + shopId, {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/owner/deleteShop?id=` + shopId, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("token")}`,
