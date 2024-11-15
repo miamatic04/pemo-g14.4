@@ -428,7 +428,8 @@ const UserHome = () => {
                                         <p><i className="fas fa-shopping-cart"></i> Trgovina</p>
                                         <p><i className="fas fa-map-marker-alt"></i> Udaljenost</p>
                                         <p><i className="fas fa-tag"></i> Kategorija</p>
-                                        <p><i className="fas fa-euro-sign"></i> Cijena</p>
+                                        <p id="cijenaProizvoda"><i className="fas fa-euro-sign"></i> Cijena</p>
+                                        <p><i className="fas fa-star"></i> Ocjena</p>
                                     </div>
                                 </div>
                             </div>

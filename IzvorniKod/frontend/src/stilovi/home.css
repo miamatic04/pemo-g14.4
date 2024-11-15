@@ -231,8 +231,11 @@ button:disabled {
 .info p{
     margin-left: 8%;
     font-size: 17px;
-    margin-bottom: 2%;
     color:#757070;
+}
+
+#cijenaProizvoda{
+    font-size: 20px;
 }
 
 .opis1{

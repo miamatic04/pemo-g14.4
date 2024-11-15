@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { useNavigate } from 'react-router-dom';
+import './stilovi/addShops.css'
 
 const AddShop = () => {
 
@@ -114,12 +115,13 @@ const AddShop = () => {
     };
 
     return (
+        <div className="pozadina1">
         <div className="shop-creator">
-            <h1>Registriraj trgovinu</h1>
+            <h1 className="registrirajTrgovinu">Registriraj trgovinu</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="shopName">Naziv trgovine:</label>
-                    <input
+                    <input className="unosZaTrgovinu"
                         id="shopName"
                         type="text"
                         value={shopName}
@@ -184,101 +186,7 @@ const AddShop = () => {
             <a href="../myShops" className="back-button">
                 Natrag na popis trgovina
             </a>
-
-            <style jsx>{`
-                .shop-creator {
-                    max-width: 600px;
-                    margin: 0 auto;
-                    padding: 20px;
-                    font-family: Arial, sans-serif;
-                }
-
-                h1 {
-                    text-align: center;
-                    color: #333;
-                }
-
-                .form-group {
-                    margin-bottom: 20px;
-                }
-
-                label {
-                    display: block;
-                    margin-bottom: 5px;
-                    font-weight: bold;
-                }
-
-                input[type="text"],
-                textarea,
-                input[type="file"] {
-                    width: 100%;
-                    padding: 8px;
-                    border: 1px solid #ddd;
-                    border-radius: 4px;
-                    font-size: 16px;
-                }
-
-                textarea {
-                    height: 100px;
-                    resize: vertical;
-                }
-
-                .map-container {
-                    margin-top: 10px;
-                    border: 1px solid #ddd;
-                    border-radius: 4px;
-                    overflow: hidden;
-                }
-
-                .selected-location {
-                    margin-top: 10px;
-                    font-size: 14px;
-                    color: #666;
-                }
-
-                .submit-button {
-                    display: block;
-                    width: 100%;
-                    padding: 10px;
-                    background-color: #4CAF50;
-                    color: white;
-                    border: none;
-                    border-radius: 4px;
-                    font-size: 16px;
-                    cursor: pointer;
-                    transition: background-color 0.3s;
-                }
-
-                .submit-button:hover {
-                    background-color: #45a049;
-                }
-                
-                textarea {
-                    font-family: Arial, sans-serif;
-                }
-
-                /* Back Button Styles */
-                .back-button {
-                    display: block;
-                    width: 100%;
-                    padding: 10px;
-                    background-color: #f44336;
-                    color: white;
-                    text-align: center;
-                    text-decoration: none;
-                    border: none;
-                    border-radius: 4px;
-                    font-size: 16px;
-                    cursor: pointer;
-                    transition: background-color 0.3s;
-                    margin-top: 20px; /* Add some space above the back button */
-                    font-family: Arial, sans-serif;
-                }
-
-                .back-button:hover {
-                    background-color: #e53935;
-                }
-            `}</style>
+        </div>
         </div>
     );
 };

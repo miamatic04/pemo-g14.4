@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
+import './stilovi/myShops.css'
 
 const MyShops = () => {
     const navigate = useNavigate();
@@ -88,11 +89,12 @@ const MyShops = () => {
     }, []);
 
     return (
+        <div className="pozadina2">
         <div className="shop-list">
             <h2>Shop List</h2>
 
             {/* Back to Owner Home Button */}
-            <a href="/ownerhome" className="back-button">
+            <a href="/ownerhome" className="back-gumb">
                 Natrag na početnu stranicu
             </a>
 
@@ -118,125 +120,7 @@ const MyShops = () => {
                     <p>Pritisnite "Dodaj novu trgovinu" kako biste registrirali svoju prvu trgovinu!</p>
                 </div>
             )}
-
-            <style jsx>{`
-                .shop-list {
-                    max-width: 600px;
-                    margin: 20px auto;
-                    padding: 20px;
-                    font-family: Arial, sans-serif;
-                }
-
-                h2 {
-                    text-align: center;
-                    color: #333;
-                    margin-bottom: 20px;
-                }
-
-                /* Back Button Styles */
-                .back-button {
-                    display: block;
-                    width: 100%;
-                    padding: 10px;
-                    background-color: #f44336;
-                    color: white;
-                    text-align: center;
-                    text-decoration: none;
-                    border: none;
-                    border-radius: 4px;
-                    font-size: 16px;
-                    cursor: pointer;
-                    transition: background-color 0.3s;
-                    margin-bottom: 20px;
-                    font-family: Arial, sans-serif;
-                }
-
-                .back-button:hover {
-                    background-color: #e53935;
-                }
-
-                .add-shop-button {
-                    display: block;
-                    width: 100%;
-                    padding: 10px;
-                    background-color: #4CAF50;
-                    color: white;
-                    border: none;
-                    border-radius: 4px;
-                    font-size: 16px;
-                    cursor: pointer;
-                    transition: background-color 0.3s;
-                    text-align: center;
-                    text-decoration: none;
-                    margin-bottom: 20px;
-                    font-family: Arial, sans-serif;
-                }
-
-                .add-shop-button:hover {
-                    background-color: #45a049;
-                }
-
-                ul {
-                    list-style-type: none;
-                    padding: 0;
-                }
-
-                li {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding: 10px;
-                    border: 1px solid #ddd;
-                    margin-bottom: 10px;
-                    border-radius: 4px;
-                }
-
-                span {
-                    font-size: 16px;
-                    color: #333;
-                }
-
-                .button-group {
-                    display: flex;
-                    gap: 10px;
-                }
-
-                button {
-                    padding: 5px 10px;
-                    border: none;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    font-size: 14px;
-                    transition: background-color 0.3s;
-                }
-
-                .edit-button {
-                    background-color: #2196F3;
-                    color: white;
-                }
-
-                .edit-button:hover {
-                    background-color: #1976D2;
-                }
-
-                .delete-button {
-                    background-color: #f44336;
-                    color: white;
-                }
-
-                .delete-button:hover {
-                    background-color: #d32f2f;
-                }
-
-                .no-shops {
-                    text-align: center;
-                    color: #666;
-                }
-
-                .no-shops p {
-                    margin: 10px 0;
-                }
-            `}</style>
+        </div>
         </div>
     )
 }
