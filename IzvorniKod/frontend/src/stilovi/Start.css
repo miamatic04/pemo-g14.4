@@ -1,0 +1,123 @@
+.pozadina{
+    display: flex;
+    /* centriranje */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(to bottom, #9bd7eb, #f9faac) no-repeat center center; /* prelazak iz plave u zutu */
+    background-size: cover; /* da pozadina bude preko cijelog ekrana */
+}
+
+.wrapper {
+    display: flex;
+    width: 70vw;
+    height: 70vh;
+    background: white;
+    border-radius: 5%;
+}
+
+.login-form {
+    flex: 1;
+    padding: 2%;
+    margin: 5%;
+    border: 0.5vw solid #9bd7eb;
+    border-radius: 5%; /* zakrivljeni rubovi */
+}
+
+.image-container {
+    flex: 0.5;
+    display: flex;
+    justify-content: flex-end; /* slika je uz desni rub wrappera */
+    align-items: center;
+    border-radius: 5%;
+    border: white solid 2vw;
+}
+
+.image-container img {
+    max-height: 100%;
+    width: auto;
+    border-radius: 5%; /* zakrivljeni rubovi */
+    padding: 2%;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10%;
+}
+
+.wrapper h1{
+    text-align: center;
+    font-family: Garamond, serif;
+}
+
+.info-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #f39c12;
+}
+
+#email, #pass {
+    background-color: rgba(164, 213, 236, 0.29);
+    border-radius: 1vw;
+    position: relative;
+    height: 4vh;
+    font-family:"Courier New", serif;
+    padding-left: 2%;
+    font-weight: bold;
+    font-size:80%;
+}
+
+.icon {
+    position: absolute;
+    margin-right: 10%;
+    margin-left: 1%;
+    top: 50%;
+    transform: translateY(-50%); /*  za poravnanje s input-om */
+}
+
+.input-box{
+    position: relative;
+    width: 90%;
+    margin-bottom: -4%;
+}
+
+.input-box input{
+    width: 80%;
+    height: 100%;
+    position: relative;
+}
+
+#submit{
+    border-radius: 1vw;
+    background-color: lightskyblue;
+    cursor: pointer; /* kada se prede misem preko gumba za predaju, kursor misa se pretvori iz strelice u ruku */
+    font-family: Garamond, serif;
+    padding: 2%;
+    font-size: 3vh;
+}
+
+.registration{
+    font-family: Garamond, serif;
+    text-wrap: nowrap;
+    font-size: 2.5vh;
+    margin-top: 5%;
+    text-align: center;
+}
+
+.others{
+    text-align: center;
+    margin-bottom: 2vw;
+    font-family: Garamond, serif;
+    font-size: 2.5vh;
+    text-wrap: nowrap; /* da tekst ne prelazi u novi red */
+    padding-top: 5%;
+}
+
+a{
+    color: #72b9e0;
+    font-family: Garamond, serif;
+}

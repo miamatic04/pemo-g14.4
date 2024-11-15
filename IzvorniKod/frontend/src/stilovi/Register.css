@@ -1,0 +1,72 @@
+#firstName, #lastName, #passConfirm {
+    /* ono sto nema kod login-a */
+    background-color: rgba(164, 213, 236, 0.29);
+    border-radius: 1vw;
+    position: relative;
+    height: 4vh;
+    font-family:"Courier New", serif;
+    padding-left: 2%;
+    font-weight: bold;
+    font-size:80%;
+    margin-bottom: -2vh;
+}
+
+.icon {
+    position: absolute;
+    right: 0.5vw;
+    top: 50%;
+    transform: translateY(-50%); /* za poravnanje s inputom */
+    margin-right: 1vw;
+}
+
+
+.register-form {
+    flex: 1;
+    padding: 2%;
+    margin: 5%;
+    border: 0.5vw solid #9bd7eb;
+    border-radius: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.registracija{
+    padding-bottom: 3%;
+    padding-top: 2%
+}
+
+.image-container{
+    background-color: white;
+    max-width: fit-content;
+}
+
+.wrapper{
+    max-width:100%;
+}
+
+.image-container img{
+    width: 30vw;
+    height: auto;
+}
+
+@media screen and (max-width: 768px){
+    .wrapper{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 60vw;
+        height: 80vh;
+    }
+    .image-container {
+        width: 60vw;
+        display:flex;
+        justify-content: center;
+        background-color: white;
+    }
+    .image-container img{
+        max-height: 30vh;
+        width: 90%;
+        object-fit: contain;
+    }
+}
