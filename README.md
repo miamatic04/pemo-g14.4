@@ -1,7 +1,7 @@
 # Podaci za login
 link stranice: stopnshop.zapto.org:3000
-vlasnički račun: email - vlasnik@gmail.com
-                lozinka - a
+
+vlasnički račun: email - vlasnik@gmail.com / lozinka - a
 
 # Stop 'n Shop
 Naš je projektni zadatak na kolegiju Programsko inženjerstvo bio izraditi web aplikaciju koja bi ublažila problem nedovoljne povezanosti između stanovništva i njihovih lokalnih trgovina. 
