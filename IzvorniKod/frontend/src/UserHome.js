@@ -205,33 +205,6 @@ const UserHome = () => {
         setSortOrder(selectedSortOrder);
     };
 
-    const fetchEmail = async () => {
-        try {
-            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/userhome/getUserInfo`, {
-                method: 'GET',
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to fetch data');
-            }
-            const data = await response.json();
-
-            setEmail(data);
-
-        } catch (error) {
-            console.error('Error fetching email:', error);
-        }
-    };
-
-    useEffect(() => {
-        fetchEmail();
-    }, []);
-
-
     const updateLocation = async () => {
         try {
             console.log(`http://${process.env.REACT_APP_WEB_URL}:8080/` + localStorage.getItem("role") + "/updateLocation");

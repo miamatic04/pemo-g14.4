@@ -34,7 +34,7 @@ const MyShops = () => {
         }
     };
 
-   useEffect(() => {
+    useEffect(() => {
         if(!authenticationTried) {
             setAuthenticationTried(true);
             checkTokenValidation();

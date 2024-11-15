@@ -9,4 +9,5 @@ public interface PersonRepository extends JpaRepository<Person, String> {
 
     Person save(Person person);
     Person findByEmail(String email);
+    Person findByConfirmationToken(String confirmationToken);
 }

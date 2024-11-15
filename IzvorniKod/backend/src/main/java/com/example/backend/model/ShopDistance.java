@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class ShopDistance {
-
     private Shop shop;
     private double distance;
 }

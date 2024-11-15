@@ -3,10 +3,6 @@ import './stilovi/home.css'
 import logo from './Components/Assets/logo1.png'
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import trgovina1 from './Components/Assets/trgovina1.jpg';
-import trgovina2 from './Components/Assets/trgovina2.jpg';
-import trgovina3 from './Components/Assets/trgovina3.jpg';
-import trgovina4 from './Components/Assets/trgovina4.jpg';
 import proizvod1 from './Components/Assets/proizvod1.jpg';
 import proizvod2 from './Components/Assets/proizvod2.jpg';
 import proizvod3 from './Components/Assets/proizvod3.jpg';
@@ -190,32 +186,6 @@ const UserHome = () => {
         setSortOrder(selectedSortOrder);
     };
 
-    const fetchEmail = async () => {
-        try {
-            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/userhome/getUserInfo`, {
-                method: 'GET',
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to fetch data');
-            }
-            const data = await response.json();
-
-            setEmail(data);
-
-        } catch (error) {
-            console.error('Error fetching email:', error);
-        }
-    };
-
-    useEffect(() => {
-        fetchEmail();
-    }, []);
-
     const updateLocation = async () => {
         try {
             const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/user/updateLocation`, {
@@ -237,7 +207,6 @@ const UserHome = () => {
             console.error("Greška prilikom slanja lokacije:", error);
         }
     };
-
 
     const fetchShops = async () => {
         try {

@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LocationInfo {
-
     private double longitude;
     private double latitude;
 }

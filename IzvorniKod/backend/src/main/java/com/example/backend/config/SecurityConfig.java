@@ -47,7 +47,7 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeRequests(auth -> auth
-                        .requestMatchers("/oauth2/**", "/register/addUser", "/login").permitAll()
+                        .requestMatchers("/oauth2/**", "/register/addUser", "/login", "/confirmEmail").permitAll()
                         .requestMatchers("/ownerhome").hasAuthority("owner")
                         .anyRequest().authenticated()
                 )
@@ -67,12 +67,12 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://" + web_url + ":3000")); // Allow your frontend
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Allowed methods
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); // Allowed headers
+        configuration.setAllowedOrigins(Arrays.asList("http://" + web_url + ":3000"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // Apply to all endpoints
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 

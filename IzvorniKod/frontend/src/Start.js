@@ -3,12 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import './stilovi/Start.css';
 import { FaUser, FaLock } from "react-icons/fa"; /* ikone za covjeka i lokot */
 import loginImage from './Components/Assets/loginPicture.jpg'; /* slika pored forme (logo + dodatna slika) */
+import { useLocation } from 'react-router-dom';
 
 const Start = () => {
     const [formData, setFormData] = useState({
         email: '',
         pass: '',
     });
+
+    const url = useLocation();
 
     const [backendResult, setBackendResult] = useState(null);
     const [message, setMessage] = useState(null);
@@ -35,7 +38,9 @@ const Start = () => {
             });
 
             if (!response.ok) {
-                setBackendResult({"message": "Invalid login credentials"});
+                const errorMessage = await response.json();
+                console.log(errorMessage);
+                setBackendResult(errorMessage);
             } else {
                 const data = await response.json();
                 localStorage.setItem("token", data.token);
@@ -55,6 +60,17 @@ const Start = () => {
             // Obriši poruku iz sessionStorage nakon što je prikazana
             sessionStorage.removeItem("registrationMessage");
         }
+
+        const params = new URLSearchParams(url.search);
+
+        if(params.get("confirmed") !== null) {
+            if(params.get("confirmed") === "true") {
+                sessionStorage.setItem("registrationMessage", "Email uspješno potrvđen. Molim ulogirajte se.");
+            } else
+                sessionStorage.setItem("registrationMessage", "Pogreška prilikom potvrđivanja email-a.");
+        }
+
+
     }, []);
 
     return (
@@ -82,8 +98,8 @@ const Start = () => {
                 </form>
 
                 {backendResult && (
-                    <div>
-                        <h2>{backendResult.message}</h2>
+                    <div className="info-message">
+                        <h3>{backendResult.message}</h3>
                     </div>
                 )}
 
@@ -97,7 +113,7 @@ const Start = () => {
                     <b><h4>Ostali načini prijave:</h4>
                         <a href={`http://${process.env.REACT_APP_WEB_URL}:8080/oauth2/authorization/google`} id="google">Prijavi se pomoću Google-a</a></b>
                 </div>
-                {message && <p style={{ color: "green" }}>{message}</p>}
+                {message && <div className="info-message" style={{ color: "green" }}><h3>{message}</h3></div>}
             </div>
 
             <div className='image-container'> {/* logo i dodatna slika */}

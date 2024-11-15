@@ -1,5 +1,6 @@
 package com.example.backend.service;
 
+import com.example.backend.exception.EmailNotConfirmedException;
 import com.example.backend.exception.InvalidLoginException;
 import com.example.backend.model.LoginInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,19 +24,26 @@ public class LoginService {
 
     @Autowired
     private JWTService jwtService;
+    @Autowired
+    private PersonService personService;
 
 
     public ResponseEntity<Map<String, Object>> login(@RequestBody LoginInfo loginInfo) throws JsonProcessingException {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginInfo.getEmail(), loginInfo.getPass()));
 
         if(authentication.isAuthenticated()) {
-            Map<String, Object> response = new HashMap<>();
-            response.put("token", jwtService.generateToken(loginInfo.getEmail()));
-            response.put("role", authentication.getAuthorities().toString());
 
-            return ResponseEntity.ok(response);
+            if(personService.findUser(loginInfo.getEmail()).getEmailConfirmed()) {
+                Map<String, Object> response = new HashMap<>();
+                response.put("token", jwtService.generateToken(loginInfo.getEmail()));
+                response.put("role", authentication.getAuthorities().toString());
+
+                return ResponseEntity.ok(response);
+            } else
+                throw new EmailNotConfirmedException("Email not confirmed.");
+
         }
 
-        throw new InvalidLoginException("Invalid login credentials");
+        throw new InvalidLoginException("Invalid login credentials.");
     }
 }

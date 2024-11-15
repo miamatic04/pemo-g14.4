@@ -22,8 +22,6 @@ public class TokenValidationController {
 
     @GetMapping("/validateToken")
     public ResponseEntity<Void> validateToken(@RequestHeader(value = "Authorization", required = false) String authHeader) {
-        System.out.println("HEADER: " + authHeader);
-        System.out.println("EMAIL: " + jwtService.extractUsername(authHeader.substring(7)));
         return ResponseEntity.ok().build();
     }
 

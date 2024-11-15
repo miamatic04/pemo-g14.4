@@ -5,13 +5,24 @@ import com.example.backend.model.Shop;
 import com.example.backend.model.ShopDistance;
 import com.example.backend.repository.ShopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ShopService {
@@ -20,10 +31,10 @@ public class ShopService {
     private ShopRepository shopRepository;
 
     @Autowired
-    JWTService jwtService;
+    private JWTService jwtService;
 
     @Autowired
-    PersonService personService;
+    private PersonService personService;
 
     public List<Shop> findAll() {
         return shopRepository.findAll();
@@ -37,7 +48,9 @@ public class ShopService {
         shopRepository.deleteShopById(id);
     }
 
-    public ResponseEntity<List<ShopDistance>> getShopsSortedByNameAsc(String token) {
+    public ResponseEntity<List<ShopDistance>> getShopsSortedByNameAsc(String authHeader) {
+
+        String token = authHeader.substring(7);
 
         Person user = personService.findUser(jwtService.extractUsername(token));
 
@@ -59,7 +72,9 @@ public class ShopService {
         return ResponseEntity.ok(shopsWithDistance);
     }
 
-    public ResponseEntity<List<ShopDistance>> getShopsSortedByNameDesc(String token) {
+    public ResponseEntity<List<ShopDistance>> getShopsSortedByNameDesc(String authHeader) {
+
+        String token = authHeader.substring(7);
 
         Person user = personService.findUser(jwtService.extractUsername(token));
 
@@ -81,7 +96,9 @@ public class ShopService {
         return ResponseEntity.ok(shopsWithDistance);
     }
 
-    public ResponseEntity<List<ShopDistance>> getShopsSortedByDistanceAsc(String token) {
+    public ResponseEntity<List<ShopDistance>> getShopsSortedByDistanceAsc(String authHeader) {
+
+        String token = authHeader.substring(7);
 
         Person user = personService.findUser(jwtService.extractUsername(token));
 
@@ -103,6 +120,69 @@ public class ShopService {
         shopsWithDistance.sort(Comparator.comparingDouble(ShopDistance::getDistance));
 
         return ResponseEntity.ok(shopsWithDistance);
+    }
+
+    public ResponseEntity<Map<String, Object>> addShop(MultipartFile file, String shopName, double latitude, double longitude, String description, String authHeader) {
+
+        if (file.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        String folderPath = "../frontend/public/userUploads/";
+
+        try {
+
+            File directory = new File(folderPath);
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+            String email = jwtService.extractUsername(authHeader.substring(7));
+            String emailNoPeriods = email.replaceAll("\\.", "");
+
+            Person owner = personService.findUser(email);
+
+            int index = owner.getShops().size();
+
+            String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+            String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+            String newFilename = emailNoPeriods + "_shop" + index + extension; // e.g. asd@gmailcom_shop0.png
+
+            Path targetLocation = Paths.get(folderPath + newFilename);
+
+            if (Files.exists(targetLocation)) {
+                try {
+                    Files.delete(targetLocation);
+                } catch (IOException e) {
+                    System.out.println("Error deleting existing file: " + e.getMessage());
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                }
+            }
+
+            Files.copy(file.getInputStream(), targetLocation);
+
+            String frontendPath = "/userUploads/" + newFilename;
+
+            Shop shop = new Shop();
+            shop.setShopName(shopName);
+            shop.setLatitude(latitude);
+            shop.setLongitude(longitude);
+            shop.setImagePath(frontendPath);
+            shop.setDescription(description);
+
+            shop.setShopOwner(owner);
+
+            saveShop(shop);
+
+            return ResponseEntity.ok(Map.of("filePath", frontendPath));
+
+        } catch (IOException e) {
+            System.out.println("Error occurred while saving file: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } catch (Exception e) {
+            System.out.println("Unexpected error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     // Haversina formula umjesto google distance matrix api

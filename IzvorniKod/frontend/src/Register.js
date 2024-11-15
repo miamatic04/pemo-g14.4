@@ -54,7 +54,7 @@ const Register = () => {
                 // Ako je odgovor uspješan, obradi uspješan rezultat
                 const data = await response.json();
                 setBackendResult(data);
-                sessionStorage.setItem("registrationMessage", "Registracija uspješna, molim ulogirajte se");
+                sessionStorage.setItem("registrationMessage", "Registracija uspješna. Potvrdite email adresu i ulogirajte se.");
                 navigate('/');
             }
         } catch (error) {

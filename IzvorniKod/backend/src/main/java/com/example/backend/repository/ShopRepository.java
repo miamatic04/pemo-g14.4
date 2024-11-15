@@ -29,5 +29,4 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
     @Query(value = "DELETE FROM shop WHERE id = :id", nativeQuery = true)
     void deleteShopById(@Param("id") Long id);
 
-
 }

@@ -5,6 +5,7 @@ import com.example.backend.exception.UserNotFoundException;
 import com.example.backend.model.Person;
 import com.example.backend.model.Shop;
 import com.example.backend.service.JWTService;
+import com.example.backend.service.OwnerService;
 import com.example.backend.service.PersonService;
 import com.example.backend.service.ShopService;
 import jakarta.transaction.Transactional;
@@ -28,56 +29,17 @@ public class OwnerController {
     @Autowired
     private ShopService shopService;
 
+    @Autowired
+    private OwnerService ownerService;
+
     @GetMapping("/owner/getMyShops")
     public ResponseEntity<List<Shop>> getMyShops(@RequestHeader(value = "Authorization", required = false) String authHeader) {
-
-        String email = jwtService.extractUsername(authHeader.substring(7));
-
-        Person owner = personService.findUser(email);
-
-        List<Shop> myShops;
-
-        if(owner != null) {
-            myShops = owner.getShops();
-            return ResponseEntity.ok(myShops);
-        } else {
-            throw new UserNotFoundException("Owner not found.");
-        }
+        return ownerService.getMyShops(authHeader);
     }
 
     @DeleteMapping("/owner/deleteShop")
     @Transactional
     public ResponseEntity<Void> deleteShop(@RequestParam("id") int id, @RequestHeader(value = "Authorization", required = false) String authHeader) {
-
-        String email = jwtService.extractUsername(authHeader.substring(7));
-
-        Person owner = personService.findUser(email);
-
-        int toBeRemoved = -1;
-
-        boolean deleted = false;
-
-        if(owner != null) {
-            for(Shop s : owner.getShops()) {
-                if(s.getId() == id) {
-                    toBeRemoved = id;
-                    System.out.println("to be removed id: " + toBeRemoved);
-                }
-            }
-
-            System.out.println(toBeRemoved);
-            if(toBeRemoved != -1) {
-                shopService.removeShop((long) toBeRemoved);
-                System.out.println((long) toBeRemoved);
-            }
-
-            if(toBeRemoved == -1) {
-                throw new ShopDoesntBelongToGivenOwnerException("Shop doesn't belong to the given owner.");
-            } else
-                return ResponseEntity.ok().build();
-
-        } else
-            throw new UserNotFoundException("Owner not found.");
-
+        return ownerService.deleteShop(id, authHeader);
     }
 }
