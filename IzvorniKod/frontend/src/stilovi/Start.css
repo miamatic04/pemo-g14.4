@@ -57,11 +57,11 @@
     background-color: rgba(164, 213, 236, 0.29);
     border-radius: 1vw;
     position: relative;
-    height: 35px;
+    height: 4vh;
     font-family:"Courier New", serif;
     padding-left: 2%;
     font-weight: bold;
-    font-size:130%;
+    font-size:80%;
 }
 
 .icon {
@@ -90,14 +90,13 @@
     cursor: pointer; /* kada se prede misem preko gumba za predaju, kursor misa se pretvori iz strelice u ruku */
     font-family: Garamond, serif;
     padding: 2%;
-    font-size: 150%;
-    margin-top: 5%;
+    font-size: 3vh;
 }
 
 .registration{
     font-family: Garamond, serif;
     text-wrap: nowrap;
-    font-size: 140%;
+    font-size: 2.5vh;
     margin-top: 5%;
     text-align: center;
 }
@@ -106,7 +105,7 @@
     text-align: center;
     margin-bottom: 2vw;
     font-family: Garamond, serif;
-    font-size: 140%;
+    font-size: 2.5vh;
     text-wrap: nowrap; /* da tekst ne prelazi u novi red */
     padding-top: 5%;
 }
