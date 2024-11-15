@@ -15,7 +15,7 @@ Vlasnici trgovina imat će priliku kreirati događaje unoseći naziv, lokaciju, 
 Osim događaja, trgovine će moći kreirati posebne ponude i promocije, objavljivati kuponske kodove i rasprodaje. Korisnicima će se automatski predlagati ponude ovisno o njihovim prijašnje iskazanim interesima, a određene ponude trgovine će moći ograničiti samo na pojedine kategorije korisnika (npr. novim kupcima ponuditi popust na prvoj kupovini).
 
 # Nefunkcionalni zahtjevi
-Pri izradi aplikacije, glavne niti vodilje bile su nam efikasnost te zadovoljstvo korisnika.
+Pri izradi aplikacije, glavne niti vodilje bile su nam učinkovitost te zadovoljstvo korisnika.
 
 Prilagodili smo display aplikacije koristeći responsive design, kako bismo korisnicima omogućili neometano korištenje usluga, neovisno o ekranu preko kojeg vrše kupovinu.
 
