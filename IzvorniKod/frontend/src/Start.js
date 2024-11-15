@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Start.css';
+import './stilovi/Start.css';
 import { FaUser, FaLock } from "react-icons/fa"; /* ikone za covjeka i lokot */
 import loginImage from './Components/Assets/loginPicture.jpg'; /* slika pored forme (logo + dodatna slika) */
 

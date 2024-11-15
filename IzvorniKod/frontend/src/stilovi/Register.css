@@ -3,11 +3,11 @@
     background-color: rgba(164, 213, 236, 0.29);
     border-radius: 1vw;
     position: relative;
-    height: 3vw;
-    max-height: 20px;
+    height: 35px;
     font-family:"Courier New", serif;
     padding-left: 2%;
     font-weight: bold;
+    font-size:130%;
 }
 
 .icon {

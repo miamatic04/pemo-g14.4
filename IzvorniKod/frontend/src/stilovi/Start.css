@@ -57,16 +57,17 @@
     background-color: rgba(164, 213, 236, 0.29);
     border-radius: 1vw;
     position: relative;
-    height: 3vw;
-    max-height: 20px;
+    height: 35px;
     font-family:"Courier New", serif;
     padding-left: 2%;
     font-weight: bold;
+    font-size:130%;
 }
 
 .icon {
     position: absolute;
-    right: 0.5vw;
+    margin-right: 10%;
+    margin-left: 1%;
     top: 50%;
     transform: translateY(-50%); /*  za poravnanje s input-om */
 }
@@ -89,21 +90,23 @@
     cursor: pointer; /* kada se prede misem preko gumba za predaju, kursor misa se pretvori iz strelice u ruku */
     font-family: Garamond, serif;
     padding: 2%;
-    font-size: 100%;
+    font-size: 150%;
+    margin-top: 5%;
 }
 
 .registration{
     font-family: Garamond, serif;
     text-wrap: nowrap;
-    text-align: left;
-    font-size: 110%;
+    font-size: 140%;
+    margin-top: 5%;
+    text-align: center;
 }
 
 .others{
     text-align: center;
     margin-bottom: 2vw;
     font-family: Garamond, serif;
-    font-size: 120%;
+    font-size: 140%;
     text-wrap: nowrap; /* da tekst ne prelazi u novi red */
     padding-top: 5%;
 }
