@@ -1,5 +1,6 @@
 package com.example.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,19 +13,34 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@MappedSuperclass
-public abstract class Person {
+@Entity
+public class Person {
 
-    private String firstName;
-    private String lastName;
-    //private Date dateOfBirth;
+    //zajednicki:
     @Id
     private String email;
+    private String firstName;
+    private String lastName;
     private String pass;
-
     private String role;
-
     private double longitude;
     private double latitude;
+
+    //shopOwner:
+    private String OIB;
+    @OneToMany(mappedBy = "shopOwner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Shop> shops;
+
+    @Transient
+    private String passConfirm; // registration DTO treba napravit...
+
+    public Person(RegistrationInfo registrationInfo) {
+        this.email = registrationInfo.getEmail();
+        this.firstName = registrationInfo.getFirstName();
+        this.lastName = registrationInfo.getLastName();
+        this.pass = registrationInfo.getPass();
+        this.role = registrationInfo.getRole();
+    }
 }
 

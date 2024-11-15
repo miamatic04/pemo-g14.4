@@ -104,7 +104,6 @@ public class JWTService {
     }
 
     public String extractUsername(String token) {
-        // extract the username from jwt token
         if(token != null && !token.equals("null"))
             return extractClaim(token, Claims::getSubject);
         else

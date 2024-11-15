@@ -1,24 +1,17 @@
 package com.example.backend.service;
 
+import com.example.backend.model.Person;
 import com.example.backend.model.Shop;
 import com.example.backend.model.ShopDistance;
-import com.example.backend.model.ShopUser;
 import com.example.backend.repository.ShopRepository;
-import com.example.backend.repository.ShopUserRepository;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ShopService {
@@ -30,15 +23,23 @@ public class ShopService {
     JWTService jwtService;
 
     @Autowired
-    ShopUserService shopUserService;
+    PersonService personService;
 
     public List<Shop> findAll() {
         return shopRepository.findAll();
     }
 
+    public Shop saveShop (Shop shop) {
+        return shopRepository.save(shop);
+    }
+
+    public void removeShop (Long id) {
+        shopRepository.deleteShopById(id);
+    }
+
     public ResponseEntity<List<ShopDistance>> getShopsSortedByNameAsc(String token) {
 
-        ShopUser user = shopUserService.findUser(jwtService.extractUsername(token));
+        Person user = personService.findUser(jwtService.extractUsername(token));
 
         double userLatitude = user.getLatitude();
         double userLongitude = user.getLongitude();
@@ -60,7 +61,7 @@ public class ShopService {
 
     public ResponseEntity<List<ShopDistance>> getShopsSortedByNameDesc(String token) {
 
-        ShopUser user = shopUserService.findUser(jwtService.extractUsername(token));
+        Person user = personService.findUser(jwtService.extractUsername(token));
 
         double userLatitude = user.getLatitude();
         double userLongitude = user.getLongitude();
@@ -82,7 +83,7 @@ public class ShopService {
 
     public ResponseEntity<List<ShopDistance>> getShopsSortedByDistanceAsc(String token) {
 
-        ShopUser user = shopUserService.findUser(jwtService.extractUsername(token));
+        Person user = personService.findUser(jwtService.extractUsername(token));
 
         double userLatitude = user.getLatitude();
         double userLongitude = user.getLongitude();

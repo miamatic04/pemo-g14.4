@@ -17,10 +17,10 @@ public class CustomUserDetails implements UserDetails {
     private final GrantedAuthority authority;
 
 
-    public CustomUserDetails(ShopUser shopUser) {
-        this.email = shopUser.getEmail();
-        this.password = shopUser.getPass();
-        this.authority = new SimpleGrantedAuthority(shopUser.getRole());
+    public CustomUserDetails(Person person) {
+        this.email = person.getEmail();
+        this.password = person.getPass();
+        this.authority = new SimpleGrantedAuthority(person.getRole());
     }
 
     @Override

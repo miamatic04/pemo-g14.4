@@ -32,29 +32,6 @@ const UserHome = () => {
     const [locationTried, setLocationTried] = useState(false);
     const [authenticationTried, setAuthenticationTried] = useState(false);
 
-    const trgovine=[
-        {
-            "img": trgovina1,
-            "ime": "Trgovina 1",
-            "opis": "Opis trgovine 1"
-        },
-        {
-            "img": trgovina2 ,
-            "ime": "Trgovina 2",
-            "opis": "Opis trgovine 2"
-        },
-        {
-            "img": trgovina3 ,
-            "ime": "Trgovina 3",
-            "opis": "Opis trgovine 3"
-        },
-        {
-            "img": trgovina4,
-            "ime": "Trgovina 4",
-            "opis": "Opis trgovine 4"
-        }
-    ]
-
     const proizvodi=[
         {
             "img": proizvod1,
@@ -155,7 +132,7 @@ const UserHome = () => {
 
     const checkTokenValidation = async () => {
         try {
-            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/validateToken`, {
+            const response = await fetch("http://localhost:8080/validateToken", {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -163,11 +140,19 @@ const UserHome = () => {
                 }
             });
 
-            if (!response.ok) {
-                navigate("/");
+            if (!response.ok || !(localStorage.getItem("role") === "owner")) {
+                if(localStorage.getItem("role") === "user")
+                    navigate("/userhome");
+                else if(localStorage.getItem("role") === "mod")
+                    navigate("/modhome");
+                else if(localStorage.getItem("role")=== "admin")
+                    navigate("/adminhome");
+                else
+                    navigate("/");
             }
 
         } catch (error) {
+            console.log(error);
             navigate("/");
         }
     };
@@ -207,7 +192,7 @@ const UserHome = () => {
 
     const fetchEmail = async () => {
         try {
-            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/userhome/getUserInfo`, {
+            const response = await fetch("http://localhost:8080/userhome/getUserInfo", {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -234,8 +219,7 @@ const UserHome = () => {
 
     const updateLocation = async () => {
         try {
-            console.log(`http://${process.env.REACT_APP_WEB_URL}:8080/` + localStorage.getItem("role") + "/updateLocation");
-            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/` + localStorage.getItem("role") + "/updateLocation", {
+            const response = await fetch("http://localhost:8080/user/updateLocation", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -260,18 +244,18 @@ const UserHome = () => {
         try {
             var url;
             if(sortOrder === 'AZ')
-                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsAZ`
+                url = 'http://localhost:8080/home/getShopsAZ'
             else if(sortOrder === 'ZA')
-                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsZA`;
+                url = 'http://localhost:8080/home/getShopsZA';
             else if(sortOrder === 'udaljenostBlizi')
-                url = 'http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsByDistanceAsc';
+                url = 'http://localhost:8080/home/getShopsByDistanceAsc';
 
 
             const response = await fetch(url,{
                 method: 'GET',
                 headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
             });
 
@@ -280,6 +264,7 @@ const UserHome = () => {
             }
             const data = await response.json();
 
+            console.log(data);
             setShops(data);
 
             setLoading(false);
@@ -339,7 +324,7 @@ const UserHome = () => {
                         <li className="el"><a className="a1">Kvart</a></li>
                         <li className="el"><a className="a1">Događaji</a></li>
                         <li className="el"><a className="a1">Popis trgovina</a></li>
-                        <li className="el"><a className="a1">Ostali</a></li>
+                        <li className="el"><a href="/myShops" className="a1">Moje trgovine</a></li>
                     </ul>
                 </div>
                 <div className="glavna">
@@ -392,9 +377,10 @@ const UserHome = () => {
                     <tbody>
                     {shops.map(shop => (
                         <tr key={shop.id}>
-                            <td>{shop.id}</td>
-                            <td>{shop.shopName}</td>
+                            <td>{shop.shop.id}</td>
+                            <td>{shop.shop.shopName}</td>
                             <td>{shop.distance} km</td>
+                            <td><img src={shop.shop.imagePath} alt="Shop Image"/></td>
                         </tr>
                     ))}
                     </tbody>
@@ -423,7 +409,7 @@ const UserHome = () => {
                                     <img className="slike" src={proizvod.img} alt={proizvod.ime}/>
                                 </div>
                                 <div className="opis1">
-                                <h3>{proizvod.ime}</h3>
+                                    <h3>{proizvod.ime}</h3>
                                     <div className="info">
                                         <p><i className="fas fa-shopping-cart"></i> Trgovina</p>
                                         <p><i className="fas fa-map-marker-alt"></i> Udaljenost</p>

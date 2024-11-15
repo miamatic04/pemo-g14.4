@@ -9,13 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class ShopDistance {
 
-    private Long Id;
-    private String shopName;
+    private Shop shop;
     private double distance;
-
-    public ShopDistance(Shop shop, double distance) {
-        this.shopName = shop.getShopName();
-        this.Id = shop.getId();
-        this.distance = distance;
-    }
 }

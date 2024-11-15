@@ -1,12 +1,10 @@
 package com.example.backend.service;
 
-import com.example.backend.model.ShopUser;
-import com.example.backend.repository.ShopUserRepository;
+import com.example.backend.model.Person;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,7 +14,6 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.view.RedirectView;
@@ -37,7 +34,7 @@ public class OAuth2Service {
     private JWTService jwtService;
 
     @Autowired
-    private ShopUserService shopUserService;
+    private PersonService personService;
 
     public RedirectView handleOAuth2Callback(String code) throws JsonProcessingException {
         SecurityContextHolder.getContext().setAuthentication(createAuthenticationFromCode(code));
@@ -48,22 +45,21 @@ public class OAuth2Service {
 
         String jwtToken = jwtService.generateToken(email);
 
-        ShopUser user = shopUserService.findUser(email);
+        Person user = personService.findUser(email);
 
         if(user == null) {
-            user = new ShopUser();
+            user = new Person();
             user.setEmail(email);
             user.setFirstName(firstName);
             user.setLastName(lastName);
             user.setRole("user");
-            shopUserService.saveUser(user);
+            personService.save(user);
         }
 
         return new RedirectView("http://" + web_url + ":3000/userhome?token=" + jwtToken + "&role=" + user.getRole());
     }
 
     public OAuth2AuthenticationToken createAuthenticationFromCode(String code) {
-        // Step 1: Exchange the code for an access token
         String accessToken = exchangeCodeForToken(code);
 
         Map<String, Object> userAttributes = fetchUserDetailsWithAccessToken(accessToken).getAttributes();
@@ -71,10 +67,8 @@ public class OAuth2Service {
         firstName = (String) userAttributes.get("given_name");
         lastName = (String) userAttributes.get("family_name");
 
-        // Step 2: Fetch the user details using the access token
         OAuth2User oAuth2User = fetchUserDetailsWithAccessToken(accessToken);
 
-        // Step 3: Create an OAuth2AuthenticationToken with the OAuth2 user and authorities
         List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("user");
         return new OAuth2AuthenticationToken(oAuth2User, authorities, "128191605968-jg0b3nos05aieno3lel20kli5f8eobr7.apps.googleusercontent.com");
     }
@@ -85,7 +79,7 @@ public class OAuth2Service {
 
         // OAuth2 token request parameters
         return webClient.post()
-                .uri("https://oauth2.googleapis.com/token")  // Replace with the actual token URL
+                .uri("https://oauth2.googleapis.com/token")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .body(BodyInserters.fromFormData("grant_type", "authorization_code")
                         .with("code", code)
@@ -93,7 +87,7 @@ public class OAuth2Service {
                         .with("client_id", "128191605968-jg0b3nos05aieno3lel20kli5f8eobr7.apps.googleusercontent.com")
                         .with("client_secret", "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"))
                 .retrieve()
-                .bodyToMono(Map.class)  // Parse response as Map to extract the token
+                .bodyToMono(Map.class)
                 .map(response -> (String) response.get("access_token"))
                 .block();
     }
@@ -102,7 +96,7 @@ public class OAuth2Service {
         WebClient webClient = WebClient.create();
 
         Map<String, Object> userAttributes = webClient.get()
-                .uri("https://www.googleapis.com/oauth2/v3/userinfo")  // User info endpoint URL
+                .uri("https://www.googleapis.com/oauth2/v3/userinfo")
                 .headers(headers -> headers.setBearerAuth(accessToken))
                 .retrieve()
                 .bodyToMono(Map.class)
@@ -111,7 +105,7 @@ public class OAuth2Service {
         return new DefaultOAuth2User(
                 AuthorityUtils.createAuthorityList("ROLE_USER"),
                 userAttributes,
-                "email"  // Replace with the appropriate principal attribute from user info
+                "email"
         );
 
     }
