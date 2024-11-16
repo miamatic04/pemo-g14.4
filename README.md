@@ -1,5 +1,5 @@
 # Podaci za login
-link stranice: stopnshop.zapto.org:3000
+link stranice: stopnshop.zapto.org
 
 vlasnički račun: email - vlasnik@gmail.com / lozinka - a
 
