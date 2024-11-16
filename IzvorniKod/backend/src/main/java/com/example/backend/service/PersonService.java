@@ -85,7 +85,7 @@ public class PersonService {
         if (user != null) {
                 user.setEmailConfirmed(true);
                 save(user);
-                return new RedirectView("http://" + web_url + ":3000/?confirmed=true");
+                return new RedirectView("http://" + web_url + "/?confirmed=true");
         }
         return new RedirectView("/?confirmed=false");
     }

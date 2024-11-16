@@ -56,7 +56,7 @@ public class OAuth2Service {
             personService.save(user);
         }
 
-        return new RedirectView("http://" + web_url + ":3000/userhome?token=" + jwtToken + "&role=" + user.getRole());
+        return new RedirectView("http://" + web_url + "/userhome?token=" + jwtToken + "&role=" + user.getRole());
     }
 
     public OAuth2AuthenticationToken createAuthenticationFromCode(String code) {

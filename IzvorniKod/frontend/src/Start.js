@@ -111,7 +111,7 @@ const Start = () => {
 
                 <div className="others"> {/* ostali nacini za prijavu */}
                     <b><h4>Ostali načini prijave:</h4>
-                        <a href={`http://${process.env.REACT_APP_WEB_URL}:8080/oauth2/authorization/google`} id="google">Prijavi se pomoću Google-a</a></b>
+                        <a href={`http://${process.env.REACT_APP_WEB_URL}/oauth2/authorization/google`} id="google">Prijavi se pomoću Google-a</a></b>
                 </div>
                 {message && <div className="info-message" style={{ color: "green" }}><h3>{message}</h3></div>}
             </div>
