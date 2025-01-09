@@ -6,6 +6,7 @@ import Register from './Register'
 import AddShop from './AddShop'
 import OwnerHome from "./OwnerHome";
 import MyShops from "./MyShops";
+import ProductDetails from "./ProductDetails";
 
 const App = () => {
     return (
@@ -17,6 +18,7 @@ const App = () => {
                 <Route path="/addShop" element={<AddShop/>}/>
                 <Route path="/ownerhome" element={<OwnerHome/>}/>
                 <Route path="/myShops" element={<MyShops/>}/>
+                <Route path="/product" element={<ProductDetails/>}/>
             </Routes>
         </Router>
     );

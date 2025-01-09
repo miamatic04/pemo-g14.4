@@ -32,50 +32,98 @@ const UserHome = () => {
         {
             "img": proizvod1,
             "ime": "Proizvod 1",
+            "trgovina":"trgovina1",
+            "kategorija":"kategorija1",
+            "udaljenost":"udaljenost1",
+            "cijena":"cijena1",
         },
         {
             "img": proizvod2,
             "ime": "Proizvod 2",
+            "trgovina":"trgovina2",
+            "kategorija":"kategorija2",
+            "udaljenost":"udaljenost2",
+            "cijena":"cijena2",
         },
         {
             "img": proizvod3,
             "ime": "Proizvod 3",
+            "trgovina":"trgovina3",
+            "kategorija":"kategorija3",
+            "udaljenost":"udaljenost3",
+            "cijena":"cijena3",
         },
         {
             "img": proizvod4,
             "ime": "Proizvod 4",
+            "trgovina":"trgovina4",
+            "kategorija":"kategorija4",
+            "udaljenost":"udaljenost4",
+            "cijena":"cijena4",
         },
         {
             "img": proizvod5,
             "ime": "Proizvod 5",
+            "trgovina":"trgovina5",
+            "kategorija":"kategorija5",
+            "udaljenost":"udaljenost5",
+            "cijena":"cijena5",
         },
         {
             "img": proizvod6,
             "ime": "Proizvod 6",
+            "trgovina":"trgovina6",
+            "kategorija":"kategorija6",
+            "udaljenost":"udaljenost6",
+            "cijena":"cijena6",
         },
         {
             "img": proizvod7,
             "ime": "Proizvod 7",
+            "trgovina":"trgovina7",
+            "kategorija":"kategorija7",
+            "udaljenost":"udaljenost7",
+            "cijena":"cijena7",
         },
         {
             "img": proizvod8,
             "ime": "Proizvod 8",
+            "trgovina":"trgovina8",
+            "kategorija":"kategorija8",
+            "udaljenost":"udaljenost8",
+            "cijena":"cijena8",
         },
         {
             "img": proizvod9,
             "ime": "Proizvod 9",
+            "trgovina":"trgovina9",
+            "kategorija":"kategorija9",
+            "udaljenost":"udaljenost9",
+            "cijena":"cijena9",
         },
         {
             "img": proizvod10,
             "ime": "Proizvod 10",
+            "trgovina":"trgovina10",
+            "kategorija":"kategorija10",
+            "udaljenost":"udaljenost10",
+            "cijena":"cijena10",
         },
         {
             "img": proizvod11,
             "ime": "Proizvod 11",
+            "trgovina":"trgovina11",
+            "kategorija":"kategorija11",
+            "udaljenost":"udaljenost11",
+            "cijena":"cijena1",
         },
         {
             "img": proizvod12,
             "ime": "Proizvod 12",
+            "trgovina":"trgovina12",
+            "kategorija":"kategorija12",
+            "udaljenost":"udaljenost12",
+            "cijena":"cijena12",
         }
     ]
 
@@ -372,17 +420,17 @@ const UserHome = () => {
                     <button id="prvi-btn1" className="navigacija" onClick={prviBTN1} disabled={index1 === 0}>{"<"}</button>
                     <div id="proizvodi" className="store-list">
                         {visible1.map((proizvod, ind) => (
-                            <div className="store-item" id="proizvod" key={ind}>
+                            <div className="store-item" id="proizvod" key={ind} onClick={() => navigate(`/product`,{ state: {productName: proizvod.ime,productImage: proizvod.img,productStore:proizvod.trgovina,productUdaljenost:proizvod.udaljenost, productKategorija:proizvod.kategorija, productCijena:proizvod.cijena,}})}>
                                 <div id="img-container2" className="image-container1">
                                     <img className="slike" src={proizvod.img} alt={proizvod.ime}/>
                                 </div>
                                 <div className="opis1">
                                     <h3>{proizvod.ime}</h3>
                                     <div className="info">
-                                        <p><i className="fas fa-shopping-cart"></i> Trgovina</p>
-                                        <p><i className="fas fa-map-marker-alt"></i> Udaljenost</p>
-                                        <p><i className="fas fa-tag"></i> Kategorija</p>
-                                        <p><i className="fas fa-euro-sign"></i> Cijena</p>
+                                        <p><i className="fas fa-shopping-cart"></i> proizvod.trgovina</p>
+                                        <p><i className="fas fa-map-marker-alt"></i> proizvod.udaljenost</p>
+                                        <p><i className="fas fa-tag"></i> proizvod.kategorija</p>
+                                        <p><i className="fas fa-euro-sign"></i> proizvod.cijena</p>
                                     </div>
                                 </div>
                             </div>
