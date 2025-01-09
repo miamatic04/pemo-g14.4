@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -47,6 +49,16 @@ public class Person {
         this.role = registrationInfo.getRole();
         this.confirmationToken = TokenGenerator.generateToken();
         this.emailConfirmed = false;
+    }
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private Set<Review> reviews = new HashSet<>();
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private Set<Reply> replies = new HashSet<>();
+
+    public String getName() {
+        return firstName + " " + lastName;
     }
 }
 

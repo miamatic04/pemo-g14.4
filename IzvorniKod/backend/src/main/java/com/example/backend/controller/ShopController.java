@@ -55,4 +55,10 @@ public class ShopController {
             @RequestHeader(value = "Authorization", required = false) String authHeader) {
         return shopService.addShop(file, shopName, latitude, longitude, description, authHeader);
     }
+
+    @GetMapping("/shops/{shopId}")
+    public ResponseEntity<ShopProfileDTO> getShopDetails(@PathVariable Long shopId) {
+        ShopProfileDTO shopDetails = shopService.getShopProfileDetails(shopId);
+        return ResponseEntity.ok(shopDetails);
+    }
 }

@@ -1,8 +1,8 @@
 package com.example.backend.service;
 
-import com.example.backend.model.Person;
-import com.example.backend.model.Shop;
-import com.example.backend.model.ShopDistance;
+import com.example.backend.model.*;
+import com.example.backend.repository.ProductShopRepository;
+import com.example.backend.repository.ReviewRepository;
 import com.example.backend.repository.ShopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ShopService {
@@ -35,6 +36,12 @@ public class ShopService {
 
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private ProductShopRepository productShopRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     public List<Shop> findAll() {
         return shopRepository.findAll();
@@ -201,6 +208,46 @@ public class ShopService {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
         return 6371 * c; // u kilometrima
+    }
+
+    public ShopProfileDTO getShopProfileDetails(Long shopId) {
+        // Pronalaženje trgovine
+        Shop shop = shopRepository.findById(shopId)
+                .orElseThrow(() -> new RuntimeException("Shop not found"));
+
+        // Dohvaćanje recenzija trgovine
+        List<ReviewDTO> shopReviews = reviewRepository.findByShopId(shopId)
+                .stream()
+                .filter(review -> review.getProductShop() == null)
+                .map(review -> new ReviewDTO(
+                        review.getText(),
+                        review.getRating(),
+                        review.getAuthor().getName()
+                ))
+                .collect(Collectors.toList());
+
+        // Dohvaćanje proizvoda u trgovini
+        List<ProductInfoDTO> products = productShopRepository.findByShopId(shopId)
+                .stream()
+                .map(productShop -> {
+                    // Kreiranje ProductDTO objekta za proizvod u trgovini
+                    return new ProductInfoDTO(
+                            productShop.getProduct().getName(),
+                            productShop.getDescription(),
+                            productShop.getPrice(),
+                            productShop.getImagePath()
+                    );
+                })
+                .collect(Collectors.toList());
+
+        // Kreiranje ShopDTO objekta
+        return new ShopProfileDTO(
+                shop.getShopName(),
+                shop.getDescription(),
+                shop.getImagePath(),
+                shopReviews,
+                products
+        );
     }
 
     /*   FUNKCIJE KOJE KORISTE GOOGLE DISTANCE MATRIX API ZA DOHVAT UDALJENOST IZMEDJU DVIJE TOCKE -
