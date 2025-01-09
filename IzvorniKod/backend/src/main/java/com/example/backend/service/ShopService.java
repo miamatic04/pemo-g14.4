@@ -135,7 +135,7 @@ public class ShopService {
             return ResponseEntity.badRequest().build();
         }
 
-        String folderPath = "../frontend/public/userUploads/";
+        String folderPath = "public/userUploads/";
 
         try {
 
