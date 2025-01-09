@@ -8,7 +8,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -35,16 +37,14 @@ public class Shop {
     @JsonBackReference
     private Person shopOwner;
 
-    @ManyToMany
-    @JoinTable(
-            name = "shop_product", // Name of the join table
-            joinColumns = @JoinColumn(name = "shop_id"), // Foreign key for Shop
-            inverseJoinColumns = @JoinColumn(name = "product_id") // Foreign key for Product
-    )
-    private Set<Product> products = new HashSet<>();
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductShop> products = new ArrayList<>();
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
     private Set<Review> reviews = new HashSet<>();
+
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+    private List<Event> events = new ArrayList<>();
 
     private String imagePath;
 
