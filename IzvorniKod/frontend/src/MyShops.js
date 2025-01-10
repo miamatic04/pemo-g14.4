@@ -105,7 +105,7 @@ const MyShops = () => {
             {shops !== null && shops.length > 0 ? (
                 <ul>
                     {shops.map(shop => (
-                        <li key={shop.id}>
+                        <li key={shop.id} className="li1">
                             <span>{shop.shopName}</span>
                             <div className="button-group">
                                 <button className="edit-button">Uredi</button>

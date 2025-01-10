@@ -56,103 +56,112 @@ const UserHome = () => {
     ]
 
     const proizvodi=[
-            {
-                "img": proizvod1,
-                "ime": "Proizvod 1",
-                "trgovina":"trgovina1",
-                "kategorija":"kategorija1",
-                "udaljenost":"udaljenost1",
-                "cijena":"cijena1",
-            },
-            {
-                "img": proizvod2,
-                "ime": "Proizvod 2",
-                "trgovina":"trgovina2",
-                "kategorija":"kategorija2",
-                "udaljenost":"udaljenost2",
-                "cijena":"cijena2",
-            },
-            {
-                "img": proizvod3,
-                "ime": "Proizvod 3",
-                "trgovina":"trgovina3",
-                "kategorija":"kategorija3",
-                "udaljenost":"udaljenost3",
-                "cijena":"cijena3",
-            },
-            {
-                "img": proizvod4,
-                "ime": "Proizvod 4",
-                "trgovina":"trgovina4",
-                "kategorija":"kategorija4",
-                "udaljenost":"udaljenost4",
-                "cijena":"cijena4",
-            },
-            {
-                "img": proizvod5,
-                "ime": "Proizvod 5",
-                "trgovina":"trgovina5",
-                "kategorija":"kategorija5",
-                "udaljenost":"udaljenost5",
-                "cijena":"cijena5",
-            },
-            {
-                "img": proizvod6,
-                "ime": "Proizvod 6",
-                "trgovina":"trgovina6",
-                "kategorija":"kategorija6",
-                "udaljenost":"udaljenost6",
-                "cijena":"cijena6",
-            },
-            {
-                "img": proizvod7,
-                "ime": "Proizvod 7",
-                "trgovina":"trgovina7",
-                "kategorija":"kategorija7",
-                "udaljenost":"udaljenost7",
-                "cijena":"cijena7",
-            },
-            {
-                "img": proizvod8,
-                "ime": "Proizvod 8",
-                "trgovina":"trgovina8",
-                "kategorija":"kategorija8",
-                "udaljenost":"udaljenost8",
-                "cijena":"cijena8",
-            },
-            {
-                "img": proizvod9,
-                "ime": "Proizvod 9",
-                "trgovina":"trgovina9",
-                "kategorija":"kategorija9",
-                "udaljenost":"udaljenost9",
-                "cijena":"cijena9",
-            },
-            {
-                "img": proizvod10,
-                "ime": "Proizvod 10",
-                "trgovina":"trgovina10",
-                "kategorija":"kategorija10",
-                "udaljenost":"udaljenost10",
-                "cijena":"cijena10",
-            },
-            {
-                "img": proizvod11,
-                "ime": "Proizvod 11",
-                "trgovina":"trgovina11",
-                "kategorija":"kategorija11",
-                "udaljenost":"udaljenost11",
-                "cijena":"cijena1",
-            },
-            {
-                "img": proizvod12,
-                "ime": "Proizvod 12",
-                "trgovina":"trgovina12",
-                "kategorija":"kategorija12",
-                "udaljenost":"udaljenost12",
-                "cijena":"cijena12",
-            }
-        ]
+        {
+            "img": proizvod1,
+            "ime": "Proizvod 1",
+            "trgovina":"trgovina1",
+            "kategorija":"kategorija1",
+            "udaljenost":"udaljenost1",
+            "cijena":"cijena1",
+        },
+        {
+            "img": proizvod2,
+            "ime": "Proizvod 2",
+            "trgovina":"trgovina2",
+            "kategorija":"kategorija2",
+            "udaljenost":"udaljenost2",
+            "cijena":"cijena2",
+        },
+        {
+            "img": proizvod3,
+            "ime": "Proizvod 3",
+            "trgovina":"trgovina3",
+            "kategorija":"kategorija3",
+            "udaljenost":"udaljenost3",
+            "cijena":"cijena3",
+        },
+        {
+            "img": proizvod4,
+            "ime": "Proizvod 4",
+            "trgovina":"trgovina4",
+            "kategorija":"kategorija4",
+            "udaljenost":"udaljenost4",
+            "cijena":"cijena4",
+        },
+        {
+            "img": proizvod5,
+            "ime": "Proizvod 5",
+            "trgovina":"trgovina5",
+            "kategorija":"kategorija5",
+            "udaljenost":"udaljenost5",
+            "cijena":"cijena5",
+        },
+        {
+            "img": proizvod6,
+            "ime": "Proizvod 6",
+            "trgovina":"trgovina6",
+            "kategorija":"kategorija6",
+            "udaljenost":"udaljenost6",
+            "cijena":"cijena6",
+        },
+        {
+            "img": proizvod7,
+            "ime": "Proizvod 7",
+            "trgovina":"trgovina7",
+            "kategorija":"kategorija7",
+            "udaljenost":"udaljenost7",
+            "cijena":"cijena7",
+        },
+        {
+            "img": proizvod8,
+            "ime": "Proizvod 8",
+            "trgovina":"trgovina8",
+            "kategorija":"kategorija8",
+            "udaljenost":"udaljenost8",
+            "cijena":"cijena8",
+        },
+        {
+            "img": proizvod9,
+            "ime": "Proizvod 9",
+            "trgovina":"trgovina9",
+            "kategorija":"kategorija9",
+            "udaljenost":"udaljenost9",
+            "cijena":"cijena9",
+        },
+        {
+            "img": proizvod10,
+            "ime": "Proizvod 10",
+            "trgovina":"trgovina10",
+            "kategorija":"kategorija10",
+            "udaljenost":"udaljenost10",
+            "cijena":"cijena10",
+        },
+        {
+            "img": proizvod11,
+            "ime": "Proizvod 11",
+            "trgovina":"trgovina11",
+            "kategorija":"kategorija11",
+            "udaljenost":"udaljenost11",
+            "cijena":"cijena1",
+        },
+        {
+            "img": proizvod12,
+            "ime": "Proizvod 12",
+            "trgovina":"trgovina12",
+            "kategorija":"kategorija12",
+            "udaljenost":"udaljenost12",
+            "cijena":"cijena12",
+        }
+    ]
+
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    const handleLogout = () => {
+        navigate('/');
+    };
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    };
 
     const [index, setIndex] = useState(0);
     // Funkcija za prebacivanje na prethodne 2 slike trgovina
@@ -361,6 +370,17 @@ const UserHome = () => {
                         <li className="el"><a className="a1">Događaji</a></li>
                         <li className="el"><a className="a1">Popis trgovina</a></li>
                         <li className="el"><a className="a1">Ostali</a></li>
+                        <li className="hamburger">
+                            <button className="hamburger-btn" onClick={toggleMenu}>
+                                ☰
+                            </button>
+                            {menuOpen && (
+                                <div className="hamburger-menu">
+                                    <button>Uredi profil</button>
+                                    <button onClick={handleLogout}>Odjava</button>
+                                </div>
+                            )}
+                        </li>
                     </ul>
                 </div>
                 <div className="glavna">
