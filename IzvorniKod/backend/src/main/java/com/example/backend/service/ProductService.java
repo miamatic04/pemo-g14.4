@@ -75,7 +75,8 @@ public class ProductService {
         for (ShopDistance shopDistance : hoodShops) {
             hoodProducts.addAll(shopDistance.getShop().getProducts()
                                                         .stream()
-                                                        .map((product) -> new ProductInfoDTO(product.getProduct().getName(),
+                                                        .map((product) -> new ProductInfoDTO(product.getId(),
+                                                                                             product.getProduct().getName(),
                                                                                              product.getDescription(),
                                                                                              product.getPrice(),
                                                                                              product.getImagePath(),

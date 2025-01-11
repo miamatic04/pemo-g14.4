@@ -24,11 +24,15 @@ public class EventController {
         return ResponseEntity.ok(events);
     }
 
-
-
     @PostMapping("/signup/{eventId}")
     public ResponseEntity<String> signupForEvent(@PathVariable Long eventId, @RequestHeader(value = "Authorization", required = false) String authHeader) {
         eventSignUpService.signUpForEvent(eventId, authHeader.substring(7));
         return ResponseEntity.ok("Signup successful");
+    }
+
+    @GetMapping("/hood/getEvents/{radius}")
+    public ResponseEntity<List<EventDTO>> getHoodEvents(@RequestHeader(value = "Authorization", required = false) String authHeader, double radius) {
+        List<EventDTO> events = eventService.getHoodEvents(authHeader.substring(7), radius);
+        return ResponseEntity.ok(events);
     }
 }

@@ -222,6 +222,7 @@ public class ShopService {
                 .map(productShop -> {
                     // Kreiranje ProductDTO objekta za proizvod u trgovini
                     return new ProductInfoDTO(
+                            productShop.getId(),
                             productShop.getProduct().getName(),
                             productShop.getDescription(),
                             productShop.getPrice(),
