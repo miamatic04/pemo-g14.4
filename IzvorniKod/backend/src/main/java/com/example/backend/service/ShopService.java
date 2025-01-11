@@ -1,9 +1,12 @@
 package com.example.backend.service;
 
+import com.example.backend.exception.NoLocationPermissionException;
+import com.example.backend.exception.UserNotFoundException;
 import com.example.backend.model.*;
 import com.example.backend.repository.ProductShopRepository;
 import com.example.backend.repository.ReviewRepository;
 import com.example.backend.repository.ShopRepository;
+import com.example.backend.utils.DistanceCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +46,9 @@ public class ShopService {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Autowired
+    private DistanceCalculator distanceCalculator;
+
     public List<Shop> findAll() {
         return shopRepository.findAll();
     }
@@ -71,7 +77,7 @@ public class ShopService {
         List<ShopDistance> shopsWithDistance = new ArrayList<>();
 
         for(Shop shop : shops) {
-            double distance = calculateDistance(userLatitude, userLongitude, shop.getLatitude(), shop.getLongitude());
+            double distance = distanceCalculator.calculateDistance(userLatitude, userLongitude, shop.getLatitude(), shop.getLongitude());
             double roundedDistance = Double.parseDouble(df.format(distance));
             shopsWithDistance.add(new ShopDistance(shop, roundedDistance));
         }
@@ -95,7 +101,7 @@ public class ShopService {
         List<ShopDistance> shopsWithDistance = new ArrayList<>();
 
         for(Shop shop : shops) {
-            double distance = calculateDistance(userLatitude, userLongitude, shop.getLatitude(), shop.getLongitude());
+            double distance = distanceCalculator.calculateDistance(userLatitude, userLongitude, shop.getLatitude(), shop.getLongitude());
             double roundedDistance = Double.parseDouble(df.format(distance));
             shopsWithDistance.add(new ShopDistance(shop, roundedDistance));
         }
@@ -119,7 +125,7 @@ public class ShopService {
         List<ShopDistance> shopsWithDistance = new ArrayList<>();
 
         for(Shop shop : shops) {
-            double distance = calculateDistance(userLatitude, userLongitude, shop.getLatitude(), shop.getLongitude());
+            double distance = distanceCalculator.calculateDistance(userLatitude, userLongitude, shop.getLatitude(), shop.getLongitude());
             double roundedDistance = Double.parseDouble(df.format(distance));
             shopsWithDistance.add(new ShopDistance(shop, roundedDistance));
         }
@@ -192,23 +198,7 @@ public class ShopService {
         }
     }
 
-    // Haversina formula umjesto google distance matrix api
-    public double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
 
-        double lat1Rad = Math.toRadians(lat1);
-        double lon1Rad = Math.toRadians(lon1);
-        double lat2Rad = Math.toRadians(lat2);
-        double lon2Rad = Math.toRadians(lon2);
-
-        double deltaLat = lat2Rad - lat1Rad;
-        double deltaLon = lon2Rad - lon1Rad;
-
-        double a = Math.pow(Math.sin(deltaLat / 2), 2) +
-                Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.pow(Math.sin(deltaLon / 2), 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        return 6371 * c; // u kilometrima
-    }
 
     public ShopProfileDTO getShopProfileDetails(Long shopId) {
         // Pronalaženje trgovine
@@ -235,7 +225,8 @@ public class ShopService {
                             productShop.getProduct().getName(),
                             productShop.getDescription(),
                             productShop.getPrice(),
-                            productShop.getImagePath()
+                            productShop.getImagePath(),
+                            -1
                     );
                 })
                 .collect(Collectors.toList());
@@ -248,6 +239,37 @@ public class ShopService {
                 shopReviews,
                 products
         );
+    }
+
+    public List<ShopDistance> getHoodShops(String token, double radius) {
+
+        String email = jwtService.extractUsername(token);
+
+        Person user = personService.findUser(email);
+
+        if(user == null)
+            throw new UserNotFoundException("User not found");
+
+        double userLatitude = user.getLatitude();
+        double userLongitude = user.getLongitude();
+
+        if(userLatitude == 0 || userLongitude == 0)
+            throw new NoLocationPermissionException("Location permission denied");
+
+        List<Shop> shops = shopRepository.findAllSortedByNameAsc();
+
+        DecimalFormat df = new DecimalFormat("#.#");
+
+        List<ShopDistance> shopsWithDistance = new ArrayList<>();
+
+        for(Shop shop : shops) {
+            double distance = distanceCalculator.calculateDistance(userLatitude, userLongitude, shop.getLatitude(), shop.getLongitude());
+            double roundedDistance = Double.parseDouble(df.format(distance));
+            if(roundedDistance <= radius)
+                shopsWithDistance.add(new ShopDistance(shop, roundedDistance));
+        }
+
+        return shopsWithDistance;
     }
 
     /*   FUNKCIJE KOJE KORISTE GOOGLE DISTANCE MATRIX API ZA DOHVAT UDALJENOST IZMEDJU DVIJE TOCKE -

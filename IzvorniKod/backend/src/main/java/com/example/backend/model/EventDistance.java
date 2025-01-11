@@ -9,11 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductInfoDTO {
+public class EventDistance {
 
-    private String name;
-    private String description;
-    private double price;
-    private String imagePath;
+    private EventDTO event;
     private double distance;
 }

@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.model.ProductProfileDTO;
+import com.example.backend.model.ProductShop;
 import com.example.backend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,4 +19,7 @@ public class ProductController {
     public ResponseEntity<ProductProfileDTO> getProductProfile(@PathVariable Long id) {
         return ResponseEntity.ok(productService.getProductProfile(id));
     }
+
+    @GetMapping("/hood/getProducts/{radius}")
+    public ResponseEntity<ProductShop> getPr(@PathVariable Integer radius) {}
 }

@@ -19,5 +19,7 @@ public class EventDTO {
     private LocalDateTime dateTime;
     private Integer duration;
     private String imagePath;
-    private Shop shop;
+    private Long shopId;
+    private String shopName;
+    private double distance;
 }

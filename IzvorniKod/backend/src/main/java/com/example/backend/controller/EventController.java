@@ -19,8 +19,8 @@ public class EventController {
     private EventSignUpService eventSignUpService;
 
     @GetMapping("/getEvents")
-    public ResponseEntity<List<EventDTO>> getAllEvents() {
-        List<EventDTO> events = eventService.getAllEvents();
+    public ResponseEntity<List<EventDTO>> getAllEvents(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        List<EventDTO> events = eventService.getAllEvents(authHeader.substring(7));
         return ResponseEntity.ok(events);
     }
 

@@ -1,12 +1,20 @@
 package com.example.backend.service;
 
+import com.example.backend.exception.NoLocationPermissionException;
+import com.example.backend.exception.UserNotFoundException;
 import com.example.backend.model.*;
+import com.example.backend.repository.PersonRepository;
 import com.example.backend.repository.ProductRepository;
 import com.example.backend.repository.ProductShopRepository;
 import com.example.backend.repository.ReviewRepository;
+import com.example.backend.utils.DistanceCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Distance;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +26,18 @@ public class ProductService {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private ShopService shopService;
+
+    @Autowired
+    private JWTService jwtService;
+
+    @Autowired
+    private PersonRepository personRepository;
+
+    @Autowired
+    private DistanceCalculator distanceCalculator;
 
     public ProductProfileDTO getProductProfile(Long productId) {
         ProductShop product = productShopRepository.findById(productId)
@@ -46,5 +66,23 @@ public class ProductService {
         productDTO.setReviews(reviewDTOs);
 
         return productDTO;
+    }
+
+    public List<ProductInfoDTO> getHoodProducts(String token, double radius) {
+        List<ShopDistance> hoodShops = shopService.getHoodShops(token, radius);
+
+        List<ProductInfoDTO> hoodProducts = new ArrayList<>();
+        for (ShopDistance shopDistance : hoodShops) {
+            hoodProducts.addAll(shopDistance.getShop().getProducts()
+                                                        .stream()
+                                                        .map((product) -> new ProductInfoDTO(product.getProduct().getName(),
+                                                                                             product.getDescription(),
+                                                                                             product.getPrice(),
+                                                                                             product.getImagePath(),
+                                                                                             shopDistance.getDistance()))
+                                                        .toList());
+        }
+
+        return hoodProducts;
     }
 }
