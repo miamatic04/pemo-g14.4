@@ -73,17 +73,23 @@ public class ProductService {
 
         List<ProductInfoDTO> hoodProducts = new ArrayList<>();
         for (ShopDistance shopDistance : hoodShops) {
-            hoodProducts.addAll(shopDistance.getShop().getProducts()
-                                                        .stream()
-                                                        .map((product) -> new ProductInfoDTO(product.getId(),
-                                                                                             product.getProduct().getName(),
-                                                                                             product.getDescription(),
-                                                                                             product.getPrice(),
-                                                                                             product.getImagePath(),
-                                                                                             shopDistance.getDistance()))
-                                                        .toList());
+            hoodProducts.addAll(shopDistance.getShopDTO().getProducts());
         }
 
         return hoodProducts;
+    }
+
+    public List<ProductInfoDTO> getAllProducts() {
+
+        List<ProductShop> productShops = productShopRepository.findAll();
+
+        List<ProductInfoDTO> products = new ArrayList<>();
+
+        products = productShops
+                .stream()
+                .map(product -> new ProductInfoDTO(product))
+                .toList();
+
+        return products;
     }
 }

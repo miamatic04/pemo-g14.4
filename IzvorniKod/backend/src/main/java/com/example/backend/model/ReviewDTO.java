@@ -14,4 +14,10 @@ public class ReviewDTO {
     private String text;
     private double rating;
     private String author;
+
+    public ReviewDTO(Review review) {
+        this.text = review.getText();
+        this.rating = review.getRating();
+        this.author = review.getText();
+    }
 }

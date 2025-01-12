@@ -18,7 +18,7 @@ public class OrderDTO {
     private Long shopId;
     private String shopName;
     private String imagePath;
-    private Map<ProductInfoDTO, Integer> orderProducts;
+    private List<ProductQuantity> orderProducts;
     private double total;
     private boolean paid;
     private boolean cancelled;

@@ -27,6 +27,7 @@ public class ShopController {
 
     @Autowired
     private JWTService jwtService;
+
     @Autowired
     private PersonService personService;
 

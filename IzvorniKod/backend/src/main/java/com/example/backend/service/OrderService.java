@@ -1,12 +1,14 @@
 package com.example.backend.service;
 
-import com.example.backend.exception.UserNotFoundException;
+import com.example.backend.exception.*;
 import com.example.backend.model.*;
 import com.example.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,12 +55,12 @@ public class OrderService {
                     orderDTO.setShopName(order.getShop().getShopName());
                     orderDTO.setImagePath(order.getShop().getImagePath());
 
-                    Map<ProductInfoDTO, Integer> product_quantity = new HashMap<>();
+                    List<ProductQuantity> product_quantity = new ArrayList<>();
                     double total = 0;
 
-                    for(OrderProduct orderProduct : order.getOrderProducts()) {
-                        product_quantity.put(new ProductInfoDTO(orderProduct.getProductShop()), orderProduct.getQuantity());
-                        total += orderProduct.getQuantity() * orderProduct.getProductShop().getPrice();
+                    for(OrderProduct orderP : order.getOrderProducts()) {
+                        product_quantity.add(new ProductQuantity(new ProductInfoDTO(orderP.getProductShop()), orderP.getQuantity()));
+                        total += orderP.getQuantity() * orderP.getProductShop().getPrice();
                     }
 
                     orderDTO.setOrderProducts(product_quantity);
@@ -82,8 +84,6 @@ public class OrderService {
             throw new UserNotFoundException("User not found");
         }
 
-        List<Long> ordersProcessed = new ArrayList<>();
-
         List<OrderDTO> orders = user.getCustomerOrders()
                 .stream()
                 .filter(order ->  !order.isPaid() && !order.isCancelled())
@@ -94,12 +94,12 @@ public class OrderService {
                     orderDTO.setShopName(order.getShop().getShopName());
                     orderDTO.setImagePath(order.getShop().getImagePath());
 
-                    Map<ProductInfoDTO, Integer> product_quantity = new HashMap<>();
+                    List<ProductQuantity> product_quantity = new ArrayList<>();
                     double total = 0;
 
-                    for(OrderProduct orderProduct : order.getOrderProducts()) {
-                        product_quantity.put(new ProductInfoDTO(orderProduct.getProductShop()), orderProduct.getQuantity());
-                        total += orderProduct.getQuantity() * orderProduct.getProductShop().getPrice();
+                    for(OrderProduct orderP : order.getOrderProducts()) {
+                        product_quantity.add(new ProductQuantity(new ProductInfoDTO(orderP.getProductShop()), orderP.getQuantity()));
+                        total += orderP.getQuantity() * orderP.getProductShop().getPrice();
                     }
 
                     orderDTO.setOrderProducts(product_quantity);
@@ -123,8 +123,6 @@ public class OrderService {
             throw new UserNotFoundException("User not found");
         }
 
-        List<Long> ordersProcessed = new ArrayList<>();
-
         List<OrderDTO> orders = user.getCustomerOrders()
                 .stream()
                 .filter(order -> order.isPaid())
@@ -135,12 +133,12 @@ public class OrderService {
                     orderDTO.setShopName(order.getShop().getShopName());
                     orderDTO.setImagePath(order.getShop().getImagePath());
 
-                    Map<ProductInfoDTO, Integer> product_quantity = new HashMap<>();
+                    List<ProductQuantity> product_quantity = new ArrayList<>();
                     double total = 0;
 
-                    for(OrderProduct orderProduct : order.getOrderProducts()) {
-                        product_quantity.put(new ProductInfoDTO(orderProduct.getProductShop()), orderProduct.getQuantity());
-                        total += orderProduct.getQuantity() * orderProduct.getProductShop().getPrice();
+                    for(OrderProduct orderP : order.getOrderProducts()) {
+                        product_quantity.add(new ProductQuantity(new ProductInfoDTO(orderP.getProductShop()), orderP.getQuantity()));
+                        total += orderP.getQuantity() * orderP.getProductShop().getPrice();
                     }
 
                     orderDTO.setOrderProducts(product_quantity);
@@ -164,8 +162,6 @@ public class OrderService {
             throw new UserNotFoundException("User not found");
         }
 
-        List<Long> ordersProcessed = new ArrayList<>();
-
         List<OrderDTO> orders = user.getCustomerOrders()
                 .stream()
                 .filter(order -> order.isCancelled())
@@ -176,12 +172,12 @@ public class OrderService {
                     orderDTO.setShopName(order.getShop().getShopName());
                     orderDTO.setImagePath(order.getShop().getImagePath());
 
-                    Map<ProductInfoDTO, Integer> product_quantity = new HashMap<>();
+                    List<ProductQuantity> product_quantity = new ArrayList<>();
                     double total = 0;
 
-                    for(OrderProduct orderProduct : order.getOrderProducts()) {
-                        product_quantity.put(new ProductInfoDTO(orderProduct.getProductShop()), orderProduct.getQuantity());
-                        total += orderProduct.getQuantity() * orderProduct.getProductShop().getPrice();
+                    for(OrderProduct orderP : order.getOrderProducts()) {
+                        product_quantity.add(new ProductQuantity(new ProductInfoDTO(orderP.getProductShop()), orderP.getQuantity()));
+                        total += orderP.getQuantity() * orderP.getProductShop().getPrice();
                     }
 
                     orderDTO.setOrderProducts(product_quantity);
@@ -194,8 +190,9 @@ public class OrderService {
 
         return orders;
     }
-        //TODO dodaj product quantity
-    public Long orderLockIn(OrderDTO orderDTO, String token) {
+
+
+    /*public Long orderLockIn(OrderDTO orderDTO, String token) {
 
         if(orderDTO.getId() != null) {
             orderRepository.deleteById(orderDTO.getId());
@@ -248,6 +245,148 @@ public class OrderService {
         CustomerOrder savedOrder = orderRepository.save(order);
 
         return savedOrder.getId();
+    } */
+
+    public OrderDTO addToOrder(ModifyOrderDTO modifyOrderDTO, String token) {
+
+        String email = jwtService.extractUsername(token);
+
+        Person user = personRepository.findByEmail(email);
+
+        if(user == null) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        ProductShop productShop = productShopRepository.findById(modifyOrderDTO.getProductId()).orElseThrow(() -> new ProductNotFoundException("Product not found"));
+
+        Shop shop = shopRepository.findById(productShop.getShop().getId()).orElseThrow(() -> new ShopNotFoundException("Shop not found"));
+
+        CustomerOrder order;
+
+        if(modifyOrderDTO.getOrderId() == null) {
+            order = new CustomerOrder(user, shop);
+        } else {
+            order = orderRepository.findById(modifyOrderDTO.getOrderId()).orElseThrow(() -> new OrderNotFoundException("Order not found"));
+        }
+
+        OrderProduct orderProduct = new OrderProduct();
+        orderProduct.setOrder(order);
+        orderProduct.setProductShop(productShop);
+        orderProduct.setQuantity(modifyOrderDTO.getQuantity());
+
+        order.getOrderProducts().add(orderProduct);
+
+        CustomerOrder savedOrder = orderRepository.save(order);
+
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setId(savedOrder.getId());
+        orderDTO.setOrderDate(savedOrder.getOrderDate());
+        orderDTO.setPaid(savedOrder.isPaid());
+        orderDTO.setCancelled(savedOrder.isCancelled());
+
+        List<ProductQuantity> product_quantity = new ArrayList<>();
+        double total = 0;
+
+        for(OrderProduct orderP : order.getOrderProducts()) {
+            product_quantity.add(new ProductQuantity(new ProductInfoDTO(orderP.getProductShop()), orderP.getQuantity()));
+            total += orderP.getQuantity() * orderP.getProductShop().getPrice();
+        }
+
+        orderDTO.setOrderProducts(product_quantity);
+        orderDTO.setTotal(total);
+        orderDTO.setImagePath(savedOrder.getShop().getImagePath());
+        orderDTO.setShopId(savedOrder.getShop().getId());
+        orderDTO.setShopName(savedOrder.getShop().getShopName());
+
+        return orderDTO;
+    }
+
+    public OrderDTO removeFromOrder(ModifyOrderDTO modifyOrderDTO, String token) {
+
+        String email = jwtService.extractUsername(token);
+
+        Person user = personRepository.findByEmail(email);
+
+        if(user == null) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        CustomerOrder order = orderRepository.findById(modifyOrderDTO.getOrderId()).orElseThrow(() -> new OrderNotFoundException("Order not found"));
+
+        int index = -1;
+
+        for(int i = 0; i < order.getOrderProducts().size(); i++) {
+            if(order.getOrderProducts().get(i).getProductShop().getId().equals(modifyOrderDTO.getProductId())) {
+                index = i;
+                break;
+            }
+        }
+
+        if(index != -1)
+            order.getOrderProducts().remove(index);
+
+        CustomerOrder savedOrder = orderRepository.save(order);
+
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setId(savedOrder.getId());
+        orderDTO.setOrderDate(savedOrder.getOrderDate());
+        orderDTO.setPaid(savedOrder.isPaid());
+        orderDTO.setCancelled(savedOrder.isCancelled());
+
+        List<ProductQuantity> product_quantity = new ArrayList<>();
+        double total = 0;
+
+        for(OrderProduct orderP : order.getOrderProducts()) {
+            product_quantity.add(new ProductQuantity(new ProductInfoDTO(orderP.getProductShop()), orderP.getQuantity()));
+            total += orderP.getQuantity() * orderP.getProductShop().getPrice();
+        }
+
+        orderDTO.setOrderProducts(product_quantity);
+        orderDTO.setTotal(total);
+        orderDTO.setImagePath(savedOrder.getShop().getImagePath());
+        orderDTO.setShopId(order.getShop().getId());
+        orderDTO.setShopName(order.getShop().getShopName());
+
+        return orderDTO;
+    }
+
+    public OrderDTO getOrder(Long orderId, String token) {
+
+        String email = jwtService.extractUsername(token);
+
+        Person user = personRepository.findByEmail(email);
+
+        if(user == null) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        CustomerOrder order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("Order not found"));
+
+        if(!order.getPerson().getEmail().equals(email)) {
+            throw new OrderDoesntBelongToUserException("Order does not belong to this user.");
+        }
+
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setId(order.getId());
+        orderDTO.setOrderDate(order.getOrderDate());
+        orderDTO.setPaid(order.isPaid());
+        orderDTO.setCancelled(order.isCancelled());
+
+        List<ProductQuantity> product_quantity = new ArrayList<>();
+        double total = 0;
+
+        for(OrderProduct orderP : order.getOrderProducts()) {
+            product_quantity.add(new ProductQuantity(new ProductInfoDTO(orderP.getProductShop()), orderP.getQuantity()));
+            total += orderP.getQuantity() * orderP.getProductShop().getPrice();
+        }
+
+        orderDTO.setOrderProducts(product_quantity);
+        orderDTO.setTotal(total);
+        orderDTO.setImagePath(order.getShop().getImagePath());
+        orderDTO.setShopId(order.getShop().getId());
+        orderDTO.setShopName(order.getShop().getShopName());
+
+        return orderDTO;
     }
 
 }

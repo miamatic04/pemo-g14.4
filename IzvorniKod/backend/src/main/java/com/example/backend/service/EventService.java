@@ -69,24 +69,7 @@ public class EventService {
         List<EventDTO> events = new ArrayList<>();
 
         for (ShopDistance shopDistance : hoodShops) {
-            events.addAll(
-                    shopDistance.getShop().getEvents()
-                            .stream()
-                            .map(event -> {
-                                EventDTO eventDTO = new EventDTO();
-                                eventDTO.setName(event.getName());
-                                eventDTO.setDescription(event.getDescription());
-                                eventDTO.setAddress(event.getAddress());
-                                eventDTO.setDateTime(event.getDateTime());
-                                eventDTO.setDuration(event.getDuration());
-                                eventDTO.setImagePath(event.getImagePath());
-                                eventDTO.setShopId(shopDistance.getShop().getId());
-                                eventDTO.setShopName(shopDistance.getShop().getShopName());
-                                eventDTO.setDistance(shopDistance.getDistance());
-                                return eventDTO;
-                            })
-                            .toList()
-            );
+            events.addAll(shopDistance.getShopDTO().getEvents());
         }
 
         return events;

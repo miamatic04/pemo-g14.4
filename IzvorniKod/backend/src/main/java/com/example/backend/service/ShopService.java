@@ -233,13 +233,7 @@ public class ShopService {
                 .collect(Collectors.toList());
 
         // Kreiranje ShopDTO objekta
-        return new ShopProfileDTO(
-                shop.getShopName(),
-                shop.getDescription(),
-                shop.getImagePath(),
-                shopReviews,
-                products
-        );
+        return new ShopProfileDTO(shop);
     }
 
     public List<ShopDistance> getHoodShops(String token, double radius) {
