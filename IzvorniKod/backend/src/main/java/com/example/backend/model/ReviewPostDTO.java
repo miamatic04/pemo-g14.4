@@ -9,15 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ReviewDTO {
+public class ReviewPostDTO {
 
     private String text;
     private double rating;
-    private String author;
-
-    public ReviewDTO(Review review) {
-        this.text = review.getText();
-        this.rating = review.getRating();
-        this.author = review.getAuthor().getName();
-    }
+    private Long shopId;
+    private Long productId;
 }

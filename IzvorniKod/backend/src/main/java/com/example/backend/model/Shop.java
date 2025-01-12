@@ -40,7 +40,7 @@ public class Shop {
     private List<ProductShop> products = new ArrayList<>();
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
-    private Set<Review> reviews = new HashSet<>();
+    private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
     private List<Event> events = new ArrayList<>();
