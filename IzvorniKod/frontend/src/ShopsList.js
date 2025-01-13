@@ -78,7 +78,7 @@ const ShopsList = () => {
                         className="filter-button"
                         onClick={toggleFilterOptions}
                     >
-                        Filtriraj
+                        Sortiraj po:
                         <span className="filter-arrow"> ▼</span>
                     </button>
                     {filterVisible && (
@@ -102,7 +102,7 @@ const ShopsList = () => {
             <div className="spacer"></div>
             <div className="shop-container">
                 {getCurrentShops().map(shop => (
-                    <div key={shop.id} className="shop-card">
+                    <div key={shop.id} className="shops-card">
                         <h2 className="shop-name">{shop.name}</h2>
                         <img src={shop.image} alt={shop.name} className="shop-image"/>
                     </div>

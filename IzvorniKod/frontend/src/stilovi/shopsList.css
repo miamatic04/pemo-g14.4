@@ -83,7 +83,7 @@
     justify-content: center; /* Centriranje kartica unutar kontejnera */
 }
 
-.shop-card {
+.shops-card {
     display: flex;
     flex-direction: column; /* Postavlja sliku i ime trgovine jedan ispod drugog */
     align-items: center; /* Centriranje sadržaja unutar kartice */
@@ -98,7 +98,7 @@
     transition: transform 0.2s; /* Dodavanje efekta prelaska */
 }
 
-.shop-card:hover {
+.shops-card:hover {
     transform: scale(1.05); /* Lagano povećanje kartice pri prelasku mišem */
 }
 

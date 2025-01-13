@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './stilovi/ProductDetails.css';
-import shopIcon from './Components/Assets/trgovina1.jpg';
 import logo1 from './Components/Assets/logo1.png';
 
 const ProductDetails = () => {
@@ -61,7 +60,8 @@ const ProductDetails = () => {
 
                 <div className="right-panel">
                     <div className="logo1">
-                        <img src={logo1}/>
+                        <img src={logo1} onClick={() => navigate('/UserHome')}
+                             style={{ cursor: 'pointer' }}/>
                     </div>
 
                     <div className="reviews-section">
