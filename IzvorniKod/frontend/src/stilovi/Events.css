@@ -111,9 +111,34 @@
     display: flex;
     align-items: center;
     margin-top: 0.5%; /* Razmak iznad navigacije */
+    margin-bottom: 2%;
 }
 
-.nav-btn {
+.navigation-btn {
     cursor: pointer;
+    height: 7vh;
+    width: 7vh;
+    margin: 0 4vw; /* Dodaj margine lijevo i desno */
+    font-size: 150%;
+}
+
+.page-number {
+    height: 7vh;
+    width: 7vh;
+    font-size: 50%; /* Povećanje veličine fonta */
+    display: flex; /* Omogućava centriranje sadržaja */
+    align-items: center; /* Centriranje sadržaja unutar broja */
+    justify-content: center; /* Centriranje sadržaja unutar broja */
+}
+
+.page-number span {
+    cursor: pointer;
+    padding: 5px 10px;
+    font-size: 300%;
+}
+
+.page-number span.active {
+    background-color: #BEE6F3;
+    border-radius: 5px;
 }
 

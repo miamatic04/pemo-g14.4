@@ -112,13 +112,13 @@ const ShopsList = () => {
             {/* Navigacija za listanje stranica */}
             <div className="pagination">
                 <button
-                    className="nav-btn"
+                    className="navigation-btn"
                     onClick={handlePrevPage}
                     disabled={currentPage === 1}
                 >
                     &lt;
                 </button>
-                <span className="page-numbers">
+                <span className="page-number">
                     {[...Array(totalPages)].map((_, index) => (
                         <span
                             key={index + 1}
@@ -130,7 +130,7 @@ const ShopsList = () => {
                     ))}
                 </span>
                 <button
-                    className="nav-btn"
+                    className="navigation-btn"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
                 >
