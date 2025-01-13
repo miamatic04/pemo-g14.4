@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.exception.NoLocationPermissionException;
+import com.example.backend.exception.ShopNotFoundException;
 import com.example.backend.exception.UserNotFoundException;
 import com.example.backend.model.*;
 import com.example.backend.repository.ProductShopRepository;
@@ -135,9 +136,9 @@ public class ShopService {
         return ResponseEntity.ok(shopsWithDistance);
     }
 
-    public ResponseEntity<Map<String, Object>> addShop(MultipartFile file, String shopName, double latitude, double longitude, String description, String authHeader) {
+    public ResponseEntity<Map<String, Object>> addShop(AddShopDTO addShopDTO, String authHeader) {
 
-        if (file.isEmpty()) {
+        if (addShopDTO.getFile().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -157,7 +158,7 @@ public class ShopService {
 
             int index = owner.getShops().size();
 
-            String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+            String originalFilename = StringUtils.cleanPath(addShopDTO.getFile().getOriginalFilename());
             String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
             String newFilename = emailNoPeriods + "_shop" + index + extension; // e.g. asd@gmailcom_shop0.png
 
@@ -172,16 +173,16 @@ public class ShopService {
                 }
             }
 
-            Files.copy(file.getInputStream(), targetLocation);
+            Files.copy(addShopDTO.getFile().getInputStream(), targetLocation);
 
             String frontendPath = "/userUploads/" + newFilename;
 
             Shop shop = new Shop();
-            shop.setShopName(shopName);
-            shop.setLatitude(latitude);
-            shop.setLongitude(longitude);
+            shop.setShopName(addShopDTO.getShopName());
+            shop.setLatitude(addShopDTO.getLatitude());
+            shop.setLongitude(addShopDTO.getLongitude());
             shop.setImagePath(frontendPath);
-            shop.setDescription(description);
+            shop.setDescription(addShopDTO.getDescription());
 
             shop.setShopOwner(owner);
 
@@ -265,6 +266,30 @@ public class ShopService {
         }
 
         return shopsWithDistance;
+    }
+
+    public String editShop(AddShopDTO editShopDTO) {
+
+        Shop shop = shopRepository.findById(editShopDTO.getId()).orElseThrow(() -> new ShopNotFoundException("Shop not found"));
+
+        if(editShopDTO.getShopName() != null)
+            shop.setShopName(editShopDTO.getShopName());
+
+        if(editShopDTO.getLatitude() != 0)
+            shop.setLatitude(editShopDTO.getLatitude());
+
+        if(editShopDTO.getLongitude() != 0)
+            shop.setLongitude(editShopDTO.getLongitude());
+
+        if(editShopDTO.getDescription() != null)
+            shop.setDescription(editShopDTO.getDescription());
+
+        if(editShopDTO.getImagePath() != null)
+            shop.setImagePath(editShopDTO.getImagePath());
+
+        shopRepository.save(shop);
+
+        return "Shop edited successfully";
     }
 
     /*   FUNKCIJE KOJE KORISTE GOOGLE DISTANCE MATRIX API ZA DOHVAT UDALJENOST IZMEDJU DVIJE TOCKE -

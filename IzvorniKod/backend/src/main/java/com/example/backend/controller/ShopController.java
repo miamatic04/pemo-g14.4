@@ -47,14 +47,13 @@ public class ShopController {
     }
 
     @PostMapping("/addShop")
-    public ResponseEntity<Map<String, Object>> addShop(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("shopName") String shopName,
-            @RequestParam("latitude") double latitude,
-            @RequestParam("longitude") double longitude,
-            @RequestParam("description") String description,
-            @RequestHeader(value = "Authorization", required = false) String authHeader) {
-        return shopService.addShop(file, shopName, latitude, longitude, description, authHeader);
+    public ResponseEntity<Map<String, Object>> addShop(@RequestBody AddShopDTO addShopDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return shopService.addShop(addShopDTO, authHeader);
+    }
+
+    @PostMapping("/editShop")
+    public ResponseEntity<String> editShop(@RequestBody AddShopDTO editShopDTO) {
+        return ResponseEntity.ok(shopService.editShop(editShopDTO));
     }
 
     @GetMapping("/shops/{shopId}")

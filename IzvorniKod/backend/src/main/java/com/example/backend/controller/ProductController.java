@@ -1,15 +1,13 @@
 package com.example.backend.controller;
 
+import com.example.backend.model.AddProductDTO;
 import com.example.backend.model.ProductInfoDTO;
 import com.example.backend.model.ProductProfileDTO;
 import com.example.backend.model.ProductShop;
 import com.example.backend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,8 +29,18 @@ public class ProductController {
     }
 
     @GetMapping("/getAllProducts")
-    public ResponseEntity<List<ProductInfoDTO>> getAllProducts(@RequestHeader(value = "Authorization", required = false) String authHeader, @PathVariable double radius) {
+    public ResponseEntity<List<ProductInfoDTO>> getAllProducts(@RequestHeader(value = "Authorization", required = false) String authHeader) {
         List<ProductInfoDTO> products = productService.getAllProducts();
         return ResponseEntity.ok(products);
+    }
+
+    @PostMapping("/addProduct")
+    public ResponseEntity<String> addProduct(@RequestBody AddProductDTO addProductDTO) {
+        return ResponseEntity.ok(productService.addProduct(addProductDTO));
+    }
+
+    @PostMapping("/editProduct")
+    public ResponseEntity<String> editProduct(@RequestBody AddProductDTO editProductDTO) {
+        return ResponseEntity.ok(productService.editProduct(editProductDTO));
     }
 }
