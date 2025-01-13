@@ -94,6 +94,12 @@
     background-color: white; /* Pozadina kartice  */
     width: 20vw; /* Širina kartice */
     margin-right: 3vh; /* Razmak između trgovina */
+    cursor: pointer; /* Promjena kursora u ručicu */
+    transition: transform 0.2s; /* Dodavanje efekta prelaska */
+}
+
+.shop-card:hover {
+    transform: scale(1.05); /* Lagano povećanje kartice pri prelasku mišem */
 }
 
 .shop-image {
