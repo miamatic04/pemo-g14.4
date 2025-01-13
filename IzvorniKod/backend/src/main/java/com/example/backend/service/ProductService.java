@@ -1,12 +1,11 @@
 package com.example.backend.service;
 
 import com.example.backend.exception.NoLocationPermissionException;
+import com.example.backend.exception.ProductNotFoundException;
+import com.example.backend.exception.ShopNotFoundException;
 import com.example.backend.exception.UserNotFoundException;
 import com.example.backend.model.*;
-import com.example.backend.repository.PersonRepository;
-import com.example.backend.repository.ProductRepository;
-import com.example.backend.repository.ProductShopRepository;
-import com.example.backend.repository.ReviewRepository;
+import com.example.backend.repository.*;
 import com.example.backend.utils.DistanceCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Distance;
@@ -38,6 +37,10 @@ public class ProductService {
 
     @Autowired
     private DistanceCalculator distanceCalculator;
+    @Autowired
+    private ShopRepository shopRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     public ProductProfileDTO getProductProfile(Long productId) {
         ProductShop product = productShopRepository.findById(productId)
@@ -91,5 +94,40 @@ public class ProductService {
                 .toList();
 
         return products;
+    }
+
+    public String addProduct(AddProductDTO addProductDTO) {
+
+        Shop shop = shopRepository.findById(addProductDTO.getShopId()).orElseThrow(() -> new ShopNotFoundException("Shop not found"));
+
+        Product product = productRepository.findById(addProductDTO.getProductId()).orElseThrow(() -> new ProductNotFoundException("Product not found"));
+
+        ProductShop productShop = new ProductShop();
+        productShop.setShop(shop);
+        productShop.setProduct(product);
+        productShop.setDescription(addProductDTO.getDescription());
+        productShop.setPrice(addProductDTO.getPrice());
+        productShop.setImagePath(addProductDTO.getImagePath());
+        productShopRepository.save(productShop);
+
+        return "Successfully added product";
+    }
+
+    public String editProduct(AddProductDTO editProductDTO) {
+
+        ProductShop productShop = productShopRepository.findById(editProductDTO.getId()).orElseThrow(() -> new ProductNotFoundException("Product not found"));
+
+        if(editProductDTO.getDescription() != null)
+            productShop.setDescription(editProductDTO.getDescription());
+
+        if(editProductDTO.getPrice() != 0)
+            productShop.setPrice(editProductDTO.getPrice());
+
+        if(editProductDTO.getImagePath() != null)
+            productShop.setImagePath(editProductDTO.getImagePath());
+
+        productShopRepository.save(productShop);
+
+        return "Product successfully updated";
     }
 }
