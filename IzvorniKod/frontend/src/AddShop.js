@@ -43,12 +43,12 @@ const AddShop = () => {
         }
     };
 
-    useEffect(() => {
-        if(!authenticationTried) {
-            setAuthenticationTried(true);
-            checkTokenValidation();
-        }
-    }, []);
+    //useEffect(() => {
+    //    if(!authenticationTried) {
+        //    setAuthenticationTried(true);
+         //   checkTokenValidation();
+      //  }
+    //}, []);
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
