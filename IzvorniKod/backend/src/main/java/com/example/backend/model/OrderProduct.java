@@ -6,24 +6,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Product {
-
+public class OrderProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String category;
 
-    @OneToMany(mappedBy = "product")
-    private List<ProductShop> productShops;
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private CustomerOrder order;
 
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
+    private ProductShop productShop;
+
+    private Integer quantity;
 }

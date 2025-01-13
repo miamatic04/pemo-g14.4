@@ -127,6 +127,16 @@ const UserHome = () => {
         }
     ]
 
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    const handleLogout = () => {
+        navigate('/');
+    };
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    };
+
+
     const [index, setIndex] = useState(0);
     // Funkcija za prebacivanje na prethodne 2 slike trgovina
     const prviBTN = () => {
@@ -341,6 +351,17 @@ const UserHome = () => {
                         <li className="el"><a className="a1" onClick={() => navigate('/events')}>Događaji</a></li>
                         <li className="el"><a className="a1" onClick={() => navigate('/shopsList')}>Popis trgovina</a></li>
                         <li className="el"><a href="/myShops" className="a1">Moje trgovine</a></li>
+                        <li className="hamburger">
+                            <button className="hamburger-btn" onClick={toggleMenu}>
+                                ☰
+                            </button>
+                            {menuOpen && (
+                                <div className="hamburger-menu">
+                                    <button>Uredi profil</button>
+                                    <button onClick={handleLogout}>Odjava</button>
+                                </div>
+                            )}
+                        </li>
                     </ul>
                 </div>
                 <div className="glavna">

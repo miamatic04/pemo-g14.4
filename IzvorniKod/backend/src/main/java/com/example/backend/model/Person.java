@@ -57,6 +57,9 @@ public class Person {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private Set<Reply> replies = new HashSet<>();
 
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CustomerOrder> customerOrders;
+
     public String getName() {
         return firstName + " " + lastName;
     }

@@ -19,5 +19,19 @@ public class EventDTO {
     private LocalDateTime dateTime;
     private Integer duration;
     private String imagePath;
-    private Shop shop;
+    private Long shopId;
+    private String shopName;
+    private double distance;
+
+    public EventDTO(Event event, double distance) {
+        this.name = event.getName();
+        this.description = event.getDescription();
+        this.address = event.getAddress();
+        this.dateTime = event.getDateTime();
+        this.duration = event.getDuration();
+        this.imagePath = event.getImagePath();
+        this.shopId = event.getShop().getId();
+        this.shopName = event.getShop().getShopName();
+        this.distance = distance;
+    }
 }
