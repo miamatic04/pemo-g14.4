@@ -14,16 +14,16 @@ const Events = () => {
     const location = useLocation();
 
     const allEvents = [
-        { id: 1, name: "Ime Događaja 1", image: event1, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 1", date: "Datum 1"},
-        { id: 2, name: "Ime Događaja 2", image: event2, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 2", date: "Datum 2"},
-        { id: 3, name: "Ime Događaja 3", image: event1, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 3", date: "Datum 3"},
-        { id: 4, name: "Ime Događaja 4", image: event2, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 4", date: "Datum 4"},
-        { id: 5, name: "Ime Događaja 5", image: event1, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 5", date: "Datum 5"},
-        { id: 6, name: "Ime Događaja 6", image: event2, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 6", date: "Datum 6"},
-        { id: 7, name: "Ime Događaja 7", image: event1, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 7", date: "Datum 7"},
-        { id: 8, name: "Ime Događaja 8", image: event2, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 8", date: "Datum 8"},
-        { id: 9, name: "Ime Događaja 9", image: event1, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 9", date: "Datum 9"},
-        { id: 10, name: "Ime Događaja 10", image: event2, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 10", date: "Datum 10"},
+        { id: 1, name: "Ime Događaja 1", image: event1, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 1", date: "Datum 1", time: "Vrijeme 1"},
+        { id: 2, name: "Ime Događaja 2", image: event2, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 2", date: "Datum 2", time: "Vrijeme 2"},
+        { id: 3, name: "Ime Događaja 3", image: event1, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 3", date: "Datum 3", time: "Vrijeme 3"},
+        { id: 4, name: "Ime Događaja 4", image: event2, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 4", date: "Datum 4", time: "Vrijeme 4"},
+        { id: 5, name: "Ime Događaja 5", image: event1, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 5", date: "Datum 5", time: "Vrijeme 5"},
+        { id: 6, name: "Ime Događaja 6", image: event2, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 6", date: "Datum 6", time: "Vrijeme 6"},
+        { id: 7, name: "Ime Događaja 7", image: event1, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 7", date: "Datum 7", time: "Vrijeme 7"},
+        { id: 8, name: "Ime Događaja 8", image: event2, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 8", date: "Datum 8", time: "Vrijeme 8"},
+        { id: 9, name: "Ime Događaja 9", image: event1, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 9", date: "Datum 9", time: "Vrijeme 9"},
+        { id: 10, name: "Ime Događaja 10", image: event2, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 10", date: "Datum 10", time: "Vrijeme 10"},
     ];
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -69,6 +69,7 @@ const Events = () => {
                             <p className="event-infos">{event.info}</p>
                             <p className="event-location"><b>Lokacija:</b> {event.location}</p>
                             <p className="event-date"><b>Datum:</b> {event.date}</p>
+                            <p className="event-time"><b>Vrijeme:</b> {event.time}</p>
                         </div>
                         <div className="event-column right-column">
                             <button className="learn-more">Saznaj više</button>

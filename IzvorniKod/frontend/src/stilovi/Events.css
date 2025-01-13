@@ -78,7 +78,7 @@
     text-align: left;
 }
 
-.event-infos, .event-location, .event-date {
+.event-infos, .event-location, .event-date, .event-time {
     text-align: left;
     padding-bottom: 3vh;
 }
