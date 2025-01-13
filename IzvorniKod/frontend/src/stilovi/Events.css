@@ -1,0 +1,119 @@
+.event-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh; /* Osigurava da je sadržaj centriran vertikalno */
+    background: linear-gradient(to bottom, #9bd7eb, #f9faac) no-repeat center center; /* prelazak iz plave u zutu */
+    background-size: cover; /* da pozadina bude preko cijelog ekrana */
+}
+
+.header-events {
+    display: flex;
+    align-items: center; /* Poravnava logo i naslov po visini */
+    width: 100%; /* Širina zaglavlja */
+    justify-content: space-between; /* Razmak između loga i naslova */
+    padding: 1%;
+    background-color: white;
+}
+
+.logo-container {
+    flex: 0 0 auto; /* Logo se ne širi */
+}
+
+.logo {
+    width: 70%; /* Postavite širinu loga na 50% od roditeljskog elementa */
+    max-width: 100px; /* Maksimalna širina loga */
+}
+
+.header-title {
+    font-size: 250%; /* Veličina naslova */
+    text-align: center;
+    flex-grow: 1; /* Naslov zauzima preostali prostor */
+    color: midnightblue;
+}
+
+.spacer {
+    height: 6vh; /* Visina razmaka */
+    width: 100%; /* Širina razmaka */
+    background-color: transparent; /* Prozirna pozadina */
+}
+
+.event-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.event-card {
+    display: flex;
+    border: 0.5rem solid lightskyblue; /* Plava granica */
+    border-radius: 1%; /* Zaobljeni rubovi */
+    padding: 2vh; /* Unutarnji razmak */
+    margin-bottom: 3vh; /* Razmak između događaja */
+    background-color: white; /* Pozadina kartice događaja */
+    width: 80%; /* Širina kartice događaja */
+}
+
+.event-column {
+    flex: 1; /* Svaki stupac zauzima jednake dijelove dostupnog prostora */
+    padding: 1vw; /* Unutarnji razmak unutar stupaca */
+}
+
+.left-column {
+    text-align: center; /* Centriranje teksta u lijevom stupcu */
+}
+
+.middle-column {
+    text-align: center; /* Centriranje teksta u srednjem stupcu */
+}
+
+.right-column {
+    display: flex;
+    flex-direction: column; /* Vertikalno poredavanje dugmadi */
+    align-items: center; /* Centriranje dugmadi */
+}
+
+.event-info{
+    text-align: left;
+}
+
+.event-infos, .event-location, .event-date {
+    text-align: left;
+    padding-bottom: 3vh;
+}
+
+.event-image {
+    width: 40%; /* Slika zauzima punu širinu kartice */
+    height: auto; /* Održava omjer slike */
+}
+
+.learn-more, .register {
+    margin-top: 1vh; /* Razmak između dugmadi */
+    background-color: lightskyblue;
+    width: 30%;
+}
+
+.register{
+    margin-top: 5vh;
+}
+
+.event-details {
+    margin-top: 2%; /* Razmak iznad detalja događaja */
+}
+
+.event-actions {
+    display: flex;
+    justify-content: space-around; /* Razmak između dugmadi */
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5%; /* Razmak iznad navigacije */
+}
+
+.nav-btn {
+    cursor: pointer;
+}
+

@@ -7,6 +7,8 @@ import AddShop from './AddShop'
 import OwnerHome from "./OwnerHome";
 import MyShops from "./MyShops";
 import ProductDetails from "./ProductDetails";
+import Events from "./Events";
+import ShopsList from "./ShopsList";
 
 const App = () => {
     return (
@@ -19,6 +21,8 @@ const App = () => {
                 <Route path="/ownerhome" element={<OwnerHome/>}/>
                 <Route path="/myShops" element={<MyShops/>}/>
                 <Route path="/product" element={<ProductDetails/>}/>
+                <Route path="/events" element={<Events/>}/>
+                <Route path="/shopsList" element={<ShopsList/>}/>
             </Routes>
         </Router>
     );
