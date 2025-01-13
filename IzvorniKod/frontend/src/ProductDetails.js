@@ -67,7 +67,7 @@ const ProductDetails = () => {
                     <div className="reviews-section">
                         <div className="review-header">
                             <h3>Recenzije:</h3>
-                            <button className="add-review">Ostavi recenziju</button>
+                            <button className="add-review" onClick={() => navigate(`/review`)}>Ostavi recenziju</button>
                         </div>
 
                         <div className="review-items">
@@ -84,31 +84,15 @@ const ProductDetails = () => {
                         </div>
 
                         <div className="pagination">
-                            <button
-                                className="nav1-btn"
-                                onClick={handlePrevPage}
-                                disabled={currentPage === 1}
-                            >
+                            <button className="nav1-btn" onClick={handlePrevPage} disabled={currentPage === 1}>
                                 &lt;
                             </button>
                             <span className="page-numbers">
                                 {[...Array(totalPages)].map((_, index) => (
-                                    <span
-                                        key={index + 1}
-                                        className={currentPage === index + 1 ? "active" : ""}
-                                        onClick={() => setCurrentPage(index + 1)}
-                                    >
-                                        {index + 1}
-                                    </span>
+                                    <span key={index + 1} className={currentPage === index + 1 ? "active" : ""} onClick={() => setCurrentPage(index + 1)}>{index + 1}</span>
                                 ))}
                             </span>
-                            <button
-                                className="nav-btn"
-                                onClick={handleNextPage}
-                                disabled={currentPage === totalPages}
-                            >
-                                &gt;
-                            </button>
+                            <button className="nav-btn" onClick={handleNextPage} disabled={currentPage === totalPages}>&gt;</button>
                         </div>
                     </div>
                 </div>

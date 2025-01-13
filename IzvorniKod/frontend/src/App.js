@@ -9,6 +9,7 @@ import MyShops from "./MyShops";
 import ProductDetails from "./ProductDetails";
 import Events from "./Events";
 import ShopsList from "./ShopsList";
+import Review from "./Review";
 
 const App = () => {
     return (
@@ -23,6 +24,7 @@ const App = () => {
                 <Route path="/product" element={<ProductDetails/>}/>
                 <Route path="/events" element={<Events/>}/>
                 <Route path="/shopsList" element={<ShopsList/>}/>
+                <Route path="/review" element={<Review/>}/>
             </Routes>
         </Router>
     );
