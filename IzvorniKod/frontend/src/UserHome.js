@@ -3,23 +3,6 @@ import './stilovi/home.css'
 import logo from './Components/Assets/logo1.png'
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import trgovina1 from './Components/Assets/trgovina1.jpg';
-import trgovina2 from './Components/Assets/trgovina2.jpg';
-import trgovina3 from './Components/Assets/trgovina3.jpg';
-import trgovina4 from './Components/Assets/trgovina4.jpg';
-import proizvod1 from './Components/Assets/proizvod1.jpg';
-import proizvod2 from './Components/Assets/proizvod2.jpg';
-import proizvod3 from './Components/Assets/proizvod3.jpg';
-import proizvod4 from './Components/Assets/proizvod4.jpg';
-import proizvod5 from './Components/Assets/proizvod5.jpg';
-import proizvod6 from './Components/Assets/proizvod6.jpg';
-import proizvod7 from './Components/Assets/proizvod7.jpg';
-import proizvod8 from './Components/Assets/proizvod8.jpg';
-import proizvod9 from './Components/Assets/proizvod9.jpg';
-import proizvod10 from './Components/Assets/proizvod10.jpg';
-import proizvod11 from './Components/Assets/proizvod11.jpg';
-import proizvod12 from './Components/Assets/proizvod12.jpg';
-
 
 const UserHome = () => {
     const navigate = useNavigate();
@@ -31,128 +14,7 @@ const UserHome = () => {
     const [email, setEmail] = useState(null);
     const [locationTried, setLocationTried] = useState(false);
     const [authenticationTried, setAuthenticationTried] = useState(false);
-
-    const trgovine=[
-        {
-            "img": trgovina1,
-            "ime": "Trgovina 1",
-            "opis": "Opis trgovine 1"
-        },
-        {
-            "img": trgovina2 ,
-            "ime": "Trgovina 2",
-            "opis": "Opis trgovine 2"
-        },
-        {
-            "img": trgovina3 ,
-            "ime": "Trgovina 3",
-            "opis": "Opis trgovine 3"
-        },
-        {
-            "img": trgovina4,
-            "ime": "Trgovina 4",
-            "opis": "Opis trgovine 4"
-        }
-    ]
-
-    const proizvodi=[
-        {
-            "img": proizvod1,
-            "ime": "Proizvod 1",
-            "trgovina":"trgovina1",
-            "kategorija":"kategorija1",
-            "udaljenost":"udaljenost1",
-            "cijena":"cijena1",
-        },
-        {
-            "img": proizvod2,
-            "ime": "Proizvod 2",
-            "trgovina":"trgovina2",
-            "kategorija":"kategorija2",
-            "udaljenost":"udaljenost2",
-            "cijena":"cijena2",
-        },
-        {
-            "img": proizvod3,
-            "ime": "Proizvod 3",
-            "trgovina":"trgovina3",
-            "kategorija":"kategorija3",
-            "udaljenost":"udaljenost3",
-            "cijena":"cijena3",
-        },
-        {
-            "img": proizvod4,
-            "ime": "Proizvod 4",
-            "trgovina":"trgovina4",
-            "kategorija":"kategorija4",
-            "udaljenost":"udaljenost4",
-            "cijena":"cijena4",
-        },
-        {
-            "img": proizvod5,
-            "ime": "Proizvod 5",
-            "trgovina":"trgovina5",
-            "kategorija":"kategorija5",
-            "udaljenost":"udaljenost5",
-            "cijena":"cijena5",
-        },
-        {
-            "img": proizvod6,
-            "ime": "Proizvod 6",
-            "trgovina":"trgovina6",
-            "kategorija":"kategorija6",
-            "udaljenost":"udaljenost6",
-            "cijena":"cijena6",
-        },
-        {
-            "img": proizvod7,
-            "ime": "Proizvod 7",
-            "trgovina":"trgovina7",
-            "kategorija":"kategorija7",
-            "udaljenost":"udaljenost7",
-            "cijena":"cijena7",
-        },
-        {
-            "img": proizvod8,
-            "ime": "Proizvod 8",
-            "trgovina":"trgovina8",
-            "kategorija":"kategorija8",
-            "udaljenost":"udaljenost8",
-            "cijena":"cijena8",
-        },
-        {
-            "img": proizvod9,
-            "ime": "Proizvod 9",
-            "trgovina":"trgovina9",
-            "kategorija":"kategorija9",
-            "udaljenost":"udaljenost9",
-            "cijena":"cijena9",
-        },
-        {
-            "img": proizvod10,
-            "ime": "Proizvod 10",
-            "trgovina":"trgovina10",
-            "kategorija":"kategorija10",
-            "udaljenost":"udaljenost10",
-            "cijena":"cijena10",
-        },
-        {
-            "img": proizvod11,
-            "ime": "Proizvod 11",
-            "trgovina":"trgovina11",
-            "kategorija":"kategorija11",
-            "udaljenost":"udaljenost11",
-            "cijena":"cijena1",
-        },
-        {
-            "img": proizvod12,
-            "ime": "Proizvod 12",
-            "trgovina":"trgovina12",
-            "kategorija":"kategorija12",
-            "udaljenost":"udaljenost12",
-            "cijena":"cijena12",
-        }
-    ]
+    const [products, setProducts] = useState([]);
 
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -203,12 +65,28 @@ const UserHome = () => {
     };
     // Funkcija za prebacivanje na sljedećih 6 slika proizvoda
     const drugiBTN1 = () => {
-        if (index1+6<proizvodi.length) {
+        if (index1+6<products.length) {
             setIndex1(index1+6);
         }
     };
     // Sliced niz slika proizvoda koje se trenutno prikazuju
-    const visible1 = proizvodi.slice(index1, index1 + 6);
+    const visible1 = (() => {
+        // Check if the index is out of bounds
+        const endIndex = index + 6; // The last index to slice to
+        if (index1 >= products.length) {
+            // If the current index is greater than or equal to the length of the shops array, return an empty array
+            return [];
+        }
+
+        const remainingProducts = products.length - index1;
+        if (remainingProducts < 6) {
+            // Ako je preostalo manje od 6 proizvoda, uzmi sve preostale
+            return products.slice(index1);
+        }
+
+        // Inače, uzmi sljedećih 6 proizvoda
+        return products.slice(index1, endIndex);
+    })();
 
     const checkTokenValidation = async () => {
         try {
@@ -323,6 +201,29 @@ const UserHome = () => {
         fetchShops();
     }, [sortOrder]);
 
+    const fetchProducts = async () => {
+        try {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getAllProducts`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch products');
+            }
+            const data = await response.json();
+            setProducts(data);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchProducts();
+    }, [sortOrder]);
 
     if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(
@@ -357,8 +258,6 @@ const UserHome = () => {
         return <div>Loading...</div>;  // prikazivanje loading indikatora dok se podaci učitavaju
     }
 
-
-
     return (
         <div className="body-klasa">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/> {/*link na Font Awesome za ikone kod proizvoda*/}
@@ -385,7 +284,7 @@ const UserHome = () => {
                 </div>
                 <div className="glavna">
                     <h1 className="naslov">Kupovina koja prati tvoj ritam</h1>
-                    <button className="btn1">Povijest kupovina</button>
+                    <button className="btn1" onClick={() => navigate(`/purchaseHistory`)}>Povijest kupovina</button>
                     <div className="background"></div>
                 </div>
             </div>
@@ -420,27 +319,6 @@ const UserHome = () => {
                     <button className="navigacija" onClick={drugiBTN}
                             disabled={index + 2 >= shops.length}>{">"}</button>
                 </div>
-
-                {/*<h1>Shops</h1>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Shop Name</th>
-                        <th>Udaljenost</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {shops.map(shop => (
-                        <tr key={shop.id}>
-                            <td>{shop.id}</td>
-                            <td>{shop.shopName}</td>
-                            <td>{shop.distance} km</td>
-                        </tr>
-                    ))}
-                    </tbody>
-
-                </table>*/}
             </div>
             <div className="klasa1">
                 <div className="klasa2">
@@ -458,24 +336,28 @@ const UserHome = () => {
                 <div className="klasa3">
                     <button id="prvi-btn1" className="navigacija" onClick={prviBTN1} disabled={index1 === 0}>{"<"}</button>
                     <div id="proizvodi" className="store-list">
-                        {visible1.map((proizvod, ind) => (
-                            <div className="store-item" id="proizvod" key={ind} onClick={() => navigate(`/product`,{ state: {productName: proizvod.ime,productImage: proizvod.img,productStore:proizvod.trgovina,productUdaljenost:proizvod.udaljenost, productKategorija:proizvod.kategorija, productCijena:proizvod.cijena,}})}>
+                        {visible1.map((product, ind) => (
+                            <div className="store-item" id="proizvod" key={ind} onClick={() => navigate('/product', {
+                                replace: false,
+                                state: {
+                                    productId: product.id,
+                                }
+                            })}>
                                 <div id="img-container2" className="image-container1">
-                                    <img className="slike" src={proizvod.img} alt={proizvod.ime}/>
+                                    <img className="slike" src={product.imagePath} alt={product.name}/>
                                 </div>
                                 <div className="opis1">
-                                    <h3>{proizvod.ime}</h3>
+                                    <h3>{product.name}</h3>
                                     <div className="info">
-                                        <p><i className="fas fa-shopping-cart"></i> proizvod.trgovina</p>
-                                        <p><i className="fas fa-map-marker-alt"></i> proizvod.udaljenost</p>
-                                        <p><i className="fas fa-tag"></i> proizvod.kategorija</p>
-                                        <p><i className="fas fa-euro-sign"></i> proizvod.cijena</p>
+                                        <p><i className="fas fa-shopping-cart"></i> {product.shopName}</p>
+                                        <p><i className="fas fa-tag"></i> {product.description}</p>
+                                        <p><i className="fas fa-euro-sign"></i> {product.price}</p>
                                     </div>
                                 </div>
                             </div>
                         ))}
                     </div>
-                    <button className="navigacija" onClick={drugiBTN1} disabled={index1 + 6 >= proizvodi.length}>{">"}</button>
+                    <button className="navigacija" onClick={drugiBTN1} disabled={index1 + 6 >= products.length}>{">"}</button>
                 </div>
             </div>
         </div>
