@@ -17,4 +17,5 @@ public class AddProductDTO {
     private String description;
     private double price;
     private String imagePath;
+    private int quantity;
 }

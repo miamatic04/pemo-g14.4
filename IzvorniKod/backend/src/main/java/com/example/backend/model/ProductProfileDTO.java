@@ -15,7 +15,9 @@ public class ProductProfileDTO {
 
     private String name;
     private String description;
+    private String category;
     private double price;
     private String imagePath;
+    private double distance;
     private List<ReviewDTO> reviews;
 }

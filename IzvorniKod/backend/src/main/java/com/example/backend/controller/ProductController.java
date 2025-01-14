@@ -18,8 +18,8 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/getProduct/{id}")
-    public ResponseEntity<ProductProfileDTO> getProductProfile(@PathVariable Long id) {
-        return ResponseEntity.ok(productService.getProductProfile(id));
+    public ResponseEntity<ProductProfileDTO> getProductProfile(@PathVariable Long id, @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return ResponseEntity.ok(productService.getProductProfile(id, authHeader.substring(7)));
     }
 
     @GetMapping("/hood/getProducts/{radius}")

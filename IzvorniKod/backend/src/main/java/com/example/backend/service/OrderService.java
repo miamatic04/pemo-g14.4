@@ -9,10 +9,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class OrderService {
@@ -68,6 +65,7 @@ public class OrderService {
                     orderDTO.setPaid(order.isPaid());
                     orderDTO.setCancelled(order.isCancelled());
                     orderDTO.setOrderDate(order.getOrderDate());
+                    orderDTO.setActive(order.isActive());
                     return orderDTO;
                 }).toList();
 
@@ -107,6 +105,7 @@ public class OrderService {
                     orderDTO.setPaid(order.isPaid());
                     orderDTO.setCancelled(order.isCancelled());
                     orderDTO.setOrderDate(order.getOrderDate());
+                    orderDTO.setActive(order.isActive());
                     return orderDTO;
                 }).toList();
 
@@ -146,6 +145,7 @@ public class OrderService {
                     orderDTO.setPaid(order.isPaid());
                     orderDTO.setCancelled(order.isCancelled());
                     orderDTO.setOrderDate(order.getOrderDate());
+                    orderDTO.setActive(order.isActive());
                     return orderDTO;
                 }).toList();
 
@@ -185,6 +185,7 @@ public class OrderService {
                     orderDTO.setPaid(order.isPaid());
                     orderDTO.setCancelled(order.isCancelled());
                     orderDTO.setOrderDate(order.getOrderDate());
+                    orderDTO.setActive(order.isActive());
                     return orderDTO;
                 }).toList();
 
@@ -283,6 +284,7 @@ public class OrderService {
         orderDTO.setOrderDate(savedOrder.getOrderDate());
         orderDTO.setPaid(savedOrder.isPaid());
         orderDTO.setCancelled(savedOrder.isCancelled());
+        orderDTO.setActive(order.isActive());
 
         List<ProductQuantity> product_quantity = new ArrayList<>();
         double total = 0;
@@ -294,6 +296,7 @@ public class OrderService {
 
         orderDTO.setOrderProducts(product_quantity);
         orderDTO.setTotal(total);
+        order.setTotal(total);
         orderDTO.setImagePath(savedOrder.getShop().getImagePath());
         orderDTO.setShopId(savedOrder.getShop().getId());
         orderDTO.setShopName(savedOrder.getShop().getShopName());
@@ -385,6 +388,50 @@ public class OrderService {
         orderDTO.setImagePath(order.getShop().getImagePath());
         orderDTO.setShopId(order.getShop().getId());
         orderDTO.setShopName(order.getShop().getShopName());
+
+        return orderDTO;
+    }
+
+    public OrderDTO getActiveOrder(String token) {
+
+        String email = jwtService.extractUsername(token);
+
+        Person user = personRepository.findByEmail(email);
+
+        if(user == null) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        Optional<CustomerOrder> orderOpt = orderRepository.findByPersonEmailAndActive(email, true);
+
+        OrderDTO orderDTO = new OrderDTO();
+
+        if (orderOpt.isPresent()) {
+            CustomerOrder order = orderOpt.get();
+
+            orderDTO.setId(order.getId());
+            orderDTO.setOrderDate(order.getOrderDate());
+            orderDTO.setPaid(order.isPaid());
+            orderDTO.setCancelled(order.isCancelled());
+
+            List<ProductQuantity> product_quantity = new ArrayList<>();
+            double total = 0;
+
+            for(OrderProduct orderP : order.getOrderProducts()) {
+                product_quantity.add(new ProductQuantity(new ProductInfoDTO(orderP.getProductShop()), orderP.getQuantity()));
+                total += orderP.getQuantity() * orderP.getProductShop().getPrice();
+            }
+
+            orderDTO.setOrderProducts(product_quantity);
+            orderDTO.setTotal(total);
+            orderDTO.setImagePath(order.getShop().getImagePath());
+            orderDTO.setShopId(order.getShop().getId());
+            orderDTO.setShopName(order.getShop().getShopName());
+
+        } else {
+            System.out.println("No active order found for the person with email: " + email);
+            orderDTO.setId(null);
+        }
 
         return orderDTO;
     }

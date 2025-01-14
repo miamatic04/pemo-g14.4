@@ -37,12 +37,14 @@ public class ProductService {
 
     @Autowired
     private DistanceCalculator distanceCalculator;
+
     @Autowired
     private ShopRepository shopRepository;
+
     @Autowired
     private ProductRepository productRepository;
 
-    public ProductProfileDTO getProductProfile(Long productId) {
+    public ProductProfileDTO getProductProfile(Long productId, String token) {
         ProductShop product = productShopRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
@@ -55,7 +57,8 @@ public class ProductService {
                     ReviewDTO reviewDTO = new ReviewDTO();
                     reviewDTO.setText(review.getText());
                     reviewDTO.setRating(review.getRating());
-                    reviewDTO.setAuthor(review.getAuthor().getName());  // Assuming the review has an author (Person)
+                    reviewDTO.setAuthor(review.getAuthor().getName());
+                    reviewDTO.setImagePath(review.getImagePath());
                     return reviewDTO;
                 })
                 .collect(Collectors.toList());
@@ -67,6 +70,23 @@ public class ProductService {
         productDTO.setPrice(product.getPrice());
         productDTO.setImagePath(product.getImagePath());
         productDTO.setReviews(reviewDTOs);
+
+        String email = jwtService.extractUsername(token);
+
+        Person user = personRepository.findByEmail(email);
+
+        if (user == null) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        double userLat = user.getLatitude();
+        double userLon = user.getLongitude();
+
+        if(userLat == 0 || userLon == 0) {
+            productDTO.setDistance(-1);
+        } else {
+            productDTO.setDistance(distanceCalculator.calculateDistance(userLat, userLon, product.getShop().getLatitude(), product.getShop().getLongitude()));
+        }
 
         return productDTO;
     }
@@ -108,6 +128,7 @@ public class ProductService {
         productShop.setDescription(addProductDTO.getDescription());
         productShop.setPrice(addProductDTO.getPrice());
         productShop.setImagePath(addProductDTO.getImagePath());
+        productShop.setQuantity(addProductDTO.getQuantity());
         productShopRepository.save(productShop);
 
         return "Successfully added product";

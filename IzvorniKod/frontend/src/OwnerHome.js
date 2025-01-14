@@ -389,11 +389,11 @@ const UserHome = () => {
                     {visible.map((shops, ind) => (
                         <div className="store-item" key={ind}>
                             <div className="image-container1">
-                                <img className="slike" src={shops.shop.imagePath}/>
+                                <img className="slike" src={shops.shopDTO.imagePath}/>
                             </div>
                             <div className="opis">
-                                <h3>{shops.shop.shopName}</h3>
-                                <p>{shops.shop.description}</p>
+                                <h3>{shops.shopDTO.shopName}</h3>
+                                <p>{shops.shopDTO.description}</p>
                                 <p>{shops.distance} km</p>
                             </div>
                         </div>

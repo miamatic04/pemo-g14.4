@@ -35,6 +35,7 @@ public class CustomerOrder {
     private double total;
     private boolean paid;
     private boolean cancelled;
+    private boolean active;
     private LocalDate orderDate;
 
     public CustomerOrder(Person person, Shop shop) {
@@ -45,5 +46,6 @@ public class CustomerOrder {
         this.paid = false;
         this.cancelled = false;
         this.orderDate = LocalDate.now();
+        this.active = true;
     }
 }
