@@ -263,7 +263,7 @@ const UserHome = () => {
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/> {/*link na Font Awesome za ikone kod proizvoda*/}
             <div className="home">
                 <div className="header">
-                    <img src={logo} alt="logo" className="logo"></img>
+                    <img src={logo} alt="logo" className="logo33"></img>
                     <ul className="lista">
                         <li className="el"><a className="a1">Kvart</a></li>
                         <li className="el"><a className="a1" onClick={() => navigate('/events')}>Događaji</a></li>
