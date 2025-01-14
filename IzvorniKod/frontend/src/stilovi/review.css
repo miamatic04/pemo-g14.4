@@ -23,6 +23,10 @@
     margin-bottom: 1.5rem;
 }
 
+.review-header img{
+    cursor: pointer;
+}
+
 .review-title {
     font-size: 2rem;
     font-weight: 700;
@@ -149,6 +153,16 @@
 
 .submit-btn:hover {
     background-color: #1d4ed8;
+}
+
+#otkazi-btn{
+    margin-top: 0px;
+    color: black;
+    background-color: lightgray;
+}
+
+#otkazi-btn:hover {
+    background-color: #a7dbe2;
 }
 
 .remove-img {

@@ -24,6 +24,7 @@ public class Review {
     @Min(0)
     @Max(5)
     private double rating;
+    private String imagePath;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

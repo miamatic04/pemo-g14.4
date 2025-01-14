@@ -24,9 +24,9 @@ public class LoginService {
 
     @Autowired
     private JWTService jwtService;
+
     @Autowired
     private PersonService personService;
-
 
     public ResponseEntity<Map<String, Object>> login(@RequestBody LoginInfo loginInfo) throws JsonProcessingException {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginInfo.getEmail(), loginInfo.getPass()));

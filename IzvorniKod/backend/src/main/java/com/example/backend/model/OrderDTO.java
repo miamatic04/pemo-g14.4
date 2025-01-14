@@ -22,5 +22,6 @@ public class OrderDTO {
     private double total;
     private boolean paid;
     private boolean cancelled;
+    private boolean active;
     private LocalDate orderDate;
 }

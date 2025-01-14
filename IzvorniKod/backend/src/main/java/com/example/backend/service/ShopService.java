@@ -210,11 +210,7 @@ public class ShopService {
         List<ReviewDTO> shopReviews = reviewRepository.findByShopId(shopId)
                 .stream()
                 .filter(review -> review.getProductShop() == null)
-                .map(review -> new ReviewDTO(
-                        review.getText(),
-                        review.getRating(),
-                        review.getAuthor().getName()
-                ))
+                .map(review -> new ReviewDTO(review))
                 .collect(Collectors.toList());
 
         // Dohvaćanje proizvoda u trgovini
@@ -225,7 +221,9 @@ public class ShopService {
                     return new ProductInfoDTO(
                             productShop.getId(),
                             productShop.getProduct().getName(),
+                            productShop.getShop().getShopName(),
                             productShop.getDescription(),
+                            productShop.getProduct().getCategory(),
                             productShop.getPrice(),
                             productShop.getImagePath(),
                             -1

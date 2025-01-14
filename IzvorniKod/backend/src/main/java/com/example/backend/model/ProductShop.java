@@ -1,6 +1,7 @@
 package com.example.backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,9 @@ public class ProductShop {
     private String description;
     private double price;
     private String imagePath;
+
+    @Min(0)
+    private int quantity;
 
     @ManyToOne
     @JoinColumn(name = "shop_id", nullable = false)

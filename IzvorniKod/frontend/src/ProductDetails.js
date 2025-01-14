@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './stilovi/ProductDetails.css';
 import logo1 from './Components/Assets/logo1.png';
@@ -7,23 +7,48 @@ const ProductDetails = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const productData = location.state || {};
-
-    const allReviews = [
-        { rating: "4,8", text: "Dobra kvaliteta" },
-        { rating: "5,0", text: "Najbolji proizvod" },
-        { rating: "4,5", text: "Odlični proizvodi" },
-        { rating: "4,7", text: "Super kvaliteta" },
-        { rating: "4,9", text: "Brza dostava" },
-        { rating: "4,6", text: "Dobar omjer cijene i kvalitete" }
-    ];
+    const [productDetails, setProductDetails] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const [currentPage, setCurrentPage] = useState(1);
     const reviewsPerPage = 2;
-    const totalPages = Math.ceil(allReviews.length / reviewsPerPage);
+
+    useEffect(() => {
+        const fetchProductDetails = async () => {
+            try {
+                const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getProduct/${productData.productId}`, {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch product details');
+                }
+                const data = await response.json();
+                setProductDetails(data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching product details:', error);
+                setLoading(false);
+            }
+        };
+
+        fetchProductDetails();
+    }, [productData.productId]);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    const totalPages = Math.ceil((productDetails?.reviews?.length || 0) / reviewsPerPage);
 
     const getCurrentReviews = () => {
+        if (!productDetails?.reviews) return [];
         const startIndex = (currentPage - 1) * reviewsPerPage;
-        return allReviews.slice(startIndex, startIndex + reviewsPerPage);
+        return productDetails.reviews.slice(startIndex, startIndex + reviewsPerPage);
     };
 
     const handlePrevPage = () => {
@@ -44,14 +69,13 @@ const ProductDetails = () => {
                 <div className="left-panel">
                     <div className="shop-card">
                         <div className="shop-image">
-                            <img src={productData.productImage} alt="Trgovina"/>
+                            <img src={productDetails?.imagePath} alt="Proizvod"/>
                         </div>
-                        <h2>{productData.productName}</h2>
+                        <h2>{productDetails?.name}</h2>
                         <p className="info3" id="ime">Informacije o proizvodu:</p>
-                        <p className="info3">Trgovina: {productData.productStore}</p>
-                        <p className="info3">Udaljenost: {productData.productUdaljenost}</p>
-                        <p className="info3">Kategorija: {productData.productKategorija}</p>
-                        <p className="info3">Cijena: {productData.productCijena}</p>
+                        <p className="info3">Kategorija: {productDetails?.category}</p>
+                        <p className="info3">Opis: {productDetails?.description}</p>
+                        <p className="info3">Cijena: {productDetails?.price} €</p>
                         <button className="add-to-cart">
                             <i className="fas fa-shopping-cart"></i> Dodaj u košaricu
                         </button>
@@ -76,20 +100,19 @@ const ProductDetails = () => {
                                     <span className="rating">{review.rating}</span>
                                     <span className="review-text">{review.text}</span>
                                     <div className="review-image">
-                                        prostor za sliku
+                                        <img src={review.imagePath} alt="Review" />
                                     </div>
                                 </div>
-
                             ))}
                         </div>
 
                         <div className="pagination">
-                            <button className="nav1-btn" onClick={handlePrevPage} disabled={currentPage === 1}>
-                                &lt;
-                            </button>
+                            <button className="nav1-btn" onClick={handlePrevPage} disabled={currentPage === 1}>&lt;</button>
                             <span className="page-numbers">
                                 {[...Array(totalPages)].map((_, index) => (
-                                    <span key={index + 1} className={currentPage === index + 1 ? "active" : ""} onClick={() => setCurrentPage(index + 1)}>{index + 1}</span>
+                                    <span key={index + 1} className={currentPage === index + 1 ? "active" : ""} onClick={() => setCurrentPage(index + 1)}>
+                                        {index + 1}
+                                    </span>
                                 ))}
                             </span>
                             <button className="nav-btn" onClick={handleNextPage} disabled={currentPage === totalPages}>&gt;</button>

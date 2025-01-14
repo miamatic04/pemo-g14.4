@@ -1,6 +1,6 @@
 .product-page {
     min-height: 100vh;
-    background: linear-gradient(to bottom,#9bd7eb,#f9faac) no-repeat center center;;
+    background: linear-gradient(to bottom,#9bd7eb,#f9faac) no-repeat center center;
     display: flex;
     justify-content: center;
     align-items: center;

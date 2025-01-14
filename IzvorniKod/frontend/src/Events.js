@@ -54,7 +54,7 @@ const Events = () => {
                     <img src={logo1} alt="Logo" className="logo" onClick={() => navigate('/UserHome')}
                          style={{cursor: 'pointer'}}/>
                 </div>
-                <h1 className="header-title">Kupovina koja prati tvoj ritam</h1>
+                <h1 className="header-title">Događaji</h1>
             </div>
             <div className="spacer"></div>
             <div className="event-container">

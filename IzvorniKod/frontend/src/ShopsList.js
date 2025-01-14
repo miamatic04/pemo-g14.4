@@ -72,7 +72,7 @@ const ShopsList = () => {
                         style={{ cursor: 'pointer' }}
                     />
                 </div>
-                <h1 className="header-title">Kupovina koja prati tvoj ritam</h1>
+                <h1 className="header-title">Popis trgovina</h1>
                 <div className="filter-container">
                     <button
                         className="filter-button"
