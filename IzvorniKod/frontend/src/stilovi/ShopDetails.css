@@ -1,0 +1,155 @@
+.shop-page {
+    min-height: 100vh;
+    background: linear-gradient(to bottom,#9bd7eb,#f9faac) no-repeat center center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.shop-container {
+    background: white;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 1200px;
+    min-height: 600px;
+    display: flex;
+    padding: 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.left-panel {
+    flex: 1;
+    padding: 20px;
+    border-right: 2px solid #eee;
+}
+
+.shop-card {
+    border: 10px solid #BEE6F3;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+}
+
+.shop-image img {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 20px;
+    border: 1px solid #ddd;
+}
+
+.shop-card h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.shop-card p {
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.shop-card .reviews-section {
+    margin-top: 15px;
+}
+
+.shop-card .add-review {
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.right-panel {
+    flex: 1;
+    position:relative;
+}
+
+.right-panel h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.product-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.product-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.product-item img {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+}
+
+.product-item .product-info {
+    flex: 1;
+}
+
+.product-item .product-info h4 {
+    font-size: 16px;
+    color: #333;
+    margin: 0;
+}
+
+.product-item .product-info p {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.pagination button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.pagination button:hover {
+    background-color: #0056b3;
+}
+
+.pagination button[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination .page-numbers span {
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.pagination .page-numbers span.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #0056b3;
+}
