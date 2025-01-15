@@ -12,7 +12,6 @@ import ShopsList from "./ShopsList";
 import Review from "./Review";
 import PurchaseHistory from "./PurchaseHistory";
 import AboutEvent from "./AboutEvent";
-import EventSignUp from "./EventSignUp";
 
 const App = () => {
     return (
@@ -27,7 +26,6 @@ const App = () => {
                 <Route path="/product" element={<ProductDetails/>}/>
                 <Route path="/events" element={<Events/>}/>
                 <Route path="/aboutEvent" element={<AboutEvent/>}/>
-                <Route path="/eventSignUp" element={<EventSignUp/>}/>
                 <Route path="/shopsList" element={<ShopsList/>}/>
                 <Route path="/review" element={<Review/>}/>
                 <Route path="/purchaseHistory" element={<PurchaseHistory/>}/>

@@ -22,6 +22,7 @@ const Events = () => {
     ];
 
     const [currentPage, setCurrentPage] = useState(1);
+    const [registeredEvents, setRegisteredEvents] = useState([]); // Niz za spremanje ID-eva registriranih događaja
     const eventsPerPage = 3; // Promijenjeno na broj događaja po stranici (možete prilagoditi)
     const totalPages = Math.ceil(allEvents.length / eventsPerPage); // Ukupan broj stranica
 
@@ -40,6 +41,16 @@ const Events = () => {
         if (currentPage < totalPages) {
             setCurrentPage(currentPage + 1);
         }
+    };
+
+    const handleRegisterClick = (eventId) => {
+        if (!registeredEvents.includes(eventId)) {
+            setRegisteredEvents([...registeredEvents, eventId]); // Dodaj ID u niz registriranih događaja
+        }
+    };
+
+    const handleUnregisterClick = (eventId) => {
+        setRegisteredEvents(registeredEvents.filter(id => id !== eventId)); // Ukloni ID iz niza registriranih događaja
     };
 
     return (
@@ -68,7 +79,24 @@ const Events = () => {
                         </div>
                         <div className="event-column right-column">
                             <button className="learn-more" onClick={() => navigate('/aboutEvent')}>Saznaj više</button>
-                            <button className="register" onClick={() => navigate('/eventSignUp')}>Prijava</button>
+                            {registeredEvents.includes(event.id) ? (
+                                <div>
+                                    <p className="uspjesnaPrijava">Uspješna prijava!</p>
+                                    <button
+                                        className="unregister"
+                                        onClick={() => handleUnregisterClick(event.id)}
+                                    >
+                                        Otkaži prijavu
+                                    </button>
+                                </div>
+                            ) : (
+                                <button
+                                    className="register"
+                                    onClick={() => handleRegisterClick(event.id)}
+                                >
+                                    Prijavi se
+                                </button>
+                            )}
                         </div>
                     </div>
 

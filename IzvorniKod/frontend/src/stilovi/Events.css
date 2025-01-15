@@ -98,7 +98,12 @@
     margin-top: 5vh;
 }
 
-.learn-more:hover, .register:hover{
+.unregister {
+    margin-top: 2vh; /* Razmak između dugmadi */
+    background-color: lightskyblue;
+}
+
+.learn-more:hover, .register:hover, .unregister:hover{
     background-color:dodgerblue;
 }
 
@@ -144,5 +149,11 @@
 .page-number span.active {
     background-color: #BEE6F3;
     border-radius: 5px;
+}
+
+.uspjesnaPrijava{
+    color: green;
+    margin-top: 3vh;
+    font-weight: bold;
 }
 
