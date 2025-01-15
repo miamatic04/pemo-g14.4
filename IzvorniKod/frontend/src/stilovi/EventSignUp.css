@@ -1,0 +1,133 @@
+.aboutEvent-page {
+    min-height: 100vh;
+    background: linear-gradient(to bottom,#9bd7eb,#f9faac) no-repeat center center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.aboutEvent-container {
+    background: white;
+    border-radius: 25px;
+    width: 80%;
+    height: auto;
+    display: flex;
+    padding: 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.opisDogadaja{
+    margin-left: 20%;
+    margin-top: -10%;
+}
+
+.opisDogadajaTekst{
+    font-size: larger;
+    width: 60%;
+    text-align: left;
+}
+
+.left-panel {
+    flex: 1;
+    padding: 20px;
+    border-right: 2px solid #eee;
+}
+
+.right-panel {
+    flex: 1;
+    position: relative;
+    padding: 20px; /* Dodajte padding za unutarnje razmake */
+}
+
+.right-panel p {
+    max-width: 600px; /* Postavite maksimalnu širinu za opis događaja */
+    margin: 0 auto; /* Centriranje teksta unutar panela */
+    line-height: 1.5; /* Povećanje razmaka između redova za bolju čitljivost */
+}
+
+.aboutEvent-card {
+    border: 10px solid #BEE6F3;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+}
+
+.aboutEvent-image {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 20px;
+    border: 1px solid #ddd;
+}
+
+.aboutEvent-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.logo1 {
+    top: 20px;
+    right: 20px;
+    height: auto;
+}
+
+.logo1 img {
+    height: auto;
+    max-height: 60px;
+    float: right;
+}
+
+.ulica-event, .datum-event, .vrijeme-event{
+    margin-top:5px;
+}
+
+.ulica-event b, .datum-event b, .vrijeme-event b {
+    margin-right: 5px; /* Razmak između "Lokacija:" i adrese */
+}
+
+.aboutEvent-card p {
+    display: flex;
+    align-items: center; /* Poravnava ikonu i tekst vertikalno */
+    margin-top: 10px; /* Razmak između odlomaka */
+}
+
+.signUpForm {
+    flex: 1;
+    padding: 2%;
+    margin-left: 5%;
+    border-radius: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -20%;
+}
+
+.iconEvent {
+    position: absolute;
+    right: 0.5vw;
+    top: 50%;
+    transform: translateY(-50%); /* za poravnanje s inputom */
+    margin-right: 5vw;
+}
+
+.signUp{
+    padding-bottom: 3%;
+    padding-top: 2%;
+    padding-right: 15%;
+}
+
+.submitEventSignUp, .goToEventList {
+    margin-top: 2vh;
+    background-color: lightskyblue;
+    width: 30%;
+    margin-right: 5vw;
+}
+
+.submitEventSignUp:hover{
+    background-color:palegreen;
+}
+
+.goToEventList:hover{
+    background-color:red;
+}

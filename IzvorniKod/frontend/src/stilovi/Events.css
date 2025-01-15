@@ -98,6 +98,10 @@
     margin-top: 5vh;
 }
 
+.learn-more:hover, .register:hover{
+    background-color:dodgerblue;
+}
+
 .event-details {
     margin-top: 2%; /* Razmak iznad detalja događaja */
 }

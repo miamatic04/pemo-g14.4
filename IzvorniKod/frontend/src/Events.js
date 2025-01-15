@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './stilovi/Events.css'
 import logo1 from './Components/Assets/logo1.png';
 import event1 from './Components/Assets/event1.jpg';
 import event2 from './Components/Assets/event2.jpg';
-import trgovina1 from "./Components/Assets/trgovina1.jpg";
-import trgovina2 from "./Components/Assets/trgovina2.jpg";
-import trgovina3 from "./Components/Assets/trgovina3.jpg";
-import trgovina4 from "./Components/Assets/trgovina4.jpg";
 
 const Events = () => {
     const navigate = useNavigate();
-    const location = useLocation();
 
     const allEvents = [
         { id: 1, name: "Ime Događaja 1", image: event1, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 1", date: "Datum 1", time: "Vrijeme 1"},
@@ -72,8 +67,8 @@ const Events = () => {
                             <p className="event-time"><b>Vrijeme:</b> {event.time}</p>
                         </div>
                         <div className="event-column right-column">
-                            <button className="learn-more">Saznaj više</button>
-                            <button className="register">Prijava</button>
+                            <button className="learn-more" onClick={() => navigate('/aboutEvent')}>Saznaj više</button>
+                            <button className="register" onClick={() => navigate('/eventSignUp')}>Prijava</button>
                         </div>
                     </div>
 
