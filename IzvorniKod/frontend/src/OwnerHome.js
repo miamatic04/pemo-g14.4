@@ -276,7 +276,7 @@ const UserHome = () => {
                 <div className="header">
                     <img src={logo} alt="logo" className="logo33"></img>
                     <ul className="lista">
-                        <li className="el"><a className="a1">Kvart</a></li>
+                        <li className="el"><a className="a1" onClick={() => navigate('/district')}>Kvart</a></li>
                         <li className="el"><a className="a1" onClick={() => navigate('/events')}>Događaji</a></li>
                         <li className="el"><a className="a1" onClick={() => navigate('/shopsList')}>Popis trgovina</a></li>
                         <li className="el"><a href="/myShops" className="a1">Moje trgovine</a></li>

@@ -12,6 +12,7 @@ import ShopsList from "./ShopsList";
 import Review from "./Review";
 import PurchaseHistory from "./PurchaseHistory";
 import AboutEvent from "./AboutEvent";
+import District from './District';
 import ShopDetails from './ShopDetails';
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
                 <Route path="/shopsList" element={<ShopsList/>}/>
                 <Route path="/review" element={<Review/>}/>
                 <Route path="/purchaseHistory" element={<PurchaseHistory/>}/>
+                <Route path="/district" element={<District/>}/>
                 <Route path="/shop" element={<ShopDetails />} />
             </Routes>
         </Router>
