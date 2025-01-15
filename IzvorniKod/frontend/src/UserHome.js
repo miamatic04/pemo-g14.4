@@ -275,7 +275,7 @@ const UserHome = () => {
                             </button>
                             {menuOpen && (
                                 <div className="hamburger-menu">
-                                    <button>Uredi profil</button>
+                                    <button onClick={() => navigate(`/userProfile`)}>Uredi profil</button>
                                     <button onClick={handleLogout}>Odjava</button>
                                 </div>
                             )}

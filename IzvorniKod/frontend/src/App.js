@@ -14,6 +14,7 @@ import PurchaseHistory from "./PurchaseHistory";
 import AboutEvent from "./AboutEvent";
 import District from './District';
 import ShopDetails from './ShopDetails';
+import UserProfile from "./UserProfile";
 
 const App = () => {
     return (
@@ -33,6 +34,7 @@ const App = () => {
                 <Route path="/purchaseHistory" element={<PurchaseHistory/>}/>
                 <Route path="/district" element={<District/>}/>
                 <Route path="/shop" element={<ShopDetails />} />
+                <Route path="/userProfile" element={<UserProfile/>}/>
             </Routes>
         </Router>
     );
