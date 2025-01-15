@@ -6,17 +6,29 @@ import logo1 from './Components/Assets/logo1.png';
 const ShopDetails = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const shopData = location.state || {};
     const [shopDetails, setShopDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const reviewsPerPage = 2;
-    const userRole = localStorage.getItem('role'); // Assuming role is stored in localStorage
+    const userRole = localStorage.getItem('role');
+
+    // Dohvaćamo shopId iz location state
+    const shopId = location.state?.shopId;
+
+    console.log('Location state:', location.state); // Debug
+    console.log('Shop ID:', shopId); // Debug
 
     useEffect(() => {
         const fetchShopDetails = async () => {
+            if (!shopId) {
+                console.log('No shop ID found in state'); // Debug
+                setLoading(false);
+                return;
+            }
+
             try {
-                const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getShop/${shopData.shopId}`, {
+                console.log('Fetching shop details for ID:', shopId); // Debug
+                const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/shops/${shopId}`, {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
@@ -24,23 +36,35 @@ const ShopDetails = () => {
                     }
                 });
 
+                console.log('Response:', response); // Debug
+
                 if (!response.ok) {
                     throw new Error('Failed to fetch shop details');
                 }
+
                 const data = await response.json();
+                console.log('Fetched shop data:', data); // Debug
                 setShopDetails(data);
-                setLoading(false);
             } catch (error) {
                 console.error('Error fetching shop details:', error);
+            } finally {
                 setLoading(false);
             }
         };
 
         fetchShopDetails();
-    }, [shopData.shopId]);
+    }, [shopId]);
 
     if (loading) {
         return <div>Loading...</div>;
+    }
+
+    if (!shopId) {
+        return <div>No shop ID provided</div>;
+    }
+
+    if (!shopDetails) {
+        return <div>No shop details found</div>;
     }
 
     const totalPages = Math.ceil((shopDetails?.reviews?.length || 0) / reviewsPerPage);
@@ -51,40 +75,31 @@ const ShopDetails = () => {
         return shopDetails.reviews.slice(startIndex, startIndex + reviewsPerPage);
     };
 
-    const handlePrevPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
-
-    const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
-
     return (
         <div className="shop-page">
             <div className="shop-container">
                 <div className="left-panel">
                     <div className="shop-card">
                         <div className="shop-image">
-                            <img src={shopDetails?.imagePath} alt="Shop" />
+                            {shopDetails.imagePath && (
+                                <img src={shopDetails.imagePath} alt={shopDetails.shopName} />
+                            )}
                         </div>
-                        <h2>{shopDetails?.name}</h2>
+                        <h2>{shopDetails.shopName}</h2>
+                        <p className="info3">Opis: {shopDetails.description}</p>
 
-                        {/* Hide location for all users */}
-                        {userRole !== 'owner' && (
-                            <p className="info3">Lokacija: {shopDetails?.location}</p>
-                        )}
-
-                        <p className="info3">Opis: {shopDetails?.description}</p>
-
-                        {/* Display options for 'owner' role */}
                         {userRole === 'owner' && (
                             <div className="owner-actions">
-                                <button onClick={() => navigate(`/edit-shop/${shopData.shopId}`)}>Uredi informacije</button>
-                                <button onClick={() => navigate(`/change-image/${shopData.shopId}`)}>Promijeni sliku</button>
+                                <button onClick={() => navigate('/edit-shop', {
+                                    state: { shopId: shopId }
+                                })}>
+                                    Uredi informacije
+                                </button>
+                                <button onClick={() => navigate('/change-image', {
+                                    state: { shopId: shopId }
+                                })}>
+                                    Promijeni sliku
+                                </button>
                             </div>
                         )}
 
@@ -92,78 +107,92 @@ const ShopDetails = () => {
                             <h3>Recenzije:</h3>
                             {getCurrentReviews().map((review, index) => (
                                 <div key={index} className="review-item">
-                                    <span>{review.username}: {review.comment}</span>
+                                    <span>{review.author}: {review.text}</span>
+                                    <span>Ocjena: {review.rating}</span>
                                     {userRole === 'owner' && (
-                                        <button onClick={() => navigate(`/comment-review/${review.id}`)}>Komentiraj</button>
+                                        <button onClick={() => navigate('/comment-review', {
+                                            state: { reviewId: review.id }
+                                        })}>
+                                            Komentiraj
+                                        </button>
                                     )}
                                 </div>
                             ))}
 
-                            <div className="pagination">
-                                <button className="nav-btn" onClick={handlePrevPage} disabled={currentPage === 1}>&lt;</button>
-                                <span className="page-numbers">
-                                    {[...Array(totalPages)].map((_, index) => (
-                                        <span
-                                            key={index + 1}
-                                            className={currentPage === index + 1 ? "active" : ""}
-                                            onClick={() => setCurrentPage(index + 1)}
-                                        >
-                                            {index + 1}
-                                        </span>
-                                    ))}
-                                </span>
-                                <button className="nav-btn" onClick={handleNextPage} disabled={currentPage === totalPages}>&gt;</button>
-                            </div>
+                            {shopDetails.reviews && shopDetails.reviews.length > 0 && (
+                                <div className="pagination">
+                                    <button
+                                        className="nav-btn"
+                                        onClick={() => setCurrentPage(prev => prev - 1)}
+                                        disabled={currentPage === 1}
+                                    >
+                                        &lt;
+                                    </button>
+                                    <span className="page-numbers">
+                                        {currentPage} of {totalPages}
+                                    </span>
+                                    <button
+                                        className="nav-btn"
+                                        onClick={() => setCurrentPage(prev => prev + 1)}
+                                        disabled={currentPage === totalPages}
+                                    >
+                                        &gt;
+                                    </button>
+                                </div>
+                            )}
 
                             {userRole !== 'owner' && (
-                                <button className="add-review" onClick={() => navigate(`/review`)}>Ostavi recenziju</button>
+                                <button
+                                    className="add-review"
+                                    onClick={() => navigate('/review', {
+                                        state: { shopId: shopId }
+                                    })}
+                                >
+                                    Ostavi recenziju
+                                </button>
                             )}
                         </div>
                     </div>
                 </div>
 
                 <div className="right-panel">
-    <div className="logo1">
-        <img src={logo1} onClick={() => navigate('/UserHome')} style={{ cursor: 'pointer' }} />
-    </div>
+                    <div className="logo1">
+                        <img
+                            src={logo1}
+                            onClick={() => navigate('/UserHome')}
+                            style={{ cursor: 'pointer' }}
+                            alt="Logo"
+                        />
+                    </div>
 
-    <div className="product-list">
-        <h3>Popis proizvoda:</h3>
-        <ul className="product-items">
-            {shopDetails?.products.map((product, index) => (
-                <li key={index} className="product-item">
-                    <h4>{product.name}</h4>
-                    <p>{product.description}</p>
-                </li>
-            ))}
-        </ul>
+                    <div className="product-list">
+                        <h3>Popis proizvoda:</h3>
+                        {shopDetails.products && shopDetails.products.length > 0 ? (
+                            <ul className="product-items">
+                                {shopDetails.products.map((product, index) => (
+                                    <li key={index} className="product-item">
+                                        <h4>{product.name}</h4>
+                                        <p>{product.description}</p>
+                                        <p>Cijena: {product.price} €</p>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p>Nema dostupnih proizvoda</p>
+                        )}
 
-        {/* Gumb za dodavanje novog proizvoda, prikazuje se samo ako je korisnik 'owner' */}
-        {userRole === 'owner' && (
-            <button className="add-product-btn" onClick={() => navigate(`/addProduct/${shopData.shopId}`)}>
-                Dodaj novi proizvod
-            </button>
-        )}
-    </div>
-
-    <div className="pagination">
-        <button className="nav-btn" onClick={handlePrevPage} disabled={currentPage === 1}>&lt;</button>
-        <span className="page-numbers">
-            {[...Array(totalPages)].map((_, index) => (
-                <span
-                    key={index + 1}
-                    className={currentPage === index + 1 ? "active" : ""}
-                    onClick={() => setCurrentPage(index + 1)}
-                >
-                    {index + 1}
-                </span>
-            ))}
-        </span>
-        <button className="nav-btn" onClick={handleNextPage} disabled={currentPage === totalPages}>&gt;</button>
-    </div>
-</div>
-
-
+                        {userRole === 'owner' && (
+                            <button
+                                className="add-product-btn"
+                                onClick={() => navigate('/addProduct', {
+                                    state: { shopId: shopId }
+                                })}
+                            >
+                                Dodaj novi proizvod
+                            </button>
+                        )}
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -316,7 +316,12 @@ const UserHome = () => {
                 <div className="store-list">
                     <button id="prvi-btn" className="navigacija" onClick={prviBTN} disabled={index === 0}>{"<"}</button>
                     {visible.map((shops, ind) => (
-                        <div className="store-item" key={ind}>
+                        <div className="store-item" key={ind} onClick={() => navigate('/shop', {
+                            replace: false,
+                            state: {
+                                shopId: shops.shopDTO.id,
+                            }
+                        })}>
                             <div className="image-container1">
                                 <img className="slike" src={shops.shopDTO.imagePath}/>
                             </div>
