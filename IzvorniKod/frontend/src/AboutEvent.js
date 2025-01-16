@@ -36,6 +36,7 @@ const AboutEvent = () => {
                         no održat će se i radionica za one naprednije (vrsta radionice se bira na ulazu).
                     </p>
                     <button className="goToEvents" onClick={() => navigate('/events')}>Vrati se na popis događaja</button>
+
                 </div>
             </div>
         </div>

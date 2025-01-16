@@ -43,6 +43,30 @@ const Events = () => {
         }
     };
 
+    const handleSignup = async (eventId) => {
+        try {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/signup/${eventId}`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+                body: JSON.stringify({ userId: localStorage.getItem("userId") }) // Ako je potrebno poslati ID korisnika
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to sign up for the event');
+            }
+
+            // Ako je uspješno prijavljen, dodaj ID u registrirane događaje
+            setRegisteredEvents([...registeredEvents, eventId]);
+            alert('Uspješno ste se prijavili na događaj!');
+        } catch (error) {
+            console.error('Error signing up for the event:', error);
+            alert('Došlo je do greške prilikom prijave na događaj.');
+        }
+    };
+
     const handleRegisterClick = (eventId) => {
         if (!registeredEvents.includes(eventId)) {
             setRegisteredEvents([...registeredEvents, eventId]); // Dodaj ID u niz registriranih događaja
@@ -66,7 +90,7 @@ const Events = () => {
             <div className="event-container">
                 {getCurrentEvents().map(event => (
                     <div key={event.id} className="event-card">
-                        <div className="event-column left-column">
+                        <div className="event-column-left-column">
                             <h2 className="event-name">{event.name}</h2>
                             <img src={event.image} alt={event.name} className="event-image"/>
                         </div>
@@ -92,7 +116,7 @@ const Events = () => {
                             ) : (
                                 <button
                                     className="register"
-                                    onClick={() => handleRegisterClick(event.id)}
+                                    onClick={() => handleSignup(event.id)}
                                 >
                                     Prijavi se
                                 </button>

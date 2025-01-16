@@ -60,8 +60,10 @@
     padding: 1vw; /* Unutarnji razmak unutar stupaca */
 }
 
-.left-column {
+.event-column-left-column {
     text-align: center; /* Centriranje teksta u lijevom stupcu */
+    width: 30%;
+    margin-top: 2%;
 }
 
 .middle-column {
