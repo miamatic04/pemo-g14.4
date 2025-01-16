@@ -26,7 +26,7 @@ public class ProductShop {
     private String imagePath;
 
     @Min(0)
-    private int quantity;
+    private Integer quantity;
 
     @ManyToOne
     @JoinColumn(name = "shop_id", nullable = false)

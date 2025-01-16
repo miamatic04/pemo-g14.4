@@ -29,13 +29,13 @@ public class CustomerOrder {
     @JoinColumn(name = "shop_id", nullable = false)
     private Shop shop;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<OrderProduct> orderProducts;
 
     private double total;
     private boolean paid;
-    private boolean cancelled;
     private boolean active;
+    private boolean cancelled;
     private LocalDate orderDate;
 
     public CustomerOrder(Person person, Shop shop) {

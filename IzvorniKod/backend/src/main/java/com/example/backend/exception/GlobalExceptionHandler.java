@@ -145,5 +145,12 @@ public class GlobalExceptionHandler {
         response.put("message", ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(MultipleShopsNotAllowedException.class)
+    public ResponseEntity<Map<String, Object>> handleMultipleShopsNotAllowedException(MultipleShopsNotAllowedException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }
 

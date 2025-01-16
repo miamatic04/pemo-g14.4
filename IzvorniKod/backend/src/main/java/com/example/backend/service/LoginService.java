@@ -27,6 +27,8 @@ public class LoginService {
 
     @Autowired
     private PersonService personService;
+    @Autowired
+    private OrderService orderService;
 
     public ResponseEntity<Map<String, Object>> login(@RequestBody LoginInfo loginInfo) throws JsonProcessingException {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginInfo.getEmail(), loginInfo.getPass()));
@@ -35,8 +37,13 @@ public class LoginService {
 
             if(personService.findUser(loginInfo.getEmail()).getEmailConfirmed()) {
                 Map<String, Object> response = new HashMap<>();
-                response.put("token", jwtService.generateToken(loginInfo.getEmail()));
+                String token = jwtService.generateToken(loginInfo.getEmail());
+                response.put("token", token);
                 response.put("role", authentication.getAuthorities().toString());
+
+                Long activeOrderId = orderService.getActiveOrder(token).getId();
+
+                response.put("activeOrderId", activeOrderId);
 
                 return ResponseEntity.ok(response);
             } else

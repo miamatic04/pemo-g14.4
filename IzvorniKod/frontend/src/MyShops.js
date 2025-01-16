@@ -106,7 +106,7 @@ const MyShops = () => {
                 <ul>
                     {shops.map(shop => (
                         <li key={shop.id} className="li1">
-                            <span>{shop.shopName}</span>
+                            <span>{shop.name}</span>
                             <div className="button-group">
                                 <button className="edit-button">Uredi</button>
                                 <button onClick={() => deleteShop(shop.id)} className="delete-button">Obriši</button>

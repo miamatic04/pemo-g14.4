@@ -3,6 +3,7 @@ package com.example.backend.service;
 import com.example.backend.exception.*;
 import com.example.backend.model.*;
 import com.example.backend.repository.*;
+import com.example.backend.utils.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.core.parameters.P;
@@ -32,6 +33,9 @@ public class OrderService {
 
     @Autowired
     private ProductShopRepository productShopRepository;
+
+    @Autowired
+    private Scheduler scheduler;
 
     public List<OrderDTO> getAllOrders(String token) {
 
@@ -250,6 +254,8 @@ public class OrderService {
 
     public OrderDTO addToOrder(ModifyOrderDTO modifyOrderDTO, String token) {
 
+        boolean newOrder = false;
+
         String email = jwtService.extractUsername(token);
 
         Person user = personRepository.findByEmail(email);
@@ -266,18 +272,50 @@ public class OrderService {
 
         if(modifyOrderDTO.getOrderId() == null) {
             order = new CustomerOrder(user, shop);
+            newOrder = true;
         } else {
             order = orderRepository.findById(modifyOrderDTO.getOrderId()).orElseThrow(() -> new OrderNotFoundException("Order not found"));
+
+            if(!order.getShop().getId().equals(productShop.getShop().getId())) {
+                throw new MultipleShopsNotAllowedException("Adding products from multiple shops is not allowed.");
+            }
+
+            if(!order.isActive())
+                setOrderAsActive(order.getId());
         }
+
+        if(modifyOrderDTO.getQuantity() > productShop.getQuantity())
+            throw new NoProductInStockException("Available in stock: " + productShop.getQuantity());
 
         OrderProduct orderProduct = new OrderProduct();
         orderProduct.setOrder(order);
         orderProduct.setProductShop(productShop);
         orderProduct.setQuantity(modifyOrderDTO.getQuantity());
 
-        order.getOrderProducts().add(orderProduct);
+        boolean productExists = false;
 
+        for (OrderProduct existingOrderProduct : order.getOrderProducts()) {
+            if (existingOrderProduct.getProductShop().getId().equals(orderProduct.getProductShop().getId())) {
+                // Product already exists, update the quantity
+                existingOrderProduct.setQuantity(existingOrderProduct.getQuantity() + orderProduct.getQuantity());
+                productExists = true;
+                break;
+            }
+        }
+
+        if (!productExists) {
+            // Product does not exist, add the new OrderProduct to the list
+            order.getOrderProducts().add(orderProduct);
+        }
+
+        productShop.setQuantity(productShop.getQuantity() - modifyOrderDTO.getQuantity());
+
+        productShopRepository.save(productShop);
         CustomerOrder savedOrder = orderRepository.save(order);
+
+        if(newOrder) {
+            scheduler.startOrderTimer(savedOrder.getId(), 30);
+        }
 
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setId(savedOrder.getId());
@@ -304,6 +342,25 @@ public class OrderService {
         return orderDTO;
     }
 
+    private void setOrderAsActive(Long id) {
+
+        CustomerOrder order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException("Order not found"));
+
+        for(OrderProduct orderProduct: order.getOrderProducts()) {
+            ProductShop productShop = orderProduct.getProductShop();
+            if(productShop.getQuantity() - orderProduct.getQuantity() < 0)
+                throw new NoProductInStockException("Available in stock: " + productShop.getQuantity());
+            else
+                productShop.setQuantity(productShop.getQuantity() - orderProduct.getQuantity());
+
+            productShopRepository.save(productShop);
+        }
+
+        order.setActive(true);
+        orderRepository.save(order);
+        scheduler.startOrderTimer(order.getId(), 30);
+    }
+
     public OrderDTO removeFromOrder(ModifyOrderDTO modifyOrderDTO, String token) {
 
         String email = jwtService.extractUsername(token);
@@ -325,8 +382,14 @@ public class OrderService {
             }
         }
 
-        if(index != -1)
+
+        if(index != -1) {
+            Integer quantity = modifyOrderDTO.getQuantity();
+            ProductShop product = order.getOrderProducts().get(index).getProductShop();
+            product.setQuantity(product.getQuantity() + quantity);
             order.getOrderProducts().remove(index);
+            productShopRepository.save(product);
+        }
 
         CustomerOrder savedOrder = orderRepository.save(order);
 
