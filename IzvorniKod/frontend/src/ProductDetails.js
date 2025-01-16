@@ -10,6 +10,10 @@ const ProductDetails = () => {
     const [productDetails, setProductDetails] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    const [cartMessage, setCartMessage] = useState('');
+    const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []); // Definirajte stanje za košaricu
+
+
     const [currentPage, setCurrentPage] = useState(1);
     const reviewsPerPage = 2;
 
@@ -38,6 +42,39 @@ const ProductDetails = () => {
 
         fetchProductDetails();
     }, [productData.productId]);
+
+    const addToCart = () => {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const productExists = cart.find((item) => item.id === productData.productId);
+        console.log('productExists=', productExists);
+
+        console.log("productDetails", productData);
+
+        if (productExists) {
+            setCartMessage('Proizvod je već u košarici.');
+            productExists.quantity += 1;
+        } else {
+            console.log('hi');
+            console.log(productData.productId);
+            cart.push({
+                id: productData.productId,
+                name: productDetails.name,
+                price: productDetails.price,
+                imagePath: productDetails.imagePath,
+                quantity: 1,
+            });
+            setCartMessage('Proizvod je dodan u košaricu!');
+        }            
+        
+        console.log('cart:', cart)
+
+        console.log(cartMessage)
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        setTimeout(() => setCartMessage(''), 3000);
+    };
+
+
 
     if (loading) {
         return <div>Loading...</div>;
@@ -76,7 +113,7 @@ const ProductDetails = () => {
                         <p className="info3">Kategorija: {productDetails?.category}</p>
                         <p className="info3">Opis: {productDetails?.description}</p>
                         <p className="info3">Cijena: {productDetails?.price} €</p>
-                        <button className="add-to-cart">
+                        <button className="add-to-cart" onClick={addToCart}>
                             <i className="fas fa-shopping-cart"></i> Dodaj u košaricu
                         </button>
                     </div>

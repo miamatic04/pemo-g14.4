@@ -16,6 +16,7 @@ import District from './District';
 import ShopDetails from './ShopDetails';
 import UserProfile from "./UserProfile";
 import Payment from "./Payment";
+import Cart from "./Cart";
 
 
 const App = () => {
@@ -38,6 +39,7 @@ const App = () => {
                 <Route path="/shop" element={<ShopDetails />} />
                 <Route path="/userProfile" element={<UserProfile/>}/>
                 <Route path="/Payment" element={<Payment/>}/>
+                <Route path="/cart" element={<Cart/>}></Route>
             </Routes>
         </Router>
     );

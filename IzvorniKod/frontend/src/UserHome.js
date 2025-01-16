@@ -268,7 +268,7 @@ const UserHome = () => {
                         <li className="el"><a className="a1" onClick={() => navigate('/district')}>Kvart</a></li>
                         <li className="el"><a className="a1" onClick={() => navigate('/events')}>Događaji</a></li>
                         <li className="el"><a className="a1" onClick={() => navigate('/shopsList')}>Popis trgovina</a></li>
-                        <li className="el"><a className="a1">Košarica</a></li>
+                        <li className="el"><a className="a1" onClick={() => navigate('/cart')}>Košarica</a></li>
                         <li className="hamburger">
                             <button className="hamburger-btn" onClick={toggleMenu}>
                                 ☰

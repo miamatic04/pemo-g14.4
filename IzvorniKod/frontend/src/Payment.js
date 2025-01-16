@@ -47,7 +47,7 @@ const Payment = () => {
                     <div className="header-content">
                         <h1 className="payment">PLAĆANJE</h1>
                         <h2>210,00€</h2>
-                        <a className="detailsPayment">vidi detalje narudžbe</a>
+                        <a className="detailsPayment" onClick={() => navigate("/cart")}>vidi detalje narudžbe</a>
                     </div>
                 </div>
                 <form className="payment-form" onSubmit={handleSubmit}>
