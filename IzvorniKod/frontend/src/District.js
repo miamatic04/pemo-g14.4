@@ -115,7 +115,7 @@ const District = () => {
                         style={{cursor: 'pointer'}}
                     />
                 </div>
-                <h1 className="header-title">KVART</h1>
+                <h1 className="header-title">Kvart</h1>
             </div>
 
             <Section title="Trgovine" items={shops}/>
