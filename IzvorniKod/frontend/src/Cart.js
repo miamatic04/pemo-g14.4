@@ -9,6 +9,7 @@ const Cart = () => {
     const [promoCode, setPromoCode] = useState('');
     const [discount, setDiscount] = useState(0);
     const navigate = useNavigate();
+    const userRole = localStorage.getItem('role');
 
     useEffect(() => {
         const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -91,7 +92,7 @@ const Cart = () => {
         <div className="cart-page">
             <div className="cart-container">
                 <div className="cart-header">
-                    <img className="logo" src='logo1.png' onClick={() => navigate('/userhome')}></img>
+                    <img className="logo" src='logo1.png' onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}></img>
                     <h1>Vaša košarica</h1>
                 </div>
                 <div className="cart-content">

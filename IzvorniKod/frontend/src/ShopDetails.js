@@ -159,7 +159,7 @@ const ShopDetails = () => {
                     <div className="logo1">
                         <img
                             src={logo1}
-                            onClick={() => navigate('/UserHome')}
+                            onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
                             style={{ cursor: 'pointer' }}
                             alt="Logo"
                         />

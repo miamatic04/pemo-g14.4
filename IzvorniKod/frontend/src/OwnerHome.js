@@ -285,7 +285,7 @@ const OwnerHome = () => {
         <div className="body-klasa">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/> {/*link na Font Awesome za ikone kod proizvoda*/}
             <div className="home">
-                <div className="header">
+                <div className="header2">
                     <img src={logo} alt="logo" className="logo33"></img>
                     <ul className="lista">
                         <li className="el"><a className="a1" onClick={() => navigate('/district')}>Kvart</a></li>
@@ -351,7 +351,7 @@ const OwnerHome = () => {
             <div className="klasa1">
                 <div className="klasa2">
                     <h1>Proizvodi</h1>
-                    <form className="forma1">
+                    {/*<form className="forma1">
                         <label>
                             <i>Sortiraj proizvode po: </i>
                             <select value={sortOrder} onChange={handleSortChange}>
@@ -359,7 +359,7 @@ const OwnerHome = () => {
                                 <option value="ZA">nazivu Z-A</option>
                             </select>
                         </label>
-                    </form>
+                    </form>*/}
                 </div>
                 <div className="klasa3">
                     <button id="prvi-btn1" className="navigacija" onClick={prviBTN1} disabled={index1 === 0}>{"<"}</button>

@@ -11,7 +11,7 @@ const Payment = () => {
         ccvCode: '',
         role: 'user'
     });
-
+    const userRole = localStorage.getItem('role');
     const [backendResult, setBackendResult] = useState(null);
 
     const navigate = useNavigate();
@@ -45,7 +45,7 @@ const Payment = () => {
         <div className="payment-page">
             <div className="payment-container">
                 <div className="logoPayment">
-                    <img src={logo1} onClick={() => navigate('/UserHome')} style={{cursor: 'pointer'}} className="logoPay"/>
+                    <img src={logo1} onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')} style={{cursor: 'pointer'}} className="logoPay"/>
                 </div>
                 <div className="header-section-payment">
                     <div className="header-content">

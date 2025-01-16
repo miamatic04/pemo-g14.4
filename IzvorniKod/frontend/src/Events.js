@@ -7,7 +7,7 @@ import event2 from './Components/Assets/event2.jpg';
 
 const Events = () => {
     const navigate = useNavigate();
-
+    const userRole = localStorage.getItem('role');
     const allEvents = [
         { id: 1, name: "Ime Događaja 1", image: event1, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 1", date: "Datum 1", time: "Vrijeme 1"},
         { id: 2, name: "Ime Događaja 2", image: event2, info: "Prvo izdanje shopping utrke. Dođite, zabavite se i osvojite vrijedne nagrade.", location: "Mjesto 2", date: "Datum 2", time: "Vrijeme 2"},
@@ -81,7 +81,7 @@ const Events = () => {
         <div className="event-page">
             <div className="header-events">
                 <div className="logo-container">
-                    <img src={logo1} alt="Logo" className="logo" onClick={() => navigate('/UserHome')}
+                    <img src={logo1} alt="Logo" className="logo" onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
                          style={{cursor: 'pointer'}}/>
                 </div>
                 <h1 className="header-title">Događaji</h1>

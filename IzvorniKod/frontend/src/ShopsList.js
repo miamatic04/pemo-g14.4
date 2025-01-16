@@ -9,7 +9,7 @@ import trgovina4 from './Components/Assets/trgovina4.jpg';
 
 const ShopsList = () => {
     const navigate = useNavigate();
-
+    const userRole = localStorage.getItem('role');
     const [filter, setFilter] = useState(''); // Stanje za filtriranje
     const [filterVisible, setFilterVisible] = useState(false); // Stanje za vidljivost opcija filtriranja
 
@@ -68,7 +68,7 @@ const ShopsList = () => {
                         src={logo1}
                         alt="Logo"
                         className="logo"
-                        onClick={() => navigate('/UserHome')}
+                        onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
                         style={{ cursor: 'pointer' }}
                     />
                 </div>

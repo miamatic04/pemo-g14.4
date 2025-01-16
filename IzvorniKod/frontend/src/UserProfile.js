@@ -18,7 +18,7 @@ const UserProfile = () => {
 
     const [backendResult, setBackendResult] = useState(null);
     const [districtsVisible, setDistrictsVisible] = useState(false); // stanje za prikazivanje kvartova
-
+    const userRole = localStorage.getItem('role');
     const districts = ['Kvart 1', 'Kvart 2', 'Kvart 3']; // Lista kvartova
     const navigate = useNavigate();
 
@@ -82,7 +82,7 @@ const UserProfile = () => {
         <div className="user-profile-page">
             <div className="user-profile-container">
                 <div className="logo1">
-                    <img src={logo1} onClick={() => navigate('/UserHome')} style={{ cursor: 'pointer' }} />
+                    <img src={logo1} onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')} style={{ cursor: 'pointer' }} />
                 </div>
                 <form className="profile-form" onSubmit={handleSubmit}>
                     <h1 className="myProfile">MOJ PROFIL</h1>

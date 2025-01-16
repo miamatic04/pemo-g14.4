@@ -6,7 +6,7 @@ import event1 from './Components/Assets/event1.jpg';
 
 const AboutEvent = () => {
     const navigate = useNavigate();
-
+    const userRole = localStorage.getItem('role');
     return (
         <div className="aboutEvent-page">
             <div className="aboutEvent-container">
@@ -24,7 +24,7 @@ const AboutEvent = () => {
 
                 <div className="right-panel">
                     <div className="logo1">
-                        <img src={logo1} onClick={() => navigate('/UserHome')}
+                        <img src={logo1} onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
                              style={{cursor: 'pointer'}}/>
                     </div>
                     <h3 className="opisDogadaja">Opis događaja:</h3>

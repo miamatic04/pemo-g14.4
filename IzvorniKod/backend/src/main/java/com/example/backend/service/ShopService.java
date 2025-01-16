@@ -1,4 +1,6 @@
 package com.example.backend.service;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 import com.example.backend.exception.NoLocationPermissionException;
 import com.example.backend.exception.ShopNotFoundException;
@@ -79,7 +81,8 @@ public class ShopService {
 
         for(Shop shop : shops) {
             double distance = distanceCalculator.calculateDistance(userLatitude, userLongitude, shop.getLatitude(), shop.getLongitude());
-            double roundedDistance = Double.parseDouble(df.format(distance));
+            String formattedDistance = df.format(distance).replace(",", ".");
+            double roundedDistance = Double.parseDouble(formattedDistance);
             shopsWithDistance.add(new ShopDistance(shop, roundedDistance));
         }
 
@@ -253,12 +256,14 @@ public class ShopService {
         List<Shop> shops = shopRepository.findAllSortedByNameAsc();
 
         DecimalFormat df = new DecimalFormat("#.#");
+        df.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
 
         List<ShopDistance> shopsWithDistance = new ArrayList<>();
 
         for(Shop shop : shops) {
             double distance = distanceCalculator.calculateDistance(userLatitude, userLongitude, shop.getLatitude(), shop.getLongitude());
-            double roundedDistance = Double.parseDouble(df.format(distance));
+            String formattedDistance = df.format(distance);
+            double roundedDistance = Double.parseDouble(formattedDistance);
             if(roundedDistance <= radius)
                 shopsWithDistance.add(new ShopDistance(shop, roundedDistance));
         }

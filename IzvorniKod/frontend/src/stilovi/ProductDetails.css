@@ -65,14 +65,14 @@
     background-color: #357ABD;
 }
 
-.logo1 {
+.logo111 {
     top: 20px;
     right: 20px;
     height: auto;
     margin-bottom: 20%;
 }
 
-.logo1 img {
+.logo111 img {
     height: auto;
     max-height: 60px;
     float: right;
@@ -84,6 +84,7 @@
 }
 
 .info3{
+    font-size: 17px !important;
     margin-top:5px;
 }
 

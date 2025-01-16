@@ -9,6 +9,7 @@ const ReviewPage = () => {
     const [hoverRating, setHoverRating] = useState(0);
     const [comment, setComment] = useState('');
     const [image, setImage] = useState(null);
+    const userRole = localStorage.getItem('role');
 
     const handleRatingClick = (selectedRating) => {
         setRating(selectedRating);
@@ -42,7 +43,7 @@ const ReviewPage = () => {
             <div className="review-card">
                 <div className="review-header">
                     <h2 className="review-title">MOJA RECENZIJA</h2>
-                    <img src={logo} alt={"logo"} onClick={() => navigate('/UserHome')}/>
+                    <img src={logo} alt={"logo"} onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}/>
                 </div>
 
                 <div className="review-content">

@@ -9,10 +9,10 @@ const ProductDetails = () => {
     const productData = location.state || {};
     const [productDetails, setProductDetails] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    const userRole = localStorage.getItem('role');
     const [cartMessage, setCartMessage] = useState('');
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []); // Definirajte stanje za košaricu
-
+    const [addedMessage, setAddedMessage] = useState('');
 
     const [currentPage, setCurrentPage] = useState(1);
     const reviewsPerPage = 2;
@@ -71,6 +71,13 @@ const ProductDetails = () => {
         console.log(cartMessage)
         localStorage.setItem('cart', JSON.stringify(cart));
 
+        setAddedMessage('Dodano u košaricu!');
+
+        // Obriši poruku nakon 5 sekundi
+        setTimeout(() => {
+            setAddedMessage('');
+        }, 4000);
+
         setTimeout(() => setCartMessage(''), 3000);
     };
 
@@ -113,6 +120,15 @@ const ProductDetails = () => {
                         <p className="info3">Kategorija: {productDetails?.category}</p>
                         <p className="info3">Opis: {productDetails?.description}</p>
                         <p className="info3">Cijena: {productDetails?.price} €</p>
+                        <p style={{
+                            color: '#007bff',
+                            fontSize:'18px',
+                            textAlign: 'center',
+                            height: '20px', // fiksna visina da ne "skače" sadržaj
+                            margin: '10px 0'
+                        }}>
+                            {addedMessage}
+                        </p>
                         <button className="add-to-cart" onClick={addToCart}>
                             <i className="fas fa-shopping-cart"></i> Dodaj u košaricu
                         </button>
@@ -120,8 +136,8 @@ const ProductDetails = () => {
                 </div>
 
                 <div className="right-panel">
-                    <div className="logo1">
-                        <img src={logo1} onClick={() => navigate('/UserHome')}
+                    <div className="logo111">
+                        <img src={logo1} onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
                              style={{ cursor: 'pointer' }}/>
                     </div>
 

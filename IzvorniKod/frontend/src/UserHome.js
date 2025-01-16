@@ -3,6 +3,7 @@ import './stilovi/home.css'
 import logo from './Components/Assets/logo1.png'
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import ProductModal from "./Components/ProductModal";
 
 const UserHome = () => {
     const navigate = useNavigate();
@@ -15,6 +16,17 @@ const UserHome = () => {
     const [locationTried, setLocationTried] = useState(false);
     const [authenticationTried, setAuthenticationTried] = useState(false);
     const [products, setProducts] = useState([]);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+
+    const openModal = (product) => {
+        console.log("Open");
+        setSelectedProduct(product);
+        console.log(selectedProduct);
+    };
+
+    const closeModal = () => {
+        setSelectedProduct(null);
+    };
 
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -262,7 +274,7 @@ const UserHome = () => {
         <div className="body-klasa">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/> {/*link na Font Awesome za ikone kod proizvoda*/}
             <div className="home">
-                <div className="header">
+                <div className="header2">
                     <img src={logo} alt="logo" className="logo33"></img>
                     <ul className="lista">
                         <li className="el"><a className="a1" onClick={() => navigate('/district')}>Kvart</a></li>
@@ -305,7 +317,12 @@ const UserHome = () => {
                 <div className="store-list">
                     <button id="prvi-btn" className="navigacija" onClick={prviBTN} disabled={index === 0}>{"<"}</button>
                     {visible.map((shops, ind) => (
-                        <div className="store-item" key={ind}>
+                        <div className="store-item" key={ind} onClick={() => navigate('/shop', {
+                            replace: false,
+                            state: {
+                                shopId: shops.shopDTO.id,
+                            }
+                        })}>
                             <div className="image-container1">
                                 <img className="slike" src={shops.shopDTO.imagePath}/>
                             </div>
@@ -323,7 +340,7 @@ const UserHome = () => {
             <div className="klasa1">
                 <div className="klasa2">
                     <h1>Proizvodi</h1>
-                    <form className="forma1">
+                    {/*<form className="forma1">
                         <label>
                             <i>Sortiraj proizvode po: </i>
                             <select value={sortOrder} onChange={handleSortChange}>
@@ -331,18 +348,13 @@ const UserHome = () => {
                                 <option value="ZA">nazivu Z-A</option>
                             </select>
                         </label>
-                    </form>
+                    </form>*/}
                 </div>
                 <div className="klasa3">
                     <button id="prvi-btn1" className="navigacija" onClick={prviBTN1} disabled={index1 === 0}>{"<"}</button>
                     <div id="proizvodi" className="store-list">
                         {visible1.map((product, ind) => (
-                            <div className="store-item" id="proizvod" key={ind} onClick={() => navigate('/product', {
-                                replace: false,
-                                state: {
-                                    productId: product.id,
-                                }
-                            })}>
+                            <div className="store-item" id="proizvod" key={ind} onClick={() => openModal(product)}>
                                 <div id="img-container2" className="image-container1">
                                     <img className="slike" src={product.imagePath} alt={product.name}/>
                                 </div>
@@ -360,7 +372,14 @@ const UserHome = () => {
                     <button className="navigacija" onClick={drugiBTN1} disabled={index1 + 6 >= products.length}>{">"}</button>
                 </div>
             </div>
+            {selectedProduct && (
+                <ProductModal
+                    product={selectedProduct}
+                    onClose={closeModal}
+                />
+            )}
         </div>
+
     );
 };
 

@@ -28,6 +28,7 @@ const ShoppingCard = ({status, price, date }) => {
 
 const ShoppingPage = () => {
     const navigate = useNavigate();
+    const userRole = localStorage.getItem('role');
     const purchases = [
         { status: "u tijeku", price: "8,59 €", date: "09.01.2025." },
         { status: "završeno", price: "1,99 €", date: "09.01.2025." },
@@ -42,7 +43,7 @@ const ShoppingPage = () => {
                         src={logo1}
                         alt="Logo"
                         className="logo"
-                        onClick={() => navigate('/UserHome')}
+                        onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
                         style={{cursor: 'pointer'}}
                     />
                 </div>
