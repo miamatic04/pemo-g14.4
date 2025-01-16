@@ -73,7 +73,7 @@ const ProductDetails = () => {
 
         setAddedMessage('Dodano u košaricu!');
 
-        // Obriši poruku nakon 5 sekundi
+        // Obriši poruku nakon 4 sekunde
         setTimeout(() => {
             setAddedMessage('');
         }, 4000);
