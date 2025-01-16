@@ -85,10 +85,23 @@
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
+    margin-bottom: 2%;
 }
 
 #submitPayment:hover{
     background-color: limegreen;
+}
+
+#stopPayment {
+    background-color: #4A90E2; /* Boja dugmeta */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+
+#stopPayment:hover{
+    background-color: red;
 }
 
 .payment-form {

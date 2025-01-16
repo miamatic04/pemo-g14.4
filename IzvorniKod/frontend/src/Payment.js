@@ -37,6 +37,10 @@ const Payment = () => {
         setBackendResult({ message: "Plaćanje je uspješno izvršeno!" }); // Postavljanje poruke o uspjehu
     };
 
+    const handleStopPayment = () => {
+        navigate('/kosarica');
+    };
+
     return (
         <div className="payment-page">
             <div className="payment-container">
@@ -116,6 +120,7 @@ const Payment = () => {
                             <h2>{backendResult.message}</h2>
                         </div>
                     )}
+                    <button type="button" id="stopPayment" onClick={handleStopPayment}>Otkaži plaćanje</button>
                 </form>
             </div>
         </div>
