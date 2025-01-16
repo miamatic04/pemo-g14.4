@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.model.EditProfileDTO;
 import com.example.backend.model.Person;
 import com.example.backend.model.RegistrationInfo;
 import com.example.backend.service.JWTService;
@@ -34,6 +35,11 @@ public class UserController {
     @GetMapping("/confirmEmail")
     public RedirectView confirmEmail(@RequestParam("token") String confirmationToken) {
         return personService.confirmEmail(confirmationToken);
+    }
+
+    @PostMapping("/editProfile")
+    public ResponseEntity<String> editProfile(@RequestBody EditProfileDTO editProfileDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return ResponseEntity.ok(personService.editProfile(editProfileDTO, authHeader.substring(7)));
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.model.AddEventDTO;
 import com.example.backend.model.EventDTO;
 import com.example.backend.service.EventService;
 import com.example.backend.service.EventSignUpService;
@@ -34,5 +35,10 @@ public class EventController {
     public ResponseEntity<List<EventDTO>> getHoodEvents(@RequestHeader(value = "Authorization", required = false) String authHeader, double radius) {
         List<EventDTO> events = eventService.getHoodEvents(authHeader.substring(7), radius);
         return ResponseEntity.ok(events);
+    }
+
+    @PostMapping("/addEvent")
+    public ResponseEntity<String> addEvent(@RequestBody AddEventDTO addEventDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return ResponseEntity.ok(eventService.addEvent(addEventDTO, authHeader.substring(7)));
     }
 }

@@ -1,8 +1,6 @@
 package com.example.backend.service;
 
-import com.example.backend.exception.CustomConstraintViolationException;
-import com.example.backend.exception.EmailAlreadyInUseException;
-import com.example.backend.exception.PasswordsDontMatchException;
+import com.example.backend.exception.*;
 import com.example.backend.model.*;
 import com.example.backend.repository.PersonRepository;
 import jakarta.mail.MessagingException;
@@ -13,9 +11,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -88,6 +92,76 @@ public class PersonService {
                 return new RedirectView("http://" + web_url + "/?confirmed=true");
         }
         return new RedirectView("/?confirmed=false");
+    }
+
+    public String editProfile(EditProfileDTO editProfileDTO, String token) {
+
+        for(Person user : personRepository.findAll()) {
+            if(user.getUsername().equals(editProfileDTO.getUsername())) {
+                throw new UsernameAlreadyInUseException("Username " + editProfileDTO.getUsername() + " is already in use");
+            }
+        }
+
+        String email = jwtService.extractUsername(token);
+
+        Person user = personRepository.findByEmail(email);
+
+        String frontendPath = null;
+
+        if(user == null) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        if(editProfileDTO.getFile().getOriginalFilename() != null) {
+            String folderPath = "public/userUploads/";
+
+            try {
+
+                File directory = new File(folderPath);
+                if (!directory.exists()) {
+                    directory.mkdirs();
+                }
+
+                String emailNoPeriods = email.replaceAll("\\.", "");
+
+                String originalFilename = StringUtils.cleanPath(editProfileDTO.getFile().getOriginalFilename());
+                String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                String newFilename = emailNoPeriods + "_pfp" + extension; // e.g. asd@gmailcom_pfp.png
+
+                Path targetLocation = Paths.get(folderPath + newFilename);
+
+                if (Files.exists(targetLocation)) {
+                    try {
+                        Files.delete(targetLocation);
+                    } catch (IOException e) {
+                        System.out.println("Error deleting existing file: " + e.getMessage());
+                        return "Error deleting existing file";
+                    }
+                }
+
+                Files.copy(editProfileDTO.getFile().getInputStream(), targetLocation);
+
+                frontendPath = "/userUploads/" + newFilename;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if(editProfileDTO.getUsername() != null) {
+            user.setUsername(editProfileDTO.getUsername());
+        }
+
+        if(editProfileDTO.getHood() != null) {
+            user.setHood(editProfileDTO.getHood());
+        }
+
+        if(editProfileDTO.getFile() != null) {
+            user.setImagePath(frontendPath);
+        }
+
+        personRepository.save(user);
+
+        return "User profile updated successfully.";
     }
 
 }

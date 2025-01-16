@@ -264,6 +264,14 @@ public class OrderService {
             throw new UserNotFoundException("User not found");
         }
 
+        if(modifyOrderDTO.getOrderId() != null) {
+            for(CustomerOrder customerOrder : user.getCustomerOrders()) {
+                if(!customerOrder.getId().equals(modifyOrderDTO.getOrderId()) && customerOrder.isActive()) {
+                    scheduler.markOrderAsInactive(customerOrder.getId());
+                }
+            }
+        }
+
         ProductShop productShop = productShopRepository.findById(modifyOrderDTO.getProductId()).orElseThrow(() -> new ProductNotFoundException("Product not found"));
 
         Shop shop = shopRepository.findById(productShop.getShop().getId()).orElseThrow(() -> new ShopNotFoundException("Shop not found"));

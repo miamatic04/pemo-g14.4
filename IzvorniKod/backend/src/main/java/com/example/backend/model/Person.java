@@ -20,7 +20,6 @@ import java.util.Set;
 @Entity
 public class Person {
 
-    //zajednicki:
     @Id
     private String email;
     private String firstName;
@@ -31,8 +30,10 @@ public class Person {
     private double latitude;
     private String confirmationToken;
     private Boolean emailConfirmed;
+    private String hood;
+    private String username;
+    private String imagePath;
 
-    //shopOwner:
     private String OIB;
     @OneToMany(mappedBy = "shopOwner", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
