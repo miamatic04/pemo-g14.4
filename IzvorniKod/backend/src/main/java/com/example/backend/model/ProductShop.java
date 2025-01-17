@@ -7,7 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -38,4 +40,7 @@ public class ProductShop {
 
     @OneToMany(mappedBy = "productShop", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Review> reviews = new HashSet<>();
+
+    @OneToMany(mappedBy = "reportedProductShop", cascade = CascadeType.ALL)
+    private List<Report> incomingReports = new ArrayList<>();
 }

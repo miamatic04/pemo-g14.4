@@ -8,6 +8,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -40,4 +43,7 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "author_id")
     private Person author;
+
+    @OneToMany(mappedBy = "reportedReview", cascade = CascadeType.ALL)
+    private List<Report> incomingReports = new ArrayList<>();
 }

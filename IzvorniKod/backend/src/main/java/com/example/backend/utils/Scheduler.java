@@ -108,6 +108,7 @@ public class Scheduler {
     // Create a new event based on the old event and the new dateTime
     private Event createNewEvent(Event oldEvent, LocalDateTime newDateTime) {
         Event newEvent = new Event();
+        newEvent.setId(oldEvent.getId());
         newEvent.setName(oldEvent.getName());
         newEvent.setDescription(oldEvent.getDescription());
         newEvent.setDateTime(newDateTime);

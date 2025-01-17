@@ -47,7 +47,7 @@ public class ShopController {
     }
 
     @PostMapping("/addShop")
-    public ResponseEntity<Map<String, Object>> addShop(@RequestBody AddShopDTO addShopDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
+    public ResponseEntity<Map<String, Object>> addShop(@ModelAttribute AddShopDTO addShopDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
         return shopService.addShop(addShopDTO, authHeader);
     }
 

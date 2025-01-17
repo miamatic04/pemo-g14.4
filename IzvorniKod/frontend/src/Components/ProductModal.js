@@ -27,7 +27,7 @@ function ProductModal({ product, onClose }) {
     return (
         <div className="modal-overlay">
             <div className="modal-content">
-                <img src={product.image || "/placeholder.svg"} alt={product.name} className="product-image" />
+                <img src={product.imagePath || "/placeholder.svg"} alt={product.name} className="product-image" />
                 <h2 className="product-name">{product.name}</h2>
                 <p className="product-description">{product.description}</p>
                 <p className="product-price">Price: ${product.price.toFixed(2)}</p>

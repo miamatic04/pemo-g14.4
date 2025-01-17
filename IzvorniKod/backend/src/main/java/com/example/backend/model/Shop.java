@@ -42,6 +42,9 @@ public class Shop {
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
+    @OneToMany(mappedBy = "reportedShop", cascade = CascadeType.ALL)
+    private List<Report> incomingReports = new ArrayList<>();
+
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
     private List<Event> events = new ArrayList<>();
 

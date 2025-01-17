@@ -322,7 +322,7 @@ public class OrderService {
         CustomerOrder savedOrder = orderRepository.save(order);
 
         if(newOrder) {
-            scheduler.startOrderTimer(savedOrder.getId(), 30);
+            scheduler.startOrderTimer(savedOrder.getId(), 60);
         }
 
         OrderDTO orderDTO = new OrderDTO();
@@ -366,7 +366,7 @@ public class OrderService {
 
         order.setActive(true);
         orderRepository.save(order);
-        scheduler.startOrderTimer(order.getId(), 30);
+        scheduler.startOrderTimer(order.getId(), 60);
     }
 
     public OrderDTO removeFromOrder(ModifyOrderDTO modifyOrderDTO, String token) {

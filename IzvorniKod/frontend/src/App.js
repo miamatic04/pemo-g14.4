@@ -17,6 +17,11 @@ import ShopDetails from './ShopDetails';
 import UserProfile from "./UserProfile";
 import Payment from "./Payment";
 import Cart from "./Cart";
+import ReportedReviews from './ReportedReviews';
+import ReportedProducts from './ReportedProducts';
+import ReportedShops from './ReportedShops';
+import ReportedUsers from './ReportedUsers';
+import ModeratorHome from './Navigation';
 
 
 const App = () => {
@@ -40,6 +45,11 @@ const App = () => {
                 <Route path="/userProfile" element={<UserProfile/>}/>
                 <Route path="/Payment" element={<Payment/>}/>
                 <Route path="/cart" element={<Cart/>}></Route>
+                <Route path="/moderatorhome" element={<ModeratorHome/>}></Route>
+                <Route path="/reportedReviews" element={<ReportedReviews/>} />
+                <Route path="/reportedProducts" element={<ReportedProducts/>} />
+                <Route path="/reportedShops" element={<ReportedShops/>} />
+                <Route path="/reportedUsers" element={<ReportedUsers/>} />
             </Routes>
         </Router>
     );

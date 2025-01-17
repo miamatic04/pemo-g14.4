@@ -9,10 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @AllArgsConstructor
@@ -53,10 +50,22 @@ public class Person {
     }
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
-    private Set<Review> reviews = new HashSet<>();
+    private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "reporter", cascade = CascadeType.ALL)
+    private List<Report> sentReports = new ArrayList<>();
+
+    @OneToMany(mappedBy = "reportedUser", cascade = CascadeType.ALL)
+    private List<Report> incomingReports = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
-    private Set<Reply> replies = new HashSet<>();
+    private List<Reply> replies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "warnedPerson", cascade = CascadeType.ALL)
+    private List<Warning> warnings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "disciplinedPerson", cascade = CascadeType.ALL)
+    private List<DisciplinaryMeasure> disciplinaryMeasures = new ArrayList<>();
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CustomerOrder> customerOrders;
