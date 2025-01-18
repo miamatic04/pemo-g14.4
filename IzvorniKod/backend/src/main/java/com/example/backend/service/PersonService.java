@@ -41,6 +41,9 @@ public class PersonService {
     @Value("${spring.boot.web.url}")
     private String web_url;
 
+    @Value("${spring.boot.web.url.img}")
+    private String web_url_img;
+
     public Person findUser(String email) {
         return personRepository.findByEmail(email);
     }
@@ -141,7 +144,7 @@ public class PersonService {
 
                 Files.copy(editProfileDTO.getFile().getInputStream(), targetLocation);
 
-                frontendPath = "/userUploads/" + newFilename;
+                frontendPath = "http://" + web_url_img + "/userUploads/" + newFilename;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

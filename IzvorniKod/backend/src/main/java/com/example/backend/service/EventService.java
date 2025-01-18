@@ -9,6 +9,7 @@ import com.example.backend.repository.PersonRepository;
 import com.example.backend.repository.ShopRepository;
 import com.example.backend.utils.DistanceCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -41,6 +42,9 @@ public class EventService {
     private DistanceCalculator distanceCalculator;
     @Autowired
     private ShopRepository shopRepository;
+
+    @Value("${spring.boot.web.url.img}")
+    private String web_url_img;
 
     public List<EventDTO> getAllEvents(String token) {
 
@@ -130,7 +134,7 @@ public class EventService {
 
                 Files.copy(eventDTO.getFile().getInputStream(), targetLocation);
 
-                frontendPath = "/userUploads/" + newFilename;
+                frontendPath = "http://" + web_url_img + "/userUploads/" + newFilename;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

@@ -144,7 +144,7 @@ const District = () => {
 
                 // Fetch shops
                 const shopsResponse = await fetch(
-                    `http://localhost:8080/hood/getShops/${radius}`,
+                    `http://${process.env.REACT_APP_WEB_URL}:8080/hood/getShops/${radius}`,
                     {
                         method: 'GET',
                         headers
@@ -158,7 +158,7 @@ const District = () => {
 
                 // Fetch products
                 const productsResponse = await fetch(
-                    `http://localhost:8080/hood/getProducts/${radius}`,
+                    `http://${process.env.REACT_APP_WEB_URL}:8080/hood/getProducts/${radius}`,
                     {
                         method: 'GET',
                         headers

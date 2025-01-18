@@ -8,6 +8,7 @@ import com.example.backend.repository.PersonRepository;
 import com.example.backend.repository.ProductShopRepository;
 import com.example.backend.repository.ShopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,9 @@ public class ReviewService {
     private ShopRepository shopRepository;
     @Autowired
     private ProductShopRepository productShopRepository;
+
+    @Value("${spring.boot.web.url.img}")
+    private String web_url_img;
 
     public String postReview(ReviewPostDTO reviewPostDTO, String token) {
 
@@ -75,7 +79,7 @@ public class ReviewService {
 
                 Files.copy(reviewPostDTO.getFile().getInputStream(), targetLocation);
 
-                frontendPath = "/userUploads/" + newFilename;
+                frontendPath = "http://" + web_url_img + "/userUploads/" + newFilename;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

@@ -11,6 +11,7 @@ import com.example.backend.repository.ReviewRepository;
 import com.example.backend.repository.ShopRepository;
 import com.example.backend.utils.DistanceCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,9 @@ public class ShopService {
 
     @Autowired
     private DistanceCalculator distanceCalculator;
+
+    @Value("${spring.boot.web.url.img}")
+    private String web_url_img;
 
     public List<Shop> findAll() {
         return shopRepository.findAll();
@@ -145,7 +149,7 @@ public class ShopService {
             return ResponseEntity.badRequest().build();
         }
 
-        String folderPath = "../frontend/public/userUploads/";
+        String folderPath = "public/userUploads/";
 
         try {
 
@@ -178,7 +182,7 @@ public class ShopService {
 
             Files.copy(addShopDTO.getFile().getInputStream(), targetLocation);
 
-            String frontendPath = "/userUploads/" + newFilename;
+            String frontendPath = "http://" + web_url_img + "/userUploads/" + newFilename;
 
             Shop shop = new Shop();
             shop.setShopName(addShopDTO.getShopName());
