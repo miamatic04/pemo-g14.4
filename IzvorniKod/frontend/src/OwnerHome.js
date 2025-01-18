@@ -21,12 +21,10 @@ const OwnerHome = () => {
     const openModal = (product) => {
         console.log("Open");
         setSelectedProduct(product);
-        navigate('/product', {
-            state: {
-                productId: product.id,
-                shopName: product.shopName  // Dodajemo shopName u state
-            }
-        });
+        // Store product and shop info in localStorage instead of state
+        localStorage.setItem('selectedProductId', product.id);
+        localStorage.setItem('selectedShopName', product.shopName);
+        navigate('/product');
     };
 
     const closeModal = () => {

@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './stilovi/review.css';
 import logo from './Components/Assets/logo1.png';
 
 const ReviewPage = () => {
     const navigate = useNavigate();
-    const location = useLocation();
-    const { productId, shopId, shopName } = location.state || {};
+    // Replace location.state with localStorage
+    const productId = localStorage.getItem('selectedProductId');
+    const shopId = localStorage.getItem('selectedShopId');
+    const shopName = localStorage.getItem('selectedShopName');
 
     const [rating, setRating] = useState(0);
     const [hoverRating, setHoverRating] = useState(0);
@@ -63,15 +65,9 @@ const ReviewPage = () => {
             });
 
             if (response.ok) {
-                // Handle successful submission
-                navigate('/product', {
-                    state: {
-                        productId: productId,
-                        shopId:shopId
-                    }
-                });
+                // Navigate back to product page without state
+                navigate('/product');
             } else {
-                // Handle error
                 console.error('Failed to submit review');
             }
         } catch (error) {
@@ -80,12 +76,8 @@ const ReviewPage = () => {
     };
 
     const handleOtkazi = () => {
-        navigate('/product', {
-            state: {
-                productId: productId,
-                shopName: shopName
-            }
-        });
+        // Navigate back to product page without state
+        navigate('/product');
     };
 
     return (

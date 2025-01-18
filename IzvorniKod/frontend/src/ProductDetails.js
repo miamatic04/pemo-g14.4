@@ -5,24 +5,26 @@ import logo1 from './Components/Assets/logo1.png';
 
 const ProductDetails = () => {
     const navigate = useNavigate();
-    const location = useLocation();
-    const productData = location.state || {};
+    // Remove location and productData, use localStorage instead
     const [productDetails, setProductDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const userRole = localStorage.getItem('role');
     const [cartMessage, setCartMessage] = useState('');
     const [shopId, setShopId] = useState(null);
-    const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []); // Definirajte stanje za košaricu
+    const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
     const [addedMessage, setAddedMessage] = useState('');
-
     const [currentPage, setCurrentPage] = useState(1);
     const reviewsPerPage = 2;
+    const productId = localStorage.getItem('selectedProductId');
+    const shopName = localStorage.getItem('selectedShopName');
 
     useEffect(() => {
         const fetchData = async () => {
             try {
+                // Get productId from localStorage instead of location stat
+
                 // Dohvati detalje proizvoda
-                const productResponse = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getProduct/${productData.productId}`, {
+                const productResponse = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getProduct/${productId}`, {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
@@ -36,7 +38,7 @@ const ProductDetails = () => {
                 const productDataResponse = await productResponse.json();
                 setProductDetails(productDataResponse);
 
-                // Dohvati trgovine koristeći shopName iz productData
+                // Dohvati trgovine koristeći shopName iz localStorage
                 const shopsResponse = await fetch(
                     `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsAZ`,
                     {
@@ -53,10 +55,11 @@ const ProductDetails = () => {
                 }
 
                 const shopsData = await shopsResponse.json();
-                // Koristi shopName iz location.state
-                const shop = shopsData.find(shop => shop.shopDTO.shopName === productData.shopName);
+                // Use shopName from localStorage
+                const shop = shopsData.find(shop => shop.shopDTO.shopName === shopName);
                 if (shop) {
                     setShopId(shop.shopDTO.id);
+                    localStorage.setItem('selectedShopId', shop.shopDTO.id); // Store shopId in localStorage
                 }
 
                 setLoading(false);
@@ -66,10 +69,8 @@ const ProductDetails = () => {
             }
         };
 
-        if (productData.productId) {
-            fetchData();
-        }
-    }, [productData.productId, productData.shopName]);
+        fetchData();
+    }, []); // Remove dependency on productData
 
     const handleAddReview = () => {
         if (!shopId) {
@@ -77,30 +78,20 @@ const ProductDetails = () => {
             return;
         }
 
-        navigate('/review', {
-            state: {
-                productId: productData.productId,
-                shopId: shopId,
-                shopName: productData.shopName
-            }
-        });
+        navigate('/review');
     };
-
     const addToCart = () => {
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const productExists = cart.find((item) => item.id === productData.productId);
+        const productExists = cart.find((item) => item.id === productId);
         console.log('productExists=', productExists);
-
-        console.log("productDetails", productData);
 
         if (productExists) {
             setCartMessage('Proizvod je već u košarici.');
             productExists.quantity += 1;
         } else {
             console.log('hi');
-            console.log(productData.productId);
             cart.push({
-                id: productData.productId,
+                id: productId,
                 name: productDetails.name,
                 price: productDetails.price,
                 imagePath: productDetails.imagePath,
@@ -198,8 +189,10 @@ const ProductDetails = () => {
                         <div className="review-items">
                             {getCurrentReviews().map((review, index) => (
                                 <div className="review-item" key={index}>
-                                    <span className="rating">{review.rating}</span>
-                                    <span className="review-text">{review.text}</span>
+                                    <div className="review-content">
+                                        <span className="rating">{review.rating}★</span>
+                                        <div className="review-text">{review.text}</div>
+                                    </div>
                                     {Boolean(review.imagePath) && (
                                         <div className="review-image">
                                             <img src={review.imagePath} alt="Review"/>
