@@ -11,6 +11,7 @@ const ProductDetails = () => {
     const [loading, setLoading] = useState(true);
     const userRole = localStorage.getItem('role');
     const [cartMessage, setCartMessage] = useState('');
+    const [shopId, setShopId] = useState(null);
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []); // Definirajte stanje za košaricu
     const [addedMessage, setAddedMessage] = useState('');
 
@@ -18,9 +19,10 @@ const ProductDetails = () => {
     const reviewsPerPage = 2;
 
     useEffect(() => {
-        const fetchProductDetails = async () => {
+        const fetchData = async () => {
             try {
-                const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getProduct/${productData.productId}`, {
+                // Dohvati detalje proizvoda
+                const productResponse = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getProduct/${productData.productId}`, {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
@@ -28,20 +30,61 @@ const ProductDetails = () => {
                     }
                 });
 
-                if (!response.ok) {
+                if (!productResponse.ok) {
                     throw new Error('Failed to fetch product details');
                 }
-                const data = await response.json();
-                setProductDetails(data);
+                const productDataResponse = await productResponse.json();
+                setProductDetails(productDataResponse);
+
+                // Dohvati trgovine koristeći shopName iz productData
+                const shopsResponse = await fetch(
+                    `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsAZ`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${localStorage.getItem("token")}`
+                        }
+                    }
+                );
+
+                if (!shopsResponse.ok) {
+                    throw new Error('Failed to fetch shops');
+                }
+
+                const shopsData = await shopsResponse.json();
+                // Koristi shopName iz location.state
+                const shop = shopsData.find(shop => shop.shopDTO.shopName === productData.shopName);
+                if (shop) {
+                    setShopId(shop.shopDTO.id);
+                }
+
                 setLoading(false);
             } catch (error) {
-                console.error('Error fetching product details:', error);
+                console.error('Error fetching data:', error);
                 setLoading(false);
             }
         };
 
-        fetchProductDetails();
-    }, [productData.productId]);
+        if (productData.productId) {
+            fetchData();
+        }
+    }, [productData.productId, productData.shopName]);
+
+    const handleAddReview = () => {
+        if (!shopId) {
+            console.error('Shop ID not found');
+            return;
+        }
+
+        navigate('/review', {
+            state: {
+                productId: productData.productId,
+                shopId: shopId,
+                shopName: productData.shopName
+            }
+        });
+    };
 
     const addToCart = () => {
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -64,8 +107,8 @@ const ProductDetails = () => {
                 quantity: 1,
             });
             setCartMessage('Proizvod je dodan u košaricu!');
-        }            
-        
+        }
+
         console.log('cart:', cart)
 
         console.log(cartMessage)
@@ -144,7 +187,12 @@ const ProductDetails = () => {
                     <div className="reviews-section">
                         <div className="review-header">
                             <h3>Recenzije:</h3>
-                            <button className="add-review" onClick={() => navigate(`/review`)}>Ostavi recenziju</button>
+                            <button
+                                className="add-review"
+                                onClick={handleAddReview}
+                            >
+                                Ostavi recenziju
+                            </button>
                         </div>
 
                         <div className="review-items">

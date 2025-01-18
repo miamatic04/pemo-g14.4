@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './stilovi/review.css';
 import logo from './Components/Assets/logo1.png';
 
 const ReviewPage = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const { productId, shopId, shopName } = location.state || {};
+
     const [rating, setRating] = useState(0);
     const [hoverRating, setHoverRating] = useState(0);
     const [comment, setComment] = useState('');
     const [image, setImage] = useState(null);
+    const [imageFile, setImageFile] = useState(null);
 
     const handleRatingClick = (selectedRating) => {
         setRating(selectedRating);
@@ -21,20 +25,67 @@ const ReviewPage = () => {
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
+            setImageFile(file); // Store the actual file
             const reader = new FileReader();
             reader.onload = (e) => {
-                setImage(e.target.result);
+                setImage(e.target.result); // Store the preview URL
             };
             reader.readAsDataURL(file);
         }
     };
 
-    const handleSubmit = () => {
-        navigate('/product');
+    const handleSubmit = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('text', comment);
+            formData.append('rating', rating);
+
+            if (imageFile) {
+                formData.append('file', imageFile);
+            }
+
+            if (shopId) {
+                formData.append('shopId', shopId);
+            }
+
+            if (productId) {
+                formData.append('productId', productId);
+            }
+
+            const token = localStorage.getItem('token');
+
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/postReview`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: formData
+            });
+
+            if (response.ok) {
+                // Handle successful submission
+                navigate('/product', {
+                    state: {
+                        productId: productId,
+                        shopId:shopId
+                    }
+                });
+            } else {
+                // Handle error
+                console.error('Failed to submit review');
+            }
+        } catch (error) {
+            console.error('Error submitting review:', error);
+        }
     };
 
     const handleOtkazi = () => {
-        navigate('/product');
+        navigate('/product', {
+            state: {
+                productId: productId,
+                shopName: shopName
+            }
+        });
     };
 
     return (
@@ -76,7 +127,10 @@ const ReviewPage = () => {
                                    onChange={handleImageUpload}/>
                             {image && (
                                 <div className="preview1">
-                                    <button className="remove-img" onClick={() => setImage(null)}
+                                    <button className="remove-img" onClick={() => {
+                                        setImage(null);
+                                        setImageFile(null);
+                                    }}
                                             title="Ukloni sliku">✕
                                     </button>
                                     <img src={image} alt="Uploaded preview" className="preview2"/>
