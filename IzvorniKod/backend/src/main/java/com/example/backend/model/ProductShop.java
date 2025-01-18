@@ -1,5 +1,7 @@
 package com.example.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -32,6 +34,7 @@ public class ProductShop {
 
     @ManyToOne
     @JoinColumn(name = "shop_id", nullable = false)
+    @JsonBackReference
     private Shop shop;
 
     @ManyToOne
@@ -39,7 +42,8 @@ public class ProductShop {
     private Product product;
 
     @OneToMany(mappedBy = "productShop", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Review> reviews = new HashSet<>();
+    @JsonManagedReference
+    private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "reportedProductShop", cascade = CascadeType.ALL)
     private List<Report> incomingReports = new ArrayList<>();

@@ -1,6 +1,7 @@
 package com.example.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,9 +38,11 @@ public class Shop {
     private Person shopOwner;
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<ProductShop> products = new ArrayList<>();
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "reportedShop", cascade = CascadeType.ALL)

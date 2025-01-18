@@ -1,5 +1,7 @@
 package com.example.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -31,10 +33,12 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonBackReference
     private ProductShop productShop;
 
     @ManyToOne
     @JoinColumn(name = "shop_id")
+    @JsonBackReference
     private Shop shop;
 
     @OneToOne(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -42,6 +46,7 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "author_id")
+    @JsonBackReference
     private Person author;
 
     @OneToMany(mappedBy = "reportedReview", cascade = CascadeType.ALL)

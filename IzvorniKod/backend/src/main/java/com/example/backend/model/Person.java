@@ -52,6 +52,7 @@ public class Person {
     }
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "reporter", cascade = CascadeType.ALL)
