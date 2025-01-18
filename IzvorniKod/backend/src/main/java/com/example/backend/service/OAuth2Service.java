@@ -36,6 +36,8 @@ public class OAuth2Service {
     @Autowired
     private PersonService personService;
 
+    private String access_token;
+
     public RedirectView handleOAuth2Callback(String code) throws JsonProcessingException {
         SecurityContextHolder.getContext().setAuthentication(createAuthenticationFromCode(code));
 
@@ -53,6 +55,10 @@ public class OAuth2Service {
             user.setFirstName(firstName);
             user.setLastName(lastName);
             user.setRole("user");
+            user.setGoogleAccessToken(access_token);
+            personService.save(user);
+        } else {
+            user.setGoogleAccessToken(access_token);
             personService.save(user);
         }
 
@@ -61,6 +67,8 @@ public class OAuth2Service {
 
     public OAuth2AuthenticationToken createAuthenticationFromCode(String code) {
         String accessToken = exchangeCodeForToken(code);
+
+        access_token = accessToken;
 
         Map<String, Object> userAttributes = fetchUserDetailsWithAccessToken(accessToken).getAttributes();
 
