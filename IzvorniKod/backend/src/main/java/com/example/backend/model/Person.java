@@ -39,6 +39,8 @@ public class Person {
     @Transient
     private String passConfirm;
 
+    private String googleAccessToken;
+
     public Person(RegistrationInfo registrationInfo) {
         this.email = registrationInfo.getEmail();
         this.firstName = registrationInfo.getFirstName();
