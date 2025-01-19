@@ -10,6 +10,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -36,6 +37,9 @@ public class OrderService {
 
     @Autowired
     private Scheduler scheduler;
+
+    @Autowired
+    private UserActivityRepository userActivityRepository;
 
     public List<OrderDTO> getAllOrders(String token) {
 
@@ -325,6 +329,13 @@ public class OrderService {
             scheduler.startOrderTimer(savedOrder.getId(), 60);
         }
 
+        UserActivity userActivity = new UserActivity();
+        userActivity.setUser(user);
+        userActivity.setActivityType(ActivityType.ADDED_TO_CART);
+        userActivity.setDateTime(LocalDateTime.now());
+        userActivity.setNote("Added " + modifyOrderDTO.getQuantity() + " x product with id = " + modifyOrderDTO.getProductId() + " to order with id = " + savedOrder.getId());
+        userActivityRepository.save(userActivity);
+
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setId(savedOrder.getId());
         orderDTO.setOrderDate(savedOrder.getOrderDate());
@@ -400,6 +411,13 @@ public class OrderService {
         }
 
         CustomerOrder savedOrder = orderRepository.save(order);
+
+        UserActivity userActivity = new UserActivity();
+        userActivity.setUser(user);
+        userActivity.setActivityType(ActivityType.REMOVED_FROM_CART);
+        userActivity.setDateTime(LocalDateTime.now());
+        userActivity.setNote("Removed product with id = " + modifyOrderDTO.getProductId() + " from order with id = " + savedOrder.getId());
+        userActivityRepository.save(userActivity);
 
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setId(savedOrder.getId());

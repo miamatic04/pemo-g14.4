@@ -25,6 +25,7 @@ import ModeratorHome from './Navigation';
 import PurchaseDetails from './PurchaseDetails';
 import Forum from './Forum';
 import NewDiscussion from './newDiscussion';
+import AdminPanel from './AdminPanel';
 
 
 const App = () => {
@@ -54,6 +55,7 @@ const App = () => {
                 <Route path="/reportedProducts" element={<ReportedProducts/>} />
                 <Route path="/reportedShops" element={<ReportedShops/>} />
                 <Route path="/reportedUsers" element={<ReportedUsers/>} />
+                <Route path="/adminhome" element={<AdminPanel/>} />
                 <Route path="/forum" element={<Forum/>} />
                 <Route path="/newDiscussion" element={<NewDiscussion/>} />
             </Routes>

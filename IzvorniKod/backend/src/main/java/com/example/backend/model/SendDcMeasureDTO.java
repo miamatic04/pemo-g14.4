@@ -14,5 +14,5 @@ public class SendDcMeasureDTO {
     private Long reportId;
     private String disciplinedUserEmail;
     private String note;
-    private MeasureType type;
+    private String type;
 }

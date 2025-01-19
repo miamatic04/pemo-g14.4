@@ -7,6 +7,7 @@ import com.example.backend.model.*;
 import com.example.backend.repository.EventRepository;
 import com.example.backend.repository.PersonRepository;
 import com.example.backend.repository.ShopRepository;
+import com.example.backend.repository.UserActivityRepository;
 import com.example.backend.utils.DistanceCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,11 +42,15 @@ public class EventService {
 
     @Autowired
     private DistanceCalculator distanceCalculator;
+
     @Autowired
     private ShopRepository shopRepository;
 
     @Value("${spring.boot.web.url.img}")
     private String web_url_img;
+
+    @Autowired
+    private UserActivityRepository userActivityRepository;
 
     public List<EventDTO> getAllEvents(String token) {
 
@@ -152,7 +158,15 @@ public class EventService {
         event.setShop(shop);
 
         shop.getEvents().add(event);
-        shopRepository.save(shop);
+        Shop savedShop = shopRepository.save(shop);
+
+        UserActivity userActivity = new UserActivity();
+        userActivity.setUser(user);
+        userActivity.setActivityType(ActivityType.ADDED_EVENT);
+        userActivity.setDateTime(LocalDateTime.now());
+        userActivity.setNote("Added event with id = " + savedShop.getEvents().getLast().getId());
+
+        userActivityRepository.save(userActivity);
 
         return "Event added successfully";
     }

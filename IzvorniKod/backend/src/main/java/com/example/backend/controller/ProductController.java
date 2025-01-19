@@ -35,12 +35,12 @@ public class ProductController {
     }
 
     @PostMapping("/addProduct")
-    public ResponseEntity<String> addProduct(@RequestBody AddProductDTO addProductDTO) {
-        return ResponseEntity.ok(productService.addProduct(addProductDTO));
+    public ResponseEntity<String> addProduct(@RequestBody AddProductDTO addProductDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return ResponseEntity.ok(productService.addProduct(addProductDTO, authHeader.substring(7)));
     }
 
     @PostMapping("/editProduct")
-    public ResponseEntity<String> editProduct(@RequestBody AddProductDTO editProductDTO) {
-        return ResponseEntity.ok(productService.editProduct(editProductDTO));
+    public ResponseEntity<String> editProduct(@RequestBody AddProductDTO editProductDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return ResponseEntity.ok(productService.editProduct(editProductDTO, authHeader.substring(7)));
     }
 }

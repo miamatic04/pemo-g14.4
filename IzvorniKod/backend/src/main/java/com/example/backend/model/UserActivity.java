@@ -2,32 +2,29 @@ package com.example.backend.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+import java.time.LocalDateTime;
+
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class ChangeRole {
+@NoArgsConstructor
+@Entity
+public class UserActivity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String oldRole;
-
-    private String newRole;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private Person user;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "admin_id", nullable = false)
-    private Person admin;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ActivityType activityType;
 
     private String note;
+    private LocalDateTime dateTime;
 }

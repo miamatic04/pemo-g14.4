@@ -2,10 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.exception.ReportNotFoundException;
 import com.example.backend.exception.UserNotFoundException;
-import com.example.backend.model.DisciplinaryMeasure;
-import com.example.backend.model.Person;
-import com.example.backend.model.Report;
-import com.example.backend.model.SendDcMeasureDTO;
+import com.example.backend.model.*;
 import com.example.backend.repository.PersonRepository;
 import com.example.backend.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +39,7 @@ public class DisciplinaryMeasureService {
         }
 
         DisciplinaryMeasure disciplinaryMeasure = new DisciplinaryMeasure();
-        disciplinaryMeasure.setType(sendDcMeasureDTO.getType());
+        disciplinaryMeasure.setType(MeasureType.valueOf(sendDcMeasureDTO.getType()));
         disciplinaryMeasure.setNote(sendDcMeasureDTO.getNote());
         disciplinaryMeasure.setDisciplinedPerson(disciplinedUser);
         disciplinaryMeasure.setIssuer(moderator);
@@ -50,11 +47,16 @@ public class DisciplinaryMeasureService {
         disciplinedUser.getDisciplinaryMeasures().add(disciplinaryMeasure);
         personRepository.save(disciplinedUser);
 
-        Report report = reportRepository.findById(sendDcMeasureDTO.getReportId()).orElseThrow(() -> new ReportNotFoundException("Report not found"));
+        Report report = null;
+        if(sendDcMeasureDTO.getReportId() != null)
+            report = reportRepository.findById(sendDcMeasureDTO.getReportId()).orElseThrow(() -> new ReportNotFoundException("Report not found"));
 
-        report.setResolved(true);
-        report.setDateResolved(LocalDateTime.now());
-        reportRepository.save(report);
+        if(report != null) {
+            report.setResolved(true);
+            report.setDateResolved(LocalDateTime.now());
+            reportRepository.save(report);
+
+        }
 
         //TODO add the disc measure effect e.g. 3 day ban, a week ban.....
         //TODO ukloniti reportove istih razloga..

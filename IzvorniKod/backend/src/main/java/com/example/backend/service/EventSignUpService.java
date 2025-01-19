@@ -3,15 +3,16 @@ package com.example.backend.service;
 import com.example.backend.exception.EventNotFoundException;
 import com.example.backend.exception.UserAlreadySignedUpException;
 import com.example.backend.exception.UserNotFoundException;
-import com.example.backend.model.Event;
-import com.example.backend.model.EventSignUp;
-import com.example.backend.model.Person;
+import com.example.backend.model.*;
 import com.example.backend.repository.EventRepository;
 import com.example.backend.repository.EventSignUpRepository;
 import com.example.backend.repository.PersonRepository;
+import com.example.backend.repository.UserActivityRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 public class EventSignUpService {
@@ -27,6 +28,8 @@ public class EventSignUpService {
 
     @Autowired
     private JWTService jwtService;
+    @Autowired
+    private UserActivityRepository userActivityRepository;
 
     @Transactional
     public void signUpForEvent(Long eventId, String token) {
@@ -52,5 +55,12 @@ public class EventSignUpService {
         signup.setEvent(event);
 
         eventSignUpRepository.save(signup);
+
+        UserActivity userActivity = new UserActivity();
+        userActivity.setUser(person);
+        userActivity.setActivityType(ActivityType.SIGNED_UP_FOR_EVENT);
+        userActivity.setDateTime(LocalDateTime.now());
+        userActivity.setNote("Signed up for event with id = " + eventId);
+        userActivityRepository.save(userActivity);
     }
 }

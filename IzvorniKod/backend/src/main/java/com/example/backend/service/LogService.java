@@ -24,6 +24,8 @@ public class LogService {
 
     @Autowired
     private ReportRepository reportRepository;
+    @Autowired
+    private UserActivityRepository userActivityRepository;
 
 
     public String logModeratorActivity(ModeratingActivityDTO moderatingActivityDTO, String token) {
@@ -85,5 +87,27 @@ public class LogService {
                 .toList();
 
         return moderatingActivityDTOs;
+    }
+
+    public List<UserActivityDTO> getUserActivity() {
+
+        List<UserActivity> userActivities = userActivityRepository.findAll();
+
+        List<UserActivityDTO> userActivityDTOs = new ArrayList<>();
+
+        userActivityDTOs = userActivities
+                .stream()
+                .map((activity) -> {
+                    UserActivityDTO userActivityDTO = new UserActivityDTO();
+                    userActivityDTO.setUserEmail(activity.getUser().getEmail());
+                    userActivityDTO.setUserName(activity.getUser().getName());
+                    userActivityDTO.setDateTime(activity.getDateTime());
+                    userActivityDTO.setNote(activity.getNote());
+                    userActivityDTO.setActivityType(activity.getActivityType());
+                    return userActivityDTO;
+                })
+                .toList();
+
+        return userActivityDTOs;
     }
 }

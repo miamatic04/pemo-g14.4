@@ -1,5 +1,6 @@
 package com.example.backend.service;
 import java.text.DecimalFormatSymbols;
+import java.time.LocalDateTime;
 import java.util.Locale;
 
 import com.example.backend.exception.NoLocationPermissionException;
@@ -9,6 +10,7 @@ import com.example.backend.model.*;
 import com.example.backend.repository.ProductShopRepository;
 import com.example.backend.repository.ReviewRepository;
 import com.example.backend.repository.ShopRepository;
+import com.example.backend.repository.UserActivityRepository;
 import com.example.backend.utils.DistanceCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,6 +54,9 @@ public class ShopService {
 
     @Autowired
     private DistanceCalculator distanceCalculator;
+
+    @Autowired
+    private UserActivityRepository userActivityRepository;
 
     @Value("${spring.boot.web.url.img}")
     private String web_url_img;
@@ -193,7 +198,14 @@ public class ShopService {
 
             shop.setShopOwner(owner);
 
-            saveShop(shop);
+            Shop savedShop = saveShop(shop);
+
+            UserActivity userActivity = new UserActivity();
+            userActivity.setUser(owner);
+            userActivity.setActivityType(ActivityType.CREATED_SHOP);
+            userActivity.setDateTime(LocalDateTime.now());
+            userActivity.setNote("User " + owner.getEmail() + " created shop with id = " + savedShop.getId());
+            userActivityRepository.save(userActivity);
 
             return ResponseEntity.ok(Map.of("filePath", frontendPath));
 

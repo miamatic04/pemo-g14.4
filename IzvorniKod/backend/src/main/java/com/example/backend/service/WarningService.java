@@ -44,11 +44,17 @@ public class WarningService {
         warnedUser.getWarnings().add(warning);
         personRepository.save(warnedUser);
 
-        Report report = reportRepository.findById(sendWarningDTO.getReportId()).orElseThrow(() -> new ReportNotFoundException("Report not found"));
+        Report report = null;
 
-        report.setResolved(true);
-        report.setDateResolved(LocalDateTime.now());
-        reportRepository.save(report);
+        if(sendWarningDTO.getReportId() != null)
+            report = reportRepository.findById(sendWarningDTO.getReportId()).orElseThrow(() -> new ReportNotFoundException("Report not found"));
+
+        if(report != null) {
+            report.setResolved(true);
+            report.setDateResolved(LocalDateTime.now());
+            reportRepository.save(report);
+        }
+
 
         //TODO ukloniti reportove istih razloga..
 

@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.model.ModeratingActivityDTO;
+import com.example.backend.model.UserActivityDTO;
 import com.example.backend.service.LogService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,10 @@ public class LogController {
     @GetMapping("/getModLogs")
     public ResponseEntity<List<ModeratingActivityDTO>> getModeratorLogs() {
         return ResponseEntity.ok(logService.getModeratorLogs());
+    }
+
+    @GetMapping("/getUserLogs")
+    public ResponseEntity<List<UserActivityDTO>> getUserLogs() {
+        return ResponseEntity.ok(logService.getUserActivity());
     }
 }

@@ -3,6 +3,7 @@ package com.example.backend.controller;
 import com.example.backend.model.EditProfileDTO;
 import com.example.backend.model.Person;
 import com.example.backend.model.RegistrationInfo;
+import com.example.backend.model.UserDTO;
 import com.example.backend.service.JWTService;
 import com.example.backend.service.ShopService;
 import com.example.backend.service.PersonService;
@@ -16,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -40,6 +42,11 @@ public class UserController {
     @PostMapping("/editProfile")
     public ResponseEntity<String> editProfile(@RequestBody EditProfileDTO editProfileDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
         return ResponseEntity.ok(personService.editProfile(editProfileDTO, authHeader.substring(7)));
+    }
+
+    @GetMapping("/getUsers")
+    public ResponseEntity<List<UserDTO>> getUsers() {
+        return ResponseEntity.ok(personService.getUsers());
     }
 
 }
