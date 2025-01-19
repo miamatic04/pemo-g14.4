@@ -18,6 +18,7 @@
     margin-bottom: 2%;
     flex-grow: 1; /* Omogućava naslovu da raste i zauzima sav raspoloživi prostor */
     text-align: center;
+    color: midnightblue;
 }
 
 .newDiscussionNameInput{
