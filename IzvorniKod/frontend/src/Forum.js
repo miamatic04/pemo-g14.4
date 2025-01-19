@@ -40,7 +40,7 @@ const Forum = () => {
             </div>
             <div className="spacer"></div>
             <div className="gumbNovaRasprava">
-            <btn className="novaRasprava">Pokreni novu raspravu</btn>
+            <btn className="novaRasprava" onClick={() => navigate("/newDiscussion")}>Pokreni novu raspravu</btn>
             </div>
             <div className="forum-container">
                     <div className="forum-card">
@@ -55,7 +55,7 @@ const Forum = () => {
                             <p className="opisRasprave">Opis1</p> {/* Opis ispod slike, username-a i naziva */}
                         </div>
                         <div className="forum-column-right-column">
-                            <btn className="vidiViseRasprava" onClick={() => navigate('/aboutDiscusssion')}>Vidi više
+                            <btn className="vidiViseRasprava" onClick={() => navigate('/aboutDiscusssion')}>Vidi detalje rasprave
                             </btn>
                             <p className="answerForum">Odgovori:</p>
                             <textarea className="answerHereForum"></textarea>
