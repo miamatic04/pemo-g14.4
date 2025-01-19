@@ -68,6 +68,11 @@ const UserProfile = () => {
         setBackendResult({ message: "Profil je uspješno izbrisan!" });
     };
 
+    const handleAskOwner = () => {
+
+        setBackendResult({ message: "Uspješno je zatražen vlasnički račun" });
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault(); // Spriječava ponovno učitavanje stranice
 
@@ -87,14 +92,19 @@ const UserProfile = () => {
                 <form className="profile-form" onSubmit={handleSubmit}>
                     <h1 className="myProfile">MOJ PROFIL</h1>
                     <div className="header-section">
-                        <img src={avatarImage} alt="Avatar" className="avatar" />
+                        <img src={avatarImage} alt="Avatar" className="avatar"/>
                         <div className="profile-info">
                             <b><p className="imeUsera">{formData.firstName} {formData.lastName}</p></b>
                             <p className="mailUsera">{formData.email}</p>
                         </div>
+                        <div className="izbrisiZatrazi">
                         <button type="button" className="delete-button" onClick={handleDeleteProfile}>
                             Izbriši profil
                         </button>
+                        <button type="button" className="askOwnerButton" onClick={handleAskOwner}>
+                            Zatraži vlasnički račun
+                        </button>
+                        </div>
                     </div>
 
                     {/* Polja za unos */}

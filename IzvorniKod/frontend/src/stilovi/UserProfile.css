@@ -41,17 +41,32 @@
     margin: 0; /* Uklanja marginu oko paragrafa */
 }
 
-.delete-button {
+.delete-button, .askOwnerButton {
     background-color: #4A90E2; /* Boja dugmeta za brisanje */
     color: white;
     border: none;
     border-radius: 5px;
-    padding: 1%;
+    padding: 3%;
     cursor: pointer;
+}
+
+.askOwnerButton{
+    margin-top: 2vh;
 }
 
 .delete-button:hover {
     background-color: red; /* Tamnija boja na hover */
+}
+
+.askOwnerButton:hover {
+    background-color: darkblue;
+}
+
+.izbrisiZatrazi {
+    display: flex;
+    flex-direction: column; /* Postavlja elemente u kolonu */
+    margin-left: auto; /* Poravnanje na desnu stranu */
+    width: 20%;
 }
 
 .profile-form {
