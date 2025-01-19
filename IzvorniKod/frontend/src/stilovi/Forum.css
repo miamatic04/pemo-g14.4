@@ -1,0 +1,156 @@
+.forum-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh; /* Osigurava da je sadržaj centriran vertikalno */
+    background: linear-gradient(to bottom, #9bd7eb, #f9faac) no-repeat center center; /* prelazak iz plave u zutu */
+    background-size: cover; /* da pozadina bude preko cijelog ekrana */
+}
+
+.header-forum {
+    display: flex;
+    align-items: center; /* Poravnava logo i naslov po visini */
+    width: 100%; /* Širina zaglavlja */
+    justify-content: space-between; /* Razmak između loga i naslova */
+    padding: 1%;
+    background-color: white;
+}
+
+.logo-container {
+    flex: 0 0 auto; /* Logo se ne širi */
+}
+
+.logo {
+    width: 70%; /* Postavite širinu loga na 50% od roditeljskog elementa */
+    max-width: 100px; /* Maksimalna širina loga */
+}
+
+.header-title {
+    font-size: 250%; /* Veličina naslova */
+    text-align: center;
+    flex-grow: 1; /* Naslov zauzima preostali prostor */
+    color: midnightblue;
+}
+
+.spacer {
+    height: 6vh; /* Visina razmaka */
+    width: 100%; /* Širina razmaka */
+    background-color: transparent; /* Prozirna pozadina */
+}
+
+.forum-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.forum-card {
+    display: flex;
+    border: 0.5rem solid lightskyblue; /* Plava granica */
+    border-radius: 1%; /* Zaobljeni rubovi */
+    padding: 2vh; /* Unutarnji razmak */
+    margin-bottom: 3vh; /* Razmak između događaja */
+    background-color: white; /* Pozadina kartice događaja */
+    width: 80%; /* Širina kartice događaja */
+}
+
+.forum-column-left-column {
+    display: flex; /* Horizontalno poravnanje slike i informacija */
+    flex-direction: column; /* Postavlja opis ispod slike i informacija */
+    align-items: flex-start; /* Poravnava sve elemente uz levu stranu */
+    width: 45%; /* Širina kolone */
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column; /* Postavlja korisničko ime i naziv u kolonu */
+    margin-left: 10px; /* Razmak između slike i teksta */
+}
+
+.user-info-wrapper {
+    display: flex; /* Horizontalno poravnava sliku i tekst */
+    align-items: center; /* Poravnava sliku i tekst po visini */
+    width: 100%; /* Širina wrappera za sliku i tekst */
+}
+
+.opisRasprave {
+    margin-top: 2%; /* Razmak između korisničkog imena/naziva i opisa */
+    text-align: left; /* Poravnanje opisa levo */
+    margin-left: 1%;
+}
+
+.forum-column-right-column {
+    display: flex;
+    flex-direction: column; /* Vertikalno poredavanje dugmadi */
+    align-items: start; /* Centriranje dugmadi */
+}
+
+.avatarUser-image{
+    height: 7vh;
+    width: auto;
+    border-radius: 50%;
+}
+
+.vidiViseRasprava{
+    cursor: pointer;
+    padding: 5%;
+    background-color: #9bd7eb;
+}
+
+.answerForum{
+    margin-top: 10%;
+}
+
+.answerHereForum{
+    width: 300%;
+    height: 60%;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5%; /* Razmak iznad navigacije */
+    margin-bottom: 2%;
+}
+
+.navigation-btn {
+    cursor: pointer;
+    height: 7vh;
+    width: 7vh;
+    margin: 0 4vw; /* Dodaj margine lijevo i desno */
+    font-size: 150%;
+}
+
+.page-number {
+    height: 7vh;
+    width: 7vh;
+    font-size: 50%; /* Povećanje veličine fonta */
+    display: flex; /* Omogućava centriranje sadržaja */
+    align-items: center; /* Centriranje sadržaja unutar broja */
+    justify-content: center; /* Centriranje sadržaja unutar broja */
+}
+
+.page-number span {
+    cursor: pointer;
+    padding: 5px 10px;
+    font-size: 300%;
+}
+
+.page-number span.active {
+    background-color: #BEE6F3;
+    border-radius: 5px;
+}
+
+.gumbNovaRasprava{
+    background-color: #1d4ed8;
+    color: white;
+    padding: 1%;
+    margin-bottom: 1%;
+    margin-right: 68%;
+}
+
+.gumbNovaRasprava:hover{
+    cursor: pointer;
+}
