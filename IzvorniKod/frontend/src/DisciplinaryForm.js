@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function DisciplinaryForm({ onClose, reportedEmail, reportedName, reportId }) {
+function DisciplinaryForm({ onClose, reportedEmail, reportedName, reportId, approvedReasons }) {
     const [measureText, setMeasureText] = useState('');
     const [measureType, setMeasureType] = useState('');
     const [loading, setLoading] = useState(false);
@@ -16,11 +16,12 @@ function DisciplinaryForm({ onClose, reportedEmail, reportedName, reportId }) {
         }
 
         // Prepare the data for the POST request
-        const data = {
+        let data = {
             disciplinedUserEmail: reportedEmail,
             note: measureText,
             type: measureType,
-            reportId: reportId
+            reportId: reportId,
+            reasons: approvedReasons
         };
 
         try {
@@ -39,12 +40,40 @@ function DisciplinaryForm({ onClose, reportedEmail, reportedName, reportId }) {
                 throw new Error('Failed to apply disciplinary measure');
             }
 
-            onClose();
-            window.location.reload();
         } catch (error) {
             setError(error.message);
         } finally {
             setLoading(false);
+        }
+
+        data = {
+            userEmail: reportedEmail,
+            note: measureText,
+            disciplinaryMeasure: measureType,
+            reportId: reportId,
+            approvedReasons: approvedReasons
+        };
+
+        try {
+            setLoading(true);
+            const token = localStorage.getItem("token");
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/logModActivity`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to send warning');
+            }
+
+            onClose();
+            window.location.reload();
+        } catch (error) {
+            setError(error.message);
         }
     };
 
@@ -102,7 +131,8 @@ function DisciplinaryForm({ onClose, reportedEmail, reportedName, reportId }) {
 DisciplinaryForm.propTypes = {
     onClose: PropTypes.func.isRequired,
     reportedEmail: PropTypes.string.isRequired,
-    reportId: PropTypes.number.isRequired
+    reportId: PropTypes.number.isRequired,
+    approvedReasons: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default DisciplinaryForm;

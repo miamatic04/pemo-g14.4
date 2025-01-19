@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function WarningForm({ onClose, reportedEmail, reportedName, reportId }) {
+function WarningForm({ onClose, reportedEmail, reportedName, reportId, approvedReasons }) {
     const [warningText, setWarningText] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -14,10 +14,12 @@ function WarningForm({ onClose, reportedEmail, reportedName, reportId }) {
             return;
         }
 
-        const data = {
+        let data = {
             warnedUserEmail: reportedEmail,
             note: warningText,
-            reportId: reportId
+            reportId: reportId,
+            approvedReasons: approvedReasons,
+            warning: true
         };
 
         try {
@@ -37,12 +39,41 @@ function WarningForm({ onClose, reportedEmail, reportedName, reportId }) {
             }
 
             console.log(`Warning sent to ${reportedName}: ${warningText}`);
-            onClose();
-            window.location.reload();
         } catch (error) {
             setError(error.message);
         } finally {
             setLoading(false);
+        }
+
+        data = {
+            userEmail: reportedEmail,
+            note: warningText,
+            reportId: reportId,
+            approvedReasons: approvedReasons,
+            warning: true
+        };
+
+        try {
+            setLoading(true);
+            const token = localStorage.getItem("token");
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/logModActivity`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to send warning');
+            }
+
+            console.log(`Warning sent to ${reportedName}: ${warningText}`);
+            onClose();
+            window.location.reload();
+        } catch (error) {
+            setError(error.message);
         }
     };
 
@@ -90,7 +121,8 @@ WarningForm.propTypes = {
     onClose: PropTypes.func.isRequired,
     reportedName: PropTypes.string.isRequired,
     reportedEmail: PropTypes.string.isRequired,
-    reportId: PropTypes.number.isRequired
+    reportId: PropTypes.number.isRequired,
+    approvedReasons: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default WarningForm;

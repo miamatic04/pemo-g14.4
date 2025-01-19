@@ -103,7 +103,7 @@ public class EventService {
 
         Shop shop = shopRepository.findById(eventDTO.getShopId()).orElseThrow(() -> new ShopNotFoundException("Shop not found"));
 
-        if(eventDTO.getFile().getOriginalFilename() != null) {
+        if(eventDTO.getFile() != null) {
             String folderPath = "public/userUploads/";
 
             try {

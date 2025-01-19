@@ -1,14 +1,29 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { useNavigate } from 'react-router-dom';
 import './stilovi/ReportItem.css';
 import WarningForm from './WarningForm';
 import DisciplinaryForm from './DisciplinaryForm';
+import ApproveReasons from './Components/ApproveReasons';
 
-function ReportItem({ reporterName, reportedName, reportedEmail, note, reportReasons, numOfWarnings, numOfDisciplinaryMeasures, reviewText, shopId, productId, reportId }) {
+function ReportItem({
+                        reporterName,
+                        reportedName,
+                        reportedEmail,
+                        note,
+                        reportReasons,
+                        numOfWarnings,
+                        numOfDisciplinaryMeasures,
+                        reviewText,
+                        shopId,
+                        productId,
+                        reportId,
+                    }) {
     const [showWarningForm, setShowWarningForm] = useState(false);
     const [showDisciplinaryForm, setShowDisciplinaryForm] = useState(false);
-    const navigate = useNavigate(); // Initialize navigate hook
+    const [showReasonsPopup, setShowReasonsPopup] = useState(false);
+    const [approvedReasons, setApprovedReasons] = useState(reportReasons || []);
+    const navigate = useNavigate();
 
     const handleNavigate = () => {
         if (shopId) {
@@ -18,9 +33,22 @@ function ReportItem({ reporterName, reportedName, reportedEmail, note, reportRea
         } else {
             navigate('/profile', {
                 replace: false,
-                state: { email: reportedEmail }
+                state: { email: reportedEmail },
             });
         }
+    };
+
+    const handleReasonToggle = (reason) => {
+        if (approvedReasons.includes(reason)) {
+            setApprovedReasons(approvedReasons.filter((r) => r !== reason));
+        } else {
+            setApprovedReasons([...approvedReasons, reason]);
+        }
+    };
+
+    const handleConfirmReasons = () => {
+        console.log('Approved Reasons:', approvedReasons);
+        setShowReasonsPopup(false);
     };
 
     return (
@@ -28,9 +56,17 @@ function ReportItem({ reporterName, reportedName, reportedEmail, note, reportRea
             <h3>Reporter: {reporterName}</h3>
             <h4>Reported: {reportedName}</h4>
 
-            {reviewText && <p><strong>Content:</strong> {reviewText}</p>}
+            {reviewText && (
+                <p>
+                    <strong>Content:</strong> {reviewText}
+                </p>
+            )}
 
-            {note && <p><strong>Additional Info:</strong> {note}</p>}
+            {note && (
+                <p>
+                    <strong>Additional Info:</strong> {note}
+                </p>
+            )}
 
             {reportReasons && reportReasons.length > 0 && (
                 <div>
@@ -43,17 +79,21 @@ function ReportItem({ reporterName, reportedName, reportedEmail, note, reportRea
                 </div>
             )}
 
-            <p><strong>Warnings Issued To This Account:</strong> {numOfWarnings}</p>
-            <p><strong>Disciplinary Measures Issued To This Account:</strong> {numOfDisciplinaryMeasures}</p>
+            <p>
+                <strong>Warnings Issued To This Account:</strong> {numOfWarnings}
+            </p>
+            <p>
+                <strong>Disciplinary Measures Issued To This Account:</strong> {numOfDisciplinaryMeasures}
+            </p>
 
             <div className="action-buttons">
                 <button onClick={() => console.log('Ignore clicked')}>Ignore</button>
                 <button onClick={() => setShowWarningForm(true)}>Issue a Warning</button>
                 <button onClick={() => setShowDisciplinaryForm(true)}>Issue a Disciplinary Measure</button>
-                {/* Add the dynamic link button */}
                 <button onClick={handleNavigate}>
                     Go to {shopId ? 'Shop' : productId ? 'Product' : 'Profile'}
                 </button>
+                <button onClick={() => setShowReasonsPopup(true)}>Potvrdi razloge</button>
             </div>
 
             {showWarningForm && (
@@ -62,6 +102,7 @@ function ReportItem({ reporterName, reportedName, reportedEmail, note, reportRea
                     reportedEmail={reportedEmail}
                     reportedName={reportedName}
                     reportId={reportId}
+                    approvedReasons={approvedReasons}
                 />
             )}
 
@@ -71,8 +112,31 @@ function ReportItem({ reporterName, reportedName, reportedEmail, note, reportRea
                     reportedName={reportedName}
                     reportedEmail={reportedEmail}
                     reportId={reportId}
+                    approvedReasons={approvedReasons}
                 />
             )}
+
+            <ApproveReasons isOpen={showReasonsPopup} onClose={() => setShowReasonsPopup(false)}>
+                <h4>Approve Report Reasons</h4>
+                <ul>
+                    {reportReasons.map((reason, index) => (
+                        <li key={index}>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    checked={approvedReasons.includes(reason)}
+                                    onChange={() => handleReasonToggle(reason)}
+                                />
+                                {reason}
+                            </label>
+                        </li>
+                    ))}
+                </ul>
+                <div className="popup-actions">
+                    <button onClick={handleConfirmReasons}>Confirm</button>
+                    <button onClick={() => setShowReasonsPopup(false)}>Cancel</button>
+                </div>
+            </ApproveReasons>
         </div>
     );
 }
@@ -88,7 +152,7 @@ ReportItem.propTypes = {
     productId: PropTypes.number,
     reviewText: PropTypes.string,
     reportedEmail: PropTypes.string.isRequired,
-    reportId: PropTypes.number.isRequired
+    reportId: PropTypes.number.isRequired,
 };
 
 export default ReportItem;

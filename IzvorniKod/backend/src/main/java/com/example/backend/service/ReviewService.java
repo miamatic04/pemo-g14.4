@@ -48,7 +48,7 @@ public class ReviewService {
             throw new UserNotFoundException("User not found");
         }
 
-        if(reviewPostDTO.getFile().getOriginalFilename() != null) {
+        if(reviewPostDTO.getFile() != null) {
             String folderPath = "public/userUploads/";
 
             try {

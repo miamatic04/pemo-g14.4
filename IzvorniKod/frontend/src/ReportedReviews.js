@@ -25,7 +25,7 @@ function ReportedReviews() {
                 }
 
                 const data = await response.json();
-                setReviews(data); // Assuming the response returns an array of product reports
+                setReviews(data);
             } catch (error) {
                 setError(error.message);
             } finally {

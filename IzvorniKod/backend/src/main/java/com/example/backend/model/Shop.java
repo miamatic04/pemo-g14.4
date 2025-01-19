@@ -55,5 +55,4 @@ public class Shop {
     private List<CustomerOrder> orders;
 
     private String imagePath;
-
 }
