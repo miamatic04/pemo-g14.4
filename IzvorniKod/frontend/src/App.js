@@ -22,6 +22,7 @@ import ReportedProducts from './ReportedProducts';
 import ReportedShops from './ReportedShops';
 import ReportedUsers from './ReportedUsers';
 import ModeratorHome from './Navigation';
+import PurchaseDetails from './PurchaseDetails';
 import Forum from './Forum';
 
 
@@ -41,6 +42,7 @@ const App = () => {
                 <Route path="/shopsList" element={<ShopsList/>}/>
                 <Route path="/review" element={<Review/>}/>
                 <Route path="/purchaseHistory" element={<PurchaseHistory/>}/>
+                <Route path="/purchaseDetails" element={<PurchaseDetails/>}/>
                 <Route path="/district" element={<District/>}/>
                 <Route path="/shop" element={<ShopDetails />} />
                 <Route path="/userProfile" element={<UserProfile/>}/>

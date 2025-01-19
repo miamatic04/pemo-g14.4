@@ -19,9 +19,9 @@ const UserHome = () => {
     const [selectedProduct, setSelectedProduct] = useState(null);
 
     const openModal = (product) => {
-        console.log("Open");
         setSelectedProduct(product);
-        console.log(selectedProduct);
+        localStorage.setItem('selectedProductId', product.id);
+        localStorage.setItem('selectedShopName', product.shopName);
     };
 
     const closeModal = () => {

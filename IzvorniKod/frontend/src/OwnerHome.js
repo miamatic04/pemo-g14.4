@@ -19,12 +19,10 @@ const OwnerHome = () => {
     const [selectedProduct, setSelectedProduct] = useState(null);
 
     const openModal = (product) => {
-        console.log("Open");
         setSelectedProduct(product);
         // Store product and shop info in localStorage instead of state
         localStorage.setItem('selectedProductId', product.id);
         localStorage.setItem('selectedShopName', product.shopName);
-        navigate('/product');
     };
 
     const closeModal = () => {
