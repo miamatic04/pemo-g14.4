@@ -91,13 +91,13 @@
     height: auto; /* Održava omjer slike */
 }
 
-.learn-more, .register {
+.learn-more, .register, .add-to-calendar {
     margin-top: 1vh; /* Razmak između dugmadi */
     background-color: lightskyblue;
     width: 30%;
 }
 
-.register{
+.register, .add-to-calendar{
     margin-top: 5vh;
 }
 
