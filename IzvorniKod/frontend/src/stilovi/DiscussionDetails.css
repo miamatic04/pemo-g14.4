@@ -1,0 +1,118 @@
+.discussion-details-page {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #9bd7eb, #f9faac) no-repeat center center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.discussion-details-container {
+    background: white;
+    border-radius: 25px;
+    width: 70%;
+    padding: 2%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: auto; /* Sprječava izlazak sadržaja izvan granica */
+}
+
+.logo1DiscussionImage{
+    width: 6%;
+    height: auto;
+    margin-bottom: 2%;
+}
+
+.header-section-discussionDetails {
+    display: flex; /* Koristi Flexbox za raspored */
+    align-items: center; /* Poravnava sve elemente vertikalno */
+    margin-top: 2%;
+}
+
+.header-section-discussionDetailsResponse {
+    display: flex;
+    align-items: center; /* Poravnava avatar i ime korisnika vertikalno */
+}
+
+.avatarDiscussionDetails {
+    width: 50px; /* Širina slike avatara */
+    height: 50px; /* Visina slike avatara */
+    border-radius: 50%; /* Zaobljeni oblik */
+    margin-right: 10px; /* Razmak između slike i informacija */
+}
+
+.DiscussionContainer{
+    display: flex; /* Koristi Flexbox za raspored */
+    justify-content: space-between; /* Razmak između stupaca */;
+    padding: 5%;
+    margin: 0 3% 3% 3%;
+    flex-direction: column;
+}
+
+.left-column-discussion-details {
+    display: flex; /* Koristi Flexbox za raspored */
+    flex-direction: column; /* Postavite elemente u kolonu */
+    margin-bottom: 20px; /* Razmak između odgovora */
+}
+
+.inputDiscussionDetails {
+    width: 70%; /* Make textarea take full width */
+    height: 30%;
+    margin-left: 30%; /* Poravnanje textarea */
+    margin-top: 10px; /* Razmak iznad textarea */
+}
+
+.user-response-container {
+    display: flex;
+    flex-direction: column; /* Postavlja elemente u kolonu */
+    margin-bottom: 20px; /* Razmak između korisnika */
+    width: 100%; /* Osigurava da zauzima punu širinu roditeljskog kontejnera */
+}
+
+.avatarDiscussionDetails {
+    width: 50px; /* Širina slike avatara */
+    height: 50px; /* Visina slike avatara */
+    border-radius: 50%; /* Zaobljeni oblik */
+    margin-right: 10px; /* Razmak između slike i informacija */
+}
+
+.discussionDetailsResponse-info {
+    flex-grow: 1; /* Omogućava da se informacije o korisniku prošire */
+}
+
+.sendResponseDiscussion, .discardResponseDiscussion{
+    background-color: #1d4ed8;
+    color: white;
+    margin: 1%;
+    padding: 1%;
+    width: 30%;
+}
+
+.discardResponseDiscussion{
+    margin-right: -10%;
+}
+
+.sendResponseDiscussion:hover{
+    background-color: limegreen;
+}
+
+.discardResponseDiscussion:hover{
+    background-color: red;
+}
+
+.opisDiscussionDetails {
+    max-width: 70%; /* Ograničava maksimalnu širinu na 50% roditeljskog kontejnera */
+    overflow-wrap: break-word; /* Omogućava prelamanje riječi */
+    word-wrap: break-word; /* Starija podrška za prelamanje riječi */
+    margin-bottom: 10px; /* Razmak ispod opisa */
+}
+
+.backToForum{
+    cursor: pointer;
+    background-color: #1d4ed8;
+    color: white;
+    padding: 1%;
+}
+
+.response-message-discussion{
+    color: green;
+    font-weight: bold;
+}

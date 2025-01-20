@@ -25,6 +25,7 @@ import ModeratorHome from './Navigation';
 import PurchaseDetails from './PurchaseDetails';
 import Forum from './Forum';
 import NewDiscussion from './newDiscussion';
+import DiscussionDetails from './DiscussionDetails';
 
 
 const App = () => {
@@ -56,6 +57,7 @@ const App = () => {
                 <Route path="/reportedUsers" element={<ReportedUsers/>} />
                 <Route path="/forum" element={<Forum/>} />
                 <Route path="/newDiscussion" element={<NewDiscussion/>} />
+                <Route path="/discussionDetails" element={<DiscussionDetails/>} />
             </Routes>
         </Router>
     );
