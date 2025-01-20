@@ -15,7 +15,7 @@ public class ShopDistance {
     private double distance;
 
     public ShopDistance(Shop shop, double distance) {
-        this.shopDTO = new ShopProfileDTO(shop);
+        this.shopDTO = new ShopProfileDTO(shop, false);
 
         for(EventDTO eventDTO : this.shopDTO.getEvents()) {
             eventDTO.setDistance(distance);

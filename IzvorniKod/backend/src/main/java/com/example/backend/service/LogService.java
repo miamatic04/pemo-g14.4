@@ -89,6 +89,121 @@ public class LogService {
         return moderatingActivityDTOs;
     }
 
+    public List<ModeratingActivityDTO> getModeratorShopLogs() {
+
+        List<ModeratingActivity> moderatingActivities = moderatingActivityRepository.findAll();
+
+        List<ModeratingActivityDTO> moderatingActivityDTOs = new ArrayList<>();
+
+        moderatingActivityDTOs = moderatingActivities
+                .stream()
+                .filter((log) -> log.getReport().getReportedShop() != null)
+                .map((log) -> {
+                    ModeratingActivityDTO moderatingActivityDTO = new ModeratingActivityDTO();
+                    moderatingActivityDTO.setModeratorEmail(log.getModerator().getEmail());
+                    moderatingActivityDTO.setModeratorName(log.getModerator().getName());
+                    moderatingActivityDTO.setReportId(log.getReport().getId());
+                    moderatingActivityDTO.setDateTime(log.getDateTime());
+                    moderatingActivityDTO.setWarning(log.isWarning());
+                    moderatingActivityDTO.setDisciplinaryMeasure(log.getDisciplinaryMeasure());
+                    moderatingActivityDTO.setUserEmail(log.getUser().getEmail());
+                    moderatingActivityDTO.setUserName(log.getUser().getName());
+                    moderatingActivityDTO.setApprovedReasons(log.getReasons());
+                    moderatingActivityDTO.setNote(log.getNote());
+                    return moderatingActivityDTO;
+                })
+                .toList();
+
+        return moderatingActivityDTOs;
+    }
+
+    public List<ModeratingActivityDTO> getModeratorProductLogs() {
+
+        List<ModeratingActivity> moderatingActivities = moderatingActivityRepository.findAll();
+
+        List<ModeratingActivityDTO> moderatingActivityDTOs = new ArrayList<>();
+
+        moderatingActivityDTOs = moderatingActivities
+                .stream()
+                .filter((log) -> log.getReport().getReportedProductShop() != null)
+                .map((log) -> {
+                    ModeratingActivityDTO moderatingActivityDTO = new ModeratingActivityDTO();
+                    moderatingActivityDTO.setModeratorEmail(log.getModerator().getEmail());
+                    moderatingActivityDTO.setModeratorName(log.getModerator().getName());
+                    moderatingActivityDTO.setReportId(log.getReport().getId());
+                    moderatingActivityDTO.setDateTime(log.getDateTime());
+                    moderatingActivityDTO.setWarning(log.isWarning());
+                    moderatingActivityDTO.setDisciplinaryMeasure(log.getDisciplinaryMeasure());
+                    moderatingActivityDTO.setUserEmail(log.getUser().getEmail());
+                    moderatingActivityDTO.setUserName(log.getUser().getName());
+                    moderatingActivityDTO.setApprovedReasons(log.getReasons());
+                    moderatingActivityDTO.setNote(log.getNote());
+                    return moderatingActivityDTO;
+                })
+                .toList();
+
+        return moderatingActivityDTOs;
+    }
+
+    public List<ModeratingActivityDTO> getModeratorUserLogs() {
+
+        List<ModeratingActivity> moderatingActivities = moderatingActivityRepository.findAll();
+
+        List<ModeratingActivityDTO> moderatingActivityDTOs = new ArrayList<>();
+
+        moderatingActivityDTOs = moderatingActivities
+                .stream()
+                .filter((log) -> log.getReport().getReportedUser() != null
+                        && log.getReport().getReportedShop() == null
+                        && log.getReport().getReportedProductShop() != null
+                        && log.getReport().getReportedReview() == null)
+                .map((log) -> {
+                    ModeratingActivityDTO moderatingActivityDTO = new ModeratingActivityDTO();
+                    moderatingActivityDTO.setModeratorEmail(log.getModerator().getEmail());
+                    moderatingActivityDTO.setModeratorName(log.getModerator().getName());
+                    moderatingActivityDTO.setReportId(log.getReport().getId());
+                    moderatingActivityDTO.setDateTime(log.getDateTime());
+                    moderatingActivityDTO.setWarning(log.isWarning());
+                    moderatingActivityDTO.setDisciplinaryMeasure(log.getDisciplinaryMeasure());
+                    moderatingActivityDTO.setUserEmail(log.getUser().getEmail());
+                    moderatingActivityDTO.setUserName(log.getUser().getName());
+                    moderatingActivityDTO.setApprovedReasons(log.getReasons());
+                    moderatingActivityDTO.setNote(log.getNote());
+                    return moderatingActivityDTO;
+                })
+                .toList();
+
+        return moderatingActivityDTOs;
+    }
+
+    public List<ModeratingActivityDTO> getModeratorReviewLogs() {
+
+        List<ModeratingActivity> moderatingActivities = moderatingActivityRepository.findAll();
+
+        List<ModeratingActivityDTO> moderatingActivityDTOs = new ArrayList<>();
+
+        moderatingActivityDTOs = moderatingActivities
+                .stream()
+                .filter((log) -> log.getReport().getReportedReview() != null)
+                .map((log) -> {
+                    ModeratingActivityDTO moderatingActivityDTO = new ModeratingActivityDTO();
+                    moderatingActivityDTO.setModeratorEmail(log.getModerator().getEmail());
+                    moderatingActivityDTO.setModeratorName(log.getModerator().getName());
+                    moderatingActivityDTO.setReportId(log.getReport().getId());
+                    moderatingActivityDTO.setDateTime(log.getDateTime());
+                    moderatingActivityDTO.setWarning(log.isWarning());
+                    moderatingActivityDTO.setDisciplinaryMeasure(log.getDisciplinaryMeasure());
+                    moderatingActivityDTO.setUserEmail(log.getUser().getEmail());
+                    moderatingActivityDTO.setUserName(log.getUser().getName());
+                    moderatingActivityDTO.setApprovedReasons(log.getReasons());
+                    moderatingActivityDTO.setNote(log.getNote());
+                    return moderatingActivityDTO;
+                })
+                .toList();
+
+        return moderatingActivityDTOs;
+    }
+
     public List<UserActivityDTO> getUserActivity() {
 
         List<UserActivity> userActivities = userActivityRepository.findAll();

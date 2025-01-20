@@ -205,7 +205,7 @@ const AddShop = () => {
                     <div className="form-group">
                         <label>Lokacija:</label>
                         <div className="map-container">
-                            <LoadScript googleMapsApiKey="AIzaSyC7uHI1oQLBtcgG_wpxtQ6D_-CyPmGtXS4">
+                            <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY}>
                                 <GoogleMap
                                     mapContainerStyle={{ width: '100%', height: '300px' }}
                                     center={{ lat: 0, lng: 0 }}

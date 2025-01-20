@@ -57,8 +57,8 @@ public class ShopController {
     }
 
     @GetMapping("/shops/{shopId}")
-    public ResponseEntity<ShopProfileDTO> getShopDetails(@PathVariable Long shopId) {
-        ShopProfileDTO shopDetails = shopService.getShopProfileDetails(shopId);
+    public ResponseEntity<ShopProfileDTO> getShopDetails(@PathVariable Long shopId, @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        ShopProfileDTO shopDetails = shopService.getShopProfileDetails(shopId, authHeader.substring(7));
         return ResponseEntity.ok(shopDetails);
     }
 

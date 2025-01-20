@@ -26,6 +26,8 @@ public class MapService {
                     marker.setLatitude(shop.getLatitude());
                     marker.setLongitude(shop.getLongitude());
                     marker.setName(shop.getShopName());
+                    marker.setDescription(shop.getDescription());
+                    marker.setImagePath(shop.getImagePath());
                     return marker;
                 })
                 .toList();

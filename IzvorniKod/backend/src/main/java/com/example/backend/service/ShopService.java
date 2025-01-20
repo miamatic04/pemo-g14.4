@@ -239,38 +239,26 @@ public class ShopService {
         }
     }
 
-    public ShopProfileDTO getShopProfileDetails(Long shopId) {
+    public ShopProfileDTO getShopProfileDetails(Long shopId, String token) {
         // Pronalaženje trgovine
         Shop shop = shopRepository.findById(shopId)
                 .orElseThrow(() -> new RuntimeException("Shop not found"));
 
-        // Dohvaćanje recenzija trgovine
-        List<ReviewDTO> shopReviews = reviewRepository.findByShopId(shopId)
-                .stream()
-                .filter(review -> review.getProductShop() == null)
-                .map(review -> new ReviewDTO(review))
-                .collect(Collectors.toList());
+        String email = jwtService.extractUsername(token);
 
-        // Dohvaćanje proizvoda u trgovini
-        List<ProductInfoDTO> products = productShopRepository.findByShopId(shopId)
-                .stream()
-                .map(productShop -> {
-                    // Kreiranje ProductDTO objekta za proizvod u trgovini
-                    return new ProductInfoDTO(
-                            productShop.getId(),
-                            productShop.getProduct().getName(),
-                            productShop.getShop().getShopName(),
-                            productShop.getDescription(),
-                            productShop.getProduct().getCategory(),
-                            productShop.getPrice(),
-                            productShop.getImagePath(),
-                            -1
-                    );
-                })
-                .collect(Collectors.toList());
+        Person user = personService.findUser(email);
+
+        if(user == null) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        boolean isOwner = false;
+        if(user.getEmail().equals(shop.getShopOwner().getEmail())) {
+            isOwner = true;
+        }
 
         // Kreiranje ShopDTO objekta
-        return new ShopProfileDTO(shop);
+        return new ShopProfileDTO(shop, isOwner);
     }
 
     public List<ShopDistance> getHoodShops(String token) {
