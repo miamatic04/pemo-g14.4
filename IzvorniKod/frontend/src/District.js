@@ -5,7 +5,6 @@ import logo1 from "./Components/Assets/logo1.png";
 import { useNavigate } from "react-router-dom";
 
 const ShopCard = ({ key1, shopName1, description1, imagePath1 }) => {
-    // State za praćenje je li slika uspješno učitana
     const [imageError, setImageError] = React.useState(false);
     const navigate = useNavigate();
     return (
@@ -38,16 +37,17 @@ const ShopCard = ({ key1, shopName1, description1, imagePath1 }) => {
 };
 
 const ProductCard = ({ id, title, shopName, description, price, imagePath }) => {
-    // State za praćenje je li slika uspješno učitana
     const [imageError, setImageError] = React.useState(false);
     const navigate = useNavigate();
+
+    const handleProductClick = () => {
+        localStorage.setItem('selectedProductId', id);
+        localStorage.setItem('selectedShopName', shopName);
+        navigate('/product');  // Maknuli smo state iz navigacije
+    };
+
     return (
-        <div className="shop-card9" onClick={() => navigate('/product', {
-            replace: false,
-            state: {
-                productId: id,
-            }
-        })}>
+        <div className="shop-card9" onClick={handleProductClick}>
             <div className="shop-image-container9">
                 {!imageError ? (
                     <img
@@ -66,8 +66,44 @@ const ProductCard = ({ id, title, shopName, description, price, imagePath }) => 
             </div>
             <p className="shop-title">{title}</p>
             <p className="shop-name">{shopName}</p>
-            <p className="product-price">${price}</p>
+            <p className="product-price">{price}€</p>
             {description && <p className="product-description">{description}</p>}
+        </div>
+    );
+};
+
+const EventCard = ({ name2, shopName2, dateTime2, imagePath2 }) => {
+    const [imageError, setImageError] = React.useState(false);
+
+    const formattedDateTime = new Date(dateTime2).toLocaleString('hr-HR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+
+    return (
+        <div className="shop-card9">
+            <div className="shop-image-container9">
+                {!imageError ? (
+                    <img
+                        src={imagePath2 || "/api/placeholder/200/120"}
+                        alt={name2}
+                        className="shop-image9"
+                        onError={() => setImageError(true)}
+                    />
+                ) : (
+                    <img
+                        src="/api/placeholder/200/120"
+                        alt="Event"
+                        className="shop-image9"
+                    />
+                )}
+            </div>
+            <p className="shop-title">{name2}</p>
+            <p className="shop-name">{shopName2}</p>
+            <p className="event-datetime">{formattedDateTime}</p>
         </div>
     );
 };
@@ -77,9 +113,9 @@ const Section = ({ title, items, itemType }) => {
 
     const scroll = (direction) => {
         if (contentRef.current) {
-            const scrollAmount = direction === 'left' ? -400 : 400;
+
             contentRef.current.scrollBy({
-                left: scrollAmount,
+                left: direction === 'left' ? -(225*6) : (225*6),
                 behavior: 'smooth'
             });
         }
@@ -97,25 +133,41 @@ const Section = ({ title, items, itemType }) => {
                 </button>
                 <div className="carousel-content" ref={contentRef}>
                     <div className="carousel-items">
-                        {items.map((item, index) => (
-                            itemType === 'product' ? (
-                                <ProductCard
-                                    id={item.id}
-                                    title={item.name}
-                                    shopName={item.shopName}
-                                    description={item.description}
-                                    price={item.price}
-                                    imagePath={item.imagePath}
-                                />
-                            ) : (
-                                <ShopCard
-                                    key1={item.shopDTO ? item.shopDTO.id : item.id || ''}
-                                    shopName1={item.shopDTO ? item.shopDTO.shopName : item.shopName || ''}
-                                    description1={item.shopDTO ? item.shopDTO.description : item.description || ''}
-                                    imagePath1={item.shopDTO ? item.shopDTO.imagePath : item.imagePath || ''}
-                                />
-                            )
-                        ))}
+                        {items.map((item, index) => {
+                            if (itemType === 'event') {
+                                return (
+                                    <EventCard
+                                        key2={index}
+                                        name2={item.name}
+                                        shopName2={item.shopName}
+                                        dateTime2={item.dateTime}
+                                        imagePath2={item.imagePath}
+                                    />
+                                );
+                            } else if (itemType === 'product') {
+                                return (
+                                    <ProductCard
+                                        key={index}
+                                        id={item.id}
+                                        title={item.name}
+                                        shopName={item.shopName}
+                                        description={item.description}
+                                        price={item.price}
+                                        imagePath={item.imagePath}
+                                    />
+                                );
+                            } else {
+                                return (
+                                    <ShopCard
+                                        key={index}
+                                        key1={item.shopDTO ? item.shopDTO.id : item.id || ''}
+                                        shopName1={item.shopDTO ? item.shopDTO.shopName : item.shopName || ''}
+                                        description1={item.shopDTO ? item.shopDTO.description : item.description || ''}
+                                        imagePath1={item.shopDTO ? item.shopDTO.imagePath : item.imagePath || ''}
+                                    />
+                                );
+                            }
+                        })}
                     </div>
                 </div>
                 <button onClick={() => scroll('right')} className="carousel-button carousel-button-right">
@@ -131,10 +183,11 @@ const District = () => {
     const navigate = useNavigate();
     const [shops, setShops] = useState([]);
     const [products, setProducts] = useState([]);
-    const [radius] = useState(5000); // Default radius in meters, adjust as needed
+    const [events, setEvents] = useState([]);
+    const [radius] = useState(5000);
 
     useEffect(() => {
-        const fetchShopsAndProducts = async () => {
+        const fetchData = async () => {
             try {
                 const token = localStorage.getItem('token');
                 const headers = {
@@ -145,46 +198,46 @@ const District = () => {
                 // Fetch shops
                 const shopsResponse = await fetch(
                     `http://${process.env.REACT_APP_WEB_URL}:8080/hood/getShops/${radius}`,
-                    {
-                        method: 'GET',
-                        headers
-                    }
+                    { method: 'GET', headers }
                 );
-                if (!shopsResponse.ok) {
-                    throw new Error('Failed to fetch shops');
-                }
+                if (!shopsResponse.ok) throw new Error('Failed to fetch shops');
                 const shopsData = await shopsResponse.json();
                 setShops(shopsData);
 
                 // Fetch products
                 const productsResponse = await fetch(
                     `http://${process.env.REACT_APP_WEB_URL}:8080/hood/getProducts/${radius}`,
-                    {
-                        method: 'GET',
-                        headers
-                    }
+                    { method: 'GET', headers }
                 );
-                if (!productsResponse.ok) {
-                    throw new Error('Failed to fetch products');
-                }
+                if (!productsResponse.ok) throw new Error('Failed to fetch products');
                 const productsData = await productsResponse.json();
                 setProducts(productsData);
+
+                // Fetch events
+                const eventsResponse = await fetch(
+                    `http://${process.env.REACT_APP_WEB_URL}:8080/hood/getEvents/${radius || 5000}`,
+                    { method: 'GET', headers }
+                );
+                if (!eventsResponse.ok) throw new Error('Failed to fetch events');
+                const eventsData = await eventsResponse.json();
+                setEvents(eventsData);
+
             } catch (error) {
                 console.error('Error fetching data:', error);
-                // Handle error appropriately (e.g., show error message to user)
             }
         };
 
-        fetchShopsAndProducts();
+        fetchData();
     }, [radius]);
 
+    // Hardkodirani podaci za popuste
     const discounts = [
-        { shopName: 'Konzum popust', imagePath: '' },
-        { shopName: 'Lidl posebna ponuda', imagePath: '' },
-        { shopName: 'Kik popusti', imagePath: '' },
-        { shopName: 'Tedi popust', imagePath: '' },
-        { shopName: 'Spar popust', imagePath: '' },
-        { shopName: 'Tisak popust', imagePath: '' }
+        { shopName: 'Konzum popust', imagePath: '', id: 1 },
+        { shopName: 'Lidl posebna ponuda', imagePath: '', id: 2 },
+        { shopName: 'Kik popusti', imagePath: '', id: 3 },
+        { shopName: 'Tedi popust', imagePath: '', id: 4 },
+        { shopName: 'Spar popust', imagePath: '', id: 5 },
+        { shopName: 'Tisak popust', imagePath: '', id: 6 }
     ];
 
     return (
@@ -204,6 +257,7 @@ const District = () => {
 
             <Section title="Trgovine" items={shops} itemType="shop" />
             <Section title="Proizvodi" items={products} itemType="product" />
+            <Section title="Događaji" items={events} itemType="event" />
             <Section title="Ponude i popusti" items={discounts} itemType="shop" />
         </div>
     );

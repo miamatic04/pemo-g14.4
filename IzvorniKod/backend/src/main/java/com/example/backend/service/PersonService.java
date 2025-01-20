@@ -3,6 +3,7 @@ package com.example.backend.service;
 import com.example.backend.exception.*;
 import com.example.backend.model.*;
 import com.example.backend.repository.PersonRepository;
+import com.example.backend.repository.UserActivityRepository;
 import jakarta.mail.MessagingException;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
@@ -20,7 +21,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -37,6 +41,9 @@ public class PersonService {
 
     @Autowired
     private JWTService jwtService;
+
+    @Autowired
+    private UserActivityRepository userActivityRepository;
 
     @Value("${spring.boot.web.url}")
     private String web_url;
@@ -78,6 +85,13 @@ public class PersonService {
                     + "</body></html>";
 
             emailService.sendConfirmationEmail(user.getEmail(), subject, text);
+
+            UserActivity userActivity = new UserActivity();
+            userActivity.setUser(user);
+            userActivity.setActivityType(ActivityType.REGISTERED);
+            userActivity.setDateTime(LocalDateTime.now());
+            userActivity.setNote("User registered with email " + user.getEmail());
+            userActivityRepository.save(userActivity);
 
         }
 
@@ -155,7 +169,7 @@ public class PersonService {
         }
 
         if(editProfileDTO.getHood() != null) {
-            user.setHood(editProfileDTO.getHood());
+            user.setHood(Hood.valueOf(editProfileDTO.getHood()));
         }
 
         if(editProfileDTO.getFile() != null) {
@@ -165,6 +179,26 @@ public class PersonService {
         personRepository.save(user);
 
         return "User profile updated successfully.";
+    }
+
+    public List<UserDTO> getUsers() {
+
+        List<Person> users = personRepository.findAll();
+
+        List<UserDTO> userDTOs = new ArrayList<>();
+
+        userDTOs = users
+                .stream()
+                .filter((user) -> user.getRole().contains("owner") || user.getRole().contains("user") || user.getRole().contains("moderator"))
+                .map((user) -> {
+                    UserDTO userDTO = new UserDTO();
+                    userDTO.setEmail(user.getEmail());
+                    userDTO.setName(user.getName());
+                    return userDTO;
+                })
+                .toList();
+
+        return userDTOs;
     }
 
 }

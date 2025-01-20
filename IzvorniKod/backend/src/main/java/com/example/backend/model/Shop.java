@@ -55,4 +55,8 @@ public class Shop {
     private List<CustomerOrder> orders;
 
     private String imagePath;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Hood hood;
 }

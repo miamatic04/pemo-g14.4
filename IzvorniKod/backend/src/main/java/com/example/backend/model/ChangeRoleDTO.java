@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ChangeRoleDTO {
     private String email;
-    private Role role;
+    private String role;
     private String note;
 }

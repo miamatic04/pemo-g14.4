@@ -1,7 +1,9 @@
 package com.example.backend.service;
 import java.text.DecimalFormatSymbols;
+import java.time.LocalDateTime;
 import java.util.Locale;
 
+import com.example.backend.exception.HoodNotChosenException;
 import com.example.backend.exception.NoLocationPermissionException;
 import com.example.backend.exception.ShopNotFoundException;
 import com.example.backend.exception.UserNotFoundException;
@@ -9,6 +11,7 @@ import com.example.backend.model.*;
 import com.example.backend.repository.ProductShopRepository;
 import com.example.backend.repository.ReviewRepository;
 import com.example.backend.repository.ShopRepository;
+import com.example.backend.repository.UserActivityRepository;
 import com.example.backend.utils.DistanceCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,6 +55,9 @@ public class ShopService {
 
     @Autowired
     private DistanceCalculator distanceCalculator;
+
+    @Autowired
+    private UserActivityRepository userActivityRepository;
 
     @Value("${spring.boot.web.url.img}")
     private String web_url_img;
@@ -163,7 +169,25 @@ public class ShopService {
 
             Person owner = personService.findUser(email);
 
-            int index = owner.getShops().size();
+            int index = 0;
+            List<Shop> shops = owner.getShops();
+
+            for (Shop shop : shops) {
+                String imagePath = shop.getImagePath();
+                if (imagePath != null && imagePath.contains(".")) {
+                    String[] parts = imagePath.split("\\.");
+                    if (parts.length > 1) {
+                        try {
+                            int currentIndex = Integer.parseInt(parts[0].substring(parts[0].length() - 1));
+                            index = Math.max(index, currentIndex);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid image index format in path: " + imagePath);
+                        }
+                    }
+                }
+            }
+
+            index++;
 
             String originalFilename = StringUtils.cleanPath(addShopDTO.getFile().getOriginalFilename());
             String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
@@ -191,9 +215,18 @@ public class ShopService {
             shop.setImagePath(frontendPath);
             shop.setDescription(addShopDTO.getDescription());
 
+            shop.setHood(Hood.valueOf(addShopDTO.getHood()));
+
             shop.setShopOwner(owner);
 
-            saveShop(shop);
+            Shop savedShop = saveShop(shop);
+
+            UserActivity userActivity = new UserActivity();
+            userActivity.setUser(owner);
+            userActivity.setActivityType(ActivityType.CREATED_SHOP);
+            userActivity.setDateTime(LocalDateTime.now());
+            userActivity.setNote("User " + owner.getEmail() + " created shop with id = " + savedShop.getId());
+            userActivityRepository.save(userActivity);
 
             return ResponseEntity.ok(Map.of("filePath", frontendPath));
 
@@ -206,43 +239,29 @@ public class ShopService {
         }
     }
 
-
-
-    public ShopProfileDTO getShopProfileDetails(Long shopId) {
+    public ShopProfileDTO getShopProfileDetails(Long shopId, String token) {
         // Pronalaženje trgovine
         Shop shop = shopRepository.findById(shopId)
                 .orElseThrow(() -> new RuntimeException("Shop not found"));
 
-        // Dohvaćanje recenzija trgovine
-        List<ReviewDTO> shopReviews = reviewRepository.findByShopId(shopId)
-                .stream()
-                .filter(review -> review.getProductShop() == null)
-                .map(review -> new ReviewDTO(review))
-                .collect(Collectors.toList());
+        String email = jwtService.extractUsername(token);
 
-        // Dohvaćanje proizvoda u trgovini
-        List<ProductInfoDTO> products = productShopRepository.findByShopId(shopId)
-                .stream()
-                .map(productShop -> {
-                    // Kreiranje ProductDTO objekta za proizvod u trgovini
-                    return new ProductInfoDTO(
-                            productShop.getId(),
-                            productShop.getProduct().getName(),
-                            productShop.getShop().getShopName(),
-                            productShop.getDescription(),
-                            productShop.getProduct().getCategory(),
-                            productShop.getPrice(),
-                            productShop.getImagePath(),
-                            -1
-                    );
-                })
-                .collect(Collectors.toList());
+        Person user = personService.findUser(email);
+
+        if(user == null) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        boolean isOwner = false;
+        if(user.getEmail().equals(shop.getShopOwner().getEmail())) {
+            isOwner = true;
+        }
 
         // Kreiranje ShopDTO objekta
-        return new ShopProfileDTO(shop);
+        return new ShopProfileDTO(shop, isOwner);
     }
 
-    public List<ShopDistance> getHoodShops(String token, double radius) {
+    public List<ShopDistance> getHoodShops(String token) {
 
         String email = jwtService.extractUsername(token);
 
@@ -259,17 +278,26 @@ public class ShopService {
 
         List<Shop> shops = shopRepository.findAllSortedByNameAsc();
 
+        List<Shop> hoodShops = new ArrayList<>();
+
+        if(user.getHood() == null)
+            throw new HoodNotChosenException("Hood not chosen: please choose one in your profile");
+
+        hoodShops = shops
+                .stream()
+                .filter((shop) -> shop.getHood().equals(user.getHood()))
+                .toList();
+
         DecimalFormat df = new DecimalFormat("#.#");
         df.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
 
         List<ShopDistance> shopsWithDistance = new ArrayList<>();
 
-        for(Shop shop : shops) {
+        for(Shop shop : hoodShops) {
             double distance = distanceCalculator.calculateDistance(userLatitude, userLongitude, shop.getLatitude(), shop.getLongitude());
             String formattedDistance = df.format(distance);
             double roundedDistance = Double.parseDouble(formattedDistance);
-            if(roundedDistance <= radius)
-                shopsWithDistance.add(new ShopDistance(shop, roundedDistance));
+            shopsWithDistance.add(new ShopDistance(shop, roundedDistance));
         }
 
         return shopsWithDistance;

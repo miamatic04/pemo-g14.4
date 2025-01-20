@@ -7,6 +7,7 @@ import com.example.backend.model.*;
 import com.example.backend.repository.EventRepository;
 import com.example.backend.repository.PersonRepository;
 import com.example.backend.repository.ShopRepository;
+import com.example.backend.repository.UserActivityRepository;
 import com.example.backend.utils.DistanceCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,11 +42,15 @@ public class EventService {
 
     @Autowired
     private DistanceCalculator distanceCalculator;
+
     @Autowired
     private ShopRepository shopRepository;
 
     @Value("${spring.boot.web.url.img}")
     private String web_url_img;
+
+    @Autowired
+    private UserActivityRepository userActivityRepository;
 
     public List<EventDTO> getAllEvents(String token) {
 
@@ -76,9 +82,9 @@ public class EventService {
                 .collect(Collectors.toList());
     }
 
-    public List<EventDTO> getHoodEvents(String token, double radius) {
+    public List<EventDTO> getHoodEvents(String token) {
 
-        List<ShopDistance> hoodShops = shopService.getHoodShops(token, radius);
+        List<ShopDistance> hoodShops = shopService.getHoodShops(token);
 
         List<EventDTO> events = new ArrayList<>();
 
@@ -115,7 +121,25 @@ public class EventService {
 
                 String sanitizedShopName = shop.getShopName().replaceAll("[^a-zA-Z0-9]", ""); // ukloni sve sto nije broj ili slovo
 
-                int index = shop.getEvents().size();
+                int index = 0;
+                List<Event> events = shop.getEvents();
+
+                for (Event event : events) {
+                    String imagePath = event.getImagePath();
+                    if (imagePath != null && imagePath.contains(".")) {
+                        String[] parts = imagePath.split("\\.");
+                        if (parts.length > 1) {
+                            try {
+                                int currentIndex = Integer.parseInt(parts[0].substring(parts[0].length() - 1));
+                                index = Math.max(index, currentIndex);
+                            } catch (NumberFormatException e) {
+                                System.out.println("Invalid image index format in path: " + imagePath);
+                            }
+                        }
+                    }
+                }
+
+                index++;
 
                 String originalFilename = StringUtils.cleanPath(eventDTO.getFile().getOriginalFilename());
                 String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
@@ -152,7 +176,15 @@ public class EventService {
         event.setShop(shop);
 
         shop.getEvents().add(event);
-        shopRepository.save(shop);
+        Shop savedShop = shopRepository.save(shop);
+
+        UserActivity userActivity = new UserActivity();
+        userActivity.setUser(user);
+        userActivity.setActivityType(ActivityType.ADDED_EVENT);
+        userActivity.setDateTime(LocalDateTime.now());
+        userActivity.setNote("Added event with id = " + savedShop.getEvents().getLast().getId());
+
+        userActivityRepository.save(userActivity);
 
         return "Event added successfully";
     }

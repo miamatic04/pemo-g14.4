@@ -1,9 +1,6 @@
 package com.example.backend.service;
 
-import com.example.backend.exception.NoLocationPermissionException;
-import com.example.backend.exception.ProductNotFoundException;
-import com.example.backend.exception.ShopNotFoundException;
-import com.example.backend.exception.UserNotFoundException;
+import com.example.backend.exception.*;
 import com.example.backend.model.*;
 import com.example.backend.repository.*;
 import com.example.backend.utils.DistanceCalculator;
@@ -13,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,6 +41,9 @@ public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private UserActivityRepository userActivityRepository;
 
     public ProductProfileDTO getProductProfile(Long productId, String token) {
         ProductShop product = productShopRepository.findById(productId)
@@ -91,8 +92,8 @@ public class ProductService {
         return productDTO;
     }
 
-    public List<ProductInfoDTO> getHoodProducts(String token, double radius) {
-        List<ShopDistance> hoodShops = shopService.getHoodShops(token, radius);
+    public List<ProductInfoDTO> getHoodProducts(String token) {
+        List<ShopDistance> hoodShops = shopService.getHoodShops(token);
 
         List<ProductInfoDTO> hoodProducts = new ArrayList<>();
         for (ShopDistance shopDistance : hoodShops) {
@@ -116,9 +117,21 @@ public class ProductService {
         return products;
     }
 
-    public String addProduct(AddProductDTO addProductDTO) {
+    public String addProduct(AddProductDTO addProductDTO, String token) {
+
+        String email = jwtService.extractUsername(token);
+
+        Person user = personRepository.findByEmail(email);
+
+        if(user == null) {
+            throw new UserNotFoundException("User not found");
+        }
 
         Shop shop = shopRepository.findById(addProductDTO.getShopId()).orElseThrow(() -> new ShopNotFoundException("Shop not found"));
+
+        if(!email.equals(shop.getShopOwner().getEmail())) {
+            throw new ShopDoesntBelongToGivenOwnerException("Shop doesn't belong to given owner");
+        }
 
         Product product = productRepository.findById(addProductDTO.getProductId()).orElseThrow(() -> new ProductNotFoundException("Product not found"));
 
@@ -129,14 +142,33 @@ public class ProductService {
         productShop.setPrice(addProductDTO.getPrice());
         productShop.setImagePath(addProductDTO.getImagePath());
         productShop.setQuantity(addProductDTO.getQuantity());
-        productShopRepository.save(productShop);
+        ProductShop addedProduct = productShopRepository.save(productShop);
+
+        UserActivity userActivity = new UserActivity();
+        userActivity.setUser(user);
+        userActivity.setActivityType(ActivityType.ADDED_PRODUCT);
+        userActivity.setDateTime(LocalDateTime.now());
+        userActivity.setNote("Added product with id = " + addedProduct.getId() + " to shop with id = " + shop.getId());
+        userActivityRepository.save(userActivity);
 
         return "Successfully added product";
     }
 
-    public String editProduct(AddProductDTO editProductDTO) {
+    public String editProduct(AddProductDTO editProductDTO, String token) {
+
+        String email = jwtService.extractUsername(token);
+
+        Person user = personRepository.findByEmail(email);
+
+        if(user == null) {
+            throw new UserNotFoundException("User not found");
+        }
 
         ProductShop productShop = productShopRepository.findById(editProductDTO.getId()).orElseThrow(() -> new ProductNotFoundException("Product not found"));
+
+        if(!productShop.getShop().getShopOwner().getEmail().equals(email)) {
+            throw new ShopDoesntBelongToGivenOwnerException("Shop doesn't belong to given owner");
+        }
 
         if(editProductDTO.getDescription() != null)
             productShop.setDescription(editProductDTO.getDescription());
@@ -148,6 +180,13 @@ public class ProductService {
             productShop.setImagePath(editProductDTO.getImagePath());
 
         productShopRepository.save(productShop);
+
+        UserActivity userActivity = new UserActivity();
+        userActivity.setUser(user);
+        userActivity.setActivityType(ActivityType.EDITED_PRODUCT);
+        userActivity.setDateTime(LocalDateTime.now());
+        userActivity.setNote("Edited product with id = " + productShop.getId());
+        userActivityRepository.save(userActivity);
 
         return "Product successfully updated";
     }

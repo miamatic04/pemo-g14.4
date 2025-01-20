@@ -20,8 +20,9 @@ public class ShopProfileDTO {
     private List<ReviewDTO> reviews;
     private List<ProductInfoDTO> products;
     private List<EventDTO> events;
+    private boolean isShopOwner;
 
-    public ShopProfileDTO(Shop shop) {
+    public ShopProfileDTO(Shop shop, boolean isShopOwner) {
         this.id = shop.getId();
         this.shopName = shop.getShopName();
         this.description = shop.getDescription();
@@ -53,6 +54,8 @@ public class ShopProfileDTO {
                 .toList();
 
         this.events = eventDTOs;
+
+        this.isShopOwner = isShopOwner;
 
     }
 }

@@ -31,9 +31,9 @@ public class EventController {
         return ResponseEntity.ok("Signup successful");
     }
 
-    @GetMapping("/hood/getEvents/{radius}")
-    public ResponseEntity<List<EventDTO>> getHoodEvents(@RequestHeader(value = "Authorization", required = false) String authHeader, double radius) {
-        List<EventDTO> events = eventService.getHoodEvents(authHeader.substring(7), radius);
+    @GetMapping("/hood/getEvents")
+    public ResponseEntity<List<EventDTO>> getHoodEvents(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        List<EventDTO> events = eventService.getHoodEvents(authHeader.substring(7));
         return ResponseEntity.ok(events);
     }
 

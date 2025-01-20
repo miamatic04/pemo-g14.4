@@ -57,13 +57,13 @@ public class ShopController {
     }
 
     @GetMapping("/shops/{shopId}")
-    public ResponseEntity<ShopProfileDTO> getShopDetails(@PathVariable Long shopId) {
-        ShopProfileDTO shopDetails = shopService.getShopProfileDetails(shopId);
+    public ResponseEntity<ShopProfileDTO> getShopDetails(@PathVariable Long shopId, @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        ShopProfileDTO shopDetails = shopService.getShopProfileDetails(shopId, authHeader.substring(7));
         return ResponseEntity.ok(shopDetails);
     }
 
-    @GetMapping("/hood/getShops/{radius}")
-    public ResponseEntity<List<ShopDistance>> getHoodShops(@RequestHeader(value = "Authorization", required = false) String authHeader, @PathVariable double radius) {
-        return ResponseEntity.ok(shopService.getHoodShops(authHeader.substring(7), radius));
+    @GetMapping("/hood/getShops")
+    public ResponseEntity<List<ShopDistance>> getHoodShops(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return ResponseEntity.ok(shopService.getHoodShops(authHeader.substring(7)));
     }
 }

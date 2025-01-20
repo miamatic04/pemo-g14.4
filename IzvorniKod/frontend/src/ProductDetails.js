@@ -115,8 +115,6 @@ const ProductDetails = () => {
         setTimeout(() => setCartMessage(''), 3000);
     };
 
-
-
     if (loading) {
         return <div>Loading...</div>;
     }

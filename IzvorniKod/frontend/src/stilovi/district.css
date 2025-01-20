@@ -142,3 +142,17 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.shop-name {
+    font-size: 1rem;
+    color: #4B5563;
+    text-align: center;
+    margin-top: 0.25rem;
+}
+
+.event-datetime {
+    font-size: 0.875rem;
+    color: #6B7280;
+    text-align: center;
+    margin-top: 0.5rem;
+}

@@ -17,11 +17,9 @@ public class ChangeRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private Role oldRole;
+    private String oldRole;
 
-    @Enumerated(EnumType.STRING)
-    private Role newRole;
+    private String newRole;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)

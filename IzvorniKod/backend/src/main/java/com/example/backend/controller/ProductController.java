@@ -22,9 +22,9 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProductProfile(id, authHeader.substring(7)));
     }
 
-    @GetMapping("/hood/getProducts/{radius}")
-    public ResponseEntity<List<ProductInfoDTO>> getHoodProducts(@RequestHeader(value = "Authorization", required = false) String authHeader, @PathVariable double radius) {
-        List<ProductInfoDTO> products = productService.getHoodProducts(authHeader.substring(7), radius);
+    @GetMapping("/hood/getProducts")
+    public ResponseEntity<List<ProductInfoDTO>> getHoodProducts(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        List<ProductInfoDTO> products = productService.getHoodProducts(authHeader.substring(7));
         return ResponseEntity.ok(products);
     }
 
@@ -35,12 +35,12 @@ public class ProductController {
     }
 
     @PostMapping("/addProduct")
-    public ResponseEntity<String> addProduct(@RequestBody AddProductDTO addProductDTO) {
-        return ResponseEntity.ok(productService.addProduct(addProductDTO));
+    public ResponseEntity<String> addProduct(@RequestBody AddProductDTO addProductDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return ResponseEntity.ok(productService.addProduct(addProductDTO, authHeader.substring(7)));
     }
 
     @PostMapping("/editProduct")
-    public ResponseEntity<String> editProduct(@RequestBody AddProductDTO editProductDTO) {
-        return ResponseEntity.ok(productService.editProduct(editProductDTO));
+    public ResponseEntity<String> editProduct(@RequestBody AddProductDTO editProductDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return ResponseEntity.ok(productService.editProduct(editProductDTO, authHeader.substring(7)));
     }
 }

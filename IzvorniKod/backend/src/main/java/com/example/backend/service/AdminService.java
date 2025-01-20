@@ -4,7 +4,6 @@ import com.example.backend.exception.UserNotFoundException;
 import com.example.backend.model.ChangeRoleDTO;
 import com.example.backend.model.Person;
 import com.example.backend.model.ChangeRole;
-import com.example.backend.model.Role;
 import com.example.backend.repository.ChangeRoleRepository;
 import com.example.backend.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +37,9 @@ public class AdminService {
         }
 
         ChangeRole changeRole = new ChangeRole();
-        changeRole.setOldRole(Role.valueOf(user.getRole()));
+        changeRole.setOldRole(user.getRole());
 
-        user.setRole("[" + changeRoleDTO.getRole().toString() + "]");
+        user.setRole(changeRoleDTO.getRole().toString());
         personRepository.save(user);
 
         changeRole.setNewRole(changeRoleDTO.getRole());
