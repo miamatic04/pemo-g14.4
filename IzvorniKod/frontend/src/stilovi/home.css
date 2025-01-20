@@ -33,7 +33,7 @@ body{
 /*Postavljanje stilova za zaglavlje i elemente zaglavlja*/
 .header2{
     background-color: white;
-    height: 10%;
+    height: 11%;
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -28,6 +28,10 @@ import NewDiscussion from './newDiscussion';
 import DiscussionDetails from './DiscussionDetails';
 import AdminPanel from './AdminPanel';
 import ShopsMap from './ShopsMap';
+import ModeratorActivity from './ModeratorActivity';
+import UserActivity from './UserActivity';
+import AssignDisciplinaryMeasure from './AssignDisciplinaryMeasure';
+import AssignRole from "./AssignRole";
 
 
 const App = () => {
@@ -61,6 +65,10 @@ const App = () => {
                 <Route path="/forum" element={<Forum/>} />
                 <Route path="/newDiscussion" element={<NewDiscussion/>} />
                 <Route path="/map" element={<ShopsMap/>} />
+                <Route path="/moderatorActivity" element={<ModeratorActivity/>} />
+                <Route path="/userActivity" element={<UserActivity/>} />
+                <Route path="/assignDisciplinaryMeasure" element={<AssignDisciplinaryMeasure/>} />
+                <Route path="/assignRole" element={<AssignRole/>} />
                 <Route path="/discussionDetails" element={<DiscussionDetails/>} />
             </Routes>
         </Router>

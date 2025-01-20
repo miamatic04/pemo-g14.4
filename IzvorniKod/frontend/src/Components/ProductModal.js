@@ -30,13 +30,13 @@ function ProductModal({ product, onClose }) {
                 <img src={product.imagePath || "/placeholder.svg"} alt={product.name} className="product-image" />
                 <h2 className="product-name">{product.name}</h2>
                 <p className="product-description">{product.description}</p>
-                <p className="product-price">Price: ${product.price.toFixed(2)}</p>
+                <p className="product-price">Cijena: ${product.price.toFixed(2)}</p>
                 <div className="quantity-container">
                     <button className="quantity-btn" onClick={handleDecreaseQuantity}>-</button>
                     <span className="quantity-display">{quantity}</span>
                     <button className="quantity-btn" onClick={handleIncreaseQuantity}>+</button>
                 </div>
-                <p className="total-price">Total: ${totalPrice.toFixed(2)}</p>
+                <p className="total-price">Ukupno: ${totalPrice.toFixed(2)}</p>
                 <div className="button-container">
                     <button
                         onClick={() => navigate('/product', {
@@ -45,21 +45,14 @@ function ProductModal({ product, onClose }) {
                                 productId: product.id,
                             }
                         })}
-                        className="btn btn-profile"
-                    >
-                        See Product Profile
+                        className="btn btn-profile">
+                        Idi na profil proizvoda
                     </button>
-                    <button
-                        onClick={onClose}
-                        className="btn btn-close"
-                    >
-                        Close
+                    <button onClick={onClose} className="btn btn-close">
+                        Zatvori
                     </button>
-                    <button
-                        onClick={handleAddToCart}
-                        className="btn btn-add"
-                    >
-                        Add to Cart
+                    <button onClick={handleAddToCart} className="btn btn-add">
+                        Dodaj u košaricu
                     </button>
                 </div>
             </div>

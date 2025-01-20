@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
-import ModeratorActivity from './ModeratorActivity';
+/*import ModeratorActivity from './ModeratorActivity';
 import UserActivity from './UserActivity';
 import AssignDisciplinaryMeasure from './AssignDisciplinaryMeasure';
 import AssignRole from './AssignRole';
-import './stilovi/AdminPanel.css';
+import './stilovi/AdminPanel.css';*/
+import logo from "./Components/Assets/logo1.png";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const AdminPanel = () => {
-    const [activeTab, setActiveTab] = useState('moderatorActivity');
+    /*const [activeTab, setActiveTab] = useState('moderatorActivity');*/
+    const navigate = useNavigate();
+    const url = useLocation();
+    const [menuOpen, setMenuOpen] = useState(false);
 
+    const handleLogout = () => {
+        navigate('/');
+    };
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    };
     return (
-        <div className="admin-panel">
+        /*<div className="admin-panel">
             <nav>
                 <button onClick={() => setActiveTab('moderatorActivity')}>Aktivnost moderatora</button>
                 <button onClick={() => setActiveTab('userActivity')}>Aktivnost korisnika</button>
@@ -22,7 +33,39 @@ const AdminPanel = () => {
                 {activeTab === 'assignMeasure' && <AssignDisciplinaryMeasure />}
                 {activeTab === 'assignRole' && <AssignRole />}
             </div>
+        </div>*/
+        <div className="body-klasa" style={{ overflowY: 'hidden' }}>
+            <link rel="stylesheet"
+                  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+            {/*link na Font Awesome za ikone kod proizvoda*/}
+            <div className="home">
+                <div className="header2">
+                    <img src={logo} alt="logo" className="logo33"></img>
+                    <ul className="lista">
+                        <li className="el"><a className="a1" onClick={() => navigate('/moderatorActivity')}>Aktivnost moderatora</a></li>
+                        <li className="el"><a className="a1" onClick={() => navigate('/userActivity')}>Aktivnost korisnika</a></li>
+                        <li className="el"><a className="a1" onClick={() => navigate('/assignDisciplinaryMeasure')}>Dodijeli disciplinsku mjeru</a></li>
+                        <li className="el"><a className="a1" onClick={() => navigate('/assignRole')}>Dodijeli ulogu</a></li>
+                        <li className="hamburger">
+                            <button className="hamburger-btn" onClick={toggleMenu}>
+                                ☰
+                            </button>
+                            {menuOpen && (
+                                <div className="hamburger-menu">
+                                    {/*<button onClick={() => navigate(`/userProfile`)}>Uredi profil</button>*/}
+                                    <button onClick={handleLogout}>Odjava</button>
+                                </div>
+                            )}
+                        </li>
+                    </ul>
+                </div>
+                <div className="glavna">
+                    <h1 className="naslov">Kupovina koja prati tvoj ritam</h1>
+                    <div className="background"></div>
+                </div>
+            </div>
         </div>
+
     );
 };
 
