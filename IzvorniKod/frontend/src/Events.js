@@ -101,6 +101,11 @@ const Events = () => {
         setRegisteredEvents(registeredEvents.filter(id => id !== eventId));
     };
 
+    const handleAddEventClick = () => {
+        // Navigiraj na stranicu za dodavanje događaja
+        navigate('/addEvent');
+    };
+
     return (
         <div className="event-page">
             <div className="header-events">
@@ -109,6 +114,11 @@ const Events = () => {
                          style={{ cursor: 'pointer' }} />
                 </div>
                 <h1 className="header-title">Događaji</h1>
+                {userRole === 'owner' && (
+                    <button className="add-event-btn" onClick={handleAddEventClick}>
+                        Dodaj Događaj
+                    </button>
+                )}
             </div>
             <div className="spacer"></div>
             <div className="event-container">
