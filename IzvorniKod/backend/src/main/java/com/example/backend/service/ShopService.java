@@ -3,6 +3,7 @@ import java.text.DecimalFormatSymbols;
 import java.time.LocalDateTime;
 import java.util.Locale;
 
+import com.example.backend.exception.HoodNotChosenException;
 import com.example.backend.exception.NoLocationPermissionException;
 import com.example.backend.exception.ShopNotFoundException;
 import com.example.backend.exception.UserNotFoundException;
@@ -168,7 +169,25 @@ public class ShopService {
 
             Person owner = personService.findUser(email);
 
-            int index = owner.getShops().size();
+            int index = 0;
+            List<Shop> shops = owner.getShops();
+
+            for (Shop shop : shops) {
+                String imagePath = shop.getImagePath();
+                if (imagePath != null && imagePath.contains(".")) {
+                    String[] parts = imagePath.split("\\.");
+                    if (parts.length > 1) {
+                        try {
+                            int currentIndex = Integer.parseInt(parts[0].substring(parts[0].length() - 1));
+                            index = Math.max(index, currentIndex);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid image index format in path: " + imagePath);
+                        }
+                    }
+                }
+            }
+
+            index++;
 
             String originalFilename = StringUtils.cleanPath(addShopDTO.getFile().getOriginalFilename());
             String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
@@ -196,6 +215,8 @@ public class ShopService {
             shop.setImagePath(frontendPath);
             shop.setDescription(addShopDTO.getDescription());
 
+            shop.setHood(Hood.valueOf(addShopDTO.getHood()));
+
             shop.setShopOwner(owner);
 
             Shop savedShop = saveShop(shop);
@@ -217,8 +238,6 @@ public class ShopService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-
 
     public ShopProfileDTO getShopProfileDetails(Long shopId) {
         // Pronalaženje trgovine
@@ -254,7 +273,7 @@ public class ShopService {
         return new ShopProfileDTO(shop);
     }
 
-    public List<ShopDistance> getHoodShops(String token, double radius) {
+    public List<ShopDistance> getHoodShops(String token) {
 
         String email = jwtService.extractUsername(token);
 
@@ -271,17 +290,26 @@ public class ShopService {
 
         List<Shop> shops = shopRepository.findAllSortedByNameAsc();
 
+        List<Shop> hoodShops = new ArrayList<>();
+
+        if(user.getHood() == null)
+            throw new HoodNotChosenException("Hood not chosen: please choose one in your profile");
+
+        hoodShops = shops
+                .stream()
+                .filter((shop) -> shop.getHood().equals(user.getHood()))
+                .toList();
+
         DecimalFormat df = new DecimalFormat("#.#");
         df.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
 
         List<ShopDistance> shopsWithDistance = new ArrayList<>();
 
-        for(Shop shop : shops) {
+        for(Shop shop : hoodShops) {
             double distance = distanceCalculator.calculateDistance(userLatitude, userLongitude, shop.getLatitude(), shop.getLongitude());
             String formattedDistance = df.format(distance);
             double roundedDistance = Double.parseDouble(formattedDistance);
-            if(roundedDistance <= radius)
-                shopsWithDistance.add(new ShopDistance(shop, roundedDistance));
+            shopsWithDistance.add(new ShopDistance(shop, roundedDistance));
         }
 
         return shopsWithDistance;

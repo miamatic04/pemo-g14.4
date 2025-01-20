@@ -92,8 +92,8 @@ public class ProductService {
         return productDTO;
     }
 
-    public List<ProductInfoDTO> getHoodProducts(String token, double radius) {
-        List<ShopDistance> hoodShops = shopService.getHoodShops(token, radius);
+    public List<ProductInfoDTO> getHoodProducts(String token) {
+        List<ShopDistance> hoodShops = shopService.getHoodShops(token);
 
         List<ProductInfoDTO> hoodProducts = new ArrayList<>();
         for (ShopDistance shopDistance : hoodShops) {

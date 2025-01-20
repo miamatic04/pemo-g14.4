@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Service
 public class ReviewService {
@@ -60,7 +61,25 @@ public class ReviewService {
 
                 String emailNoPeriods = email.replaceAll("\\.", "");
 
-                int index = user.getReviews().size();
+                int index = 0;
+                List<Review> reviews = user.getReviews();
+
+                for (Review review : reviews) {
+                    String imagePath = review.getImagePath();
+                    if (imagePath != null && imagePath.contains(".")) {
+                        String[] parts = imagePath.split("\\.");
+                        if (parts.length > 1) {
+                            try {
+                                int currentIndex = Integer.parseInt(parts[0].substring(parts[0].length() - 1));
+                                index = Math.max(index, currentIndex);
+                            } catch (NumberFormatException e) {
+                                System.out.println("Invalid image index format in path: " + imagePath);
+                            }
+                        }
+                    }
+                }
+
+                index++;
 
                 String originalFilename = StringUtils.cleanPath(reviewPostDTO.getFile().getOriginalFilename());
                 String extension = originalFilename.substring(originalFilename.lastIndexOf("."));

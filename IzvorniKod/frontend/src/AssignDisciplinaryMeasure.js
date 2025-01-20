@@ -23,6 +23,7 @@ const AssignDisciplinaryMeasure = () => {
                 if (response.ok) {
                     const data = await response.json();
                     setUsers(data.map(user => ({ name: user.name, email: user.email })));
+                    console.log(users);
                 } else {
                     console.error('Failed to fetch users');
                 }

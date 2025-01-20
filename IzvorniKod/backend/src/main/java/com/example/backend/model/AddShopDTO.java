@@ -19,4 +19,5 @@ public class AddShopDTO {
     private String description;
     private double latitude;
     private double longitude;
+    private String hood;
 }

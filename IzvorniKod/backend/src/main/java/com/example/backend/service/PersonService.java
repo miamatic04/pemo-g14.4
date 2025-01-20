@@ -169,7 +169,7 @@ public class PersonService {
         }
 
         if(editProfileDTO.getHood() != null) {
-            user.setHood(editProfileDTO.getHood());
+            user.setHood(Hood.valueOf(editProfileDTO.getHood()));
         }
 
         if(editProfileDTO.getFile() != null) {
@@ -189,7 +189,7 @@ public class PersonService {
 
         userDTOs = users
                 .stream()
-                .filter((user) -> user.getRole().contains("owner") || user.getRole().contains("user"))
+                .filter((user) -> user.getRole().contains("owner") || user.getRole().contains("user") || user.getRole().contains("moderator"))
                 .map((user) -> {
                     UserDTO userDTO = new UserDTO();
                     userDTO.setEmail(user.getEmail());

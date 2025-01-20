@@ -22,9 +22,9 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProductProfile(id, authHeader.substring(7)));
     }
 
-    @GetMapping("/hood/getProducts/{radius}")
-    public ResponseEntity<List<ProductInfoDTO>> getHoodProducts(@RequestHeader(value = "Authorization", required = false) String authHeader, @PathVariable double radius) {
-        List<ProductInfoDTO> products = productService.getHoodProducts(authHeader.substring(7), radius);
+    @GetMapping("/hood/getProducts")
+    public ResponseEntity<List<ProductInfoDTO>> getHoodProducts(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        List<ProductInfoDTO> products = productService.getHoodProducts(authHeader.substring(7));
         return ResponseEntity.ok(products);
     }
 

@@ -27,7 +27,6 @@ public class Person {
     private double latitude;
     private String confirmationToken;
     private Boolean emailConfirmed;
-    private String hood;
     private String username;
     private String imagePath;
 
@@ -76,5 +75,8 @@ public class Person {
     public String getName() {
         return firstName + " " + lastName;
     }
+
+    @Enumerated(EnumType.STRING)
+    private Hood hood;
 }
 

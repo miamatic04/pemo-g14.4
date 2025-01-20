@@ -62,8 +62,8 @@ public class ShopController {
         return ResponseEntity.ok(shopDetails);
     }
 
-    @GetMapping("/hood/getShops/{radius}")
-    public ResponseEntity<List<ShopDistance>> getHoodShops(@RequestHeader(value = "Authorization", required = false) String authHeader, @PathVariable double radius) {
-        return ResponseEntity.ok(shopService.getHoodShops(authHeader.substring(7), radius));
+    @GetMapping("/hood/getShops")
+    public ResponseEntity<List<ShopDistance>> getHoodShops(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return ResponseEntity.ok(shopService.getHoodShops(authHeader.substring(7)));
     }
 }

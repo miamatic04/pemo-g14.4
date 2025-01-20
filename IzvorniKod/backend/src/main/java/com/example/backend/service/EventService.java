@@ -82,9 +82,9 @@ public class EventService {
                 .collect(Collectors.toList());
     }
 
-    public List<EventDTO> getHoodEvents(String token, double radius) {
+    public List<EventDTO> getHoodEvents(String token) {
 
-        List<ShopDistance> hoodShops = shopService.getHoodShops(token, radius);
+        List<ShopDistance> hoodShops = shopService.getHoodShops(token);
 
         List<EventDTO> events = new ArrayList<>();
 
@@ -121,7 +121,25 @@ public class EventService {
 
                 String sanitizedShopName = shop.getShopName().replaceAll("[^a-zA-Z0-9]", ""); // ukloni sve sto nije broj ili slovo
 
-                int index = shop.getEvents().size();
+                int index = 0;
+                List<Event> events = shop.getEvents();
+
+                for (Event event : events) {
+                    String imagePath = event.getImagePath();
+                    if (imagePath != null && imagePath.contains(".")) {
+                        String[] parts = imagePath.split("\\.");
+                        if (parts.length > 1) {
+                            try {
+                                int currentIndex = Integer.parseInt(parts[0].substring(parts[0].length() - 1));
+                                index = Math.max(index, currentIndex);
+                            } catch (NumberFormatException e) {
+                                System.out.println("Invalid image index format in path: " + imagePath);
+                            }
+                        }
+                    }
+                }
+
+                index++;
 
                 String originalFilename = StringUtils.cleanPath(eventDTO.getFile().getOriginalFilename());
                 String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
