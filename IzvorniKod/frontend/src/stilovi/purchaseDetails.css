@@ -2,6 +2,7 @@
     min-height: 100vh;
     background: linear-gradient(to bottom,#9bd7eb,#f9faac) no-repeat center center;
     padding-top: 10rem;
+    padding-bottom: 10rem;
 }
 
 .content-container-pd {
@@ -93,29 +94,15 @@
     color: #4b5563;
 }
 
-.prev-purchase-pd {
-    display: flex;
-    align-items: center;
-    font-size: 1.3rem;
-    cursor: pointer;
-}
-
 .next-purchase-pd{
     font-size: 1.3rem;
     cursor: pointer;
+    margin-left: auto;
 }
 
 .btn-pd:hover{
     text-decoration: underline;
     color:#191970;
-}
-
-.arrow-pd {
-    margin-right: 0.5rem;
-}
-
-.next-purchase-pd {
-    margin-left: auto;
 }
 
 .btn-pd{

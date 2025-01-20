@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './stilovi/purchaseHistory.css';
 import logo1 from "./Components/Assets/logo1.png";
 
-const ShoppingCard = ({ status, price, date, shopName }) => {
+const ShoppingCard = ({ order, status, price, date, shopName }) => {
     const getStatusStyle = () => {
         if (status === "u tijeku") return "in-progress";
         if (status === "završeno") return "completed";
@@ -11,6 +11,11 @@ const ShoppingCard = ({ status, price, date, shopName }) => {
     };
 
     const navigate = useNavigate();
+
+    const handleDetailsClick = () => {
+        localStorage.setItem('selectedOrder', JSON.stringify(order));
+        navigate('/purchaseDetails');
+    };
 
     return (
         <div className="shopping-card">
@@ -22,7 +27,7 @@ const ShoppingCard = ({ status, price, date, shopName }) => {
                     <p className={`status ${getStatusStyle()}`}>{status}</p>
                     <p className="shop-name1">{shopName}</p>
                     <p className="price">{price}</p>
-                    <a className="details-link" onClick={() => navigate('/purchaseDetails')}>vidi detalje kupovine</a>
+                    <a className="details-link" onClick={handleDetailsClick}>vidi detalje kupovine</a>
                 </div>
             </div>
         </div>
@@ -38,10 +43,7 @@ const ShoppingPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const ordersPerPage = 3;
 
-    // Izračunaj ukupan broj stranica
     const totalPages = Math.ceil(orders.length / ordersPerPage);
-
-    // Dohvati trenutne narudžbe za prikaz
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
     const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
@@ -83,6 +85,7 @@ const ShoppingPage = () => {
                 console.log(data);
 
                 const transformedOrders = data.map(order => ({
+                    originalOrder: order,
                     status: order.active ? "u tijeku" :
                         order.cancelled ? "otkazano" :
                             order.paid ? "završeno" : "u tijeku",
@@ -133,6 +136,7 @@ const ShoppingPage = () => {
                 {currentOrders.map((order, index) => (
                     <ShoppingCard
                         key={index}
+                        order={order.originalOrder}
                         status={order.status}
                         price={order.price}
                         date={order.date}
