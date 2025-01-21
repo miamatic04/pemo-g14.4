@@ -107,11 +107,21 @@ const ShopDetails = () => {
                             <h3>Recenzije:</h3>
                             {getCurrentReviews().map((review, index) => (
                                 <div key={index} className="review-item">
+                                    <div className="review-content">
+                                        <span>{review.author}</span>
+                                        <span className="rating">{review.rating}★</span>
+                                        <div className="review-text">{review.text}</div>
+                                        {/*{Boolean(review.imagePath) && (
+                                            <div className="review-image">
+                                                <img src={review.imagePath} alt="Review"/>
+                                            </div>
+                                        )}
                                     <span>{review.author}: {review.text}</span>
-                                    <span>Ocjena: {review.rating}</span>
+                                    <span>Ocjena: {review.rating}</span>*/}
+                                    </div>
                                     {userRole === 'owner' && (
                                         <button onClick={() => navigate('/comment-review', {
-                                            state: { reviewId: review.id }
+                                            state: {reviewId: review.id}
                                         })}>
                                             Komentiraj
                                         </button>

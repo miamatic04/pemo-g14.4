@@ -88,7 +88,7 @@ const ReviewPage = () => {
                     <img src={logo} alt={"logo"} onClick={() => navigate('/UserHome')}/>
                 </div>
 
-                <div className="review-content">
+                <div className="review-content1">
                     <div className="rating-section">
                         <label className="section-label">Daj ocjenu:</label>
                         <div className="star-container">
@@ -106,7 +106,7 @@ const ReviewPage = () => {
                     <div className="comment-section">
                         <label className="section-label">Ostavi komentar:</label>
                         <textarea value={comment} onChange={(e) => setComment(e.target.value)}
-                                  className="comment-textarea" rows={4}/>
+                                  className="comment-textarea1" rows={4}/>
                     </div>
 
                     <div className="img-section">

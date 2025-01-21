@@ -136,10 +136,13 @@ const Events = () => {
                             <p className="event-time"><b>Vrijeme:</b></p>
                         </div>
                         <div className="event-column right-column">
-                            <button className="learn-more" onClick={() => navigate('/aboutEvent')}>Saznaj više</button>
+                            <button className="learn-more"
+                                    onClick={() => navigate('/shop', {state: {shopId: event.shopId}})}>
+                                Otiđi na profil trgovine
+                            </button>
                             {registeredEvents.includes(event.id) ? (
                                 <div>
-                                    <p className="uspjesnaPrijava">Uspješna prijava!</p>
+                                <p className="uspjesnaPrijava">Uspješna prijava!</p>
                                     <button
                                         className="unregister"
                                         onClick={() => handleUnregisterClick(event.id)}

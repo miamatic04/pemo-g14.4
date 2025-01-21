@@ -229,7 +229,7 @@ const District = () => {
 
                 // Fetch events
                 const eventsResponse = await fetch(
-                    `http://${process.env.REACT_APP_WEB_URL}:8080/hood/getEvents}`,
+                    `http://${process.env.REACT_APP_WEB_URL}:8080/hood/getEvents`,
                     { method: 'GET', headers }
                 );
                 if (!eventsResponse.ok) throw new Error('Failed to fetch events');
