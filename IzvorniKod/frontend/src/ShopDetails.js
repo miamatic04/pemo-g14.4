@@ -194,9 +194,10 @@ const ShopDetails = () => {
                         {userRole === 'owner' && (
                             <button
                                 className="add-product-btn"
-                                onClick={() => navigate('/addProduct', {
-                                    state: { shopId: shopId }
-                                })}
+                                onClick={() => {
+                                    localStorage.setItem("shopId", shopId);
+                                    navigate("/addProduct");
+                                }}
                             >
                                 Dodaj novi proizvod
                             </button>
