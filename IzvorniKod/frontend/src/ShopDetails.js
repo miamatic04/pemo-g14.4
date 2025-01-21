@@ -95,11 +95,11 @@ const ShopDetails = () => {
                                 })}>
                                     Uredi informacije
                                 </button>
-                                <button onClick={() => navigate('/change-image', {
+                                {/*<button onClick={() => navigate('/change-image', {
                                     state: { shopId: shopId }
                                 })}>
                                     Promijeni sliku
-                                </button>
+                                </button> */}
                             </div>
                         )}
 

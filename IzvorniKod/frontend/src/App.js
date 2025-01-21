@@ -34,6 +34,7 @@ import AssignDisciplinaryMeasure from './AssignDisciplinaryMeasure';
 import AssignRole from "./AssignRole";
 import AddProduct from './AddProduct';
 import AddEvent from './AddEvent';
+import EditShop from './EditShop';
 
 const App = () => {
     return (
@@ -73,6 +74,7 @@ const App = () => {
                 <Route path="/discussionDetails" element={<DiscussionDetails/>} />
                 <Route path="/addProduct" element={<AddProduct/>}/>
                 <Route path="/addEvent" element={<AddEvent/>}/>
+                <Route path="/edit-shop" element={<EditShop/>}/>
             </Routes>
         </Router>
     );
