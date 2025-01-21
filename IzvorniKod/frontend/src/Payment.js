@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './stilovi/Payment.css';
 import logo1 from './Components/Assets/logo1.png';
 
@@ -16,8 +16,25 @@ const Payment = () => {
 
     const navigate = useNavigate();
 
+    const location = useLocation();
+    const totalPrice = location.state?.totalPrice || 0; // Ako nema proslijeđene cijene, postavi na 0
+
     const handleChange = (e) => {
         const { name, value } = e.target;
+
+        if (name === 'nameCard' && !/^[a-zA-Z\s]*$/.test(value)) {
+            return; 
+        }
+
+        if (name === 'numberCard' && !/^\d*$/.test(value)) {
+            return; 
+        }
+
+        if (name === 'ccvCode' && (!/^\d*$/.test(value) || value.length > 3)) {
+            return; 
+        }
+
+
         setFormData({
             ...formData,
             [name]: value
@@ -30,6 +47,14 @@ const Payment = () => {
     const handleSubmit = (e) => {
         e.preventDefault(); // Spriječava ponovno učitavanje stranice
 
+        const [month, year] = formData.expireDate.split('/');
+        const expirationDate = new Date(`20${year}-${month}-01`);
+        const currentDate = new Date();
+        if (expirationDate <= currentDate) {
+            alert('Datum isteka mora biti u budućnosti.');
+            return;
+        }
+
         // Spremanje podataka u localStorage
         localStorage.setItem('userProfile', JSON.stringify(formData));
 
@@ -38,7 +63,7 @@ const Payment = () => {
     };
 
     const handleStopPayment = () => {
-        navigate('/kosarica');
+        navigate('/cart');
     };
 
     return (
@@ -50,7 +75,7 @@ const Payment = () => {
                 <div className="header-section-payment">
                     <div className="header-content">
                         <h1 className="payment">PLAĆANJE</h1>
-                        <h2>210,00€</h2>
+                        <h2>Ukupna cijena: €{totalPrice}</h2>
                         <a className="detailsPayment" onClick={() => navigate("/cart")}>vidi detalje narudžbe</a>
                     </div>
                 </div>
@@ -67,7 +92,9 @@ const Payment = () => {
                                     name="nameCard"
                                     placeholder="Ime"
                                     onChange={handleChange}
-                                    value={formData.firstName}
+                                    value={formData.nameCard}
+                                    pattern="[a-zA-Z\s]*"
+                                    title="Dozvoljena su samo slova i razmaci."
                                     required
                                 />
                             </div>
@@ -80,7 +107,10 @@ const Payment = () => {
                                     name="numberCard"
                                     placeholder="XXXX XXXX XXXX XXXX"
                                     onChange={handleChange}
-                                    value={formData.lastName}
+                                    value={formData.numberCard}
+                                    maxLength="16"
+                                    pattern="\d{16}"
+                                    title="Broj kartice mora sadržavati 16 znamenki."
                                     required
                                 />
                             </div>
@@ -93,8 +123,9 @@ const Payment = () => {
                                     name="expireDate"
                                     placeholder="MM/YY"
                                     onChange={handleChange}
-                                    value={formData.email}
-                                    required
+                                    value={formData.expireDate}
+                                    pattern="^(0[1-9]|1[0-2])\/\d{2}$"
+                                    title="Datum mora biti u formatu MM/YY."                                    required
                                 />
                             </div>
 
@@ -102,11 +133,14 @@ const Payment = () => {
                                 <label className="ccvCode">CCV kod:</label>
                                 <input
                                     type="text"
-                                    id="expireDate"
-                                    name="expireDate"
+                                    id="ccvCode"
+                                    name="ccvCode"
                                     placeholder="CCV kod"
                                     onChange={handleChange}
-                                    value={formData.email}
+                                    value={formData.ccvCode}
+                                    maxLength="3"
+                                    pattern="\d{3}"
+                                    title="CCV kod mora sadržavati 3 znamenke."
                                     required
                                 />
                             </div>

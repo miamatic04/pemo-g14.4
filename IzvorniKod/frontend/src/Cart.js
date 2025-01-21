@@ -73,8 +73,8 @@ const Cart = () => {
     };
 
     const proceedToPayment = () => {
-        navigate('/payment');
-    };
+        navigate('/payment', { state: { totalPrice: calculateTotal() } });
+    };    
 
     const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
 
