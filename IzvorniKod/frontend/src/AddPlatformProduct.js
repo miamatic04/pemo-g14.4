@@ -1,163 +1,191 @@
-import React, { useState } from 'react';
-import logo1 from './Components/Assets/logo1.png';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./stilovi/addProduct.css";
 
-const PlatformProductForm = () => {
+const AddProduct = () => {
+    const [platformProducts, setPlatformProducts] = useState([]);
+    const [selectedPlatformProduct, setSelectedPlatformProduct] = useState("");
+    const [selectedProductImage, setSelectedProductImage] = useState("");
+    const [selectedProductId, setSelectedProductId] = useState(null);
+    const [description, setDescription] = useState("");
+    const [price, setPrice] = useState("");
+    const [quantity, setQuantity] = useState("");
     const navigate = useNavigate();
 
-    // Form state
-    const [formData, setFormData] = useState({
-        name: '',
-        category: '',
-        file: null,
-        ageRestriction: 0,
-    });
+    // Retrieve shopId from local storage
+    const shopId = localStorage.getItem("shopId");
 
-    const categories = ['Electronics', 'Books', 'Fashion', 'Toys', 'Home Appliances'];
+    // Fetch platform products
+    useEffect(() => {
+        const fetchPlatformProducts = async () => {
+            try {
+                const response = await fetch(
+                    `http://${process.env.REACT_APP_WEB_URL}:8080/getPlatformProducts`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        },
+                    }
+                );
 
-    // Handle form input changes
-    const handleChange = (e) => {
-        const { name, value, type, files } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: type === 'file' ? files[0] : value,
-        }));
+                if (response.ok) {
+                    const data = await response.json();
+                    setPlatformProducts(data);
+                } else {
+                    console.error("Failed to fetch platform products");
+                }
+            } catch (error) {
+                console.error("Error fetching platform products:", error);
+            }
+        };
+
+        fetchPlatformProducts();
+    }, []);
+
+    const handleProductChange = (e) => {
+        const selectedProductName = e.target.value;
+        setSelectedPlatformProduct(selectedProductName);
+
+        const selectedProduct = platformProducts.find(
+            (product) => product.name === selectedProductName
+        );
+        setSelectedProductImage(selectedProduct?.imagePath || "");
+        setSelectedProductId(selectedProduct?.id || null);
     };
 
-    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!formData.name || !formData.category || !formData.file) {
-            alert('Please fill in all required fields.');
+        if (!selectedPlatformProduct || !description || !price || !quantity || !shopId) {
+            alert("Molimo ispunite sva polja.");
             return;
         }
 
-        const formDataToSend = new FormData();
-        formDataToSend.append('name', formData.name);
-        formDataToSend.append('category', formData.category);
-        formDataToSend.append('file', formData.file);
-        formDataToSend.append('ageRestriction', formData.ageRestriction);
+        const productData = {
+            productId: selectedProductId,
+            platformProduct: selectedPlatformProduct,
+            description,
+            price,
+            quantity,
+            shopId, // Include shopId from local storage
+        };
 
         try {
-            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/uploadProduct`, {
-                method: 'POST',
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
-                },
-                body: formDataToSend,
-            });
+            const response = await fetch(
+                `http://${process.env.REACT_APP_WEB_URL}:8080/addProduct`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                    body: JSON.stringify(productData),
+                }
+            );
 
             if (response.ok) {
-                alert('Product uploaded successfully!');
-                setFormData({
-                    name: '',
-                    category: '',
-                    file: null,
-                    ageRestriction: 0,
-                });
+                alert("Proizvod je uspješno dodan.");
+                navigate(-1); // Navigate back to the previous page
             } else {
-                alert('Failed to upload product. Please try again.');
+                alert("Dodavanje proizvoda nije uspjelo.");
             }
         } catch (error) {
-            console.error('Error uploading product:', error);
-            alert('An error occurred. Please try again.');
+            console.error("Greška:", error);
+            alert("Dodavanje proizvoda nije uspjelo.");
         }
     };
 
     return (
-        <div className="product-form">
-            <div className="background"></div>
-            <div className="header-shopsList">
-                <div className="logo-container">
-                    <img
-                        src={logo1}
-                        alt="Logo"
-                        className="logo"
-                        onClick={() => navigate('/adminhome')}
-                        style={{ cursor: 'pointer' }}
-                    />
-                </div>
-                <h1 className="header-title">Add New Product</h1>
-            </div>
-            <form onSubmit={handleSubmit} className="form-container">
-                <div className="form-group">
-                    <label htmlFor="name">Product Name:</label>
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        placeholder="Enter product name"
-                        className="input-field"
-                    />
-                </div>
+        <div className="pozadina2">
+            <div className="product-creator">
+                <h1 className="dodajProizvod">Dodaj novi proizvod</h1>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="platformProduct">Platformski Proizvod:</label>
+                        <select
+                            id="platformProduct"
+                            className="unosZaProizvod"
+                            value={selectedPlatformProduct}
+                            onChange={handleProductChange}
+                            required
+                        >
+                            <option value="">Odaberite platformski proizvod</option>
+                            {platformProducts.map((product) => (
+                                <option key={product.id} value={product.name}>
+                                    {product.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-                <div className="form-group">
-                    <label htmlFor="category">Category:</label>
-                    <select
-                        id="category"
-                        name="category"
-                        value={formData.category}
-                        onChange={handleChange}
-                        className="input-field"
+                    {selectedProductImage && (
+                        <div className="form-group">
+                            <img
+                                src={selectedProductImage}
+                                alt="Platform Product"
+                                className="product-image"
+                                style={{ maxWidth: "100%", height: "auto", marginTop: "10px" }}
+                            />
+                        </div>
+                    )}
+
+                    <div className="form-group">
+                        <label htmlFor="description">Opis proizvoda:</label>
+                        <textarea
+                            id="description"
+                            className="unosZaProizvod"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            required
+                            placeholder="Opišite proizvod"
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="price">Cijena proizvoda (€):</label>
+                        <input
+                            id="price"
+                            className="unosZaProizvod"
+                            type="number"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                            required
+                            placeholder="Unesite cijenu proizvoda"
+                            step="0.01"
+                            min="0"
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="quantity">Količina:</label>
+                        <input
+                            id="quantity"
+                            className="unosZaProizvod"
+                            type="number"
+                            value={quantity}
+                            onChange={(e) => setQuantity(e.target.value)}
+                            required
+                            placeholder="Unesite količinu proizvoda"
+                            min="1"
+                        />
+                    </div>
+
+                    <button type="submit" className="submit-button">
+                        Dodaj proizvod
+                    </button>
+                    <button
+                        type="button"
+                        className="back-button"
+                        onClick={() => navigate(-1)}
                     >
-                        <option value="">Select a category</option>
-                        <option value="Voce i povrce">Voce i povrce</option>
-                        <option value="Elektronika">Elektronika</option>
-                        <option value="Domacinstvo">Domacinstvo</option>
-                        <option value="Moda i odjeca">Moda i odjeca</option>
-                        <option value="Kozmetika i osobna njega">Kozmetika i osobna njega</option>
-                        <option value="Hrana i pice">Hrana i pice</option>
-                        <option value="Igracke i djecji proizvodi">Igracke i djecji proizvodi</option>
-                        <option value="Knjige i casopisi">Knjige i casopisi</option>
-                        <option value="Sport i rekreacija">Sport i rekreacija</option>
-                        <option value="Kucni ljubimci i oprema za kucne ljubimce">Kucni ljubimci i oprema za kucne ljubimce</option>
-                        <option value="Namjestaj">Namjestaj</option>
-                        <option value="Alati i oprema">Alati i oprema</option>
-                        <option value="Automobili i motocikli">Automobili i motocikli</option>
-                        <option value="Glazbeni instrumenti">Glazbeni instrumenti</option>
-                        <option value="Zdravlje i wellness">Zdravlje i wellness</option>
-                        <option value="Racunala i dodatna oprema">Racunala i dodatna oprema</option>
-                        <option value="Umjetnost i rukotvorine">Umjetnost i rukotvorine</option>
-                        <option value="Putovanja i kampiranje">Putovanja i kampiranje</option>
-                        <option value="Cvijece i vrt">Cvijece i vrt</option>
-                        <option value="Gradevinski materijali">Gradevinski materijali</option>
-                    </select>
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="file">Product Image:</label>
-                    <input
-                        type="file"
-                        id="file"
-                        name="file"
-                        accept="image/*"
-                        onChange={handleChange}
-                        className="input-file"
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="ageRestriction">Age Restriction:</label>
-                    <input
-                        type="number"
-                        id="ageRestriction"
-                        name="ageRestriction"
-                        value={formData.ageRestriction}
-                        onChange={handleChange}
-                        placeholder="Enter age restriction (0 if none)"
-                        className="input-field"
-                    />
-                </div>
-
-                <button type="submit" className="submit-btn">
-                    Submit
-                </button>
-            </form>
+                        Natrag
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };
 
-export default PlatformProductForm;
+export default AddProduct;

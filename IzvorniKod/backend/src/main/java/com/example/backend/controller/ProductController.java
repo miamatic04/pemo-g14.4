@@ -53,6 +53,11 @@ public class ProductController {
         return productService.addProductToPlatform(platformProductDTO, authHeader.substring(7));
     }
 
+    @GetMapping("/getPlatformProducts")
+    public ResponseEntity<List<PlatformProductDTO>> getPlatformProducts() {
+        return ResponseEntity.ok(productService.getPlatformProducts());
+    }
+
     @PostMapping("/editProduct")
     public ResponseEntity<String> editProduct(@RequestBody AddProductDTO editProductDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
         return ResponseEntity.ok(productService.editProduct(editProductDTO, authHeader.substring(7)));

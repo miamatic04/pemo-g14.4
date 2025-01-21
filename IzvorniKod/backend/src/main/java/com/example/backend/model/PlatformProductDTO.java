@@ -14,9 +14,10 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class PlatformProductDTO {
-
+    private Long id;
     private String name;
     private String category;
     private MultipartFile file;
     private int ageRestriction; //empty (0) if none
+    private String imagePath;
 }

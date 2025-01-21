@@ -280,6 +280,8 @@ public class ProductService {
             product.setImagePath(frontendPath);
             product.setAgeRestriction(platformProductDTO.getAgeRestriction());
 
+            productRepository.save(product);
+
         } catch (IOException e) {
             System.out.println("Error occurred while saving file: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -289,6 +291,23 @@ public class ProductService {
         }
 
         return ResponseEntity.ok("Product added successfully");
+    }
+
+    public List<PlatformProductDTO> getPlatformProducts() {
+        List<Product> products = productRepository.findAll();
+
+        return products
+                .stream()
+                .map((product) -> {
+                    PlatformProductDTO platformProductDTO = new PlatformProductDTO();
+                    platformProductDTO.setCategory(product.getCategory());
+                    platformProductDTO.setName(product.getName());
+                    platformProductDTO.setAgeRestriction(product.getAgeRestriction());
+                    platformProductDTO.setImagePath(product.getImagePath());
+                    platformProductDTO.setId(product.getId());
+                    return platformProductDTO;
+                })
+                .toList();
     }
 }
 
