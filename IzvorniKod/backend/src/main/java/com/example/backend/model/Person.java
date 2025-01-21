@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Data
@@ -27,8 +28,8 @@ public class Person {
     private double latitude;
     private String confirmationToken;
     private Boolean emailConfirmed;
-    private String username;
     private String imagePath;
+    private LocalDate dateOfBirth;
 
     private String OIB;
     @OneToMany(mappedBy = "shopOwner", cascade = CascadeType.ALL, orphanRemoval = true)

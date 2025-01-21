@@ -1,21 +1,22 @@
 package com.example.backend.model;
 
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EditProfileDTO {
+public class PlatformProductDTO {
 
+    private String name;
+    private String category;
     private MultipartFile file;
-    private String hood;
-    private LocalDate dateOfBirth;
+    private int ageRestriction; //empty (0) if none
 }

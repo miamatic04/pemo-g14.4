@@ -113,12 +113,6 @@ public class PersonService {
 
     public String editProfile(EditProfileDTO editProfileDTO, String token) {
 
-        for(Person user : personRepository.findAll()) {
-            if(user.getUsername().equals(editProfileDTO.getUsername())) {
-                throw new UsernameAlreadyInUseException("Username " + editProfileDTO.getUsername() + " is already in use");
-            }
-        }
-
         String email = jwtService.extractUsername(token);
 
         Person user = personRepository.findByEmail(email);
@@ -164,8 +158,8 @@ public class PersonService {
             }
         }
 
-        if(editProfileDTO.getUsername() != null) {
-            user.setUsername(editProfileDTO.getUsername());
+        if(editProfileDTO.getDateOfBirth() != null) {
+            user.setDateOfBirth(editProfileDTO.getDateOfBirth());
         }
 
         if(editProfileDTO.getHood() != null) {

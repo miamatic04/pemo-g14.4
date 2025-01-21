@@ -22,8 +22,9 @@ public class Product {
     private Long id;
     private String name;
     private String category;
+    private String imagePath;
+    private int ageRestriction;
 
     @OneToMany(mappedBy = "product")
     private List<ProductShop> productShops;
-
 }

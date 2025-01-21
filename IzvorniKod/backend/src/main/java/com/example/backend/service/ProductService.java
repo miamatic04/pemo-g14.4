@@ -4,11 +4,21 @@ import com.example.backend.exception.*;
 import com.example.backend.model.*;
 import com.example.backend.repository.*;
 import com.example.backend.utils.DistanceCalculator;
+import com.example.backend.utils.Recommend;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.geo.Distance;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -45,6 +55,12 @@ public class ProductService {
     @Autowired
     private UserActivityRepository userActivityRepository;
 
+    @Autowired
+    private Recommend recommend;
+
+    @Value("${spring.boot.web.url.img}")
+    private String web_url_img;
+
     public ProductProfileDTO getProductProfile(Long productId, String token) {
         ProductShop product = productShopRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
@@ -69,7 +85,7 @@ public class ProductService {
         productDTO.setName(product.getProduct().getName());
         productDTO.setDescription(product.getDescription());
         productDTO.setPrice(product.getPrice());
-        productDTO.setImagePath(product.getImagePath());
+        productDTO.setImagePath(product.getProduct().getImagePath());
         productDTO.setReviews(reviewDTOs);
 
         String email = jwtService.extractUsername(token);
@@ -90,6 +106,12 @@ public class ProductService {
         }
 
         return productDTO;
+    }
+
+    public List<ProductInfoDTO> getRecommendedProducts(String token) {
+        String email = jwtService.extractUsername(token);
+
+        return recommend.recommendProducts(email);
     }
 
     public List<ProductInfoDTO> getHoodProducts(String token) {
@@ -140,7 +162,6 @@ public class ProductService {
         productShop.setProduct(product);
         productShop.setDescription(addProductDTO.getDescription());
         productShop.setPrice(addProductDTO.getPrice());
-        productShop.setImagePath(addProductDTO.getImagePath());
         productShop.setQuantity(addProductDTO.getQuantity());
         ProductShop addedProduct = productShopRepository.save(productShop);
 
@@ -176,9 +197,6 @@ public class ProductService {
         if(editProductDTO.getPrice() != 0)
             productShop.setPrice(editProductDTO.getPrice());
 
-        if(editProductDTO.getImagePath() != null)
-            productShop.setImagePath(editProductDTO.getImagePath());
-
         productShopRepository.save(productShop);
 
         UserActivity userActivity = new UserActivity();
@@ -190,4 +208,87 @@ public class ProductService {
 
         return "Product successfully updated";
     }
+
+    public ResponseEntity<String> addProductToPlatform(PlatformProductDTO platformProductDTO, String token) throws IOException {
+
+        String email = jwtService.extractUsername(token);
+
+        Person admin = personRepository.findByEmail(email);
+
+        if(admin == null) {
+            throw new UserNotFoundException("Admin not found");
+        }
+
+        if(!admin.getRole().contains("admin"))
+            throw new UnauthorizedActionException("Not an admin.");
+
+        if (platformProductDTO.getFile().isEmpty()) {
+            throw new ImageNotFoundException("Image not found. Make sure you provide an image.");
+        }
+
+        String folderPath = "public/userUploads/";
+
+        try {
+
+            File directory = new File(folderPath);
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+            int index = 0;
+            List<Product> products = productRepository.findAll();
+
+            for (Product product : products) {
+                String imagePath = product.getImagePath();
+                if (imagePath != null && imagePath.contains(".")) {
+                    String[] parts = imagePath.split("\\.");
+                    if (parts.length > 1) {
+                        try {
+                            int currentIndex = Integer.parseInt(parts[0].substring(parts[0].length() - 1));
+                            index = Math.max(index, currentIndex);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid image index format in path: " + imagePath);
+                        }
+                    }
+                }
+            }
+
+            index++;
+
+            String originalFilename = StringUtils.cleanPath(platformProductDTO.getFile().getOriginalFilename());
+            String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+            String newFilename = "product" + index + extension; // e.g. product7.png
+
+            Path targetLocation = Paths.get(folderPath + newFilename);
+
+            if (Files.exists(targetLocation)) {
+                try {
+                    Files.delete(targetLocation);
+                } catch (IOException e) {
+                    System.out.println("Error deleting existing file: " + e.getMessage());
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                }
+            }
+
+            Files.copy(platformProductDTO.getFile().getInputStream(), targetLocation);
+
+            String frontendPath = "http://" + web_url_img + "/userUploads/" + newFilename;
+
+            Product product = new Product();
+            product.setName(platformProductDTO.getName());
+            product.setCategory(platformProductDTO.getCategory());
+            product.setImagePath(frontendPath);
+            product.setAgeRestriction(platformProductDTO.getAgeRestriction());
+
+        } catch (IOException e) {
+            System.out.println("Error occurred while saving file: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } catch (Exception e) {
+            System.out.println("Unexpected error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+        return ResponseEntity.ok("Product added successfully");
+    }
 }
+

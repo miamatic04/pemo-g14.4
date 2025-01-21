@@ -42,10 +42,13 @@ const AdminPanel = () => {
                 <div className="header2">
                     <img src={logo} alt="logo" className="logo33"></img>
                     <ul className="lista">
-                        <li className="el"><a className="a1" onClick={() => navigate('/moderatorActivity')}>Aktivnost moderatora</a></li>
-                        <li className="el"><a className="a1" onClick={() => navigate('/userActivity')}>Aktivnost korisnika</a></li>
+                        <li className="el"><a className="a1" onClick={() => navigate('/moderatorActivity')}>Aktivnost
+                            moderatora</a></li>
+                        <li className="el"><a className="a1" onClick={() => navigate('/userActivity')}>Aktivnost
+                            korisnika</a></li>
                         <li className="el"><a className="a1" onClick={() => navigate('/assignDisciplinaryMeasure')}>Dodijeli disciplinsku mjeru</a></li>
                         <li className="el"><a className="a1" onClick={() => navigate('/assignRole')}>Dodijeli ulogu</a></li>
+                        <li className="el"><a className="a1" onClick={() => navigate('/addPlatformProduct')}>Dodaj proizvod</a></li>
                         <li className="hamburger">
                             <button className="hamburger-btn" onClick={toggleMenu}>
                                 ☰

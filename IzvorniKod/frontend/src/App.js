@@ -35,6 +35,7 @@ import AssignRole from "./AssignRole";
 import AddProduct from './AddProduct';
 import AddEvent from './AddEvent';
 import EditShop from './EditShop';
+import AddPlatformProduct from './AddPlatformProduct';
 
 const App = () => {
     return (
@@ -75,6 +76,7 @@ const App = () => {
                 <Route path="/addProduct" element={<AddProduct/>}/>
                 <Route path="/addEvent" element={<AddEvent/>}/>
                 <Route path="/edit-shop" element={<EditShop/>}/>
+                <Route path="/addPlatformProduct" element={<AddPlatformProduct/>}/>
             </Routes>
         </Router>
     );

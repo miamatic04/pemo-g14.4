@@ -29,4 +29,10 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
     @Query(value = "DELETE FROM shop WHERE id = :id", nativeQuery = true)
     void deleteShopById(@Param("id") Long id);
 
+    @Query("SELECT DISTINCT s FROM Shop s " +
+            "JOIN s.products ps " +
+            "JOIN ps.product p " +
+            "WHERE p.category IN :categories")
+    List<Shop> findShopsByProductCategories(@Param("categories") List<String> categories);
+
 }

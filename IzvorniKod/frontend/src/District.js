@@ -197,16 +197,30 @@ const District = () => {
 
                 // Fetch shops
                 const shopsResponse = await fetch(
-                    `http://${process.env.REACT_APP_WEB_URL}:8080/hood/getShops/${radius}`,
+                    `http://${process.env.REACT_APP_WEB_URL}:8080/hood/getShops`,
                     { method: 'GET', headers }
                 );
-                if (!shopsResponse.ok) throw new Error('Failed to fetch shops');
+                if (!shopsResponse.ok) {
+                    try {
+                        const errorResponse = await shopsResponse.json(); // Parse the JSON body
+                        if (errorResponse.code != null) {
+                            if(errorResponse.code === "hood") {
+                                alert("Kvart nije odabran. Molim odaberite kvart u postavkama profila.");
+                                window.location.href = `http://${process.env.REACT_APP_WEB_URL}:3000/userProfile`
+                            }
+                        } else {
+                            alert("An unknown error occurred.");
+                        }
+                    } catch (err) {
+                        console.error("Error parsing response:", err);
+                    }
+                }
                 const shopsData = await shopsResponse.json();
                 setShops(shopsData);
 
                 // Fetch products
                 const productsResponse = await fetch(
-                    `http://${process.env.REACT_APP_WEB_URL}:8080/hood/getProducts/${radius}`,
+                    `http://${process.env.REACT_APP_WEB_URL}:8080/hood/getProducts`,
                     { method: 'GET', headers }
                 );
                 if (!productsResponse.ok) throw new Error('Failed to fetch products');
@@ -215,7 +229,7 @@ const District = () => {
 
                 // Fetch events
                 const eventsResponse = await fetch(
-                    `http://${process.env.REACT_APP_WEB_URL}:8080/hood/getEvents/${radius || 5000}`,
+                    `http://${process.env.REACT_APP_WEB_URL}:8080/hood/getEvents}`,
                     { method: 'GET', headers }
                 );
                 if (!eventsResponse.ok) throw new Error('Failed to fetch events');
@@ -228,7 +242,7 @@ const District = () => {
         };
 
         fetchData();
-    }, [radius]);
+    }, []);
 
     // Hardkodirani podaci za popuste
     const discounts = [

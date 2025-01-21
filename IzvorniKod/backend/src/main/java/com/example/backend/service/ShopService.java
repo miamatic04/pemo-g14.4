@@ -13,15 +13,13 @@ import com.example.backend.repository.ReviewRepository;
 import com.example.backend.repository.ShopRepository;
 import com.example.backend.repository.UserActivityRepository;
 import com.example.backend.utils.DistanceCalculator;
+import com.example.backend.utils.Recommend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class ShopService {
@@ -58,6 +55,9 @@ public class ShopService {
 
     @Autowired
     private UserActivityRepository userActivityRepository;
+
+    @Autowired
+    private Recommend recommend;
 
     @Value("${spring.boot.web.url.img}")
     private String web_url_img;
@@ -143,6 +143,41 @@ public class ShopService {
             double roundedDistance = Double.parseDouble(df.format(distance));
             shopsWithDistance.add(new ShopDistance(shop, roundedDistance));
         }
+
+        shopsWithDistance.sort(Comparator.comparingDouble(ShopDistance::getDistance));
+
+        return ResponseEntity.ok(shopsWithDistance);
+    }
+
+    public ResponseEntity<List<ShopDistance>> getRecommendedShopsSortedByNameAsc(String authHeader) {
+
+        String email = jwtService.extractUsername(authHeader.substring(7));
+
+        List<ShopDistance> shopsWithDistance = recommend.recommendShops(email);
+
+        shopsWithDistance.sort(Comparator.comparing(shopDistance -> shopDistance.getShopDTO().getShopName()));
+
+        return ResponseEntity.ok(shopsWithDistance);
+    }
+
+    public ResponseEntity<List<ShopDistance>> getRecommendedShopsSortedByNameDesc(String authHeader) {
+
+        String email = jwtService.extractUsername(authHeader.substring(7));
+
+        List<ShopDistance> shopsWithDistance = recommend.recommendShops(email);
+
+        shopsWithDistance.sort(
+                Comparator.comparing(shopDistance -> shopDistance.getShopDTO().getShopName(), Comparator.reverseOrder())
+        );
+
+        return ResponseEntity.ok(shopsWithDistance);
+    }
+
+    public ResponseEntity<List<ShopDistance>> getRecommendedShopsSortedByDistanceAsc(String authHeader) {
+
+        String email = jwtService.extractUsername(authHeader.substring(7));
+
+        List<ShopDistance> shopsWithDistance = recommend.recommendShops(email);
 
         shopsWithDistance.sort(Comparator.comparingDouble(ShopDistance::getDistance));
 
@@ -281,7 +316,7 @@ public class ShopService {
         List<Shop> hoodShops = new ArrayList<>();
 
         if(user.getHood() == null)
-            throw new HoodNotChosenException("Hood not chosen: please choose one in your profile");
+            throw new HoodNotChosenException("Hood not chosen: please choose one in profile settings");
 
         hoodShops = shops
                 .stream()

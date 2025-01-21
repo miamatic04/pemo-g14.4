@@ -27,7 +27,6 @@ public class ProductShop {
 
     private String description;
     private double price;
-    private String imagePath;
 
     @Min(0)
     private Integer quantity;

@@ -192,6 +192,21 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleHoodNotChosenException(HoodNotChosenException ex) {
         Map<String, Object> response = new HashMap<>();
         response.put("message", ex.getMessage());
+        response.put("code", "hood");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UnauthorizedActionException.class)
+    public ResponseEntity<Map<String, Object>> handleUnauthorizedActionException(UnauthorizedActionException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ImageNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleImageNotFoundException(ImageNotFoundException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

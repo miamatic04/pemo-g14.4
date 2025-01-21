@@ -46,6 +46,21 @@ public class ShopController {
         return shopService.getShopsSortedByDistanceAsc(authHeader);
     }
 
+    @GetMapping("/home/getRecommendedShopsAZ")
+    public ResponseEntity<List<ShopDistance>> getRecommendedShopsAZ(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return shopService.getRecommendedShopsSortedByNameAsc(authHeader);
+    }
+
+    @GetMapping("/home/getRecommendedShopsZA")
+    public ResponseEntity<List<ShopDistance>> getRecommendedShopsZA(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return shopService.getRecommendedShopsSortedByNameDesc(authHeader);
+    }
+
+    @GetMapping("/home/getRecommendedShopsByDistanceAsc")
+    public ResponseEntity<List<ShopDistance>> getRecommendedShopsByDistanceAsc(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return shopService.getRecommendedShopsSortedByDistanceAsc(authHeader);
+    }
+
     @PostMapping("/addShop")
     public ResponseEntity<Map<String, Object>> addShop(@ModelAttribute AddShopDTO addShopDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
         return shopService.addShop(addShopDTO, authHeader);

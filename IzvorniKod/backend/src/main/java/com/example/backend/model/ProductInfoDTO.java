@@ -27,7 +27,7 @@ public class ProductInfoDTO {
         this.description = productShop.getDescription();
         this.category = productShop.getProduct().getCategory();
         this.price = productShop.getPrice();
-        this.imagePath = productShop.getImagePath();
+        this.imagePath = productShop.getProduct().getImagePath();
         this.distance = -1;
     }
 }
