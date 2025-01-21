@@ -1,21 +1,86 @@
-.navigation ul {
-    list-style-type: none;
+.navigation-container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navigaciona traka */
+.navigation-header {
+    background-color: white; /* Bela pozadina za header */
+    width: 100%;
+    padding: 10px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navigation-logo {
+    height: 8vh;
+}
+
+/* Navigaciona lista */
+.navigation-list {
+    list-style: none; /* Uklanjanje oznaka liste */
+    display: flex; /* Horizontalno poravnanje stavki */
+    gap: 50px; /* Razmak između stavki */
+    margin-left: auto;
+}
+
+.navigation-item {
+    font-size: 25px; /* Veličina fonta za stavke navigacije */
+}
+
+.navigation-link {
+    text-decoration: none; /* Uklanjanje podvlačenja */
+    color: #3e423f; /* Boja teksta */
+    padding: 5px 10px; /* Razmak oko linkova */
+}
+
+.navigation-link:hover {
+    border-radius: 10px; /* Zaobljeni uglovi pri hover-u */
+    background-color: #9bd7eb; /* Pozadina pri hover-u */
+    color: black; /* Boja teksta pri hover-u */
+    cursor: pointer;
+}
+
+/* Pozadina i slogan */
+.background-navigation {
+    background: linear-gradient(to bottom, #9bd7eb, #f9faac) no-repeat center center; /* Slična pozadina kao na homepage-u */
+    width: 100%;
+    height: 89vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slogan-navigation {
+    font-size: 100px;
+    text-align: center;
+    margin-bottom: 5%;
+}
+
+.hamburger-btn-navigation {
+    font-size: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    margin-left: 3%;
+}
+
+.hamburger-btn-navigation:hover{
+    font-weight: bold;
+}
+
+.hamburger-menu-navigation {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background: white;
+    border: 1px solid grey;
+    z-index: 1000;
+    width: 200px;
     padding: 0;
     display: flex;
-    background-color: #f0f0f0;
+    flex-direction: column;
+    margin-top: 1%;
 }
-
-.navigation li {
-    margin: 0;
-    padding: 10px 20px;
-}
-
-.navigation a {
-    text-decoration: none;
-    color: #333;
-}
-
-.navigation a:hover {
-    color: #0066cc;
-}
-
