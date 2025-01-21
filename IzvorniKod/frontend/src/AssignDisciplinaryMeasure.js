@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './stilovi/AssignDisciplinaryMeasure.css';
+import { useNavigate } from 'react-router-dom';
+import logo1 from "./Components/Assets/logo1.png";
 
 const AssignDisciplinaryMeasure = () => {
     const [users, setUsers] = useState([]);
@@ -9,6 +11,7 @@ const AssignDisciplinaryMeasure = () => {
     const [disciplinaryMeasure, setDisciplinaryMeasure] = useState('');
     const [note, setNote] = useState('');
     const [showResults, setShowResults] = useState(false);
+    const navigate = useNavigate();
 
     // Fetch users from the server
     useEffect(() => {
@@ -135,12 +138,25 @@ const AssignDisciplinaryMeasure = () => {
 
     return (
         <div className="assign-measure">
-            <h2>Dodijeli disciplinsku mjeru</h2>
+            <div className="background"></div>
+            <div className="header-shopsList">
+                <div className="logo-container">
+                    <img
+                        src={logo1}
+                        alt="Logo"
+                        className="logo"
+                        onClick={() => navigate('/adminhome')}
+                        style={{cursor: 'pointer'}}
+                    />
+                </div>
+                <h1 className="header-title">Dodijeli disciplinsku mjeru</h1>
+            </div>
             <form onSubmit={handleSubmit}>
                 <div>
                     <input
                         type="text"
-                        placeholder="Search for a user"
+                        placeholder="Pretraži korisnika"
+                        className="input1"
                         value={searchTerm}
                         onChange={handleSearchChange}
                         onFocus={() => setShowResults(!!searchTerm)} // Show results on focus
@@ -160,46 +176,48 @@ const AssignDisciplinaryMeasure = () => {
                     )}
                 </div>
                 {selectedUser && (
-                    <>
+                    <div className="forma-za-biranje">
                         <div>
-                            <label>
+                            <label className="label11">
                                 <input
                                     type="radio"
                                     value="warning"
                                     checked={measureType === 'warning'}
                                     onChange={() => setMeasureType('warning')}
                                 />
-                                Warning
+                                Upozorenje
                             </label>
-                            <label>
+                            <label className="label11">
                                 <input
                                     type="radio"
                                     value="disciplinary"
                                     checked={measureType === 'disciplinary'}
                                     onChange={() => setMeasureType('disciplinary')}
                                 />
-                                Disciplinary Measure
+                                Disciplinska mjera
                             </label>
                         </div>
                         {measureType === 'disciplinary' && (
                             <select
                                 value={disciplinaryMeasure}
                                 onChange={(e) => setDisciplinaryMeasure(e.target.value)}
+                                className="select11"
                             >
-                                <option value="">Select a measure</option>
-                                <option value="THREE_DAY_BAN">Three Day Ban</option>
-                                <option value="ONE_WEEK_BAN">One Week Ban</option>
-                                <option value="ONE_MONTH_BAN">One Month Ban</option>
-                                <option value="LIFETIME_BAN">Lifetime Ban</option>
+                                <option value="">Izaberi disciplinsku mjeru</option>
+                                <option value="THREE_DAY_BAN">3 dana zabrane pristupa</option>
+                                <option value="ONE_WEEK_BAN">1 tjedan zabrane pristupa</option>
+                                <option value="ONE_MONTH_BAN">1 mjesec zabrane pristupa</option>
+                                <option value="LIFETIME_BAN">Doživotna zabrana pristupa</option>
                             </select>
                         )}
                         <textarea
-                            placeholder="Add a note"
+                            placeholder="Napiši upozorenje"
+                            className="textarea11"
                             value={note}
                             onChange={(e) => setNote(e.target.value)}
                         />
-                        <button type="submit">Submit</button>
-                    </>
+                        <button type="submit" className="submit11">Predaj</button>
+                    </div>
                 )}
             </form>
         </div>

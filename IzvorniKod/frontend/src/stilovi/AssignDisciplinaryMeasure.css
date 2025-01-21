@@ -1,36 +1,155 @@
+.assign-measure {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #a1cfdd, #f7f7b5) no-repeat center center;
+}
+
 .assign-measure form {
     display: flex;
+    width: 100%;
     flex-direction: column;
     gap: 10px;
+    align-items: center;
 }
 
-.assign-measure input[type="text"],
-.assign-measure select,
-.assign-measure textarea {
+.input1 {
+    width: 70rem;
+    margin-top: 2rem;
+    border: 4px solid #191970;
+    background-color: white;
+    font-size: 1.2rem;
+    padding: 12px;
+    border-radius: 4px;
+}
+
+.input1:focus {
+    outline: none;
+    border: 4px solid #191970;
+    box-shadow: 0 0 5px rgba(25, 25, 112, 0.2);
+}
+
+.user-list {
+    width: 70rem;
+    max-height: 300px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 4px;
+    position: absolute;
+    z-index: 1000;
+}
+
+.user-list-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #e1f2f7;
+    transition: background-color 0.2s;
+    color: #191970;
+}
+
+.user-list-item:hover {
+    background-color: #d4ebf2;
+}
+
+.user-list-item:last-child {
+    border-bottom: none;
+}
+
+.forma-za-biranje {
+    margin: 3rem 0;
+    background-color: white;
+    width: 70rem;
+    border: 4px solid #191970;
+    border-radius: 4px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.forma-za-biranje > div:first-child {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem 0;
+}
+
+.label11 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.2rem;
+    color: #191970;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.labe11:hover {
+    background-color: #d4ebf2;
+}
+
+.forma-za-biranje input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #191970;
+    cursor: pointer;
+}
+
+.textarea11 {
     width: 100%;
-    padding: 8px;
-    font-size: 16px;
+    min-height: 150px;
+    padding: 12px;
+    font-size: 1.2rem;
+    border: 4px solid #191970;
+    border-radius: 4px;
+    resize: vertical;
+    font-family: inherit;
 }
 
-.assign-measure ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    border: 1px solid #ddd;
+.textarea11:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(25, 25, 112, 0.2);
 }
 
-.assign-measure li {
-    padding: 8px;
+.submit11 {
+    padding: 12px 24px;
+    font-size: 1.2rem;
     cursor: pointer;
+    background-color: #191970;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    width: 100%;
 }
 
-.assign-measure li:hover {
-    background-color: #f0f0f0;
+.submit11:hover {
+    background-color: #1e1e90;
 }
 
-.assign-measure button {
-    padding: 10px 20px;
-    font-size: 16px;
+.select11 {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.2rem;
+    border: 4px solid #191970;
+    border-radius: 4px;
+    background-color: white;
+    color: #191970;
     cursor: pointer;
+    appearance: none;
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 12px;
 }
 
+.select11:focus {
+    outline: none;
+}
+
+/* Select options */
+.select11 option {
+    padding: 12px;
+    font-size: 1.2rem;
+}

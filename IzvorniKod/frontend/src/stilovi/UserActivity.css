@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: linear-gradient(to bottom, #a1cfdd, #f7f7b5);
+    background: linear-gradient(to bottom, #a1cfdd, #f7f7b5) no-repeat center center;
 }
 
 .user-activity table {

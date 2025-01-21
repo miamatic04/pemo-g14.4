@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import './stilovi/AssignDisciplinaryMeasure.css';  // Same CSS file to maintain styling
+import { useNavigate } from 'react-router-dom';
+import './stilovi/AssignDisciplinaryMeasure.css';
+import logo1 from "./Components/Assets/logo1.png";  // Same CSS file to maintain styling
 
 const AssignRole = () => {
     const [users, setUsers] = useState([]); // State for users list
@@ -8,6 +10,7 @@ const AssignRole = () => {
     const [selectedRole, setSelectedRole] = useState(''); // State for selected role
     const [note, setNote] = useState(''); // State for the note input
     const [showResults, setShowResults] = useState(false); // State for showing search results
+    const navigate = useNavigate();
 
     // Fetch users from the backend on component mount
     useEffect(() => {
@@ -94,13 +97,26 @@ const AssignRole = () => {
 
     return (
         <div className="assign-measure">
-            <h2>Dodijeli ulogu</h2>
+            <div className="background"></div>
+            <div className="header-shopsList">
+                <div className="logo-container">
+                    <img
+                        src={logo1}
+                        alt="Logo"
+                        className="logo"
+                        onClick={() => navigate('/adminhome')}
+                        style={{cursor: 'pointer'}}
+                    />
+                </div>
+                <h1 className="header-title">Dodijeli ulogu</h1>
+            </div>
             <form onSubmit={handleSubmit}>
                 {/* Search User */}
                 <div>
                     <input
                         type="text"
-                        placeholder="Search for a user"
+                        className="input1"
+                        placeholder="Pretraži korisnika"
                         value={searchTerm}
                         onChange={handleSearchChange}
                         onFocus={() => setShowResults(!!searchTerm)} // Show results on focus
@@ -122,9 +138,9 @@ const AssignRole = () => {
 
                 {/* Role Selection */}
                 {selectedUser && (
-                    <>
+                    <div className="forma-za-biranje">
                         <div>
-                            <label>
+                            <label className="label11">
                                 <input
                                     type="radio"
                                     value="admin"
@@ -133,7 +149,7 @@ const AssignRole = () => {
                                 />
                                 Admin
                             </label>
-                            <label>
+                            <label className="label11">
                                 <input
                                     type="radio"
                                     value="moderator"
@@ -142,7 +158,7 @@ const AssignRole = () => {
                                 />
                                 Moderator
                             </label>
-                            <label>
+                            <label className="label11">
                                 <input
                                     type="radio"
                                     value="owner"
@@ -151,7 +167,7 @@ const AssignRole = () => {
                                 />
                                 Vlasnik trgovine
                             </label>
-                            <label>
+                            <label className="label11">
                                 <input
                                     type="radio"
                                     value="user"
@@ -165,14 +181,15 @@ const AssignRole = () => {
                         {/* Note Textarea */}
                         <div>
                             <textarea
-                                placeholder="Add a note (optional)"
+                                placeholder="Napomena (opcionalno)"
                                 value={note}
+                                className="textarea11"
                                 onChange={(e) => setNote(e.target.value)}
                             />
                         </div>
 
-                        <button type="submit">Dodijeli ulogu</button>
-                    </>
+                        <button type="submit" className="submit11">Dodijeli ulogu</button>
+                    </div>
                 )}
             </form>
         </div>
