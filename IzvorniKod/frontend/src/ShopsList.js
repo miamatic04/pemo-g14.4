@@ -1,64 +1,64 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './stilovi/shopsList.css';
 import logo1 from './Components/Assets/logo1.png';
-import trgovina1 from './Components/Assets/trgovina1.jpg';
-import trgovina2 from './Components/Assets/trgovina2.jpg';
-import trgovina3 from './Components/Assets/trgovina3.jpg';
-import trgovina4 from './Components/Assets/trgovina4.jpg';
 
 const ShopsList = () => {
     const navigate = useNavigate();
     const userRole = localStorage.getItem('role');
-    const [filter, setFilter] = useState(''); // Stanje za filtriranje
-    const [filterVisible, setFilterVisible] = useState(false); // Stanje za vidljivost opcija filtriranja
-
-    // Niz trgovina
-    const allShops = [
-        { id: 1, name: "Trgovina 1", image: trgovina1 },
-        { id: 2, name: "Trgovina 2", image: trgovina2 },
-        { id: 3, name: "Trgovina 3", image: trgovina3 },
-        { id: 4, name: "Trgovina 4", image: trgovina4 },
-        { id: 5, name: "Trgovina 5", image: trgovina1 },
-        { id: 6, name: "Trgovina 6", image: trgovina2 },
-        { id: 7, name: "Trgovina 7", image: trgovina3 },
-        { id: 8, name: "Trgovina 8", image: trgovina4 },
-        { id: 9, name: "Trgovina 9", image: trgovina1 },
-        { id: 10, name: "Trgovina 10", image: trgovina2 },
-    ];
-
-    // Filtriranje i sortiranje trgovina
-    const filteredShops = filter === 'Z'
-        ? allShops.slice().sort((a, b) => b.name.localeCompare(a.name)) // Sortiraj Z-A
-        : filter === 'A'
-            ? allShops.slice().sort((a, b) => a.name.localeCompare(b.name)) // Sortiraj A-Z
-            : allShops; // Prikaži sve
-
+    const [shops, setShops] = useState([]); // Stanje za trgovine
+    const [loading, setLoading] = useState(true);
+    const [sortOrder, setSortOrder] = useState('AZ'); // Početni redosled sortiranja
     const [currentPage, setCurrentPage] = useState(1);
-    const shopsPerPage = 8; // Broj trgovina po stranici
-    const totalPages = Math.ceil(filteredShops.length / shopsPerPage); // Ukupan broj stranica
+    const shopsPerPage = 8;
 
+    // Funkcija za preuzimanje trgovina
+    const fetchShops = async () => {
+        try {
+            let url;
+            if (sortOrder === 'AZ') {
+                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsAZ`;
+            } else if (sortOrder === 'ZA') {
+                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsZA`;
+            } else if (sortOrder === 'udaljenostBlizi') {
+                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsByDistanceAsc`;
+            }
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch shops');
+            }
+
+            const data = await response.json();
+            setShops(data);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching shops:', error);
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchShops();
+    }, [sortOrder]);
+
+    // Filtriranje i paginacija
+    const totalPages = Math.ceil(shops.length / shopsPerPage);
     const getCurrentShops = () => {
         const startIndex = (currentPage - 1) * shopsPerPage;
-        return filteredShops.slice(startIndex, startIndex + shopsPerPage);
+        return shops.slice(startIndex, startIndex + shopsPerPage);
     };
 
-    const handlePrevPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
-
-    const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
-
-    // Funkcija za promjenu vidljivosti opcija filtriranja
-    const toggleFilterOptions = () => {
-        setFilterVisible(!filterVisible);
-    };
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="shopsList-page">
@@ -73,38 +73,36 @@ const ShopsList = () => {
                     />
                 </div>
                 <h1 className="header-title">Popis trgovina</h1>
-                <div className="filter-container">
-                    <button
-                        className="filter-button"
-                        onClick={toggleFilterOptions}
-                    >
+                <div className="filter-container-list">
+                    <label>
                         Sortiraj po:
-                        <span className="filter-arrow"> ▼</span>
-                    </button>
-                    {filterVisible && (
-                        <div className="filter-options">
-                            <button onClick={() => {
-                                setFilter(''); // Prikaži sve
-                                setFilterVisible(false);
-                            }}>Prikaži sve</button>
-                            <button onClick={() => {
-                                setFilter('A'); // Filtriraj A-Z
-                                setFilterVisible(false);
-                            }}>A-Z</button>
-                            <button onClick={() => {
-                                setFilter('Z'); // Filtriraj Z-A
-                                setFilterVisible(false);
-                            }}>Z-A</button>
-                        </div>
-                    )}
+                        <select
+                            value={sortOrder}
+                            onChange={(e) => setSortOrder(e.target.value)}
+                            className="select-filter-shopList"
+                        >
+                            <option value="AZ">Nazivu A-Z</option>
+                            <option value="ZA">Nazivu Z-A</option>
+                            <option value="udaljenostBlizi">Udaljenosti (prvo bliži)</option>
+                        </select>
+                    </label>
                 </div>
             </div>
+
             <div className="spacer"></div>
             <div className="shop-container">
-                {getCurrentShops().map(shop => (
-                    <div key={shop.id} className="shops-card">
-                        <h2 className="shop-name">{shop.name}</h2>
-                        <img src={shop.image} alt={shop.name} className="shop-image"/>
+                {getCurrentShops().map((shop) => (
+                    <div
+                        key={shop.shopDTO.id}
+                        className="shops-card"
+                        onClick={() =>
+                            navigate('/shop', { state: { shopId: shop.shopDTO.id } })
+                        }
+                    >
+                        <img src={shop.shopDTO.imagePath} alt={shop.shopDTO.shopName} className="shop-image" />
+                        <h2 className="shop-name-list">{shop.shopDTO.shopName}</h2>
+                        <p className="shop-description">{shop.shopDTO.description}</p>
+                        <p className="shop-distance">{shop.distance} km</p>
                     </div>
                 ))}
             </div>
@@ -113,7 +111,7 @@ const ShopsList = () => {
             <div className="pagination">
                 <button
                     className="navigation-btn"
-                    onClick={handlePrevPage}
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                     disabled={currentPage === 1}
                 >
                     &lt;
@@ -131,7 +129,7 @@ const ShopsList = () => {
                 </span>
                 <button
                     className="navigation-btn"
-                    onClick={handleNextPage}
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                     disabled={currentPage === totalPages}
                 >
                     &gt;

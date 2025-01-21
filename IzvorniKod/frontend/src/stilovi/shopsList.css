@@ -107,9 +107,10 @@
     height: auto; /* Održava omjer slike */
 }
 
-.shop-name {
+.shop-name-list {
     margin-top: 2vh; /* Razmak iznad imena trgovine */
     text-align: center; /* Centriranje imena trgovine */
+    color: lightskyblue;
 }
 
 .pagination {
@@ -120,4 +121,15 @@
 
 .navigation-btn {
     cursor: pointer;
+}
+
+.filter-container-list{
+   background-color: midnightblue;
+    color: white;
+    padding: 0.5%;
+    width: 18%;
+}
+
+.select-filter-shopList{
+    margin-left: 5%;
 }
