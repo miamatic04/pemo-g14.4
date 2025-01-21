@@ -1,17 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import ReportItem from './ReportItem';
 import './stilovi/ReportedShops.css';
+import logo from "./Components/Assets/logo1.png";
+import {useNavigate} from "react-router-dom";
 
 function ReportedShops() {
+    const navigate = useNavigate();
     const [shops, setShops] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Function to fetch product reports
-        const fetchProductReports = async () => {
+        const fetchShopReports = async () => {
             try {
-                const token = localStorage.getItem('authToken'); // Retrieve token from localStorage
+                const token = localStorage.getItem('authToken');
                 const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getShopReports`, {
                     method: 'GET',
                     headers: {
@@ -21,11 +23,11 @@ function ReportedShops() {
                 });
 
                 if (!response.ok) {
-                    throw new Error('Failed to fetch product reports');
+                    throw new Error('Failed to fetch shop reports');
                 }
 
                 const data = await response.json();
-                setShops(data); // Assuming the response returns an array of product reports
+                setShops(data);
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -33,18 +35,36 @@ function ReportedShops() {
             }
         };
 
-        fetchProductReports();
+        fetchShopReports();
     }, []);
 
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
     return (
-        <div className="reported-shops">
-            <h2>Reported Shops</h2>
-            {shops.map((shop, index) => (
-                <ReportItem key={index} {...shop} />
-            ))}
+        <div className="reported-shops-page">
+            <div className="header-reported-shops">
+                <img src={logo} alt="Logo" className="report-shop-logo" onClick={() => navigate(`/moderatorHome`)}/>
+                <h2 className="header-title-reported-shops">Prijavljene trgovine</h2>
+            </div>
+            <div className="reported-shops-container">
+                {shops.length === 0 ? (
+                    <p>No reported shops available</p>
+                ) : (
+                    shops.map((shop, index) => (
+                        <div className="reported-shops-card" key={index}>
+                            <ReportItem {...shop} />
+                        </div>
+                    ))
+                )}
+            </div>
         </div>
     );
 }
 
 export default ReportedShops;
-

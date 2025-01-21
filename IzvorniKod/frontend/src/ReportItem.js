@@ -86,12 +86,12 @@ function ReportItem({
                 <strong>Disciplinary Measures Issued To This Account:</strong> {numOfDisciplinaryMeasures}
             </p>
 
-            <div className="action-buttons">
-                <button onClick={() => console.log('Ignore clicked')}>Ignore</button>
-                <button onClick={() => setShowWarningForm(true)}>Issue a Warning</button>
-                <button onClick={() => setShowDisciplinaryForm(true)}>Issue a Disciplinary Measure</button>
-                <button onClick={handleNavigate}>
-                    Go to {shopId ? 'Shop' : productId ? 'Product' : 'Profile'}
+            <div className="action-buttons-reportitem">
+                <button onClick={() => console.log('Ignore clicked')} className="button-reportitem">Ignoriraj</button>
+                <button onClick={() => setShowWarningForm(true)} className="button-reportitem">Izdaj uporozenje</button>
+                <button onClick={() => setShowDisciplinaryForm(true)} className="button-reportitem">Izdaj disciplinsku mjeru</button>
+                <button onClick={handleNavigate} className="button-reportitem">
+                    Idi na {shopId ? 'trgovinu' : productId ? 'proizvod' : 'profil'}
                 </button>
                 <button onClick={() => setShowReasonsPopup(true)}>Potvrdi razloge</button>
             </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import './stilovi/Navigation.css';
 import logo from './Components/Assets/logo1.png';
 
@@ -34,10 +34,11 @@ function Navigation() {
                     <li className="navigation-item"><a className="navigation-link"
                                                        onClick={() => navigate('/reportedUsers')}>Prijavljeni
                         korisnici</a></li>
+                    <li className="navigation-item"><a className="navigation-link">Zahtjevi za vlasnički račun</a></li>
                 </ul>
                 {/* Hamburger dugme */}
                 <button className="hamburger-btn-navigation" onClick={toggleMenu}>
-                ☰
+                    ☰
                 </button>
                 {/* Hamburger meni sa dugmetom za odjavu */}
                 {menuOpen && (

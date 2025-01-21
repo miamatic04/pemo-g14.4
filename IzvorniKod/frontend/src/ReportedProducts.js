@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import ReportItem from './ReportItem';
 import './stilovi/ReportedProducts.css';
+import logo from "./Components/Assets/logo1.png";
+import {useNavigate} from "react-router-dom";
 
 function ReportedProducts() {
+    const navigate = useNavigate();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Function to fetch product reports
         const fetchProductReports = async () => {
             try {
-                const token = localStorage.getItem('authToken'); // Retrieve token from localStorage
+                const token = localStorage.getItem('authToken');
                 const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getProductReports`, {
                     method: 'GET',
                     headers: {
@@ -25,7 +27,7 @@ function ReportedProducts() {
                 }
 
                 const data = await response.json();
-                setProducts(data); // Assuming the response returns an array of product reports
+                setProducts(data);
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -34,7 +36,7 @@ function ReportedProducts() {
         };
 
         fetchProductReports();
-    }, []); // Empty dependency array means this runs only once after the initial render
+    }, []);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -45,15 +47,22 @@ function ReportedProducts() {
     }
 
     return (
-        <div className="reported-products">
-            <h2>Reported Products</h2>
-            {products.length === 0 ? (
-                <p>No reported products available</p>
-            ) : (
-                products.map((product, index) => (
-                    <ReportItem key={index} {...product} />
-                ))
-            )}
+        <div className="reported-products-page">
+            <div className="header-reported-products">
+                <img src={logo} alt="Logo" className="report-product-logo" onClick={() => navigate(`/moderatorHome`)}/>
+                <h2 className="header-title-reported-products">Prijavljeni proizvodi</h2>
+            </div>
+            <div className="reported-products-container">
+                {products.length === 0 ? (
+                    <p>No reported products available</p>
+                ) : (
+                    products.map((product, index) => (
+                        <div className="reported-products-card" key={index}>
+                            <ReportItem {...product} />
+                        </div>
+                    ))
+                )}
+            </div>
         </div>
     );
 }

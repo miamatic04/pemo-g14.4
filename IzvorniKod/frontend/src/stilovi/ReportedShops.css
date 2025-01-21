@@ -1,4 +1,49 @@
-.reported-shops h2 {
-    color: #00cc66;
+.reported-shops-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh; /* Osigurava da je sadržaj centriran vertikalno */
+    background: linear-gradient(to bottom, #9bd7eb, #f9faac) no-repeat center center; /* Prelazak iz plave u žutu */
+    background-size: cover; /* Da pozadina bude preko cijelog ekrana */
 }
 
+.header-reported-shops {
+    display: flex;
+    align-items: center; /* Poravnava logo i naslov po visini */
+    width: 100%; /* Širina zaglavlja */
+    justify-content: center; /* Centriranje sadržaja unutar zaglavlja */
+    padding: 1%;
+    background-color: white;
+}
+
+.report-shop-logo {
+    height: 8vh;
+    flex: 0 0 auto;
+    cursor: pointer;
+}
+
+.header-title-reported-shops {
+    font-size: 250%; /* Veličina naslova */
+    text-align: center;
+    color: midnightblue;
+    flex-grow: 1; /* Naslov zauzima preostali prostor */
+}
+
+.reported-shops-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.reported-shops-card {
+    display: flex;
+    border: 0.5rem solid lightskyblue; /* Plava granica */
+    border-radius: 1%; /* Zaobljeni rubovi */
+    padding: 2vh; /* Unutarnji razmak */
+    margin-top: 2vh; /* Razmak između događaja */
+    margin-bottom: 2vh;
+    background-color: white; /* Pozadina kartice događaja */
+    width: 70%; /* Širina kartice događaja */
+}

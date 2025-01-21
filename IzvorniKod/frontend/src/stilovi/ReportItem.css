@@ -1,46 +1,52 @@
 .report-item {
-    border: 1px solid #ccc;
     border-radius: 5px;
     padding: 15px;
-    margin-bottom: 15px;
+    width: 100%;
 }
 
 .report-item h3, .report-item h4 {
-    margin: 0 0 10px 0;
+    margin: 0 0 1% 0;
 }
 
 .report-item p {
     margin: 5px 0;
 }
 
-.action-buttons {
+.action-buttons-reportitem {
     display: flex;
     justify-content: space-between;
-    margin-top: 15px;
+    margin-top: 4vh;
 }
 
-.action-buttons button {
+.action-buttons-reportitem button {
     padding: 5px 10px;
     border: none;
     border-radius: 3px;
     cursor: pointer;
     transition: background-color 0.3s;
+    background-color: #9bd7eb;
 }
 
-.action-buttons button:nth-child(1) {
+.action-buttons-reportitem button:nth-child(1):hover {
     background-color: #f0f0f0;
 }
 
-.action-buttons button:nth-child(2) {
+.action-buttons-reportitem button:nth-child(2):hover {
     background-color: #ffd700;
 }
 
-.action-buttons button:nth-child(3) {
+.action-buttons-reportitem button:nth-child(3):hover {
     background-color: #ff6347;
     color: white;
 }
 
-.action-buttons button:hover {
-    opacity: 0.8;
+.action-buttons-reportitem button:nth-child(4):hover {
+    background-color: gray;
+    color: white;
+}
+
+.action-buttons-reportitem button:nth-child(5):hover {
+    background-color: limegreen;
+    color: white;
 }
 
