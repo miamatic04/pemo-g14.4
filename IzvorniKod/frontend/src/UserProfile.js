@@ -101,9 +101,11 @@ const UserProfile = () => {
                         <button type="button" className="delete-button" onClick={handleDeleteProfile}>
                             Izbriši profil
                         </button>
-                        <button type="button" className="askOwnerButton" onClick={handleAskOwner}>
+                        {userRole === 'user' && (
+                        <button className="askOwnerButton" onClick={() => alert('Zatraženo vlasništvo!')}>
                             Zatraži vlasnički račun
                         </button>
+                    )}
                         </div>
                     </div>
 
