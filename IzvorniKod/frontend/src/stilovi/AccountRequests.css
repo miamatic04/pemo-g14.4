@@ -1,0 +1,75 @@
+.account-requests-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh; /* Osigurava da je sadržaj centriran vertikalno */
+    background: linear-gradient(to bottom, #9bd7eb, #f9faac) no-repeat center center; /* Prelazak iz plave u žutu */
+    background-size: cover; /* Da pozadina bude preko cijelog ekrana */
+}
+
+.header-account-requests {
+    display: flex;
+    align-items: center; /* Poravnava logo i naslov po visini */
+    width: 100%; /* Širina zaglavlja */
+    justify-content: center; /* Centriranje sadržaja unutar zaglavlja */
+    padding: 1%;
+    background-color: white;
+}
+
+.account-request-logo {
+    height: 8vh;
+    flex: 0 0 auto;
+    cursor: pointer;
+}
+
+.header-title-account-requests {
+    font-size: 250%; /* Veličina naslova */
+    text-align: center;
+    color: midnightblue;
+    flex-grow: 1; /* Naslov zauzima preostali prostor */
+}
+
+.account-requests-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.account-request-card {
+    display: flex;
+    flex-direction: column; /* Vertikalno poravnavanje sadržaja unutar kartice */
+    border: 0.5rem solid lightskyblue; /* Plava granica */
+    border-radius: 1%; /* Zaobljeni rubovi */
+    padding: 2vh; /* Unutarnji razmak */
+    margin-top: 2vh; /* Razmak između kartica */
+    margin-bottom: 2vh;
+    background-color: white; /* Pozadina kartice */
+    width: 70%; /* Širina kartice */
+}
+
+.button-group-account-request {
+    display: flex;
+    justify-content: space-between; /* Razmak između gumba */
+    margin-top: 2%;;
+}
+
+.button-account-request-profil, .button-account-request-odobri, .button-account-request-odbaci{
+    background-color: #9bd7eb;
+}
+
+.button-account-request-profil:hover{
+    background-color: gray;
+    color: white;
+}
+
+.button-account-request-odobri:hover{
+    background-color: limegreen;
+    color: white;
+}
+
+.button-account-request-odbaci:hover{
+    background-color: red;
+    color: white;
+}

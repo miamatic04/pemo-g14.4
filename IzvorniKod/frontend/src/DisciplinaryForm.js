@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import './stilovi/DisciplinaryForm.css';
 
 function DisciplinaryForm({ onClose, reportedEmail, reportedName, reportId, approvedReasons }) {
     const [measureText, setMeasureText] = useState('');
@@ -95,7 +96,7 @@ function DisciplinaryForm({ onClose, reportedEmail, reportedName, reportId, appr
                 borderRadius: '5px',
                 width: '300px',
             }}>
-                <h2>Issue a Disciplinary Measure to {reportedName}</h2>
+                <h2>Izdaj disciplinsku mjeru za {reportedName}</h2>
                 <form onSubmit={handleSubmit}>
                     {error && <p style={{ color: 'red' }}>{error}</p>}
                     <select
@@ -103,23 +104,23 @@ function DisciplinaryForm({ onClose, reportedEmail, reportedName, reportId, appr
                         onChange={(e) => setMeasureType(e.target.value)}
                         style={{ width: '100%', marginBottom: '10px' }}
                     >
-                        <option value="">Select a measure</option>
-                        <option value="THREE_DAY_BAN">Three Day Ban</option>
-                        <option value="ONE_WEEK_BAN">One Week Ban</option>
-                        <option value="ONE_MONTH_BAN">One Month Ban</option>
-                        <option value="LIFETIME_BAN">Lifetime Ban</option>
+                        <option value="">Odaberi mjeru</option>
+                        <option value="THREE_DAY_BAN">Zabrana u trajanju od tri dana</option>
+                        <option value="ONE_WEEK_BAN">Zabrana u trajanju od jednog tjedna</option>
+                        <option value="ONE_MONTH_BAN">Zabrana u trajanju od mjesec dana</option>
+                        <option value="LIFETIME_BAN">Doživotna zabrana</option>
                     </select>
                     <textarea
                         value={measureText}
                         onChange={(e) => setMeasureText(e.target.value)}
-                        placeholder="Enter details of the disciplinary measure"
+                        placeholder="Unesi detalje disciplinske mjere"
                         rows="4"
                         style={{ width: '100%', marginBottom: '10px' }}
                     />
                     <div>
-                        <button type="button" onClick={onClose} disabled={loading}>Cancel</button>
-                        <button type="submit" disabled={loading}>
-                            {loading ? 'Applying...' : 'Apply Measure'}
+                        <button type="button" onClick={onClose} disabled={loading} className="button-disciplinary-form-odustani">Odustani</button>
+                        <button type="submit" disabled={loading} className="button-disciplinary-form-posalji">
+                            {loading ? 'Applying...' : 'Primijeni mjeru'}
                         </button>
                     </div>
                 </form>

@@ -53,24 +53,24 @@ function ReportItem({
 
     return (
         <div className="report-item">
-            <h3>Reporter: {reporterName}</h3>
-            <h4>Reported: {reportedName}</h4>
+            <h3>Prijavitelj: {reporterName}</h3>
+            <h4>Prijavljeni korisnik: {reportedName}</h4>
 
             {reviewText && (
                 <p>
-                    <strong>Content:</strong> {reviewText}
+                    <strong>Sadržaj:</strong> {reviewText}
                 </p>
             )}
 
             {note && (
                 <p>
-                    <strong>Additional Info:</strong> {note}
+                    <strong>Dodatne informacije:</strong> {note}
                 </p>
             )}
 
             {reportReasons && reportReasons.length > 0 && (
                 <div>
-                    <strong>Report Reasons:</strong>
+                    <strong>Razlozi za prijavu:</strong>
                     <ul>
                         {reportReasons.map((reason, index) => (
                             <li key={index}>{reason}</li>
@@ -80,10 +80,10 @@ function ReportItem({
             )}
 
             <p>
-                <strong>Warnings Issued To This Account:</strong> {numOfWarnings}
+                <strong>Broj prijava izdanih za ovog korisnika:</strong> {numOfWarnings}
             </p>
             <p>
-                <strong>Disciplinary Measures Issued To This Account:</strong> {numOfDisciplinaryMeasures}
+                <strong>Broj disciplinskih mjera izdanih za ovog korisnika:</strong> {numOfDisciplinaryMeasures}
             </p>
 
             <div className="action-buttons-reportitem">

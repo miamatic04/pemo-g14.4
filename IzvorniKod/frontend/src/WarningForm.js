@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import './stilovi/WarningForm.css';
 
 function WarningForm({ onClose, reportedEmail, reportedName, reportId, approvedReasons }) {
     const [warningText, setWarningText] = useState('');
@@ -95,20 +96,20 @@ function WarningForm({ onClose, reportedEmail, reportedName, reportId, approvedR
                 borderRadius: '5px',
                 width: '300px',
             }}>
-                <h2>Issue a Warning to {reportedName}</h2>
+                <h2>Izdaj upozorenje za {reportedName}</h2>
                 <form onSubmit={handleSubmit}>
                     {error && <p style={{ color: 'red' }}>{error}</p>}
                     <textarea
                         value={warningText}
                         onChange={(e) => setWarningText(e.target.value)}
-                        placeholder="Enter warning message"
+                        placeholder="Unesi poruku upozorenja"
                         rows="4"
                         style={{ width: '100%', marginBottom: '10px' }}
                     />
                     <div>
-                        <button type="button" onClick={onClose} disabled={loading}>Cancel</button>
-                        <button type="submit" disabled={loading}>
-                            {loading ? 'Sending...' : 'Send Warning'}
+                        <button type="button" onClick={onClose} disabled={loading} className="button-warning-form-odustani">Odustani</button>
+                        <button type="submit" disabled={loading} className="button-warning-form-posalji">
+                            {loading ? 'Sending...' : 'Pošalji upozorenje'}
                         </button>
                     </div>
                 </form>

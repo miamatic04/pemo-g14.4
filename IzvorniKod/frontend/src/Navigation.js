@@ -34,7 +34,7 @@ function Navigation() {
                     <li className="navigation-item"><a className="navigation-link"
                                                        onClick={() => navigate('/reportedUsers')}>Prijavljeni
                         korisnici</a></li>
-                    <li className="navigation-item"><a className="navigation-link">Zahtjevi za vlasnički račun</a></li>
+                    <li className="navigation-item"><a className="navigation-link" onClick={() => navigate('/accountRequests')}>Zahtjevi za vlasnički račun</a></li>
                 </ul>
                 {/* Hamburger dugme */}
                 <button className="hamburger-btn-navigation" onClick={toggleMenu}>
