@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.model.AddReportDTO;
 import com.example.backend.model.ReportDTO;
+import com.example.backend.model.SendWarningDTO;
 import com.example.backend.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,5 +39,10 @@ public class ReportController {
     @GetMapping("/getReviewReports")
     public ResponseEntity<List<ReportDTO>> getReviewReports() {
         return ResponseEntity.ok(reportService.getReviewReports());
+    }
+
+    @PostMapping("/ignoreReport")
+    public ResponseEntity<String> ignoreReport(@RequestBody SendWarningDTO sendWarningDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return ResponseEntity.ok(reportService.ignoreReport(sendWarningDTO, authHeader.substring(7)));
     }
 }

@@ -39,42 +39,13 @@ function WarningForm({ onClose, reportedEmail, reportedName, reportId, approvedR
                 throw new Error('Failed to send warning');
             }
 
+            onClose();
+
             console.log(`Warning sent to ${reportedName}: ${warningText}`);
         } catch (error) {
             setError(error.message);
         } finally {
             setLoading(false);
-        }
-
-        data = {
-            userEmail: reportedEmail,
-            note: warningText,
-            reportId: reportId,
-            approvedReasons: approvedReasons,
-            warning: true
-        };
-
-        try {
-            setLoading(true);
-            const token = localStorage.getItem("token");
-            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/logModActivity`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify(data)
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to send warning');
-            }
-
-            console.log(`Warning sent to ${reportedName}: ${warningText}`);
-            onClose();
-            window.location.reload();
-        } catch (error) {
-            setError(error.message);
         }
     };
 

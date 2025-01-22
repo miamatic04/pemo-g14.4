@@ -58,8 +58,15 @@ const Payment = () => {
         // Spremanje podataka u localStorage
         localStorage.setItem('userProfile', JSON.stringify(formData));
 
+        // Brisanje sadržaja košarice iz localStorage
+        localStorage.removeItem('cart');
+
         console.log("Podaci su spremljeni:", formData);
         setBackendResult({ message: "Plaćanje je uspješno izvršeno!" }); // Postavljanje poruke o uspjehu
+
+        setTimeout(() => {
+            navigate(userRole === 'owner' ? '/ownerhome' : '/userhome');
+        }, 2000);
     };
 
     const handleStopPayment = () => {

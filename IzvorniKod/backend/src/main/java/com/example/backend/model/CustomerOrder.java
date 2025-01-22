@@ -25,10 +25,6 @@ public class CustomerOrder {
     @JoinColumn(name = "person_email", nullable = false)
     private Person person;
 
-    @ManyToOne
-    @JoinColumn(name = "shop_id", nullable = false)
-    private Shop shop;
-
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<OrderProduct> orderProducts;
 
@@ -38,9 +34,8 @@ public class CustomerOrder {
     private boolean cancelled;
     private LocalDate orderDate;
 
-    public CustomerOrder(Person person, Shop shop) {
+    public CustomerOrder(Person person) {
         this.person = person;
-        this.shop = shop;
         this.orderProducts = new ArrayList<>();
         this.total = 0;
         this.paid = false;

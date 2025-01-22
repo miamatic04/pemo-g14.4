@@ -91,7 +91,7 @@ public class Recommend {
 
     private List<String> findCategories(String email) {
 
-        List<CustomerOrder> recentOrders = orderRepository.findTop3ByPersonEmailOrderByOrderDateDesc(email);
+        List<CustomerOrder> recentOrders = orderRepository.findTop3ByPersonEmailAndPaidTrueOrderByOrderDateDesc(email);
 
         List<String> recentCategories = new ArrayList<>();
 

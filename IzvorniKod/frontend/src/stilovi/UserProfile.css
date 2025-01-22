@@ -76,19 +76,22 @@
 
 .input-box-profile {
     display: flex;
-    align-items: center; /* Poravnava tekst i input vertikalno */
+    flex-direction: column; /* Postavlja oznaku iznad unosa */
+    align-items: flex-start; /* Poravnava tekst oznake lijevo */
     margin-bottom: 3%; /* Razmak između polja */
     position: relative;
+    width: 100%; /* Omogućuje dosljednu širinu */
 }
 
 .input-box-profile label {
-    margin-right: 1%; /* Razmak između oznake i inputa */
-    min-width: 150px; /* Postavljanje minimalne širine za oznake radi dosljednosti */
+    margin-bottom: 5px; /* Dodaje razmak ispod oznake */
+    font-weight: bold; /* Ističe oznaku */
+    font-size: 14px; /* Smanjuje veličinu fonta */
+    color: #333; /* Boja oznake */
 }
 
 .input-box-profile input {
-    flex-grow: 1; /* Input će zauzeti preostali prostor */
-    flex-basis: 100%; /* Osigurava da svi inputi imaju istu širinu */
+    width: 100%; /* Osigurava da input zauzme cijelu širinu */
     padding: 10px; /* Unutarnji razmak unutar inputa */
     border: 1px solid #ccc; /* Okvir oko inputa */
     border-radius: 5px; /* Zaobljeni rubovi */
@@ -154,18 +157,19 @@
 
 .nameOfUser, .lastNameOfUser, .mailUser{
     text-align: left;
+    margin-bottom: 10px; /* Razmak između redaka */
 }
 
 #firstNameProfile, #lastNameProfile, #emailProfile{
-    margin-left: -20%;
+    margin: 0; /* Uklanja nepotrebne margine */
 }
 
 .DateUser{
-    margin-left: -9%;
+    margin-left: 0; /* Poravnanje datuma s ostalim elementima */
 }
 
 #dateOfBirth{
-    margin-right: -10%;
+    margin: 0; /* Uklanja nepotrebne margine */
 }
 
 .iconDown {

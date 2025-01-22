@@ -23,4 +23,5 @@ public class ModeratingActivityDTO {
     private boolean warning;
     private MeasureType disciplinaryMeasure;
     private Long reportId;
+    private boolean ignored;
 }

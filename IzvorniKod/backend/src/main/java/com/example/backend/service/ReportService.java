@@ -29,6 +29,9 @@ public class ReportService {
     @Autowired
     private ShopRepository shopRepository;
 
+    @Autowired
+    private ModeratingActivityRepository moderatingActivityRepository;
+
     public String createReport(AddReportDTO addReportDTO, String token) {
 
         String email = jwtService.extractUsername(token);
@@ -187,5 +190,43 @@ public class ReportService {
         }
 
         return shopReports;
+    }
+
+    public String ignoreReport(SendWarningDTO sendWarningDTO, String token) {
+
+        String email = jwtService.extractUsername(token);
+
+        Person moderator = personRepository.findByEmail(email);
+
+        if(moderator == null) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        if(!moderator.getRole().contains("moderator") && !moderator.getRole().contains("admin")) {
+            throw new UnauthorizedActionException("Not a mod or admin");
+        }
+
+        Report report = reportRepository.findById(sendWarningDTO.getReportId()).orElseThrow(() -> new ReportNotFoundException("Report not found"));
+
+        if(report.isResolved())
+            throw new ReportNotFoundException("Report is already resolved");
+
+        report.setResolved(true);
+        report.setDateResolved(LocalDateTime.now());
+        reportRepository.save(report);
+
+        Person user = personRepository.findByEmail(sendWarningDTO.getWarnedUserEmail());
+
+        ModeratingActivity moderatingActivity = new ModeratingActivity();
+        moderatingActivity.setUser(user);
+        moderatingActivity.setModerator(moderator);
+        moderatingActivity.setDateTime(LocalDateTime.now());
+        moderatingActivity.setIgnored(true);
+
+        moderatingActivity.setReport(report);
+
+        moderatingActivityRepository.save(moderatingActivity);
+
+        return "Report handled successfully";
     }
 }

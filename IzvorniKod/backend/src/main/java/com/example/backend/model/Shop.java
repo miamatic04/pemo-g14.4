@@ -51,9 +51,6 @@ public class Shop {
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
     private List<Event> events = new ArrayList<>();
 
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CustomerOrder> orders;
-
     private String imagePath;
 
     @Enumerated(EnumType.STRING)

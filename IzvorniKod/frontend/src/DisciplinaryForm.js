@@ -41,40 +41,12 @@ function DisciplinaryForm({ onClose, reportedEmail, reportedName, reportId, appr
                 throw new Error('Failed to apply disciplinary measure');
             }
 
+            onClose();
+
         } catch (error) {
             setError(error.message);
         } finally {
             setLoading(false);
-        }
-
-        data = {
-            userEmail: reportedEmail,
-            note: measureText,
-            disciplinaryMeasure: measureType,
-            reportId: reportId,
-            approvedReasons: approvedReasons
-        };
-
-        try {
-            setLoading(true);
-            const token = localStorage.getItem("token");
-            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/logModActivity`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify(data)
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to send warning');
-            }
-
-            onClose();
-            window.location.reload();
-        } catch (error) {
-            setError(error.message);
         }
     };
 

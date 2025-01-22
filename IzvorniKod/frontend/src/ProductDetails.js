@@ -5,7 +5,6 @@ import logo1 from './Components/Assets/logo1.png';
 
 const ProductDetails = () => {
     const navigate = useNavigate();
-    // Remove location and productData, use localStorage instead
     const [productDetails, setProductDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const userRole = localStorage.getItem('role');
@@ -21,9 +20,6 @@ const ProductDetails = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Get productId from localStorage instead of location stat
-
-                // Dohvati detalje proizvoda
                 const productResponse = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getProduct/${productId}`, {
                     method: 'GET',
                     headers: {
@@ -156,7 +152,7 @@ const ProductDetails = () => {
                             color: '#007bff',
                             fontSize:'18px',
                             textAlign: 'center',
-                            height: '20px', // fiksna visina da ne "skače" sadržaj
+                            height: '20px', 
                             margin: '10px 0'
                         }}>
                             {addedMessage}

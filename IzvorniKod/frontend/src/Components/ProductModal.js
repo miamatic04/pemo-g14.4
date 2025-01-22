@@ -19,9 +19,68 @@ function ProductModal({ product, onClose }) {
         setQuantity(prevQuantity => (prevQuantity > 1 ? prevQuantity - 1 : 1));
     };
 
-    const handleAddToCart = () => {
-        //TODO POST na /addToOrder
-        onClose();
+    const mapOrderDTOToCart = (orderDTO) => {
+        // Map the products from the orderDTO to match the cart structure
+        const cartItems = orderDTO.orderProducts.map(orderProduct => {
+            const product = orderProduct.product;
+
+            return {
+                id: product.id,              // Product ID
+                name: product.name,          // Product Name
+                price: product.price,        // Product Price
+                quantity: orderProduct.quantity, // Quantity in the order
+                imagePath: product.imagePath, // Image URL
+                shopName: product.shopName,  // Shop Name
+            };
+        });
+
+        // Return the cart in the required structure
+        return cartItems;
+    };
+
+    const handleAddToCart = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            const storedOrderId = localStorage.getItem("orderId");
+
+            const data = {
+                productId: product.id,
+                quantity: quantity,
+                orderId: storedOrderId || null, // Leave empty if not in localStorage
+            };
+
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/addToOrder`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log(result);
+                if (result.id) {
+                    // Save the new orderId to localStorage
+                    localStorage.setItem("orderId", result.id);
+                }
+                const cartItems = mapOrderDTOToCart(result);
+
+                // Save the transformed cart to localStorage
+                localStorage.setItem('cart', JSON.stringify(cartItems));
+
+                // Optionally, log it to the console for debugging
+                console.log('Mapped cart items:', cartItems);
+                console.log("Product added to cart successfully:", result);
+            } else {
+                console.error("Failed to add product to cart:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error adding product to cart:", error);
+        } finally {
+            onClose();
+        }
     };
 
     return (

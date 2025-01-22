@@ -82,6 +82,7 @@ public class LogService {
                     moderatingActivityDTO.setUserName(log.getUser().getName());
                     moderatingActivityDTO.setApprovedReasons(log.getReasons());
                     moderatingActivityDTO.setNote(log.getNote());
+                    moderatingActivityDTO.setIgnored(log.isIgnored());
                     return moderatingActivityDTO;
                 })
                 .toList();

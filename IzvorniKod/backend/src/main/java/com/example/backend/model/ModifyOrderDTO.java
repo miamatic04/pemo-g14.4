@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ModifyOrderDTO {
-
     private Long orderId;
     private Long productId;
     private int quantity;
