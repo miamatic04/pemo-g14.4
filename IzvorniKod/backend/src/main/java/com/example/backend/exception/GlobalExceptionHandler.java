@@ -143,6 +143,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleNoProductInStockException(NoProductInStockException ex) {
         Map<String, Object> response = new HashMap<>();
         response.put("message", ex.getMessage());
+        response.put("code", "no-stock");
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 

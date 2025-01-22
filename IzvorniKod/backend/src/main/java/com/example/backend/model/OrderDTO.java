@@ -15,9 +15,6 @@ import java.util.Map;
 @NoArgsConstructor
 public class OrderDTO {
     private Long id;
-    private Long shopId;
-    private String shopName;
-    private String imagePath;
     private List<ProductQuantity> orderProducts;
     private double total;
     private boolean paid;

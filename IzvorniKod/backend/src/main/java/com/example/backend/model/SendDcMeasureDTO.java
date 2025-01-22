@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,4 +17,5 @@ public class SendDcMeasureDTO {
     private String disciplinedUserEmail;
     private String note;
     private String type;
+    private List<ReportReason> approvedReasons;
 }

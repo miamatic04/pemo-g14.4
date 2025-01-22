@@ -56,9 +56,6 @@ public class OrderService {
                 .map(order -> {
                     OrderDTO orderDTO = new OrderDTO();
                     orderDTO.setId(order.getId());
-                    orderDTO.setShopId(order.getShop().getId());
-                    orderDTO.setShopName(order.getShop().getShopName());
-                    orderDTO.setImagePath(order.getShop().getImagePath());
 
                     List<ProductQuantity> product_quantity = new ArrayList<>();
                     double total = 0;
@@ -96,9 +93,6 @@ public class OrderService {
                 .map(order -> {
                     OrderDTO orderDTO = new OrderDTO();
                     orderDTO.setId(order.getId());
-                    orderDTO.setShopId(order.getShop().getId());
-                    orderDTO.setShopName(order.getShop().getShopName());
-                    orderDTO.setImagePath(order.getShop().getImagePath());
 
                     List<ProductQuantity> product_quantity = new ArrayList<>();
                     double total = 0;
@@ -136,9 +130,6 @@ public class OrderService {
                 .map(order -> {
                     OrderDTO orderDTO = new OrderDTO();
                     orderDTO.setId(order.getId());
-                    orderDTO.setShopId(order.getShop().getId());
-                    orderDTO.setShopName(order.getShop().getShopName());
-                    orderDTO.setImagePath(order.getShop().getImagePath());
 
                     List<ProductQuantity> product_quantity = new ArrayList<>();
                     double total = 0;
@@ -176,9 +167,6 @@ public class OrderService {
                 .map(order -> {
                     OrderDTO orderDTO = new OrderDTO();
                     orderDTO.setId(order.getId());
-                    orderDTO.setShopId(order.getShop().getId());
-                    orderDTO.setShopName(order.getShop().getShopName());
-                    orderDTO.setImagePath(order.getShop().getImagePath());
 
                     List<ProductQuantity> product_quantity = new ArrayList<>();
                     double total = 0;
@@ -281,16 +269,12 @@ public class OrderService {
         Shop shop = shopRepository.findById(productShop.getShop().getId()).orElseThrow(() -> new ShopNotFoundException("Shop not found"));
 
         CustomerOrder order;
-
+        CustomerOrder savedOrder = null;
         if(modifyOrderDTO.getOrderId() == null) {
-            order = new CustomerOrder(user, shop);
+            order = new CustomerOrder(user);
             newOrder = true;
         } else {
             order = orderRepository.findById(modifyOrderDTO.getOrderId()).orElseThrow(() -> new OrderNotFoundException("Order not found"));
-
-            if(!order.getShop().getId().equals(productShop.getShop().getId())) {
-                throw new MultipleShopsNotAllowedException("Adding products from multiple shops is not allowed.");
-            }
 
             if(!order.isActive())
                 setOrderAsActive(order.getId());
@@ -299,35 +283,53 @@ public class OrderService {
         if(modifyOrderDTO.getQuantity() > productShop.getQuantity())
             throw new NoProductInStockException("Available in stock: " + productShop.getQuantity());
 
-        OrderProduct orderProduct = new OrderProduct();
-        orderProduct.setOrder(order);
-        orderProduct.setProductShop(productShop);
-        orderProduct.setQuantity(modifyOrderDTO.getQuantity());
+        OrderProduct orderProduct = null;
+        if(modifyOrderDTO.getQuantity() < 0) {
+            for(OrderProduct oP : order.getOrderProducts()) {
+                if(oP.getProductShop().getId().equals(modifyOrderDTO.getProductId())) {
+                    orderProduct = oP;
+                    break;
+                }
+            }
 
-        boolean productExists = false;
+            if(orderProduct != null) {
+                orderProduct.setQuantity(orderProduct.getQuantity() + modifyOrderDTO.getQuantity());
+                productShop.setQuantity(productShop.getQuantity() - modifyOrderDTO.getQuantity());
+                productShopRepository.save(productShop);
+                savedOrder = orderRepository.save(order);
+            }
+        } else {
+            orderProduct = new OrderProduct();
+            orderProduct.setOrder(order);
+            orderProduct.setProductShop(productShop);
+            orderProduct.setQuantity(modifyOrderDTO.getQuantity());
 
-        for (OrderProduct existingOrderProduct : order.getOrderProducts()) {
-            if (existingOrderProduct.getProductShop().getId().equals(orderProduct.getProductShop().getId())) {
-                // Product already exists, update the quantity
-                existingOrderProduct.setQuantity(existingOrderProduct.getQuantity() + orderProduct.getQuantity());
-                productExists = true;
-                break;
+            boolean productExists = false;
+
+            for (OrderProduct existingOrderProduct : order.getOrderProducts()) {
+                if (existingOrderProduct.getProductShop().getId().equals(orderProduct.getProductShop().getId())) {
+                    // Product already exists, update the quantity
+                    existingOrderProduct.setQuantity(existingOrderProduct.getQuantity() + orderProduct.getQuantity());
+                    productExists = true;
+                    break;
+                }
+            }
+
+            if (!productExists) {
+                // Product does not exist, add the new OrderProduct to the list
+                order.getOrderProducts().add(orderProduct);
+            }
+
+            productShop.setQuantity(productShop.getQuantity() - modifyOrderDTO.getQuantity());
+
+            productShopRepository.save(productShop);
+            savedOrder = orderRepository.save(order);
+
+            if(newOrder) {
+                scheduler.startOrderTimer(savedOrder.getId(), 60);
             }
         }
 
-        if (!productExists) {
-            // Product does not exist, add the new OrderProduct to the list
-            order.getOrderProducts().add(orderProduct);
-        }
-
-        productShop.setQuantity(productShop.getQuantity() - modifyOrderDTO.getQuantity());
-
-        productShopRepository.save(productShop);
-        CustomerOrder savedOrder = orderRepository.save(order);
-
-        if(newOrder) {
-            scheduler.startOrderTimer(savedOrder.getId(), 60);
-        }
 
         UserActivity userActivity = new UserActivity();
         userActivity.setUser(user);
@@ -341,12 +343,12 @@ public class OrderService {
         orderDTO.setOrderDate(savedOrder.getOrderDate());
         orderDTO.setPaid(savedOrder.isPaid());
         orderDTO.setCancelled(savedOrder.isCancelled());
-        orderDTO.setActive(order.isActive());
+        orderDTO.setActive(savedOrder.isActive());
 
         List<ProductQuantity> product_quantity = new ArrayList<>();
         double total = 0;
 
-        for(OrderProduct orderP : order.getOrderProducts()) {
+        for(OrderProduct orderP : savedOrder.getOrderProducts()) {
             product_quantity.add(new ProductQuantity(new ProductInfoDTO(orderP.getProductShop()), orderP.getQuantity()));
             total += orderP.getQuantity() * orderP.getProductShop().getPrice();
         }
@@ -354,9 +356,6 @@ public class OrderService {
         orderDTO.setOrderProducts(product_quantity);
         orderDTO.setTotal(total);
         order.setTotal(total);
-        orderDTO.setImagePath(savedOrder.getShop().getImagePath());
-        orderDTO.setShopId(savedOrder.getShop().getId());
-        orderDTO.setShopName(savedOrder.getShop().getShopName());
 
         return orderDTO;
     }
@@ -435,9 +434,6 @@ public class OrderService {
 
         orderDTO.setOrderProducts(product_quantity);
         orderDTO.setTotal(total);
-        orderDTO.setImagePath(savedOrder.getShop().getImagePath());
-        orderDTO.setShopId(order.getShop().getId());
-        orderDTO.setShopName(order.getShop().getShopName());
 
         return orderDTO;
     }
@@ -474,9 +470,6 @@ public class OrderService {
 
         orderDTO.setOrderProducts(product_quantity);
         orderDTO.setTotal(total);
-        orderDTO.setImagePath(order.getShop().getImagePath());
-        orderDTO.setShopId(order.getShop().getId());
-        orderDTO.setShopName(order.getShop().getShopName());
 
         return orderDTO;
     }
@@ -513,9 +506,6 @@ public class OrderService {
 
             orderDTO.setOrderProducts(product_quantity);
             orderDTO.setTotal(total);
-            orderDTO.setImagePath(order.getShop().getImagePath());
-            orderDTO.setShopId(order.getShop().getId());
-            orderDTO.setShopName(order.getShop().getShopName());
 
         } else {
             System.out.println("No active order found for the person with email: " + email);
@@ -523,6 +513,72 @@ public class OrderService {
         }
 
         return orderDTO;
+    }
+
+    public String cancelOrder(Long orderId, String token) {
+
+        String email = jwtService.extractUsername(token);
+
+        Person user = personRepository.findByEmail(email);
+
+        if(user == null) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        CustomerOrder order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("Order not found"));
+
+        if(!order.getPerson().getEmail().equals(email)) {
+            throw new OrderDoesntBelongToUserException("Order does not belong to this user.");
+        }
+
+        order.setCancelled(true);
+        orderRepository.save(order);
+
+        return "Order cancelled.";
+    }
+
+    public Map<String, Object> activateOrder(Long orderId, String token) {
+
+        String email = jwtService.extractUsername(token);
+
+        Person user = personRepository.findByEmail(email);
+
+        if(user == null) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        CustomerOrder order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("Order not found"));
+
+        if(!order.getPerson().getEmail().equals(email)) {
+            throw new OrderDoesntBelongToUserException("Order does not belong to this user.");
+        }
+
+        for(CustomerOrder o : user.getCustomerOrders()) {
+            if(o.isActive())
+                o.setActive(false);
+        }
+
+        personRepository.save(user);
+
+        for(OrderProduct orderProduct: order.getOrderProducts()) {
+            ProductShop productShop = orderProduct.getProductShop();
+            if(productShop.getQuantity() - orderProduct.getQuantity() < 0)
+                throw new NoProductInStockException("Available in stock: " + productShop.getQuantity());
+            else
+                productShop.setQuantity(productShop.getQuantity() - orderProduct.getQuantity());
+
+            productShopRepository.save(productShop);
+        }
+
+        order.setActive(true);
+        orderRepository.save(order);
+        scheduler.startOrderTimer(order.getId(), 60);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Activated order.");
+
+        return response;
+
     }
 
 }

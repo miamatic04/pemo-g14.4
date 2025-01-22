@@ -39,8 +39,9 @@ public class ModeratingActivity {
     private MeasureType disciplinaryMeasure;
 
     @Convert(converter = ReportReasonConverter.class)
-    @Column(nullable = false)
     private List<ReportReason> reasons;
+
+    private boolean ignored;
 
     private String note;
 }

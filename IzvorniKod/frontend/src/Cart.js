@@ -15,26 +15,105 @@ const Cart = () => {
         const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
         setCart(storedCart);
     }, []);
-    
 
-    const updateQuantity = (productId, quantity) => {
-        const updatedCart = cart.map(item =>
-            item.id === productId
-                ? { ...item, quantity: Math.max(1, quantity) } // Povećaj količinu, ali ne manje od 1
-                : item
-        );
-    
-        setCart(updatedCart);
-        localStorage.setItem('cart', JSON.stringify(updatedCart));
-    };
-    
-    
 
-    const removeItem = (productId) => {
-        const updatedCart = cart.filter((item) => item.id !== productId);
-        setCart(updatedCart);
-        localStorage.setItem('cart', JSON.stringify(updatedCart));
+    const updateQuantity = async (productId, change) => {
+        const storedOrderId = localStorage.getItem("orderId");
+        const token = localStorage.getItem("token");
+
+        try {
+            // Prepare the payload
+            const data = {
+                orderId: storedOrderId, // Use the stored order ID
+                productId: productId,
+                quantity: change, // Pass +1 or -1 based on button click
+            };
+
+            console.log("SENDING TO BACKEND");
+            console.log(data);
+
+            // Send the POST request
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/addToOrder`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            if(!response.ok) {
+                if(result.code)
+                    alert("Out of stock.");
+            }
+
+            if (response.ok) {
+                // Parse the updated cart from the server response
+                const updatedOrder = result;
+
+                // Map the updated order to match the cart structure
+                const updatedCart = updatedOrder.orderProducts.map(orderProduct => ({
+                    id: orderProduct.product.id,
+                    name: orderProduct.product.name,
+                    price: orderProduct.product.price,
+                    quantity: orderProduct.quantity,
+                    imagePath: orderProduct.product.imagePath,
+                    shopName: orderProduct.product.shopName,
+                }));
+
+                // Update the local state and localStorage
+                setCart(updatedCart);
+                localStorage.setItem("cart", JSON.stringify(updatedCart));
+            } else {
+                console.error("Failed to update quantity:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error updating quantity:", error);
+        }
     };
+
+
+
+    const removeItem = async (productId, quantity) => {
+        const storedOrderId = localStorage.getItem("orderId");
+        const token = localStorage.getItem("token");
+
+        try {
+            // Prepare the payload
+            const data = {
+                orderId: storedOrderId, // Use the stored order ID
+                productId: productId,
+                quantity: quantity, // Pass the current quantity of the item
+            };
+
+            console.log("Sending request to remove item:", data);
+
+            // Send the POST request to remove the item from the order
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/removeFromOrder`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(data),
+            });
+
+
+            if (response.ok) {
+                const updatedCart = cart.filter(item => item.id !== productId);
+                setCart(updatedCart);
+                localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+                console.log("Item removed from cart:", productId);
+            }
+        } catch (error) {
+            console.error("Error removing item from cart:", error);
+            alert("Došlo je do pogreške prilikom uklanjanja proizvoda.");
+        }
+    };
+
     const addToCart = (product) => {
         const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
     
@@ -116,20 +195,17 @@ const Cart = () => {
                                     </div>
                                     <div className="cart-item-column">
                                         <div className="quantity-controls">
-                                            <button onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
-                                            <input
-                                                type="number"
-                                                value={item.quantity}
-                                                min="1"
-                                                onChange={(e) => updateQuantity(item.id, parseInt(e.target.value, 10))}
-                                            />
-                                            <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
+                                            <button onClick={() => updateQuantity(item.id, - 1)}>-
+                                            </button>
+                                            <div className="quantity-display">{item.quantity}</div>
+                                            <button onClick={() => updateQuantity(item.id, + 1)}>+
+                                            </button>
                                         </div>
                                     </div>
                                     <div className="cart-item-column">€{item.price}</div>
                                     <div className="cart-item-column">€{(item.price * item.quantity).toFixed(2)}</div>
                                     <div className="cart-item-column">
-                                <button className="remove-item" onClick={() => removeItem(item.id)}>
+                                <button className="remove-item" onClick={() => removeItem(item.id, item.quantity)}>
                                     Ukloni
                                 </button>
                                 </div>

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class OrderController {
@@ -35,5 +36,15 @@ public class OrderController {
     @GetMapping("/getAllOrders")
     public ResponseEntity<List<OrderDTO>> getAllOrders(@RequestHeader(value = "Authorization", required = false) String authHeader) {
         return ResponseEntity.ok(orderService.getAllOrders(authHeader.substring(7)));
+    }
+
+    @PostMapping("/cancelOrder")
+    public ResponseEntity<String> cancelOrder(@RequestBody OrderDTO orderDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return ResponseEntity.ok(orderService.cancelOrder(orderDTO.getId(), authHeader.substring(7)));
+    }
+
+    @PostMapping("/activateOrder")
+    public ResponseEntity<Map<String, Object>> activateOrder(@RequestBody OrderDTO orderDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return ResponseEntity.ok(orderService.activateOrder(orderDTO.getId(), authHeader.substring(7)));
     }
 }

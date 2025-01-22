@@ -75,7 +75,13 @@ const ModeratorActivity = () => {
                                 ))}
                             </ul>
                         </td>
-                        <td>{activity.warning ? 'Warning' : 'Disciplinary'}</td>
+                        <td>
+                            {activity.warning
+                                ? 'Warning'
+                                : activity.ignored
+                                    ? 'Ignored'
+                                    : 'Disciplinary'}
+                        </td>
                         <td>{activity.disciplinaryMeasure || 'N/A'}</td>
                         <td>{activity.reportId}</td>
                     </tr>

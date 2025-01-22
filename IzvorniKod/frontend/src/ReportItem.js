@@ -51,6 +51,34 @@ function ReportItem({
         setShowReasonsPopup(false);
     };
 
+    const handleIgnore = async () => {
+
+        let data = {
+            warnedUserEmail: reportedEmail,
+            reportId: reportId
+        };
+
+        try {
+            let token = localStorage.getItem("token");
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/ignoreReport`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                console.log('Ignore action was successful');
+            } else {
+                console.error('Failed to perform ignore action');
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
+    };
+
     return (
         <div className="report-item">
             <h3>Reporter: {reporterName}</h3>
@@ -87,7 +115,7 @@ function ReportItem({
             </p>
 
             <div className="action-buttons-reportitem">
-                <button onClick={() => console.log('Ignore clicked')} className="button-reportitem">Ignoriraj</button>
+                <button onClick={handleIgnore} className="button-reportitem">Ignoriraj</button>
                 <button onClick={() => setShowWarningForm(true)} className="button-reportitem">Izdaj uporozenje</button>
                 <button onClick={() => setShowDisciplinaryForm(true)} className="button-reportitem">Izdaj disciplinsku mjeru</button>
                 <button onClick={handleNavigate} className="button-reportitem">
