@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import './stilovi/EditShop.css';  // You can create your own styles for this component
+import './stilovi/EditShop.css';  
 import logo1 from './Components/Assets/logo1.png';
 
 const EditShop = () => {

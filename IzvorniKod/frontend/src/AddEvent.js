@@ -1,11 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import './stilovi/addEvent.css';
 
 const AddEvent = () => {
     const [eventName, setEventName] = useState('');
-    const [location, setLocation] = useState({ lat: null, lng: null });
+    const [address, setAddress] = useState('');
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
     const [duration, setDuration] = useState('');
@@ -16,8 +15,6 @@ const AddEvent = () => {
     const [frequency, setFrequency] = useState('');
     const [customFrequencyValue, setCustomFrequencyValue] = useState('');
 
-    const mapRef = useRef(null);
-    const markerRef = useRef(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -45,27 +42,6 @@ const AddEvent = () => {
         fetchShops();
     }, []);
 
-    const handleMapClick = (e) => {
-        const newLocation = {
-            lat: e.latLng.lat(),
-            lng: e.latLng.lng(),
-        };
-
-        setLocation(newLocation);
-
-        if (markerRef.current) {
-            markerRef.current.setMap(null); // Ukloni stari marker
-        }
-
-        const marker = new window.google.maps.Marker({
-            position: newLocation,
-            map: mapRef.current,
-        });
-
-        markerRef.current = marker;
-        mapRef.current.setCenter(newLocation);
-    };
-
     const handleFileChange = (e) => {
         setImage(e.target.files[0]);
     };
@@ -73,17 +49,17 @@ const AddEvent = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!eventName || !location.lat || !location.lng || !date || !time || !duration || !description || !image || !selectedShop || !frequency) {
-            alert('Molimo ispunite sva polja i označite lokaciju na karti.');
+        if (!eventName || !address || !date || !time || !duration || !description || !image || !selectedShop || !frequency) {
+            alert('Molimo ispunite sva polja.');
             return;
         }
 
+        const eventDateTime = `${date} ${time}:00`;
+
         const eventData = new FormData();
         eventData.append('name', eventName);
-        eventData.append('latitude', location.lat);
-        eventData.append('longitude', location.lng);
-        eventData.append('date', date);
-        eventData.append('time', time);
+        eventData.append('address', address);
+        eventData.append('datum_vrijeme', eventDateTime);
         eventData.append('duration', duration);
         eventData.append('description', description);
         eventData.append('image', image);
@@ -126,6 +102,19 @@ const AddEvent = () => {
                             onChange={(e) => setEventName(e.target.value)}
                             required
                             placeholder="Unesite ime događaja"
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="address">Adresa:</label>
+                        <input
+                            className="unosZaDogadjaj"
+                            id="address"
+                            type="text"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            required
+                            placeholder="Unesite adresu događaja"
                         />
                     </div>
 
@@ -218,6 +207,7 @@ const AddEvent = () => {
                             <option value="" disabled>
                                 Odaberite frekvenciju
                             </option>
+                            <option value="never">Nikad</option>
                             <option value="daily">Dnevno</option>
                             <option value="weekly">Tjedno</option>
                             <option value="customWeeks">Jednom u [unesite broj] tjedana</option>
@@ -235,29 +225,6 @@ const AddEvent = () => {
                                 onChange={(e) => setCustomFrequencyValue(e.target.value)}
                                 required
                             />
-                        )}
-                    </div>
-                    <div className="form-group">
-                        <label>Lokacija:</label>
-                        <div className="map-container">
-                            <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY}>
-                                <GoogleMap
-                                    mapContainerStyle={{ width: '100%', height: '300px' }}
-                                    center={{ lat: 0, lng: 0 }}
-                                    zoom={2}
-                                    onClick={handleMapClick}
-                                    onLoad={(map) => {
-                                        mapRef.current = map;
-                                    }}
-                                >
-                                    {location.lat && location.lng && <Marker position={location} />}
-                                </GoogleMap>
-                            </LoadScript>
-                        </div>
-                        {location.lat && location.lng && (
-                            <p className="selected-location">
-                                Odabrano: {location.lat}, {location.lng}
-                            </p>
                         )}
                     </div>
 

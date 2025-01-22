@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './stilovi/AssignDisciplinaryMeasure.css';
-import logo1 from "./Components/Assets/logo1.png";  // Same CSS file to maintain styling
+import logo1 from "./Components/Assets/logo1.png";  
 
 const AssignRole = () => {
     const [users, setUsers] = useState([]); // State for users list
