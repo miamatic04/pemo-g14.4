@@ -10,31 +10,6 @@ const AddDiscount = () => {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchShops = async () => {
-            try {
-                const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/owner/getMyShops`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    },
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    setShops(data);
-                } else {
-                    console.error('Failed to fetch shops');
-                }
-            } catch (error) {
-                console.error('Error fetching shops:', error);
-            }
-        };
-
-        fetchShops();
-    }, []);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -72,13 +47,13 @@ const AddDiscount = () => {
     };
 
     return (
-        <div className="pozadina3">
-            <div className="event-creator">
-                <h1 className="dodajDogadjaj">Dodaj novi popust</h1>
+        <div className="pozadina-add-discount">
+            <div className="add-discount-creator">
+                <h1 className="dodajPopust">Dodaj novi popust</h1>
                 <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="code">Kod popusta:</label>
-                        <input
+                    <div className="form-group-add-discount">
+                        <label htmlFor="code-popust" className="label-add-discount">Kod popusta:</label>
+                        <input className="input-add-discount"
                             id="code"
                             type="text"
                             value={code}
@@ -88,9 +63,9 @@ const AddDiscount = () => {
                         />
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="discount">Postotak popusta:</label>
-                        <input
+                    <div className="form-group-add-discount">
+                        <label htmlFor="discount-percentage" className="label-add-discount">Postotak popusta:</label>
+                        <input className="input-add-discount"
                             id="discount"
                             type="number"
                             value={discount}
@@ -100,9 +75,9 @@ const AddDiscount = () => {
                         />
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="shop">Odaberite trgovinu:</label>
-                        <select
+                    <div className="form-group-add-discount">
+                        <label htmlFor="shop" className="label-add-discount">Odaberite trgovinu:</label>
+                        <select className="select-add-discount"
                             id="shop"
                             value={selectedShopId}
                             onChange={(e) => setSelectedShopId(e.target.value)}
@@ -119,12 +94,12 @@ const AddDiscount = () => {
                         </select>
                     </div>
 
-                    <button type="submit" className="submit-button">
+                    <button type="submit" className="submit-button-add-discount">
                         Dodaj popust
                     </button>
                 </form>
 
-                <button className="back-button" onClick={() => navigate('/MyDiscounts')}>
+                <button className="back-button-add-discount" onClick={() => navigate('/MyDiscounts')}>
                     Natrag
                 </button>
             </div>

@@ -1,4 +1,4 @@
-.pozadina3 {
+.pozadina-add-discount {
     background: linear-gradient(to bottom, #9bd7eb, #f9faac) no-repeat center center; /* Gradient pozadina */
     background-size: cover; /* Pokriva cijeli ekran */
     height: 100vh; /* Visina pozadine postavljena na cijeli ekran */
@@ -7,7 +7,7 @@
     align-items: center; /* Vertikalno centriranje */
 }
 
-.event-creator {
+.add-discount-creator {
     max-width: 600px;
     width: 90%; /* Prilagodljivo za manje ekrane */
     padding: 3%;
@@ -18,40 +18,41 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Dodajemo sjenu za bolji izgled */
 }
 
-.dodajDogadjaj {
+.dodajPopust {
     text-align: center;
     color: #333;
+    margin-bottom: 3%;
 }
 
-.form-group {
+.form-group-add-discount {
     margin-bottom: 20px;
 }
 
-label {
+.label-add-discount {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
 }
 
-input,
-select {
+.input-add-discount,
+.select-add-discount {
     width: 100%;
     padding: 8px;
     border: 4px solid #9bd7eb;
     border-radius: 3%;
 }
 
-.submit-button{
+.submit-button-add-discount{
     background-color: #9bd7eb;
-    color: black;
+    margin-bottom: 2%;
 }
 
-.back-button{
+.back-button-add-discount{
     background-color: #f9faac;
 }
 
-.submit-button,
-.back-button {
+.submit-button-add-discount,
+.back-button-add-discount {
     display: block;
     width: 100%;
     padding: 10px;
@@ -61,10 +62,10 @@ select {
     cursor: pointer;
 }
 
-.submit-button:hover{
+.submit-button-add-discount:hover{
     background-color: limegreen;
 }
 
-.back-button:hover{
+.back-button-add-discount:hover{
     background-color: red;
 }
