@@ -25,9 +25,19 @@ const Forum = () => {
     };
 
     useEffect(() => {
-
+        const token = localStorage.getItem('token');
+        
+        fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getDiscussions`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            setAllDiscussions(data);
+        })
+        .catch(error => console.error('Error:', error));
     }, []);
-
 
     return (
         <div className="forum-page">
@@ -39,32 +49,40 @@ const Forum = () => {
                 <h1 className="header-title">Forum</h1>
             </div>
             <div className="spacer"></div>
-            <div className="gumbNovaRasprava">
-            <btn className="novaRasprava" onClick={() => navigate("/newDiscussion")}>Pokreni novu raspravu</btn>
+            <div className="gumbNovaRasprava" onClick={() => navigate("/newDiscussion")}>
+                <button className="novaRasprava">Pokreni novu raspravu</button>
             </div>
             <div className="forum-container">
-                    <div className="forum-card">
-                        <div className="forum-column-left-column">
-                            <div className="user-info-wrapper">
-                                <img src={avatar} alt="avatar" className="avatarUser-image"/>
-                                <div className="user-info">
-                                    <h4 className="usernameForum">Username1</h4>
-                                    <h4 className="nameOfDiscussion">Naziv1</h4>
+                {allDiscussions
+                    .slice((currentPage - 1) * discussionsPerPage, currentPage * discussionsPerPage)
+                    .map((discussion, index) => (
+                        <div className="forum-card" key={index}>
+                            <div className="forum-column-left-column">
+                                <div className="user-info-wrapper">
+                                    <img src={avatar} alt="avatar" className="avatarUser-image"/>
+                                    <div className="user-info">
+                                        <h4 className="usernameForum">{discussion.authorName}</h4>
+                                        <h4 className="nameOfDiscussion">{discussion.title}</h4>
+                                    </div>
                                 </div>
+                                <p className="opisRasprave">{discussion.text}</p>
                             </div>
-                            <p className="opisRasprave">Opis1</p> {/* Opis ispod slike, username-a i naziva */}
+                            <div className="forum-column-right-column">
+                                <button className="vidiViseRasprava" onClick={() => navigate('/DiscussionDetails')}>
+                                    Vidi detalje rasprave
+                                </button>
+                                <p className="answerForum">Odgovori:</p>
+                                <textarea className="answerHereForum"></textarea>
+                                <button className="vidiViseRasprava" id={"odg"}>
+                                    Pošalji odgovor
+                                </button>
+                            </div>
                         </div>
-                        <div className="forum-column-right-column">
-                            <btn className="vidiViseRasprava" onClick={() => navigate('/DiscussionDetails')}>Vidi detalje rasprave
-                            </btn>
-                            <p className="answerForum">Odgovori:</p>
-                            <textarea className="answerHereForum"></textarea>
-                        </div>
-                    </div>
+                    ))}
             </div>
 
             <div className="pagination">
-                <button
+            <button
                     className="navigation-btn"
                     onClick={handlePrevPage}
                     disabled={currentPage === 1}

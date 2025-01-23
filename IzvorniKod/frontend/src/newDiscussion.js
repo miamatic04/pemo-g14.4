@@ -9,23 +9,45 @@ const NewDiscussion = () => {
         description: '',
     });
 
-    const [message, setMessage] = useState(''); // Stanje za poruku
+    const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
-    const handlePublish = () => {
-        // Ovdje možete dodati logiku za slanje podataka na backend
-        setMessage('Uspješno objavljena rasprava!'); // Postavljanje poruke
-        setTimeout(() => {
-            setMessage(''); // Uklanjanje poruke nakon 2 sekunde
-            navigate('/forum'); // Navigacija na forum
-        }, 2000);
+    const handlePublish = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/postDiscussion`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title: discussionData.name,
+                    text: discussionData.description,
+                    authorName: '',
+                    authorEmail: '',
+                    isAuthor: false
+                })
+            });
+
+            if (!response.ok) throw new Error('Network response was not ok');
+
+            setMessage('Uspješno objavljena rasprava!');
+            setTimeout(() => {
+                setMessage('');
+                navigate('/forum');
+            }, 2000);
+        } catch (error) {
+            setMessage('Greška pri objavi rasprave');
+            console.error('Error:', error);
+        }
     };
 
     const handleDiscard = () => {
-        setMessage('Uspješno otkazana objava rasprave!'); // Postavljanje poruke
+        setMessage('Uspješno otkazana objava rasprave!');
         setTimeout(() => {
-            setMessage(''); // Uklanjanje poruke nakon 2 sekunde
-            navigate('/forum'); // Navigacija na forum
+            setMessage('');
+            navigate('/forum');
         }, 2000);
     };
 
@@ -61,7 +83,6 @@ const NewDiscussion = () => {
                     ></textarea>
                 </div>
 
-                {/* Prikazivanje poruke */}
                 {message && <div className="messageDiscussion">{message}</div>}
 
                 <div className="button-container-discussion">
