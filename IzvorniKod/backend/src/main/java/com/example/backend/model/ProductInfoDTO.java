@@ -19,8 +19,10 @@ public class ProductInfoDTO {
     private double price;
     private String imagePath;
     private double distance;
+    private Long shopId;
 
     public ProductInfoDTO(ProductShop productShop) {
+        this.shopId = productShop.getShop().getId();
         this.id = productShop.getId();
         this.name = productShop.getProduct().getName();
         this.shopName = productShop.getShop().getShopName();

@@ -31,6 +31,7 @@ function ProductModal({ product, onClose }) {
                 quantity: orderProduct.quantity, // Quantity in the order
                 imagePath: product.imagePath, // Image URL
                 shopName: product.shopName,  // Shop Name
+                shopId: product.shopId
             };
         });
 
