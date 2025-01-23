@@ -366,6 +366,7 @@ const OwnerHome = () => {
                         <li className="el"><a className="a1" onClick={() => navigate('/shopsList')}>Popis trgovina</a>
                         </li>
                         <li className="el"><a href="/myShops" className="a1">Moje trgovine</a></li>
+                        <li className="el"><a href="/myDiscounts" className="a1">Moji popusti</a></li>
                         <li className="el"><a href="/cart" className="a1">Košarica</a></li>
                         <li className="hamburger">
                             <button className="hamburger-btn" onClick={toggleMenu}>

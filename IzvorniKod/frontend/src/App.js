@@ -39,6 +39,8 @@ import AddPlatformProduct from './AddPlatformProduct';
 import AccountRequests from './AccountRequest';
 import EditEvent from './EditEvent';
 import EditProduct from './EditProduct';
+import MyDiscounts from './MyDiscounts';
+import AddDiscount from './addDiscount';
 
 const App = () => {
     return (
@@ -83,6 +85,8 @@ const App = () => {
                 <Route path="/accountRequests" element={<AccountRequests/>}/>
                 <Route path="/editEvent" element={<EditEvent/>}/>
                 <Route path="/editProduct" element={<EditProduct/>}/>
+                <Route path="/MyDiscounts" element={<MyDiscounts/>}/>
+                <Route path="/addDiscount" element={<AddDiscount/>}/>
             </Routes>
         </Router>
     );

@@ -94,7 +94,7 @@ const Start = () => {
                     </div>
 
                     <br /><br />
-                    <input type="submit" id="submit" value="Prijavi se" /> {/* gumb za predavanje prijave */}
+                    <input type="submit" id="submitprijava" value="Prijavi se" /> {/* gumb za predavanje prijave */}
                 </form>
 
                 {backendResult && (
