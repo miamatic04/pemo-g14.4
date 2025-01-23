@@ -15,7 +15,7 @@ public class AddEventDTO {
 
     private String name;
     private String description;
-    private LocalDateTime dateTime;
+    private String dateTime;
     private String frequency;
     private Integer duration;
     private String address;

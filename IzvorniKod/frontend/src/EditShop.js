@@ -72,12 +72,14 @@ const EditShop = () => {
         const formData = new FormData();
         formData.append('shopName', shopDetails.shopName);
         formData.append('description', shopDetails.description);
+        formData.append('id', shopId);
+        console.log(formData);
         if (imageFile) {
             formData.append('image', imageFile);
         }
 
         try {
-            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/shops/update/${shopId}`, {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/editShop`, {
                 method: 'POST',
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`

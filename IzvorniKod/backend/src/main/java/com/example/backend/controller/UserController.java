@@ -1,9 +1,6 @@
 package com.example.backend.controller;
 
-import com.example.backend.model.EditProfileDTO;
-import com.example.backend.model.Person;
-import com.example.backend.model.RegistrationInfo;
-import com.example.backend.model.UserDTO;
+import com.example.backend.model.*;
 import com.example.backend.service.JWTService;
 import com.example.backend.service.ShopService;
 import com.example.backend.service.PersonService;
@@ -47,6 +44,11 @@ public class UserController {
     @GetMapping("/getUsers")
     public ResponseEntity<List<UserDTO>> getUsers() {
         return ResponseEntity.ok(personService.getUsers());
+    }
+
+    @GetMapping("/getUserInfo")
+    public ResponseEntity<UserProfileDTO> getInfo(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return ResponseEntity.ok(personService.getUserProfile(authHeader.substring(7)));
     }
 
 }

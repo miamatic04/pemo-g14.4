@@ -21,6 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,6 +70,7 @@ public class EventService {
 
         return events.stream()
                 .map(event -> new EventDTO(
+                        event.getId(),
                         event.getName(),
                         event.getDescription(),
                         event.getAddress(),
@@ -168,7 +170,11 @@ public class EventService {
         event.setName(eventDTO.getName());
         event.setDescription(eventDTO.getDescription());
         event.setAddress(eventDTO.getAddress());
-        event.setDateTime(eventDTO.getDateTime());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        LocalDateTime dateTime =  LocalDateTime.parse(eventDTO.getDateTime(), formatter);
+        event.setDateTime(dateTime);
         event.setDuration(eventDTO.getDuration());
         event.setImagePath(frontendPath);
         event.setFrequency(eventDTO.getFrequency());

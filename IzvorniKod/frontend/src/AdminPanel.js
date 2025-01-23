@@ -14,6 +14,7 @@ const AdminPanel = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const handleLogout = () => {
+        localStorage.removeItem("token");
         navigate('/');
     };
     const toggleMenu = () => {

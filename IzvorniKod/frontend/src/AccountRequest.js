@@ -9,35 +9,16 @@ function AccountRequests() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Hardkodirane vrijednosti za testiranje
-    const hardcodedRequests = [
-        {
-            user_id: 'john.doe@example.com',
-            user_name: 'John Doe',
-            request_note: 'Zahtjev za vlasnički račun.',
-            status: 'pending'
-        },
-        {
-            user_id: 'jane.doe@example.com',
-            user_name: 'Jane Doe',
-            request_note: 'Zahtjev za vlasnički račun.',
-            status: 'pending'
-        },
-        {
-            user_id: 'alice.smith@example.com',
-            user_name: 'Alice Smith',
-            request_note: 'Zahtjev za vlasnički račun.',
-            status: 'pending'
-        }
-    ];
-
     useEffect(() => {
-        // Simulacija učitavanja podataka
+        // Fetch account requests from the server
         const fetchAccountRequests = async () => {
             try {
-                // Ovdje bismo normalno dohvatili podatke s API-ja
-                // Umjesto toga, koristimo hardkodirane podatke
-                setRequests(hardcodedRequests);
+                const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getPromotionRequests`); // API call to fetch requests
+                if (!response.ok) {
+                    throw new Error('Failed to fetch promotion requests');
+                }
+                const data = await response.json();
+                setRequests(data); // Assuming `data` is an array of objects with `email` and `name`
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -47,6 +28,31 @@ function AccountRequests() {
 
         fetchAccountRequests();
     }, []);
+
+    const handlePromote = async (email) => {
+        try {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/promoteUser`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                },
+                body: JSON.stringify({ email }), // Send email in the body
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to promote user');
+            }
+
+            console.log(`User promoted successfully: ${email}`);
+            // Optionally, update the UI after promotion
+            setRequests((prevRequests) =>
+                prevRequests.filter((request) => request.email !== email)
+            );
+        } catch (error) {
+            console.error(`Error promoting user: ${error.message}`);
+        }
+    };
 
     if (loading) {
         return <div>Loading...</div>;
@@ -59,7 +65,12 @@ function AccountRequests() {
     return (
         <div className="account-requests-page">
             <div className="header-account-requests">
-                <img src={logo} alt="Logo" className="account-request-logo" onClick={() => navigate(`/moderatorHome`)} />
+                <img
+                    src={logo}
+                    alt="Logo"
+                    className="account-request-logo"
+                    onClick={() => navigate(`/moderatorHome`)}
+                />
                 <h2 className="header-title-account-requests">Zahtjevi za vlasnički račun</h2>
             </div>
             <div className="account-requests-container">
@@ -67,14 +78,21 @@ function AccountRequests() {
                     <p>No account requests available</p>
                 ) : (
                     requests.map((request) => (
-                        <div className="account-request-card" key={request.user_id}> {/* Koristimo email kao ključ */}
-                            <p>Korisnik: {request.user_name}</p> {/* Prikazujemo user_name */}
+                        <div className="account-request-card" key={request.email}>
+                            <p>Korisnik: {request.name}</p> {/* Display user name */}
                             <div className="button-group-account-request">
-                                <button className="button-account-request-profil" onClick={() => navigate(`/profile`, { state: { email: request.user_id } })}> {/* Navigacija na profil korisnika */}
+                                <button
+                                    className="button-account-request-profil"
+                                    onClick={() => navigate(`/userProfile`, { state: { email: request.email } })}
+                                >
                                     Idi na profil
                                 </button>
-                                <button className="button-account-request-odobri" onClick={() => handleApprove(request.user_id)}>Odobri</button>
-                                <button className="button-account-request-odbaci" onClick={() => handleReject(request.user_id)}>Odbaci</button>
+                                <button
+                                    className="button-account-request-odobri"
+                                    onClick={() => handlePromote(request.email)}
+                                >
+                                    Promote
+                                </button>
                             </div>
                         </div>
                     ))
@@ -82,16 +100,6 @@ function AccountRequests() {
             </div>
         </div>
     );
-
-    function handleApprove(userId) {
-        // Logika za odobravanje zahtjeva
-        console.log(`Approved request for user ID (email): ${userId}`);
-    }
-
-    function handleReject(userId) {
-        // Logika za odbacivanje zahtjeva
-        console.log(`Rejected request for user ID (email): ${userId}`);
-    }
 }
 
 export default AccountRequests;

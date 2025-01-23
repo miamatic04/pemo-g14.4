@@ -210,5 +210,13 @@ public class GlobalExceptionHandler {
         response.put("message", ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(RequestAlreadySubmittedException.class)
+    public ResponseEntity<Map<String, Object>> handleRequestAlreadySubmittedException(RequestAlreadySubmittedException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", ex.getMessage());
+        response.put("code", "already");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }
 

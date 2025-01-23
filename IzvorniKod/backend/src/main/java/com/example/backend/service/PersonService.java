@@ -117,57 +117,14 @@ public class PersonService {
 
         Person user = personRepository.findByEmail(email);
 
-        String frontendPath = null;
-
-        if(user == null) {
-            throw new UserNotFoundException("User not found");
-        }
-
-        if(editProfileDTO.getFile().getOriginalFilename() != null) {
-            String folderPath = "public/userUploads/";
-
-            try {
-
-                File directory = new File(folderPath);
-                if (!directory.exists()) {
-                    directory.mkdirs();
-                }
-
-                String emailNoPeriods = email.replaceAll("\\.", "");
-
-                String originalFilename = StringUtils.cleanPath(editProfileDTO.getFile().getOriginalFilename());
-                String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-                String newFilename = emailNoPeriods + "_pfp" + extension; // e.g. asd@gmailcom_pfp.png
-
-                Path targetLocation = Paths.get(folderPath + newFilename);
-
-                if (Files.exists(targetLocation)) {
-                    try {
-                        Files.delete(targetLocation);
-                    } catch (IOException e) {
-                        System.out.println("Error deleting existing file: " + e.getMessage());
-                        return "Error deleting existing file";
-                    }
-                }
-
-                Files.copy(editProfileDTO.getFile().getInputStream(), targetLocation);
-
-                frontendPath = "http://" + web_url_img + "/userUploads/" + newFilename;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
         if(editProfileDTO.getDateOfBirth() != null) {
             user.setDateOfBirth(editProfileDTO.getDateOfBirth());
         }
 
         if(editProfileDTO.getHood() != null) {
-            user.setHood(Hood.valueOf(editProfileDTO.getHood()));
-        }
-
-        if(editProfileDTO.getFile() != null) {
-            user.setImagePath(frontendPath);
+            String hood = editProfileDTO.getHood().toUpperCase();
+            hood = hood.replaceAll(" ", "_");
+            user.setHood(Hood.valueOf(hood));
         }
 
         personRepository.save(user);
@@ -193,6 +150,26 @@ public class PersonService {
                 .toList();
 
         return userDTOs;
+    }
+
+    public UserProfileDTO getUserProfile(String token) {
+
+        String email = jwtService.extractUsername(token);
+
+        Person user = personRepository.findByEmail(email);
+
+        if(user == null) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        UserProfileDTO userProfileDTO = new UserProfileDTO();
+        userProfileDTO.setFirstName(user.getFirstName());
+        userProfileDTO.setLastName(user.getLastName());
+        userProfileDTO.setHood(user.getHood());
+        userProfileDTO.setEmail(user.getEmail());
+        if(user.getDateOfBirth() != null)
+            userProfileDTO.setDateOfBirth(user.getDateOfBirth().toString());
+        return userProfileDTO;
     }
 
 }

@@ -12,8 +12,8 @@ function Navigation() {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem('token'); // Uklonite token iz localStorage
-        navigate('/'); // Preusmerite na početnu stranicu
+        localStorage.removeItem('token');
+        navigate('/');
     };
 
     return (

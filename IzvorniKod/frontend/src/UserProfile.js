@@ -18,17 +18,59 @@ const UserProfile = () => {
 
     const [backendResult, setBackendResult] = useState(null);
     const [districtsVisible, setDistrictsVisible] = useState(false); // stanje za prikazivanje kvartova
+    const [userInfo, setUserInfo] = useState({ firstName: " ", lastName: " ", email: " " });
     const userRole = localStorage.getItem('role');
-    const districts = ['Kvart 1', 'Kvart 2', 'Kvart 3']; // Lista kvartova
+    const districts = [
+        "Gornji Grad",
+        "Donji Grad",
+        "Kaptol",
+        "Medvescak",
+        "Tresnjevka Sjever",
+        "Tresnjevka Jug",
+        "Jarun",
+        "Precko",
+        "Vrbani",
+        "Stenjevec",
+        "Spansko",
+        "Malesnica",
+        "Maksimir",
+        "Donja Dubrava",
+        "Gornja Dubrava",
+        "Ravnice",
+        "Pescica",
+        "Borongaj",
+        "Zitnjak",
+        "Trnje",
+        "Pantovcak",
+        "Sestine",
+        "Mlinovi",
+        "Gracani",
+        "Remete",
+        "Podsljeme",
+        "Novi Zagreb Zapad",
+        "Novi Zagreb Istok",
+        "Laniste",
+        "Remetinec",
+        "Savski Gaj",
+        "Trokut",
+        "Sopot",
+        "Dugave",
+        "Slobostina",
+        "Zaprude",
+        "Travno",
+        "Utrine",
+        "Buzin",
+        "Crnomerec",
+        "Knezija",
+        "Voltino",
+        "Kustosija",
+        "Rudes",
+        "Savica",
+        "Siget",
+        "Kajzerica",
+        "Gajnice"
+    ]; // Lista kvartova
     const navigate = useNavigate();
-
-    useEffect(() => {
-        // Učitavanje podataka iz localStorage prilikom učitavanja komponente
-        const storedData = localStorage.getItem('userProfile');
-        if (storedData) {
-            setFormData(JSON.parse(storedData));
-        }
-    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -50,6 +92,31 @@ const UserProfile = () => {
         setDistrictsVisible(false); // zatvori izbornik nakon odabira
     };
 
+    const handleRequestPromotion = async () => {
+        try {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/requestPromotion`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                console.log('Promotion request submitted successfully');
+                setBackendResult({ message: "Uspješno je zatražen vlasnički račun!" });
+            } else {
+                if(data.code === "already")
+                    alert("Request already submitted");
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setBackendResult({ message: "Došlo je do greške pri slanju zahtjeva." });
+        }
+    };
+
     const handleDeleteProfile = () => {
         // Ukloni podatke iz localStorage
         localStorage.removeItem('userProfile');
@@ -68,20 +135,61 @@ const UserProfile = () => {
         setBackendResult({ message: "Profil je uspješno izbrisan!" });
     };
 
-    const handleAskOwner = () => {
+    const fetchUserInfo = async () => {
+        try {
+            let token = localStorage.getItem("token");
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getUserInfo`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
 
-        setBackendResult({ message: "Uspješno je zatražen vlasnički račun" });
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+                setUserInfo(data);
+            } else {
+                console.error('Failed');
+            }
+        } catch (error) {
+            console.error('Error ', error);
+        }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault(); // Spriječava ponovno učitavanje stranice
 
-        // Spremanje podataka u localStorage
-        localStorage.setItem('userProfile', JSON.stringify(formData));
+        try {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/editProfile`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+                body: JSON.stringify(formData)
+            });
 
-        console.log("Podaci su spremljeni:", formData);
+            if (!response.ok) {
+                console.log("oh oh something went wrong :(");
+            }
+
+        } catch (error) {
+            console.log("oh oh something went wrong :(");
+        }
+
         setBackendResult({ message: "Podaci su uspješno spremljeni!" }); // Postavljanje poruke o uspjehu
     };
+
+    useEffect(() => {
+        // Učitavanje podataka iz localStorage prilikom učitavanja komponente
+        const storedData = localStorage.getItem('userProfile');
+        if (storedData) {
+            setFormData(JSON.parse(storedData));
+        }
+        fetchUserInfo();
+    }, []);
 
     return (
         <div className="user-profile-page">
@@ -92,20 +200,17 @@ const UserProfile = () => {
                 <form className="profile-form" onSubmit={handleSubmit}>
                     <h1 className="myProfile">MOJ PROFIL</h1>
                     <div className="header-section">
-                        <img src={avatarImage} alt="Avatar" className="avatar"/>
+                        <img src={avatarImage} alt="Avatar" className="avatar" />
                         <div className="profile-info">
-                            <b><p className="imeUsera">{formData.firstName} {formData.lastName}</p></b>
-                            <p className="mailUsera">{formData.email}</p>
+                            <b><p className="imeUsera">{userInfo.firstName} {userInfo.lastName}</p></b>
+                            <p className="mailUsera">{userInfo.email}</p>
                         </div>
                         <div className="izbrisiZatrazi">
-                        <button type="button" className="delete-button" onClick={handleDeleteProfile}>
-                            Izbriši profil
-                        </button>
-                        {userRole === 'user' && (
-                        <button className="askOwnerButton" onClick={() => alert('Zatraženo vlasništvo!')}>
-                            Zatraži vlasnički račun
-                        </button>
-                    )}
+                            {userRole === 'user' && (
+                                <button className="askOwnerButton" onClick={handleRequestPromotion}>
+                                    Zatraži vlasnički račun
+                                </button>
+                            )}
                         </div>
                     </div>
 
@@ -115,41 +220,23 @@ const UserProfile = () => {
                         <div className="left-column">
                             <div className="input-box-profile">
                                 <label className="nameOfUser">Ime:</label>
-                                <input
-                                    type="text"
-                                    id="firstNameProfile"
-                                    name="firstName"
-                                    placeholder="ime"
-                                    onChange={handleChange}
-                                    value={formData.firstName}
-                                    required
-                                />
+                                <div id="firstNameProfile" className="user-info-display">
+                                    {userInfo.firstName}
+                                </div>
                             </div>
 
                             <div className="input-box-profile">
                                 <label className="lastNameOfUser">Prezime:</label>
-                                <input
-                                    type="text"
-                                    id="lastNameProfile"
-                                    name="lastName"
-                                    placeholder="prezime"
-                                    onChange={handleChange}
-                                    value={formData.lastName}
-                                    required
-                                />
+                                <div id="lastNameProfile" className="user-info-display">
+                                    {userInfo.lastName}
+                                </div>
                             </div>
 
                             <div className="input-box-profile">
                                 <label className="mailUser">Mail:</label>
-                                <input
-                                    type="email"
-                                    id="emailProfile"
-                                    name="email"
-                                    placeholder="email"
-                                    onChange={handleChange}
-                                    value={formData.email}
-                                    required
-                                />
+                                <div id="emailProfile" className="user-info-display">
+                                    {userInfo.email}
+                                </div>
                             </div>
                         </div>
 
@@ -167,40 +254,21 @@ const UserProfile = () => {
                             </div>
 
                             <div className="input-box-profile">
-                                <label className="usernameUser">Korisničko ime:</label>
-                                <input
-                                    type="text"
-                                    id="username"
-                                    name="username"
-                                    placeholder="korisničko ime"
-                                    onChange={handleChange}
-                                    value={formData.username}
-                                    required
-                                />
-                            </div>
-
-                            <div className="input-box-profile">
                                 <label className="districtUser">Kvart:</label>
-                                <input
-                                    type="text"
-                                    id="kvart"
-                                    name="district"
-                                    placeholder="odaberi kvart"
-                                    value={formData.district}
-                                    readOnly // onemogućava direktno tipkanje
-                                />
-                                <FaCaretDown className='iconDown' onClick={toggleDistricts} /> {/* ikona za otvaranje izbornika */}
-                            </div>
-
-                            {districtsVisible && (
-                                <div className="dropdown">
-                                    {districts.map((district) => (
-                                        <div key={district} className="dropdown-item" onClick={() => handleDistrictSelect(district)}>
-                                            {district}
-                                        </div>
+                                <select
+                                    id="hood"
+                                    name="hood"
+                                    value={formData.hood}
+                                    onChange={handleChange}
+                                >
+                                    <option value="">Odaberi kvart</option>
+                                    {districts.map((hood) => (
+                                        <option key={hood} value={hood}>
+                                            {hood}
+                                        </option>
                                     ))}
-                                </div>
-                            )}
+                                </select>
+                            </div>
                         </div>
                     </div>
 

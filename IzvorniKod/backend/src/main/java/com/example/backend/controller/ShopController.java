@@ -67,7 +67,7 @@ public class ShopController {
     }
 
     @PostMapping("/editShop")
-    public ResponseEntity<String> editShop(@RequestBody AddShopDTO editShopDTO) {
+    public ResponseEntity<String> editShop(@ModelAttribute AddShopDTO editShopDTO) {
         return ResponseEntity.ok(shopService.editShop(editShopDTO));
     }
 

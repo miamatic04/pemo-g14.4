@@ -13,7 +13,7 @@ const AddProduct = () => {
     const navigate = useNavigate();
 
     // Retrieve shopId from local storage
-    const shopId = 101;
+    const shopId = localStorage.getItem("shopId");
 
     // Fetch platform products
     useEffect(() => {

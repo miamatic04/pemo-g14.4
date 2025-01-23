@@ -38,7 +38,7 @@ public class EventController {
     }
 
     @PostMapping("/addEvent")
-    public ResponseEntity<String> addEvent(@RequestBody AddEventDTO addEventDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
+    public ResponseEntity<String> addEvent(@ModelAttribute AddEventDTO addEventDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
         return ResponseEntity.ok(eventService.addEvent(addEventDTO, authHeader.substring(7)));
     }
 }

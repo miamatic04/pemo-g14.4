@@ -20,7 +20,7 @@ const AddEvent = () => {
     useEffect(() => {
         const fetchShops = async () => {
             try {
-                const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/shops`, {
+                const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/owner/getMyShops`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -59,10 +59,10 @@ const AddEvent = () => {
         const eventData = new FormData();
         eventData.append('name', eventName);
         eventData.append('address', address);
-        eventData.append('datum_vrijeme', eventDateTime);
+        eventData.append('dateTime', eventDateTime);
         eventData.append('duration', duration);
         eventData.append('description', description);
-        eventData.append('image', image);
+        eventData.append('file', image);
         eventData.append('shopId', selectedShop);
         eventData.append('frequency', frequency === 'custom' ? `${customFrequencyValue}` : frequency);
 
@@ -143,7 +143,7 @@ const AddEvent = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="duration">Trajanje (u satima):</label>
+                        <label htmlFor="duration">Trajanje (u minutama):</label>
                         <input
                             className="unosZaDogadjaj"
                             id="duration"
@@ -167,9 +167,9 @@ const AddEvent = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="image">Dodajte sliku događaja:</label>
+                        <label htmlFor="file">Dodajte sliku događaja:</label>
                         <input
-                            id="image"
+                            id="file"
                             type="file"
                             onChange={handleFileChange}
                             required
@@ -207,13 +207,13 @@ const AddEvent = () => {
                             <option value="" disabled>
                                 Odaberite frekvenciju
                             </option>
-                            <option value="never">Nikad</option>
+                            <option value="">Nikad</option>
                             <option value="daily">Dnevno</option>
                             <option value="weekly">Tjedno</option>
-                            <option value="customWeeks">Jednom u [unesite broj] tjedana</option>
+                            <option value="biweekly">Svaka 2 tjedna</option>
                             <option value="monthly">Mjesečno</option>
-                            <option value="customMonths">Jednom u [unesite broj] mjeseci</option>
-                            <option value="yearly">Godišnje</option>
+                            <option value="bimonthly">Svaka 2 mjeseca</option>
+                            <option value="quarterly">Svaka 3 mjeseca</option>
                         </select>
                         {(frequency === 'customWeeks' || frequency === 'customMonths') && (
                             <input

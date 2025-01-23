@@ -74,7 +74,8 @@ public class LogService {
                     ModeratingActivityDTO moderatingActivityDTO = new ModeratingActivityDTO();
                     moderatingActivityDTO.setModeratorEmail(log.getModerator().getEmail());
                     moderatingActivityDTO.setModeratorName(log.getModerator().getName());
-                    moderatingActivityDTO.setReportId(log.getReport().getId());
+                    if(log.getReport() != null)
+                        moderatingActivityDTO.setReportId(log.getReport().getId());
                     moderatingActivityDTO.setDateTime(log.getDateTime());
                     moderatingActivityDTO.setWarning(log.isWarning());
                     moderatingActivityDTO.setDisciplinaryMeasure(log.getDisciplinaryMeasure());
@@ -103,7 +104,8 @@ public class LogService {
                     ModeratingActivityDTO moderatingActivityDTO = new ModeratingActivityDTO();
                     moderatingActivityDTO.setModeratorEmail(log.getModerator().getEmail());
                     moderatingActivityDTO.setModeratorName(log.getModerator().getName());
-                    moderatingActivityDTO.setReportId(log.getReport().getId());
+                    if(log.getReport() != null)
+                        moderatingActivityDTO.setReportId(log.getReport().getId());
                     moderatingActivityDTO.setDateTime(log.getDateTime());
                     moderatingActivityDTO.setWarning(log.isWarning());
                     moderatingActivityDTO.setDisciplinaryMeasure(log.getDisciplinaryMeasure());
@@ -131,7 +133,8 @@ public class LogService {
                     ModeratingActivityDTO moderatingActivityDTO = new ModeratingActivityDTO();
                     moderatingActivityDTO.setModeratorEmail(log.getModerator().getEmail());
                     moderatingActivityDTO.setModeratorName(log.getModerator().getName());
-                    moderatingActivityDTO.setReportId(log.getReport().getId());
+                    if(log.getReport() != null)
+                        moderatingActivityDTO.setReportId(log.getReport().getId());
                     moderatingActivityDTO.setDateTime(log.getDateTime());
                     moderatingActivityDTO.setWarning(log.isWarning());
                     moderatingActivityDTO.setDisciplinaryMeasure(log.getDisciplinaryMeasure());
@@ -162,7 +165,8 @@ public class LogService {
                     ModeratingActivityDTO moderatingActivityDTO = new ModeratingActivityDTO();
                     moderatingActivityDTO.setModeratorEmail(log.getModerator().getEmail());
                     moderatingActivityDTO.setModeratorName(log.getModerator().getName());
-                    moderatingActivityDTO.setReportId(log.getReport().getId());
+                    if(log.getReport() != null)
+                        moderatingActivityDTO.setReportId(log.getReport().getId());
                     moderatingActivityDTO.setDateTime(log.getDateTime());
                     moderatingActivityDTO.setWarning(log.isWarning());
                     moderatingActivityDTO.setDisciplinaryMeasure(log.getDisciplinaryMeasure());
@@ -190,7 +194,8 @@ public class LogService {
                     ModeratingActivityDTO moderatingActivityDTO = new ModeratingActivityDTO();
                     moderatingActivityDTO.setModeratorEmail(log.getModerator().getEmail());
                     moderatingActivityDTO.setModeratorName(log.getModerator().getName());
-                    moderatingActivityDTO.setReportId(log.getReport().getId());
+                    if(log.getReport() != null)
+                        moderatingActivityDTO.setReportId(log.getReport().getId());
                     moderatingActivityDTO.setDateTime(log.getDateTime());
                     moderatingActivityDTO.setWarning(log.isWarning());
                     moderatingActivityDTO.setDisciplinaryMeasure(log.getDisciplinaryMeasure());

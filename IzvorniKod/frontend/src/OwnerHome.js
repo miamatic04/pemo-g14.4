@@ -17,6 +17,8 @@ const OwnerHome = () => {
     const [authenticationTried, setAuthenticationTried] = useState(false);
     const [products, setProducts] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState(null);
+    const [showingAllShops, setShowingAllShops] = useState(true);
+    const [showingAllProducts, setShowingAllProducts] = useState(true);
 
     const openModal = (product) => {
         setSelectedProduct(product);
@@ -32,6 +34,7 @@ const OwnerHome = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const handleLogout = () => {
+        localStorage.removeItem("token");
         navigate('/');
     };
     const toggleMenu = () => {
@@ -129,26 +132,6 @@ const OwnerHome = () => {
         }
     };
 
-    const fetchProducts = async () => {
-        try {
-            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getAllProducts`, {
-                method: 'GET',
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to fetch products');
-            }
-            const data = await response.json();
-            setProducts(data);
-        } catch (error) {
-            console.error('Error fetching products:', error);
-        }
-    };
-
     useEffect(() => {
         if(!authenticationTried && !url.search) {
             setAuthenticationTried(true);
@@ -177,10 +160,6 @@ const OwnerHome = () => {
 
     }, [url.search]);
 
-    useEffect(() => {
-        fetchProducts();
-    }, [sortOrder]);
-
     const handleSortChange = (event) => {
         const selectedSortOrder = event.target.value;
         setSortOrder(selectedSortOrder);
@@ -208,18 +187,17 @@ const OwnerHome = () => {
         }
     };
 
-    const fetchShops = async () => {
+    const fetchRecommendedShops = async () => {
         try {
-            var url;
-            if(sortOrder === 'AZ')
-                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsAZ`
-            else if(sortOrder === 'ZA')
-                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsZA`;
-            else if(sortOrder === 'udaljenostBlizi')
-                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsByDistanceAsc`;
-
-
-            const response = await fetch(url,{
+            let url;
+            if (sortOrder === 'AZ') {
+                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getRecommendedShopsAZ`;
+            } else if (sortOrder === 'ZA') {
+                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getRecommendedShopsZA`;
+            } else if (sortOrder === 'udaljenostBlizi') {
+                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getRecommendedShopsByDistanceAsc`;
+            }
+            const response = await fetch(url, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -227,23 +205,124 @@ const OwnerHome = () => {
                 }
             });
 
-            if (!response.ok) {
-                throw new Error('Failed to fetch data');
+            if (response.ok) {
+                const data = await response.json();
+                if (data.length > 0) {
+                    setShops(data);
+                    setShowingAllShops(false);
+                    setIndex(0);
+                    return; // Exit if recommended shops are available
+                }
             }
-            const data = await response.json();
-
-            console.log(data);
-            setShops(data);
-
-            setLoading(false);
+            // Fallback to normal shops if no recommended shops are found
+            setShowingAllShops(true);
+            alert("No recommended shops found :(");
+            fetchShops();
         } catch (error) {
-            console.error('Error fetching shops:', error);
-            setLoading(false);
+            console.error('Error fetching recommended shops:', error);
+            setShowingAllShops(true);
+            fetchShops(); // Fallback on error
         }
     };
 
+    const fetchRecommendedProducts = async () => {
+        try {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/home/getRecommendedProducts`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.length > 0) {
+                    setProducts(data);
+                    setShowingAllProducts(false);
+                    setIndex1(0);
+                    return; // Exit if recommended products are available
+                }
+            }
+            // Fallback to normal products if no recommended products are found
+            setShowingAllProducts(true);
+            alert("No recommended products found :(");
+            fetchProducts();
+        } catch (error) {
+            console.error('Error fetching recommended products:', error);
+            setShowingAllProducts(true);
+            fetchProducts(); // Fallback on error
+        }
+    };
+
+    const fetchShops = async () => {
+        try {
+            let url;
+            if (sortOrder === 'AZ') {
+                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsAZ`;
+            } else if (sortOrder === 'ZA') {
+                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsZA`;
+            } else if (sortOrder === 'udaljenostBlizi') {
+                url = `http://${process.env.REACT_APP_WEB_URL}:8080/home/getShopsByDistanceAsc`;
+            }
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setShowingAllShops(true);
+                setShops(data);
+                setIndex(0);
+            } else {
+                console.error('Failed to fetch shops');
+            }
+        } catch (error) {
+            console.error('Error fetching shops:', error);
+        }
+    };
+
+    const fetchProducts = async () => {
+        try {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getAllProducts`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setShowingAllProducts(true);
+                setIndex1(0);
+                setProducts(data);
+            } else {
+                console.error('Failed to fetch products');
+            }
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    };
+
+// Update `useEffect` hooks to use the recommended fetch functions
     useEffect(() => {
-        fetchShops();
+        if(showingAllShops)
+            fetchShops()
+        else
+            fetchRecommendedShops();
+    }, [sortOrder]);
+
+    useEffect(() => {
+        if(showingAllProducts)
+            fetchProducts()
+        else
+            fetchRecommendedProducts();
     }, [sortOrder]);
 
 
@@ -275,13 +354,6 @@ const OwnerHome = () => {
         }
     }, [location]);
 
-
-    if (loading) {
-        return <div>Loading...</div>;  // prikazivanje loading indikatora dok se podaci učitavaju
-    }
-
-
-
     return (
         <div className="body-klasa">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/> {/*link na Font Awesome za ikone kod proizvoda*/}
@@ -291,8 +363,10 @@ const OwnerHome = () => {
                     <ul className="lista">
                         <li className="el"><a className="a1" onClick={() => navigate('/district')}>Kvart</a></li>
                         <li className="el"><a className="a1" onClick={() => navigate('/events')}>Događaji</a></li>
-                        <li className="el"><a className="a1" onClick={() => navigate('/shopsList')}>Popis trgovina</a></li>
+                        <li className="el"><a className="a1" onClick={() => navigate('/shopsList')}>Popis trgovina</a>
+                        </li>
                         <li className="el"><a href="/myShops" className="a1">Moje trgovine</a></li>
+                        <li className="el"><a href="/cart" className="a1">Košarica</a></li>
                         <li className="hamburger">
                             <button className="hamburger-btn" onClick={toggleMenu}>
                                 ☰
@@ -307,7 +381,7 @@ const OwnerHome = () => {
                     </ul>
                 </div>
                 <div className="glavna">
-                    <h1 className="naslov">Kupovina koja prati tvoj ritam</h1>
+                <h1 className="naslov">Kupovina koja prati tvoj ritam</h1>
                     <button className="btn1" onClick={() => navigate(`/purchaseHistory`)}>Povijest kupovina</button>
                     <div className="background"></div>
                 </div>
@@ -315,6 +389,16 @@ const OwnerHome = () => {
             <div className="klasa1">
                 <div className="klasa2">
                     <h1>Trgovine</h1>
+                    {showingAllShops && (
+                        <small style={{ color: 'gray', fontStyle: 'italic', fontSize: '20px' }}>
+                            <p onClick={fetchRecommendedShops} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>Show recommended shops</p>
+                        </small>
+                    )}
+                    {!showingAllShops && (
+                        <small style={{ color: 'gray', fontStyle: 'italic', fontSize: '20px' }}>
+                            <p onClick={fetchShops} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>Show all shops</p>
+                        </small>
+                    )}
                     <form className="forma1">
                         <label>
                             <i>Sortiraj trgovine po: </i>
@@ -352,6 +436,16 @@ const OwnerHome = () => {
             <div className="klasa1">
                 <div className="klasa2">
                     <h1>Proizvodi</h1>
+                    {showingAllProducts && (
+                        <small style={{ color: 'gray', fontStyle: 'italic', fontSize: '20px' }}>
+                            <p onClick={fetchRecommendedProducts} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>Show recommended products</p>
+                        </small>
+                    )}
+                    {!showingAllProducts && (
+                        <small style={{ color: 'gray', fontStyle: 'italic', fontSize: '20px' }}>
+                            <p onClick={fetchProducts} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>Show all products</p>
+                        </small>
+                    )}
                     {/*<form className="forma1">
                         <label>
                             <i>Sortiraj proizvode po: </i>

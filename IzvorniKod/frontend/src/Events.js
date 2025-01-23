@@ -132,8 +132,8 @@ const Events = () => {
                             <p className="event-info"><b>Informacije o događaju:</b></p>
                             <p className="event-infos">{event.description}</p>
                             <p className="event-location"><b>Lokacija:</b> {event.address}</p>
-                            <p className="event-date"><b>Datum:</b> {event.dateTime}</p>
-                            <p className="event-time"><b>Vrijeme:</b></p>
+                            <p className="event-date"><b>Datum:</b> {event.dateTime.split("T")[0]}</p>
+                            <p className="event-time"><b>Vrijeme:</b>{event.dateTime.split("T")[1]}</p>
                         </div>
                         <div className="event-column right-column">
                             <button className="learn-more"
@@ -143,12 +143,7 @@ const Events = () => {
                             {registeredEvents.includes(event.id) ? (
                                 <div>
                                 <p className="uspjesnaPrijava">Uspješna prijava!</p>
-                                    <button
-                                        className="unregister"
-                                        onClick={() => handleUnregisterClick(event.id)}
-                                    >
-                                        Otkaži prijavu
-                                    </button>
+
                                 </div>
                             ) : (
                                 <button
