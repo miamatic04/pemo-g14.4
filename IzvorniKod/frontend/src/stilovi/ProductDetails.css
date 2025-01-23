@@ -31,6 +31,9 @@
 
 
 .shop-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
     border: 10px solid #BEE6F3;
     border-radius: 15px;
     padding: 20px;
@@ -150,6 +153,7 @@
     padding: 15px;
     border: 1px solid #eee;
     border-radius: 8px;
+    flex-direction: column;
 }
 
 .review-content {
@@ -157,6 +161,7 @@
     display: flex;
     margin-right: 15px;
     align-items: flex-start;
+    order: 1;
 }
 
 .rating {
@@ -169,7 +174,7 @@
     flex: 1;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    max-width: 400px;
+    max-width: 250px;
     text-align: left;
 }
 
@@ -186,4 +191,39 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
+}
+.auth{
+    margin-right: 1rem;
+}
+
+.review-content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.review-image {
+    order: 2;
+}
+
+.prijavi {
+    align-self: flex-end;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+    color:darkslategray;
+}
+
+.prijavi:hover, .prijavi1:hover{
+    color: darkred;
+}
+
+.prijavi1{
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 15px;
+    color: dimgrey;
+    font-size: 1rem !important;
 }

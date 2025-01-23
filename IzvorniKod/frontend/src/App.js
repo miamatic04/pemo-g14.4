@@ -11,7 +11,6 @@ import Events from "./Events";
 import ShopsList from "./ShopsList";
 import Review from "./Review";
 import PurchaseHistory from "./PurchaseHistory";
-import AboutEvent from "./AboutEvent";
 import District from './District';
 import ShopDetails from './ShopDetails';
 import UserProfile from "./UserProfile";
@@ -54,7 +53,6 @@ const App = () => {
                 <Route path="/myShops" element={<MyShops/>}/>
                 <Route path="/product" element={<ProductDetails/>}/>
                 <Route path="/events" element={<Events/>}/>
-                <Route path="/aboutEvent" element={<AboutEvent/>}/>
                 <Route path="/shopsList" element={<ShopsList/>}/>
                 <Route path="/review" element={<Review/>}/>
                 <Route path="/purchaseHistory" element={<PurchaseHistory/>}/>
