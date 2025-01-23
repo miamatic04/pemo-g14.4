@@ -66,6 +66,7 @@ const Forum = () => {
                                     </div>
                                 </div>
                                 <p className="opisRasprave">{discussion.text}</p>
+                                <p className="prijavi-korisnika">Prijavi korisnika</p>
                             </div>
                             <div className="forum-column-right-column">
                                 <button className="vidiViseRasprava" onClick={() => navigate('/DiscussionDetails')}>

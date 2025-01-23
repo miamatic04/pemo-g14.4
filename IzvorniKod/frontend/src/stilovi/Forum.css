@@ -54,6 +54,7 @@
     margin-bottom: 3vh; /* Razmak između događaja */
     background-color: white; /* Pozadina kartice događaja */
     width: 80%; /* Širina kartice događaja */
+    position: relative;
 }
 
 .forum-column-left-column {
@@ -167,4 +168,91 @@
 
 #odg:hover{
     background-color: #9bd7eb;
+}
+
+.prijavi-korisnika {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    margin: 10px;
+    padding: 5px 10px;
+    color: darkslategrey;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.prijavi-korisnika:hover {
+    color: darkred;
+}
+
+@media screen and (max-width: 1024px) {
+    .forum-card {
+        width: 90%;
+    }
+
+    .header-title {
+        font-size: 200%;
+    }
+
+    .answerHereForum {
+        width: 200%;
+    }
+
+    .gumbNovaRasprava {
+        margin-right: 50%;
+    }
+}
+
+/* Mobile styles */
+@media screen and (max-width: 768px) {
+    .header-forum {
+        flex-direction: column;
+        padding: 3%;
+    }
+
+    .header-title {
+        font-size: 150%;
+    }
+
+    .forum-card {
+        width: 95%;
+        flex-direction: column;
+        padding: 4vh;
+    }
+
+    .forum-column-left-column,
+    .forum-column-right-column {
+        width: 100%;
+    }
+
+    .user-info-wrapper {
+        margin-bottom: 3vh;
+    }
+
+    .answerHereForum {
+        width: 100%;
+        height: 15vh;
+    }
+
+    .vidiViseRasprava {
+        width: 100%;
+        text-align: center;
+    }
+
+    .gumbNovaRasprava {
+        margin-right: 0;
+        width: 90%;
+        text-align: center;
+    }
+
+    .page-number span {
+        font-size: 200%;
+    }
+
+    .navigation-btn {
+        height: 5vh;
+        width: 5vh;
+        margin: 0 2vw;
+    }
 }

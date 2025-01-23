@@ -108,7 +108,7 @@ const ShopDetails = () => {
                             {getCurrentReviews().map((review, index) => (
                                 <div key={index} className="review-item">
                                     <div className="review-content">
-                                        <span>{review.author}</span>
+                                        <span>{review.author}:</span>
                                         <span className="rating">{review.rating}★</span>
                                         <div className="review-text">{review.text}</div>
                                         {/*{Boolean(review.imagePath) && (
@@ -126,6 +126,7 @@ const ShopDetails = () => {
                                             Komentiraj
                                         </button>
                                     )}
+                                    <p className="prijavi1" id="prijavi12">Prijavi recenziju</p>
                                 </div>
                             ))}
 
@@ -161,6 +162,7 @@ const ShopDetails = () => {
                                     Ostavi recenziju
                                 </button>
                             )}
+                            <p className="prijavi1">Prijavi trgovinu</p>
                         </div>
                     </div>
                 </div>

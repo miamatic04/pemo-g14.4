@@ -150,9 +150,9 @@ const ProductDetails = () => {
                         <p className="info3">Cijena: {productDetails?.price} €</p>
                         <p style={{
                             color: '#007bff',
-                            fontSize:'18px',
+                            fontSize: '18px',
                             textAlign: 'center',
-                            height: '20px', 
+                            height: '20px',
                             margin: '10px 0'
                         }}>
                             {addedMessage}
@@ -160,6 +160,7 @@ const ProductDetails = () => {
                         <button className="add-to-cart" onClick={addToCart}>
                             <i className="fas fa-shopping-cart"></i> Dodaj u košaricu
                         </button>
+                        <p className="prijavi1">Prijavi proizvod</p>
                     </div>
                 </div>
 
@@ -182,16 +183,20 @@ const ProductDetails = () => {
 
                         <div className="review-items">
                             {getCurrentReviews().map((review, index) => (
-                                <div className="review-item" key={index}>
-                                    <div className="review-content">
-                                        <span className="rating">{review.rating}★</span>
-                                        <div className="review-text">{review.text}</div>
-                                    </div>
-                                    {Boolean(review.imagePath) && (
-                                        <div className="review-image">
-                                            <img src={review.imagePath} alt="Review"/>
+                                <div className="review-item">
+                                    <div className="review-content-wrapper">
+                                        <div className="review-content">
+                                            <span className="auth">{review.author}:</span>
+                                            <span className="rating">{review.rating}★</span>
+                                            <div className="review-text">{review.text}</div>
                                         </div>
-                                    )}
+                                        {Boolean(review.imagePath) && (
+                                            <div className="review-image">
+                                                <img src={review.imagePath} alt="Review"/>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <p className="prijavi">Prijavi recenziju</p>
                                 </div>
                             ))}
                         </div>
