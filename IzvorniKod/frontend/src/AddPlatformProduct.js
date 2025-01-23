@@ -125,14 +125,14 @@ const AddProduct = () => {
                             <img
                                 src={selectedProductImage}
                                 alt="Platform Product"
-                                className="product-image"
+                                className="product-image11"
                                 style={{ maxWidth: "100%", height: "auto", marginTop: "10px" }}
                             />
                         </div>
                     )}
 
                     <div className="form-group">
-                        <label htmlFor="description">Opis proizvoda:</label>
+                        <label className="label33" htmlFor="description">Opis proizvoda:</label>
                         <textarea
                             id="description"
                             className="unosZaProizvod"
@@ -144,7 +144,7 @@ const AddProduct = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="price">Cijena proizvoda (€):</label>
+                        <label className="label33" htmlFor="price">Cijena proizvoda (€):</label>
                         <input
                             id="price"
                             className="unosZaProizvod"
@@ -159,7 +159,7 @@ const AddProduct = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="quantity">Količina:</label>
+                        <label className="label33" htmlFor="quantity">Količina:</label>
                         <input
                             id="quantity"
                             className="unosZaProizvod"
@@ -172,7 +172,7 @@ const AddProduct = () => {
                         />
                     </div>
 
-                    <button type="submit" className="submit-button">
+                    <button type="submit" className="submit-button33">
                         Dodaj proizvod
                     </button>
                     <button

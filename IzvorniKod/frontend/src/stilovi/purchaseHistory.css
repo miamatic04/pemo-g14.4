@@ -28,7 +28,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 17%;
-    width: 90%;
+    width: 100%;
 }
 
 .status {
@@ -67,7 +67,7 @@
     justify-content: space-between;
     align-items: center;
     flex-grow: 1;
-    margin-left: 20px;
+    margin-left: 0;
 }
 
 .shop-name1 {
@@ -145,4 +145,29 @@
 .pagination button:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+}
+
+.pause-shopping,
+.continue-shopping{
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.continue-shopping:hover{
+    background-color: green;
+    color: white;
+}
+
+.continue-shopping{
+    background-color: darkseagreen;
+}
+
+.pause-shopping:hover{
+    background-color: #f9faac;
 }

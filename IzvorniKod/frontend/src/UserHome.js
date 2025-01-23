@@ -87,7 +87,7 @@ const UserHome = () => {
     // Sliced niz slika proizvoda koje se trenutno prikazuju
     const visible1 = (() => {
         // Check if the index is out of bounds
-        const endIndex = index + 6; // The last index to slice to
+        const endIndex = index1 + 6; // The last index to slice to
         if (index1 >= products.length) {
             // If the current index is greater than or equal to the length of the shops array, return an empty array
             return [];
@@ -381,19 +381,19 @@ const UserHome = () => {
                 <div className="klasa2">
                     <h1>Trgovine</h1>
                     {showingAllShops && (
-                        <small style={{ color: 'gray', fontStyle: 'italic', fontSize: '20px' }}>
-                            <p onClick={fetchRecommendedShops} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>Show recommended shops</p>
-                        </small>
+
+                            <p onClick={fetchRecommendedShops} className="preporucene">Prikaži preporučene trgovine</p>
+
                     )}
                     {!showingAllShops && (
-                        <small style={{ color: 'gray', fontStyle: 'italic', fontSize: '20px' }}>
-                            <p onClick={fetchShops} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>Show all shops</p>
-                        </small>
+
+                            <p onClick={fetchShops} className="preporucene">Prikaži sve trgovine</p>
+
                     )}
-                    <form className="forma1">
+                    <form className="forma12">
                         <label>
                             <i>Sortiraj trgovine po: </i>
-                            <select value={sortOrder} onChange={handleSortChange}>
+                            <select value={sortOrder} className="select12" onChange={handleSortChange}>
                                 <option value="AZ">nazivu A-Z</option>
                                 <option value="ZA">nazivu Z-A</option>
                                 <option value="udaljenostBlizi">udaljenosti (prvo bliži)</option>
@@ -428,14 +428,10 @@ const UserHome = () => {
                 <div className="klasa2">
                     <h1>Proizvodi</h1>
                     {showingAllProducts && (
-                        <small style={{ color: 'gray', fontStyle: 'italic', fontSize: '20px' }}>
-                            <p onClick={fetchRecommendedProducts} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>Show recommended products</p>
-                        </small>
+                        <p onClick={fetchRecommendedProducts} className="preporucene">Prikaži preporučene proizvode</p>
                     )}
                     {!showingAllProducts && (
-                        <small style={{ color: 'gray', fontStyle: 'italic', fontSize: '20px' }}>
-                            <p onClick={fetchProducts} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>Show all products</p>
-                        </small>
+                        <p onClick={fetchProducts} className="preporucene">Prikaži sve proizvode</p>
                     )}
                     {/*<form className="forma1">
                         <label>

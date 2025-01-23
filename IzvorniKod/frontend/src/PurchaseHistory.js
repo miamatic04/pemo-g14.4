@@ -28,28 +28,28 @@ const ShoppingCard = ({ order, status, price, date, shopName, onContinue, onCanc
                     <p className="shop-name1">{shopName}</p>
                     <p className="price">{price}</p>
                     <a className="details-link" onClick={handleDetailsClick}>vidi detalje kupovine</a>
-                </div>
-                <div className="card-actions">
-                    {status === "nedovršeno" && (
-                        <>
-                            <button className="continue-shopping" onClick={() => onContinue(order)}>
-                                Nastavi kupovinu
-                            </button>
-                            <button className="cancel-order" onClick={() => onCancel(order.id)}>
-                                Otkaži
-                            </button>
-                        </>
-                    )}
-                    {status === "u tijeku" && (
-                        <>
-                            <button className="pause-shopping" onClick={() => onPause(order.id)}>
-                                Pauziraj kupovinu
-                            </button>
-                            <button className="cancel-order" onClick={() => onCancel(order.id)}>
-                                Otkaži
-                            </button>
-                        </>
-                    )}
+                    <div className="card-actions">
+                        {status === "nedovršeno" && (
+                            <>
+                                <button className="continue-shopping" onClick={() => onContinue(order)}>
+                                    Nastavi kupovinu
+                                </button>
+                                <button className="cancel-order" onClick={() => onCancel(order.id)}>
+                                    Otkaži
+                                </button>
+                            </>
+                        )}
+                        {status === "u tijeku" && (
+                            <>
+                                <button className="pause-shopping" onClick={() => onPause(order.id)}>
+                                    Pauziraj kupovinu
+                                </button>
+                                <button className="cancel-order" onClick={() => onCancel(order.id)}>
+                                    Otkaži
+                                </button>
+                            </>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
