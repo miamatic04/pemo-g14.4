@@ -64,6 +64,12 @@
     width: 45%; /* Širina kolone */
 }
 
+.discussion-timestamp {
+    font-size: 0.85em;
+    color: gray;
+    margin-top: 4px;
+}
+
 .user-info {
     display: flex;
     flex-direction: column; /* Postavlja korisničko ime i naziv u kolonu */

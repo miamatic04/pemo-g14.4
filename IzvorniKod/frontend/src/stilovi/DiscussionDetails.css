@@ -117,6 +117,18 @@
     font-weight: bold;
 }
 
+.replyTimestamp {
+    font-size: 0.85em;
+    color: gray;
+    margin-top: 4px;
+}
+
+.discussionDateTime {
+    font-size: 0.9em;
+    color: #777; /* Light gray color */
+    margin-top: 5px;
+}
+
 @media screen and (max-width: 1024px) {
     .discussion-details-container {
         width: 85%;
@@ -188,4 +200,6 @@
     .discussionDetailsResponse-info {
         text-align: center;
     }
+
+
 }

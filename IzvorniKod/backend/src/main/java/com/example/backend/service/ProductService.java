@@ -72,6 +72,7 @@ public class ProductService {
         List<ReviewDTO> reviewDTOs = reviews.stream()
                 .map(review -> {
                     ReviewDTO reviewDTO = new ReviewDTO();
+                    reviewDTO.setId(review.getId());
                     reviewDTO.setText(review.getText());
                     reviewDTO.setRating(review.getRating());
                     reviewDTO.setAuthor(review.getAuthor().getName());

@@ -27,14 +27,11 @@ function ReportItem({
 
     const handleNavigate = () => {
         if (shopId) {
-            navigate(`/shop/${shopId}`, { replace: false });
+            localStorage.setItem("selectedShopId", shopId);
+            navigate(`/shop`, { replace: false });
         } else if (productId) {
-            navigate(`/product/${productId}`, { replace: false });
-        } else {
-            navigate('/profile', {
-                replace: false,
-                state: { email: reportedEmail },
-            });
+            localStorage.setItem("selectedProductId", productId);
+            navigate(`/product`, { replace: false });
         }
     };
 
@@ -118,9 +115,9 @@ function ReportItem({
                 <button onClick={handleIgnore} className="button-reportitem">Ignoriraj</button>
                 <button onClick={() => setShowWarningForm(true)} className="button-reportitem">Izdaj uporozenje</button>
                 <button onClick={() => setShowDisciplinaryForm(true)} className="button-reportitem">Izdaj disciplinsku mjeru</button>
-                <button onClick={handleNavigate} className="button-reportitem">
+                {(shopId || productId) && <button onClick={handleNavigate} className="button-reportitem">
                     Idi na {shopId ? 'trgovinu' : productId ? 'proizvod' : 'profil'}
-                </button>
+                </button>}
                 <button onClick={() => setShowReasonsPopup(true)}>Potvrdi razloge</button>
             </div>
 

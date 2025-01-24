@@ -209,12 +209,8 @@ const Cart = () => {
                                             <button onClick={() => updateQuantity(item.id, 1)}>+</button>
                                         </div>
                                     </div>
-                                    <div className="cart-item-column">€{item.price}</div>
-                                    <div className="cart-item-column">
-                                        €{(item.discountedPrice * item.quantity) || (item.price * item.quantity).toFixed(2)}
-                                    </div>
-                                    <div className="cart-item-column"> <p className="za-mob">Cijena: </p> €{item.price}</div>
-                                    <div className="cart-item-column"> <p className="za-mob">Ukupno: </p>€{(item.price * item.quantity).toFixed(2)}</div>
+                                    <div className="cart-item-column"> <p className="za-mob">Cijena: </p> €{item.discountedPrice || item.price}</div>
+                                    <div className="cart-item-column"> <p className="za-mob">Ukupno: </p>€{(item.discountedPrice * item.quantity) || (item.price * item.quantity).toFixed(2)}</div>
                                     <div className="cart-item-column">
                                         <button className="remove-item" onClick={() => removeItem(item.id, item.quantity)}>
                                             Ukloni

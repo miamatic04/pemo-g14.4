@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './stilovi/ShopDetails.css';
+import ReportPopup from './Components/ReportPopUp';
 import logo1 from './Components/Assets/logo1.png';
 
 const ShopDetails = () => {
@@ -9,25 +10,25 @@ const ShopDetails = () => {
     const [shopDetails, setShopDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
+    const [isReportPopupOpen, setIsReportPopupOpen] = useState(false); // Popup state
     const reviewsPerPage = 2;
     const userRole = localStorage.getItem('role');
 
-    // Dohvaćamo shopId iz location state
-    const shopId = location.state?.shopId;
-
-    console.log('Location state:', location.state); // Debug
-    console.log('Shop ID:', shopId); // Debug
+    // Get shopId from location state
+    let shopId;
+    if(location.state)
+        shopId = location.state.shopId;
+    if(!shopId)
+        shopId = localStorage.getItem("selectedShopId");
 
     useEffect(() => {
         const fetchShopDetails = async () => {
             if (!shopId) {
-                console.log('No shop ID found in state'); // Debug
                 setLoading(false);
                 return;
             }
 
             try {
-                console.log('Fetching shop details for ID:', shopId); // Debug
                 const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/shops/${shopId}`, {
                     method: 'GET',
                     headers: {
@@ -36,14 +37,11 @@ const ShopDetails = () => {
                     }
                 });
 
-                console.log('Response:', response); // Debug
-
                 if (!response.ok) {
                     throw new Error('Failed to fetch shop details');
                 }
 
                 const data = await response.json();
-                console.log('Fetched shop data:', data); // Debug
                 setShopDetails(data);
             } catch (error) {
                 console.error('Error fetching shop details:', error);
@@ -75,9 +73,16 @@ const ShopDetails = () => {
         return shopDetails.reviews.slice(startIndex, startIndex + reviewsPerPage);
     };
 
+    const handleReportClick = (reviewId) => {
+        // Set the review ID to be reported and open the ReportPopup
+        localStorage.setItem("reportedReviewId", reviewId);
+        setIsReportPopupOpen(true);
+    };
+
     return (
         <div className="shop-page">
             <div className="shop-container">
+                {/* Left Panel */}
                 <div className="left-panel">
                     <div className="shop-card">
                         <div className="shop-image">
@@ -90,19 +95,13 @@ const ShopDetails = () => {
 
                         {userRole === 'owner' && (
                             <div className="owner-actions">
-                                <button onClick={() => navigate('/edit-shop', {
-                                    state: { shopId: shopId }
-                                })}>
+                                <button onClick={() => navigate('/edit-shop', { state: { shopId } })}>
                                     Uredi informacije
                                 </button>
-                                {/*<button onClick={() => navigate('/change-image', {
-                                    state: { shopId: shopId }
-                                })}>
-                                    Promijeni sliku
-                                </button> */}
                             </div>
                         )}
 
+                        {/* Reviews Section */}
                         <div className="reviews-section">
                             <h3>Recenzije:</h3>
                             {getCurrentReviews().map((review, index) => (
@@ -111,25 +110,17 @@ const ShopDetails = () => {
                                         <span>{review.author}:</span>
                                         <span className="rating">{review.rating}★</span>
                                         <div className="review-text">{review.text}</div>
-                                        {/*{Boolean(review.imagePath) && (
-                                            <div className="review-image">
-                                                <img src={review.imagePath} alt="Review"/>
-                                            </div>
-                                        )}
-                                    <span>{review.author}: {review.text}</span>
-                                    <span>Ocjena: {review.rating}</span>*/}
                                     </div>
-                                    {userRole === 'owner' && (
-                                        <button onClick={() => navigate('/comment-review', {
-                                            state: {reviewId: review.id}
-                                        })}>
-                                            Komentiraj
-                                        </button>
-                                    )}
-                                    <p className="prijavi1" id="prijavi12">Prijavi recenziju</p>
+                                    <p
+                                        className="prijavi1"
+                                        onClick={() => handleReportClick(review.id)} // When clicked, open the report popup
+                                    >
+                                        Prijavi recenziju
+                                    </p>
                                 </div>
                             ))}
 
+                            {/* Pagination */}
                             {shopDetails.reviews && shopDetails.reviews.length > 0 && (
                                 <div className="pagination">
                                     <button
@@ -155,18 +146,24 @@ const ShopDetails = () => {
                             {userRole !== 'owner' && (
                                 <button
                                     className="add-review"
-                                    onClick={() => navigate('/review', {
-                                        state: { shopId: shopId }
-                                    })}
+                                    onClick={() => {localStorage.setItem("selectedShopId", shopId); navigate('/review', { state: { shopId } })}}
                                 >
                                     Ostavi recenziju
                                 </button>
                             )}
-                            <p className="prijavi1">Prijavi trgovinu</p>
+
+                            {/* Report Shop */}
+                            <p
+                                className="prijavi1"
+                                onClick={() => {localStorage.setItem("reportedShopId", shopId); setIsReportPopupOpen(true)}} // Open popup
+                            >
+                                Prijavi trgovinu
+                            </p>
                         </div>
                     </div>
                 </div>
 
+                {/* Right Panel */}
                 <div className="right-panel">
                     <div className="logo1">
                         <img
@@ -177,6 +174,7 @@ const ShopDetails = () => {
                         />
                     </div>
 
+                    {/* Product List */}
                     <div className="product-list">
                         <h3>Popis proizvoda:</h3>
                         {shopDetails.products && shopDetails.products.length > 0 ? (
@@ -207,6 +205,13 @@ const ShopDetails = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Report Popup */}
+            {isReportPopupOpen && (
+                <ReportPopup
+                    onClose={() => setIsReportPopupOpen(false)}
+                />
+            )}
         </div>
     );
 };

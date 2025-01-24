@@ -13,17 +13,21 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Forum {
+public class ForumReply {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "author_id") // Specifies the foreign key column in the database
+    @JoinColumn(name = "author_id")
     private Person author;
 
-    private String title;
     private String text;
+
+    @ManyToOne
+    @JoinColumn(name = "forum_id")
+    private Forum forum;
+
     private LocalDateTime dateTime;
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './stilovi/ProductDetails.css';
 import logo1 from './Components/Assets/logo1.png';
+import ReportPopup from './Components/ReportPopUp';  // Import the ReportPopup component
 
 const ProductDetails = () => {
     const navigate = useNavigate();
@@ -16,6 +17,7 @@ const ProductDetails = () => {
     const reviewsPerPage = 2;
     const productId = localStorage.getItem('selectedProductId');
     const shopName = localStorage.getItem('selectedShopName');
+    const [showReportPopup, setShowReportPopup] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -135,6 +137,19 @@ const ProductDetails = () => {
         }
     };
 
+    const handleReportClick = () => {
+        // Set the productId to be reported and show the ReportPopup
+        localStorage.setItem("reportedProductId", productId);
+        setShowReportPopup(true);
+    };
+
+    const handleReportClick2 = (reviewId) => {
+        // Set the productId to be reported and show the ReportPopup
+        console.log(reviewId);
+        localStorage.setItem("reportedReviewId", reviewId);
+        setShowReportPopup(true);
+    };
+
     return (
         <div className="product-page">
             <div className="product-container">
@@ -160,7 +175,7 @@ const ProductDetails = () => {
                         <button className="add-to-cart" onClick={addToCart}>
                             <i className="fas fa-shopping-cart"></i> Dodaj u košaricu
                         </button>
-                        <p className="prijavi1">Prijavi proizvod</p>
+                        <p className="prijavi1" onClick={handleReportClick}>Prijavi proizvod</p>
                     </div>
                 </div>
 
@@ -196,7 +211,7 @@ const ProductDetails = () => {
                                             </div>
                                         )}
                                     </div>
-                                    <p className="prijavi">Prijavi recenziju</p>
+                                    <p className="prijavi" onClick={() => handleReportClick2(review.id)}>Prijavi recenziju</p>
                                 </div>
                             ))}
                         </div>
@@ -218,6 +233,11 @@ const ProductDetails = () => {
                     </div>
                 </div>
             </div>
+            {showReportPopup && (
+                <ReportPopup
+                    onClose={() => setShowReportPopup(false)}
+                />
+            )}
         </div>
     );
 };

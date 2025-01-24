@@ -36,7 +36,7 @@ const NewDiscussion = () => {
             setTimeout(() => {
                 setMessage('');
                 navigate('/forum');
-            }, 2000);
+            }, 500);
         } catch (error) {
             setMessage('Greška pri objavi rasprave');
             console.error('Error:', error);
@@ -48,7 +48,7 @@ const NewDiscussion = () => {
         setTimeout(() => {
             setMessage('');
             navigate('/forum');
-        }, 2000);
+        }, 500);
     };
 
     return (

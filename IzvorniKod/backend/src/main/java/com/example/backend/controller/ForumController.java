@@ -23,4 +23,19 @@ public class ForumController {
     public ResponseEntity<List<ForumDTO>> getAllDiscussions(@RequestHeader(value = "Authorization", required = false) String authHeader) {
         return ResponseEntity.ok(forumService.getAllDiscussions(authHeader.substring(7)));
     }
+
+    @GetMapping("/getDiscussionReplies/{forumId}")
+    public ResponseEntity<List<ForumDTO>> getDiscussionReplies(@PathVariable Long forumId, @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return ResponseEntity.ok(forumService.getDiscussionReplies(forumId, authHeader.substring(7)));
+    }
+
+    @PostMapping("/postReply/{forumId}")
+    public ResponseEntity<String> postReply(@PathVariable Long forumId, @RequestBody ForumDTO forumDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return ResponseEntity.ok(forumService.postReply(forumId, forumDTO, authHeader.substring(7)));
+    }
+
+    @PostMapping("/deleteReply/{replyId}")
+    public ResponseEntity<String> deleteReply(@PathVariable Long replyId) {
+        return ResponseEntity.ok(forumService.deleteReply(replyId));
+    }
 }

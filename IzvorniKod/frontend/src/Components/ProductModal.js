@@ -25,12 +25,12 @@ function ProductModal({ product, onClose }) {
             const product = orderProduct.product;
 
             return {
-                id: product.id,              // Product ID
-                name: product.name,          // Product Name
-                price: product.price,        // Product Price
-                quantity: orderProduct.quantity, // Quantity in the order
-                imagePath: product.imagePath, // Image URL
-                shopName: product.shopName,  // Shop Name
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                quantity: orderProduct.quantity,
+                imagePath: product.imagePath,
+                shopName: product.shopName,
                 shopId: product.shopId
             };
         });

@@ -2,123 +2,166 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './stilovi/DiscussionDetails.css';
 import logo1 from './Components/Assets/logo1.png';
-import avatarImage from './Components/Assets/avatar.png'; // Putanja do slike avatara
+import avatarImage from './Components/Assets/avatar.png'; // Path to avatar image
 
 const DiscussionDetails = () => {
-    const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        dateOfBirth: '',
-        username: '',
-        district: '',
-        role: 'user'
-    });
-
-    const [backendResult, setBackendResult] = useState(null);
-    const [responseMessages, setResponseMessages] = useState({}); // Novo stanje za praćenje poruka po korisniku
+    const discussionId = localStorage.getItem("discussionId");
+    const authorName = localStorage.getItem("discussionAuthor");
+    const text = localStorage.getItem("discussionText");
+    const title = localStorage.getItem("discussionTitle");
+    const dateTime = localStorage.getItem("dateTime");
+    const [replies, setReplies] = useState([]);
+    const [newReply, setNewReply] = useState(''); // State for posting a new reply
     const userRole = localStorage.getItem('role');
     const navigate = useNavigate();
 
-    const [users, setUsers] = useState([
-        { id: 1, username: 'Username2', response: 'Bla bla bla', avatar: avatarImage },
-        { id: 2, username: 'Username3', response: '', avatar: avatarImage },
-        { id: 3, username: 'Username4', response: '', avatar: avatarImage },
-        { id: 4, username: 'Username5', response: '', avatar: avatarImage },
-        { id: 5, username: 'Username6', response: '', avatar: avatarImage },
-        { id: 6, username: 'Username7', response: '', avatar: avatarImage },
-    ]);
-
+    // Fetch discussion replies on component mount
     useEffect(() => {
-        const storedData = localStorage.getItem('userProfile');
-        if (storedData) {
-            setFormData(JSON.parse(storedData));
+        const token = localStorage.getItem('token');
+
+        fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getDiscussionReplies/${discussionId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Sort replies by dateTime (oldest first, newest at the bottom)
+                const sortedReplies = data.sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
+                setReplies(sortedReplies);
+            })
+            .catch(error => console.error('Error fetching discussion replies:', error));
+    }, [discussionId]);
+
+
+    const handlePostReply = () => {
+        const token = localStorage.getItem('token');
+
+        if (!newReply.trim()) {
+            alert('Odgovor ne može biti prazan!');
+            return;
         }
-    }, []);
 
-    const handleResponseChange = (id, value) => {
-        setUsers((prevUsers) =>
-            prevUsers.map((user) =>
-                user.id === id ? { ...user, response: value } : user
-            )
-        );
+        fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/postReply/${discussionId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ text: newReply })
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Odgovor uspješno poslan!');
+                    setNewReply(''); // Clear the input field
+                    // Refresh replies after successful posting
+                    return fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getDiscussionReplies/${discussionId}`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    }).then(res => res.json()).then(data => setReplies(data));
+                } else {
+                    alert('Došlo je do greške prilikom slanja odgovora.');
+                }
+            })
+            .catch(error => console.error('Error posting reply:', error));
     };
 
-    const handleSubmit = (id) => {
-        setResponseMessages((prevMessages) => ({
-            ...prevMessages,
-            [id]: "Odgovor objavljen!"
-        }));
-    };
+    const handleDeleteReply = (replyId) => {
+        const token = localStorage.getItem('token');
 
-    const handleCancel = (id) => {
-        setResponseMessages((prevMessages) => ({
-            ...prevMessages,
-            [id]: "Odgovor nije objavljen!"
-        }));
+        fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/deleteReply/${replyId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Odgovor uspješno obrisan!');
+                    // Remove the deleted reply from state
+                    setReplies((prevReplies) => prevReplies.filter((reply) => reply.id !== replyId));
+                } else {
+                    alert('Došlo je do greške prilikom brisanja odgovora.');
+                }
+            })
+            .catch(error => console.error('Error deleting reply:', error));
     };
 
     return (
         <div className="discussion-details-page">
             <div className="discussion-details-container">
                 <div className="logo1DiscussionDetails">
-                    <img src={logo1} className="logo1DiscussionImage"
-                         onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
-                         style={{cursor: 'pointer'}}/>
+                    <img
+                        src={logo1}
+                        className="logo1DiscussionImage"
+                        onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
+                        style={{ cursor: 'pointer' }}
+                    />
                 </div>
                 <div className="header-section-discussionDetails">
                     <img src={avatarImage} alt="Avatar" className="avatarDiscussionDetails"/>
                     <div className="discussionDetails-info">
-                        <b><p className="imeUseraDiscussionDetails">Username1: </p></b>
-                        <b><p className="nazivDiscussionDetails">Naziv1</p></b>
-                        <p className="opisDiscussionDetails">Opis1</p>
+                        <b>
+                            <p className="imeUseraDiscussionDetails">{authorName}</p>
+                        </b>
+                        <b>
+                            <p className="nazivDiscussionDetails">{title}</p>
+                        </b>
+                        <p className="opisDiscussionDetails">{text}</p>
+                        {/* Display DateTime of the discussion */}
+                        <p className="discussionDateTime">
+                            {new Date(dateTime).toLocaleString()} {/* Format the stored dateTime */}
+                        </p>
                     </div>
                 </div>
 
-                {/* Polja za unos */}
+                {/* Display Replies */}
                 <div className="DiscussionContainer">
-                    {users.map((user) => (
-                        <div key={user.id} className="user-response-container">
+                    {replies.map((reply) => (
+                        <div key={reply.id} className="user-response-container">
                             <div className="header-section-discussionDetailsResponse">
-                                <img src={user.avatar} alt="Avatar" className="avatarDiscussionDetails"/>
+                                <img src={avatarImage} alt="Avatar" className="avatarDiscussionDetails"/>
                                 <div className="discussionDetailsResponse-info">
-                                    <b><p className="imeUseraDiscussionDetails">{user.username}: </p></b>
-                                    <p className="opisDiscussionDetails">{user.response}</p>
+                                    <b>
+                                        <p className="imeUseraDiscussionDetails">{reply.authorName}:</p>
+                                    </b>
+                                    <p className="opisDiscussionDetails">{reply.text}</p>
+                                    {/* Display Timestamp */}
+                                    <p className="replyTimestamp">
+                                        {new Date(reply.dateTime).toLocaleString()} {/* Format timestamp */}
+                                    </p>
                                 </div>
                             </div>
-                            <textarea
-                                className="inputDiscussionDetails"
-                                placeholder={`Unesite odgovor za ${user.username}`}
-                                onChange={(e) => handleResponseChange(user.id, e.target.value)}
-                            ></textarea>
-
-                            {/* Prikaz poruke samo za ovog korisnika */}
-                            {responseMessages[user.id] && (
-                                <p className="response-message-discussion">{responseMessages[user.id]}</p>
+                            {/* Conditionally render delete button if user is the author */}
+                            {reply.author && (
+                                <button
+                                    className="deleteReplyButton"
+                                    onClick={() => handleDeleteReply(reply.id)}
+                                >
+                                    Obriši odgovor
+                                </button>
                             )}
-
-                            <div className="button-container">
-                                <button
-                                    className="sendResponseDiscussion"
-                                    onClick={() => handleSubmit(user.id)}
-                                >
-                                    Pošalji odgovor
-                                </button>
-                                <button
-                                    className="discardResponseDiscussion"
-                                    onClick={() => handleCancel(user.id)}
-                                >
-                                    Otkaži slanje odgovora
-                                </button>
-                            </div>
                         </div>
                     ))}
                 </div>
 
-                <button
-                    className="backToForum"
-                    onClick={() => navigate('/forum')}
-                >
+                {/* Add New Reply Section */}
+                <div className="reply-form">
+                    <textarea
+                        className="inputDiscussionDetails"
+                        placeholder="Unesite novi odgovor"
+                        value={newReply}
+                        onChange={(e) => setNewReply(e.target.value)}
+                    ></textarea>
+                    <div className="button-container">
+                        <button className="sendResponseDiscussion" onClick={handlePostReply}>
+                            Pošalji odgovor
+                        </button>
+                    </div>
+                </div>
+
+                <button className="backToForum" onClick={() => navigate('/forum')}>
                     Nazad na forum
                 </button>
             </div>
