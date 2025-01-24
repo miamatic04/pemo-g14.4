@@ -19,6 +19,9 @@ const UserHome = () => {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showingAllShops, setShowingAllShops] = useState(true);
     const [showingAllProducts, setShowingAllProducts] = useState(true);
+    const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1025);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
 
     const openModal = (product) => {
         setSelectedProduct(product);
@@ -40,67 +43,84 @@ const UserHome = () => {
         setMenuOpen(!menuOpen);
     };
 
+    const toggleMenu1 = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const [index, setIndex] = useState(0);
     // Funkcija za prebacivanje na prethodne 2 slike trgovina
     const prviBTN = () => {
-        if (index>0) {
-            setIndex(index-2);
+        if (windowWidth <= 1024) {
+            if (index > 0) setIndex(index - 1);
+        } else {
+            if (index > 0) setIndex(index - 2);
         }
     };
     // Funkcija za prebacivanje na sljedeće 2 slike trgovina
     const drugiBTN = () => {
-        if (index+2<shops.length) {
-            setIndex(index+2);
+        if (windowWidth <= 1024) {
+            if (index + 1 < shops.length) setIndex(index + 1);
+        } else {
+            if (index + 2 < shops.length) setIndex(index + 2);
         }
     };
     // Sliced niz slika trgovina koje se trenutno prikazuju
     const visible = (() => {
-        // Check if the index is out of bounds
-        const endIndex = index + 2; // The last index to slice to
-        if (index >= shops.length) {
-            // If the current index is greater than or equal to the length of the shops array, return an empty array
-            return [];
+        if (windowWidth <= 1024) {
+            return shops.slice(index, index + 1);
         }
 
-        // Check if the number of remaining shops is odd and if there is only one shop remaining
+        if (index >= shops.length) return [];
         if (shops.length - index === 1) {
-            return shops.slice(index, index + 1); // Take only one shop
+            return shops.slice(index, index + 1);
         }
-
-        // Otherwise, return two shops starting from the current index
-        return shops.slice(index, endIndex);
+        return shops.slice(index, index + 2);
     })();
 
     const [index1, setIndex1] = useState(0);
     // Funkcija za prebacivanje na prethodnih 6 slika proizvoda
     const prviBTN1 = () => {
-        if (index1>0) {
-            setIndex1(index1-6);
+        if (windowWidth <= 518) {
+            if (index1 > 0) setIndex1(index1 - 1);
+        } else if (windowWidth <= 1024) {
+            if (index1 > 0) setIndex1(index1 - 2);
+        } else {
+            if (index1 > 0) setIndex1(index1 - 6);
         }
     };
     // Funkcija za prebacivanje na sljedećih 6 slika proizvoda
     const drugiBTN1 = () => {
-        if (index1+6<products.length) {
-            setIndex1(index1+6);
+        if (windowWidth <= 518) {
+            if (index1 + 1 < products.length) setIndex1(index1 + 1);
+        } else if (windowWidth <= 1024) {
+            if (index1 + 2 < products.length) setIndex1(index1 + 2);
+        } else {
+            if (index1 + 6 < products.length) setIndex1(index1 + 6);
         }
     };
     // Sliced niz slika proizvoda koje se trenutno prikazuju
     const visible1 = (() => {
         // Check if the index is out of bounds
-        const endIndex = index1 + 6; // The last index to slice to
-        if (index1 >= products.length) {
-            // If the current index is greater than or equal to the length of the shops array, return an empty array
-            return [];
+        if (windowWidth <= 518) {
+            return products.slice(index1, index1 + 1);
         }
 
-        const remainingProducts = products.length - index1;
-        if (remainingProducts < 6) {
-            // Ako je preostalo manje od 6 proizvoda, uzmi sve preostale
-            return products.slice(index1);
+        if (windowWidth <= 1024) {
+            const remaining = products.length - index1;
+            if (remaining < 2) return products.slice(index1);
+            return products.slice(index1, index1 + 2);
         }
 
-        // Inače, uzmi sljedećih 6 proizvoda
-        return products.slice(index1, endIndex);
+        if (index1 >= products.length) return [];
+        const remaining = products.length - index1;
+        if (remaining < 6) return products.slice(index1);
+        return products.slice(index1, index1 + 6);
     })();
 
     const checkTokenValidation = async () => {
@@ -352,12 +372,18 @@ const UserHome = () => {
             <div className="home">
                 <div className="header2">
                     <img src={logo} alt="logo" className="logo33"></img>
-                    <ul className="lista">
+                    <button className="hamburger-btn1" onClick={toggleMenu1}>
+                        ☰
+                    </button>
+                    <ul className={`lista ${isMenuOpen ? 'active' : ''}`}>
                         <li className="el"><a className="a1" onClick={() => navigate('/district')}>Kvart</a></li>
                         <li className="el"><a className="a1" onClick={() => navigate('/events')}>Događaji</a></li>
-                        <li className="el"><a className="a1" onClick={() => navigate('/shopsList')}>Popis trgovina</a></li>
+                        <li className="el"><a className="a1" onClick={() => navigate('/shopsList')}>Popis trgovina</a>
+                        </li>
                         <li className="el"><a className="a1" onClick={() => navigate('/cart')}>Košarica</a></li>
                         <li className="el"><a className="a1" onClick={() => navigate('/forum')}>Forum</a></li>
+                        <li className="el" id="id-skriven"><a className="a1" onClick={() => navigate('/userProfile')}>Uredi profil</a></li>
+                        <li className="el" id="id-skriven"><a className="a1" onClick={handleLogout}>Odjava</a></li>
                         <li className="hamburger">
                             <button className="hamburger-btn" onClick={toggleMenu}>
                                 ☰
@@ -402,7 +428,7 @@ const UserHome = () => {
                     </form>
                 </div>
                 <div className="store-list">
-                    <button id="prvi-btn" className="navigacija" onClick={prviBTN} disabled={index === 0}>{"<"}</button>
+                    <button id="prvi-btn" className="navigacija" onClick={prviBTN} disabled={index === 0}>{windowWidth <= 1024 ? "↑" : "<"}</button>
                     {visible.map((shops, ind) => (
                         <div className="store-item" key={ind} onClick={() => navigate('/shop', {
                             replace: false,
@@ -421,7 +447,7 @@ const UserHome = () => {
                         </div>
                     ))}
                     <button className="navigacija" onClick={drugiBTN}
-                            disabled={index + 2 >= shops.length}>{">"}</button>
+                            disabled={windowWidth <= 1024 ? (index + 1 >= shops.length) : (index + 2 >= shops.length)}>{windowWidth <= 1024 ? "↓" : ">"}</button>
                 </div>
             </div>
             <div className="klasa1">
@@ -462,7 +488,7 @@ const UserHome = () => {
                             </div>
                         ))}
                     </div>
-                    <button className="navigacija" onClick={drugiBTN1} disabled={index1 + 6 >= products.length}>{">"}</button>
+                    <button className="navigacija" onClick={drugiBTN1} disabled={windowWidth <= 1024 ? (index1 + 2 >= products.length) : (index1 + 6 >= products.length)}>{">"}</button>
                 </div>
             </div>
             {selectedProduct && (

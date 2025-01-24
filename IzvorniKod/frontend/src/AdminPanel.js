@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+
 import React, {useEffect, useState} from 'react';
 /*import ModeratorActivity from './ModeratorActivity';
 import UserActivity from './UserActivity';
@@ -12,6 +14,7 @@ const AdminPanel = () => {
     const navigate = useNavigate();
     const url = useLocation();
     const [menuOpen, setMenuOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [authenticationTried, setAuthenticationTried] = useState(false);
 
     const checkTokenValidation = async () => {
@@ -55,21 +58,12 @@ const AdminPanel = () => {
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
+
+    const toggleMenu1 = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
     return (
-        /*<div className="admin-panel">
-            <nav>
-                <button onClick={() => setActiveTab('moderatorActivity')}>Aktivnost moderatora</button>
-                <button onClick={() => setActiveTab('userActivity')}>Aktivnost korisnika</button>
-                <button onClick={() => setActiveTab('assignMeasure')}>Dodijeli disciplinsku mjeru</button>
-                <button onClick={() => setActiveTab('assignRole')}>Dodijeli ulogu</button>
-            </nav>
-            <div className="content">
-                {activeTab === 'moderatorActivity' && <ModeratorActivity />}
-                {activeTab === 'userActivity' && <UserActivity />}
-                {activeTab === 'assignMeasure' && <AssignDisciplinaryMeasure />}
-                {activeTab === 'assignRole' && <AssignRole />}
-            </div>
-        </div>*/
         <div className="body-klasa" style={{ overflowY: 'hidden' }}>
             <link rel="stylesheet"
                   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
@@ -77,14 +71,23 @@ const AdminPanel = () => {
             <div className="home">
                 <div className="header2">
                     <img src={logo} alt="logo" className="logo33"></img>
-                    <ul className="lista">
+                    <button className="hamburger-btn1" onClick={toggleMenu1}>
+                        ☰
+                    </button>
+                    <ul className={`lista ${isMenuOpen ? 'active' : ''}`}>
                         <li className="el"><a className="a1" onClick={() => navigate('/moderatorActivity')}>Aktivnost
                             moderatora</a></li>
                         <li className="el"><a className="a1" onClick={() => navigate('/userActivity')}>Aktivnost
                             korisnika</a></li>
-                        <li className="el"><a className="a1" onClick={() => navigate('/assignDisciplinaryMeasure')}>Dodijeli disciplinsku mjeru</a></li>
-                        <li className="el"><a className="a1" onClick={() => navigate('/assignRole')}>Dodijeli ulogu</a></li>
-                        <li className="el"><a className="a1" onClick={() => navigate('/addPlatformProduct')}>Dodaj proizvod</a></li>
+                        <li className="el"><a className="a1" onClick={() => navigate('/assignDisciplinaryMeasure')}>Dodijeli
+                            disciplinsku mjeru</a></li>
+                        <li className="el"><a className="a1" onClick={() => navigate('/assignRole')}>Dodijeli ulogu</a>
+                        </li>
+                        <li className="el"><a className="a1" onClick={() => navigate('/addPlatformProduct')}>Dodaj
+                            proizvod</a></li>
+                        <li className="el" id="id-skriven"><a className="a1" onClick={() => navigate('/userProfile')}>Uredi
+                            profil</a></li>
+                        <li className="el" id="id-skriven"><a className="a1" onClick={handleLogout}>Odjava</a></li>
                         <li className="hamburger">
                             <button className="hamburger-btn" onClick={toggleMenu}>
                                 ☰

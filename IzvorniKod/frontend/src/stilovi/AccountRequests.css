@@ -73,3 +73,53 @@
     background-color: red;
     color: white;
 }
+
+@media screen and (max-width: 1024px) {
+    .header-title-account-requests {
+        font-size: 200%;
+    }
+
+    .account-request-card {
+        width: 85%;
+        border-width: 0.4rem;
+    }
+
+    .button-group-account-request {
+        flex-wrap: wrap;
+    }
+}
+
+/* Mobile Styles */
+@media screen and (max-width: 768px) {
+    .header-account-requests {
+        flex-direction: column;
+        padding: 2%;
+    }
+
+    .account-request-logo {
+        height: 6vh;
+        margin-bottom: 10px;
+    }
+
+    .header-title-account-requests {
+        font-size: 150%;
+    }
+
+    .account-request-card {
+        width: 95%;
+        border-width: 0.3rem;
+        padding: 15px;
+    }
+
+    .button-group-account-request {
+        flex-direction: column;
+    }
+
+    .button-account-request-profil,
+    .button-account-request-odobri,
+    .button-account-request-odbaci {
+        width: 100%;
+        margin: 5px 0;
+        padding: 12px;
+    }
+}

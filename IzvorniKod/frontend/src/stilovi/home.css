@@ -38,7 +38,7 @@ body{
     justify-content: space-between;
     align-items: center;
     padding: 10px 30px;
-
+    position: relative;
 }
 
 .lista {
@@ -181,6 +181,7 @@ body{
 .store-list{
     width: 90%;
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -206,7 +207,7 @@ body{
 }
 
 #prvi-btn{
-    margin-left: 6%;
+    margin-left: 3%;
 }
 
 .navigacija{
@@ -226,6 +227,7 @@ button:disabled {
     color: #B0CACA;
     border: 4px solid  #B0CACA;
 }
+
 
 /*Postavljanje stilova za dio stranice s listom proizvoda*/
 .klasa3{
@@ -326,4 +328,176 @@ button:disabled {
 .hamburger-menu button:hover {
     background-color: #f5f5f5;
     color: black;
+}
+
+.hamburger-btn1{
+    display: none;
+}
+#id-skriven{
+    display: none;
+}
+
+@media screen and (max-width: 1024px) {
+    .el {
+        margin-right: 30px;
+        font-size: 20px;
+    }
+
+    .naslov {
+        font-size: 60px;
+    }
+
+    .store-item {
+        width: 60%; /* Reduced from 90% */
+        height: 400px;
+        margin: 10px auto;
+    }
+
+    #proizvod {
+        width: 30%;
+    }
+    .store-list {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #proizvodi{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .opis{
+        height: 30%;
+    }
+
+    .klasa2 h1{
+        margin-right: 100px !important;
+    }
+    .hamburger-btn1{
+        display: none;
+    }
+    #id-skriven{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .hamburger-btn1 {
+        display: block;
+        margin-left: auto;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 2rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        align-self: flex-end;
+        width: 20%;
+    }
+
+    .hamburger-btn{
+        display: none;
+    }
+
+    .lista {
+        display: none;
+        width: 100%;
+    }
+
+    #id-skriven{
+        display: block;
+    }
+
+    .lista.active {
+        display: flex;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        flex-direction: column;
+        background: white;
+        width: 200px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        z-index: 1000;
+    }
+
+    .el {
+        width: 100%;
+        margin: 0;
+        padding: 1rem;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+    .header2 {
+        padding: 10px 15px;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .lista {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .naslov {
+        font-size: 40px;
+        padding: 0 20px;
+    }
+
+    .store-item {
+        width: 60%;
+        margin: 10px 0;
+    }
+
+    #proizvod {
+        width: 45%;
+    }
+
+    .klasa2 {
+        padding: 50px 20px;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .forma12 {
+        font-size: 18px;
+    }
+
+    .select12 {
+        font-size: 16px;
+    }
+
+    .btn1{
+        font-size: 1rem;
+    }
+
+    .klasa2 h1{
+        font-size: 2rem;
+    }
+    .opis1{
+        height: 45%;
+    }
+}
+
+@media (max-width: 518px) {
+    .store-item{
+        width: 100%;
+        margin: 0;
+    }
+    .opis1{
+        height: 50%;
+    }
+    #prvi-btn1{
+        margin-left: 0;
+    }
+
 }

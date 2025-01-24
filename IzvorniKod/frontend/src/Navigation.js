@@ -6,6 +6,7 @@ import logo from './Components/Assets/logo1.png';
 function Navigation() {
     const [menuOpen, setMenuOpen] = useState(false); // Stanje za otvaranje/zatvaranje menija
     const navigate = useNavigate(); // Hook za navigaciju
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [authenticationTried, setAuthenticationTried] = useState(false);
 
     const checkTokenValidation = async () => {
@@ -51,41 +52,49 @@ function Navigation() {
         navigate('/');
     };
 
-    return (
-        <div className="navigation-container">
-            {/* Navigaciona traka */}
-            <header className="navigation-header">
-                <img src={logo} alt="Logo" className="navigation-logo" />
-                <ul className={`navigation-list ${menuOpen ? 'open' : ''}`}>
-                    <li className="navigation-item"><a className="navigation-link"
-                                                       onClick={() => navigate('/reportedReviews')}>Prijavljene
-                        recenzije</a></li>
-                    <li className="navigation-item"><a className="navigation-link"
-                                                       onClick={() => navigate('/reportedProducts')}>Prijavljeni
-                        proizvodi</a></li>
-                    <li className="navigation-item"><a className="navigation-link"
-                                                       onClick={() => navigate('/reportedShops')}>Prijavljene
-                        trgovine</a></li>
-                    <li className="navigation-item"><a className="navigation-link"
-                                                       onClick={() => navigate('/reportedUsers')}>Prijavljeni
-                        korisnici</a></li>
-                    <li className="navigation-item"><a className="navigation-link" onClick={() => navigate('/accountRequests')}>Zahtjevi za vlasnički račun</a></li>
-                </ul>
-                {/* Hamburger dugme */}
-                <button className="hamburger-btn-navigation" onClick={toggleMenu}>
-                    ☰
-                </button>
-                {/* Hamburger meni sa dugmetom za odjavu */}
-                {menuOpen && (
-                    <div className="hamburger-menu-navigation">
-                        <button onClick={handleLogout} className="logout-button-navigation">Odjava</button>
-                    </div>
-                )}
-            </header>
+    const toggleMenu1 = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
 
-            {/* Pozadina i slogan */}
-            <div className="background-navigation">
-                <h1 className="slogan-navigation">Kupovina koja prati tvoj ritam!</h1>
+    return (
+        <div className="body-klasa" style={{ overflowY: 'hidden' }}>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+            <div className="home">
+                <div className="header2">
+                    <img src={logo} alt="logo" className="logo33" />
+                    <button className="hamburger-btn1" onClick={toggleMenu1}>
+                        ☰
+                    </button>
+                    <ul className={`lista ${isMenuOpen ? 'active' : ''}`}>
+                        <li className="el"><a className="a1" onClick={() => navigate('/reportedReviews')}>Prijavljene
+                            recenzije</a></li>
+                        <li className="el"><a className="a1" onClick={() => navigate('/reportedProducts')}>Prijavljeni
+                            proizvodi</a></li>
+                        <li className="el"><a className="a1" onClick={() => navigate('/reportedShops')}>Prijavljene
+                            trgovine</a></li>
+                        <li className="el"><a className="a1" onClick={() => navigate('/reportedUsers')}>Prijavljeni
+                            korisnici</a></li>
+                        <li className="el"><a className="a1" onClick={() => navigate('/accountRequests')}>Zahtjevi za
+                            vlasnički račun</a></li>
+                        <li className="el" id="id-skriven"><a className="a1" onClick={() => navigate('/userProfile')}>Uredi
+                            profil</a></li>
+                        <li className="el" id="id-skriven"><a className="a1" onClick={handleLogout}>Odjava</a></li>
+                        <li className="hamburger">
+                            <button className="hamburger-btn" onClick={toggleMenu}>
+                                ☰
+                            </button>
+                            {menuOpen && (
+                                <div className="hamburger-menu">
+                                    <button onClick={handleLogout}>Odjava</button>
+                                </div>
+                            )}
+                        </li>
+                    </ul>
+                </div>
+                <div className="glavna">
+                    <h1 className="naslov">Kupovina koja prati tvoj ritam</h1>
+                    <div className="background"></div>
+                </div>
             </div>
         </div>
     );
