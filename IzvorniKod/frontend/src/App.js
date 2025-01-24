@@ -1,45 +1,46 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Start from './Start';
-import UserHome from './UserHome';
+import UserHome from './User&Owner/UserHome';
 import Register from './Register'
-import AddShop from './AddShop'
-import OwnerHome from "./OwnerHome";
-import MyShops from "./MyShops";
-import ProductDetails from "./ProductDetails";
-import Events from "./Events";
-import ShopsList from "./ShopsList";
-import Review from "./Review";
-import PurchaseHistory from "./PurchaseHistory";
-import District from './District';
-import ShopDetails from './ShopDetails';
+import AddShop from './User&Owner/AddShop'
+import OwnerHome from "./User&Owner/OwnerHome";
+import MyShops from "./User&Owner/MyShops";
+import ProductDetails from "./User&Owner/ProductDetails";
+import Events from "./User&Owner/Events";
+import ShopsList from "./User&Owner/ShopsList";
+import Review from "./User&Owner/Review";
+import PurchaseHistory from "./User&Owner/PurchaseHistory";
+import District from './User&Owner/District';
+import ShopDetails from './User&Owner/ShopDetails';
 import UserProfile from "./UserProfile";
-import Payment from "./Payment";
-import Cart from "./Cart";
-import ReportedReviews from './ReportedReviews';
-import ReportedProducts from './ReportedProducts';
-import ReportedShops from './ReportedShops';
-import ReportedUsers from './ReportedUsers';
-import ModeratorHome from './Navigation';
-import PurchaseDetails from './PurchaseDetails';
-import Forum from './Forum';
-import NewDiscussion from './newDiscussion';
-import DiscussionDetails from './DiscussionDetails';
-import AdminPanel from './AdminPanel';
-import ShopsMap from './ShopsMap';
-import ModeratorActivity from './ModeratorActivity';
-import UserActivity from './UserActivity';
-import AssignDisciplinaryMeasure from './AssignDisciplinaryMeasure';
-import AssignRole from "./AssignRole";
-import AddProduct from './AddProduct';
-import AddEvent from './AddEvent';
-import EditShop from './EditShop';
-import AddPlatformProduct from './AddPlatformProduct';
-import AccountRequests from './AccountRequest';
-import EditEvent from './EditEvent';
-import EditProduct from './EditProduct';
-import MyDiscounts from './MyDiscounts';
-import AddDiscount from './addDiscount';
+import Payment from "./User&Owner/Payment";
+import Cart from "./User&Owner/Cart";
+import ReportedReviews from './Moderator/ReportedReviews';
+import ReportedProducts from './Moderator/ReportedProducts';
+import ReportedShops from './Moderator/ReportedShops';
+import ReportedUsers from './Moderator/ReportedUsers';
+import ModeratorHome from './Moderator/Navigation';
+import PurchaseDetails from './User&Owner/PurchaseDetails';
+import Forum from './User&Owner/Forum';
+import NewDiscussion from './User&Owner/newDiscussion';
+import DiscussionDetails from './User&Owner/DiscussionDetails';
+import AdminPanel from './Admin/AdminPanel';
+import ShopsMap from './User&Owner/ShopsMap';
+import ModeratorActivity from './Admin/ModeratorActivity';
+import UserActivity from './Admin/UserActivity';
+import AssignDisciplinaryMeasure from './Admin/AssignDisciplinaryMeasure';
+import AssignRole from "./Admin/AssignRole";
+import AddProduct from './User&Owner/AddProduct';
+import AddEvent from './User&Owner/AddEvent';
+import EditShop from './User&Owner/EditShop';
+import AddPlatformProduct from './Admin/AddPlatformProduct';
+import AccountRequests from './Moderator/AccountRequest';
+import EditEvent from './User&Owner/EditEvent';
+import EditProduct from './User&Owner/EditProduct';
+import MyDiscounts from './User&Owner/MyDiscounts';
+import AddDiscount from './User&Owner/addDiscount';
+import MyEvents from './User&Owner/myEvents';
 
 const App = () => {
     return (
@@ -85,6 +86,7 @@ const App = () => {
                 <Route path="/editProduct" element={<EditProduct/>}/>
                 <Route path="/MyDiscounts" element={<MyDiscounts/>}/>
                 <Route path="/addDiscount" element={<AddDiscount/>}/>
+                <Route path="/myEvents" element={<MyEvents/>}/>
             </Routes>
         </Router>
     );
