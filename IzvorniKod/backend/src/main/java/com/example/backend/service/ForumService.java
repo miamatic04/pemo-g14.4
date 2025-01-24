@@ -1,5 +1,6 @@
 package com.example.backend.service;
 
+import com.example.backend.exception.UnimplementedMethodException;
 import com.example.backend.exception.UserNotFoundException;
 import com.example.backend.model.Forum;
 import com.example.backend.dto.ForumDTO;
@@ -136,5 +137,11 @@ public class ForumService {
         }
 
         return "Reply not found";
+    }
+
+    public void deleteAllDiscussions(String token) {
+
+        throw new UnimplementedMethodException("Method not implemented");
+
     }
 }

@@ -130,9 +130,19 @@ public class IntegrationTests {
         assertTrue(driver.findElement(By.cssSelector("h2")).getText().contains("Email already in use"));
     }
 
+    @Test
+    public void unimplementedFuctionalityIT() throws InterruptedException {
+        login(driver, "bartuls42@gmail.com", "Lozinka12!");
+
+        Thread.sleep(2000);
+        driver.findElement(By.xpath("//p[text()='Show recommended products']")).click();
+
+        Thread.sleep(3000);
+        assertEquals("No recommended products found :(", driver.switchTo().alert().getText());
+    }
     @AfterEach
     public void tearDown() {
-        // driver.quit();
+         driver.quit();
     }
 
     public void login(WebDriver driver, String email, String password) {
