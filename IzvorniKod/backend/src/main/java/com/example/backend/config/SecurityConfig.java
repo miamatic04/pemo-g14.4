@@ -47,8 +47,10 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeRequests(auth -> auth
-                        .requestMatchers("/oauth2/**", "/register/addUser", "/login", "/confirmEmail", "/**").permitAll()
+                        .requestMatchers("/oauth2/**", "/register/addUser", "/login", "/confirmEmail", "/userUploads/**").permitAll()
                         .requestMatchers("/ownerhome").hasAuthority("owner")
+                        .requestMatchers("/moderatorhome").hasAuthority("moderator")
+                        .requestMatchers("/adminhome").hasAuthority("admin")
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login

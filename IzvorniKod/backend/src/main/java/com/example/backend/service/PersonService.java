@@ -1,26 +1,23 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.EditProfileDTO;
+import com.example.backend.dto.RegistrationInfo;
+import com.example.backend.dto.UserDTO;
+import com.example.backend.dto.UserProfileDTO;
+import com.example.backend.enums.ActivityType;
+import com.example.backend.enums.Hood;
 import com.example.backend.exception.*;
 import com.example.backend.model.*;
 import com.example.backend.repository.PersonRepository;
 import com.example.backend.repository.UserActivityRepository;
 import jakarta.mail.MessagingException;
-import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;

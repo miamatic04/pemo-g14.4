@@ -1,7 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.exception.UserNotFoundException;
-import com.example.backend.model.ChangeRoleDTO;
+import com.example.backend.dto.ChangeRoleDTO;
 import com.example.backend.model.Person;
 import com.example.backend.model.ChangeRole;
 import com.example.backend.repository.ChangeRoleRepository;

@@ -108,7 +108,10 @@ const MyShops = () => {
                         <li key={shop.id} className="li1">
                             <span>{shop.name}</span>
                             <div className="button-group">
-                                <button className="edit-button">Uredi</button>
+                                <button className="edit-button" onClick={() => {
+                                    localStorage.setItem("selectedShopId", shop.id);
+                                    navigate("../edit-shop");
+                                }}>Uredi</button>
                                 <button onClick={() => deleteShop(shop.id)} className="delete-button">Obriši</button>
                             </div>
                         </li>

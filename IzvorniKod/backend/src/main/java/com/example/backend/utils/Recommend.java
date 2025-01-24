@@ -1,5 +1,7 @@
 package com.example.backend.utils;
 
+import com.example.backend.dto.ProductInfoDTO;
+import com.example.backend.dto.ShopDistance;
 import com.example.backend.exception.UserNotFoundException;
 import com.example.backend.model.*;
 import com.example.backend.repository.OrderRepository;

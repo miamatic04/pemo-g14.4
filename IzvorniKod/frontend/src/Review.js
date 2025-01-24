@@ -66,7 +66,10 @@ const ReviewPage = () => {
 
             if (response.ok) {
                 // Navigate back to product page without state
-                navigate('/product');
+                if(localStorage.getItem("cameFrom") === "product")
+                    navigate('/product');
+                else
+                    navigate('/shop');
             } else {
                 console.error('Failed to submit review');
             }
@@ -77,7 +80,10 @@ const ReviewPage = () => {
 
     const handleOtkazi = () => {
         // Navigate back to product page without state
-        navigate('/product');
+        if(localStorage.getItem("cameFrom") === "product")
+            navigate('/product');
+        else
+            navigate('/shop');
     };
 
     return (

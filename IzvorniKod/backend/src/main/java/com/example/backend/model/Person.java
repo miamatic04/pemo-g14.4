@@ -1,13 +1,13 @@
 package com.example.backend.model;
 
+import com.example.backend.dto.RegistrationInfo;
+import com.example.backend.enums.Hood;
 import com.example.backend.service.TokenGenerator;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.*;

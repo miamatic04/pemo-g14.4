@@ -4,12 +4,10 @@ import com.example.backend.exception.ShopDoesntBelongToGivenOwnerException;
 import com.example.backend.exception.UserNotFoundException;
 import com.example.backend.model.Person;
 import com.example.backend.model.Shop;
-import com.example.backend.model.ShopInfoDTO;
+import com.example.backend.dto.ShopInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;

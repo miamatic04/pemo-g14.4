@@ -1,6 +1,6 @@
 package com.example.backend.controller;
 
-import com.example.backend.model.SendWarningDTO;
+import com.example.backend.dto.SendWarningDTO;
 import com.example.backend.service.WarningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

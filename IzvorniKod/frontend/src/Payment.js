@@ -15,38 +15,37 @@ const Payment = () => {
     const [backendResult, setBackendResult] = useState(null);
 
     const navigate = useNavigate();
-
     const location = useLocation();
-    const totalPrice = location.state?.totalPrice || 0; // Ako nema proslijeđene cijene, postavi na 0
+    const totalPrice = location.state?.totalPrice || 0; // Default to 0 if no price provided
 
     const handleChange = (e) => {
         const { name, value } = e.target;
 
         if (name === 'nameCard' && !/^[a-zA-Z\s]*$/.test(value)) {
-            return; 
+            return;
         }
 
         if (name === 'numberCard' && !/^\d*$/.test(value)) {
-            return; 
+            return;
         }
 
         if (name === 'ccvCode' && (!/^\d*$/.test(value) || value.length > 3)) {
-            return; 
+            return;
         }
-
 
         setFormData({
             ...formData,
             [name]: value
         });
 
-        // Ukloni poruku o uspjehu prilikom promjene unosa
+        // Clear backend result message on input change
         setBackendResult(null);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault(); // Spriječava ponovno učitavanje stranice
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
+        // Validate expiration date
         const [month, year] = formData.expireDate.split('/');
         const expirationDate = new Date(`20${year}-${month}-01`);
         const currentDate = new Date();
@@ -55,18 +54,52 @@ const Payment = () => {
             return;
         }
 
-        // Spremanje podataka u localStorage
-        localStorage.setItem('userProfile', JSON.stringify(formData));
+        const orderId = localStorage.getItem('orderId');
+        if (!orderId) {
+            alert('Nema dostupnog ID-a narudžbe.');
+            return;
+        }
 
-        // Brisanje sadržaja košarice iz localStorage
-        localStorage.removeItem('cart');
+        const token = localStorage.getItem('token'); // Authorization token
 
-        console.log("Podaci su spremljeni:", formData);
-        setBackendResult({ message: "Plaćanje je uspješno izvršeno!" }); // Postavljanje poruke o uspjehu
+        try {
+            // POST request to the backend
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/payOrder/${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    nameCard: formData.nameCard,
+                    numberCard: formData.numberCard,
+                    expireDate: formData.expireDate,
+                    ccvCode: formData.ccvCode,
+                    totalPrice
+                })
+            });
 
-        setTimeout(() => {
-            navigate(userRole === 'owner' ? '/ownerhome' : '/userhome');
-        }, 2000);
+            if (response.ok) {
+
+                // Payment successful
+                setBackendResult({ message: 'Plaćanje je uspješno izvršeno!' });
+                localStorage.removeItem('cart'); // Clear cart
+                localStorage.removeItem('orderId'); // Clear orderId from localStorage
+
+
+                // Redirect back home after success
+                setTimeout(() => {
+                    navigate(userRole === 'owner' ? '/ownerhome' : '/userhome');
+                }, 1000);
+            } else {
+                // Handle failure
+                const error = await response.json();
+                alert(error.message || 'Došlo je do pogreške prilikom plaćanja.');
+            }
+        } catch (error) {
+            console.error('Error processing payment:', error);
+            alert('Došlo je do pogreške prilikom povezivanja s poslužiteljem.');
+        }
     };
 
     const handleStopPayment = () => {
@@ -77,19 +110,24 @@ const Payment = () => {
         <div className="payment-page">
             <div className="payment-container">
                 <div className="logoPayment">
-                    <img src={logo1} onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')} style={{cursor: 'pointer'}} className="logoPay"/>
+                    <img
+                        src={logo1}
+                        onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
+                        style={{ cursor: 'pointer' }}
+                        className="logoPay"
+                    />
                 </div>
                 <div className="header-section-payment">
                     <div className="header-content">
                         <h1 className="payment">PLAĆANJE</h1>
                         <h2>Ukupna cijena: €{totalPrice}</h2>
-                        <a className="detailsPayment" onClick={() => navigate("/cart")}>vidi detalje narudžbe</a>
+                        <a className="detailsPayment" onClick={() => navigate('/cart')}>vidi detalje narudžbe</a>
                     </div>
                 </div>
                 <form className="payment-form" onSubmit={handleSubmit}>
-                    {/* Polja za unos */}
+                    {/* Input fields */}
                     <div className="form-payment">
-                        {/* Lijevi stupac */}
+                        {/* Left column */}
                         <div className="left-column-payment">
                             <div className="input-box-payment">
                                 <label className="nameOnCard">Ime na kartici:</label>
@@ -132,7 +170,8 @@ const Payment = () => {
                                     onChange={handleChange}
                                     value={formData.expireDate}
                                     pattern="^(0[1-9]|1[0-2])\/\d{2}$"
-                                    title="Datum mora biti u formatu MM/YY."                                    required
+                                    title="Datum mora biti u formatu MM/YY."
+                                    required
                                 />
                             </div>
 
@@ -154,7 +193,7 @@ const Payment = () => {
                         </div>
                     </div>
 
-                    <input type="submit" id="submitPayment" value="Plati"/>
+                    <input type="submit" id="submitPayment" value="Plati" />
 
                     {backendResult && (
                         <div>

@@ -1,7 +1,6 @@
 package com.example.backend.controller;
 
 import com.example.backend.dto.DiscountDTO;
-import com.example.backend.model.ShopInfoDTO;
 import com.example.backend.service.DiscountService;
 import org.springframework.http.ResponseEntity;
 
@@ -28,9 +27,9 @@ public class DiscountController {
         return ResponseEntity.ok(discountService.applyDiscount(discountDTO));
     }
 
-    @GetMapping("/getShopDiscounts")
-    public ResponseEntity<List<DiscountDTO>> getShopDiscounts(@RequestBody ShopInfoDTO shopDTO) {
-        return ResponseEntity.ok(discountService.getDiscounts(shopDTO.getId()));
+    @GetMapping("/getShopDiscounts/{shopId}")
+    public ResponseEntity<List<DiscountDTO>> getShopDiscounts(@PathVariable Long shopId) {
+        return ResponseEntity.ok(discountService.getDiscounts(shopId));
     }
 
     @GetMapping("/getAllDiscounts")

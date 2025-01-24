@@ -1,5 +1,6 @@
 package com.example.backend.service;
 
+import com.example.backend.enums.ActivityType;
 import com.example.backend.exception.EventNotFoundException;
 import com.example.backend.exception.UserAlreadySignedUpException;
 import com.example.backend.exception.UserNotFoundException;

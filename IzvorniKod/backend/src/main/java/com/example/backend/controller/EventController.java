@@ -1,7 +1,7 @@
 package com.example.backend.controller;
 
-import com.example.backend.model.AddEventDTO;
-import com.example.backend.model.EventDTO;
+import com.example.backend.dto.AddEventDTO;
+import com.example.backend.dto.EventDTO;
 import com.example.backend.service.EventService;
 import com.example.backend.service.EventSignUpService;
 import org.springframework.beans.factory.annotation.Autowired;

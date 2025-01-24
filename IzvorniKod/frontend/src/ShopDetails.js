@@ -42,6 +42,7 @@ const ShopDetails = () => {
                 }
 
                 const data = await response.json();
+                console.log(data);
                 setShopDetails(data);
             } catch (error) {
                 console.error('Error fetching shop details:', error);
@@ -93,7 +94,7 @@ const ShopDetails = () => {
                         <h2>{shopDetails.shopName}</h2>
                         <p className="info3">Opis: {shopDetails.description}</p>
 
-                        {userRole === 'owner' && (
+                        {shopDetails.shopOwner && (
                             <div className="owner-actions">
                                 <button onClick={() => navigate('/edit-shop', { state: { shopId } })}>
                                     Uredi informacije
@@ -143,22 +144,26 @@ const ShopDetails = () => {
                                 </div>
                             )}
 
-                            {userRole !== 'owner' && (
+                            {!shopDetails.shopOwner && (
                                 <button
                                     className="add-review"
-                                    onClick={() => {localStorage.setItem("selectedShopId", shopId); navigate('/review', { state: { shopId } })}}
+                                    onClick={() => {localStorage.setItem("selectedShopId", shopId); localStorage.setItem("cameFrom", "shop"); navigate('/review', { state: { shopId } })}}
                                 >
                                     Ostavi recenziju
                                 </button>
                             )}
 
                             {/* Report Shop */}
-                            <p
+                            {!shopDetails.shopOwner && <p
                                 className="prijavi1"
-                                onClick={() => {localStorage.setItem("reportedShopId", shopId); setIsReportPopupOpen(true)}} // Open popup
+                                onClick={() => {
+                                    localStorage.setItem("reportedShopId", shopId);
+                                    setIsReportPopupOpen(true)
+                                }} // Open popup
                             >
                                 Prijavi trgovinu
-                            </p>
+                            </p>}
+
                         </div>
                     </div>
                 </div>
@@ -184,6 +189,16 @@ const ShopDetails = () => {
                                         <h4>{product.name}</h4>
                                         <p>{product.description}</p>
                                         <p>Cijena: {product.price} €</p>
+                                        {/* Edit button */}
+                                        <button
+                                            className="edit-product-btn"
+                                            onClick={() => {
+                                                localStorage.setItem("selectedProductId", product.id);
+                                                navigate("/editProduct");
+                                            }}
+                                        >
+                                            Uredi
+                                        </button>
                                     </li>
                                 ))}
                             </ul>
@@ -191,7 +206,7 @@ const ShopDetails = () => {
                             <p>Nema dostupnih proizvoda</p>
                         )}
 
-                        {userRole === 'owner' && (
+                        {shopDetails.shopOwner && (
                             <button
                                 className="add-product-btn"
                                 onClick={() => {

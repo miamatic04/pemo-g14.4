@@ -6,7 +6,7 @@ import com.example.backend.exception.UserNotFoundException;
 import com.example.backend.model.ModeratingActivity;
 import com.example.backend.model.Person;
 import com.example.backend.model.PromotionRequest;
-import com.example.backend.model.PromotionRequestDTO;
+import com.example.backend.dto.PromotionRequestDTO;
 import com.example.backend.repository.ModeratingActivityRepository;
 import com.example.backend.repository.PersonRepository;
 import com.example.backend.repository.PromotionRequestRepository;

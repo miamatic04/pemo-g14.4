@@ -1,5 +1,7 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.SendDcMeasureDTO;
+import com.example.backend.enums.MeasureType;
 import com.example.backend.exception.ReportNotFoundException;
 import com.example.backend.exception.UnauthorizedActionException;
 import com.example.backend.exception.UserNotFoundException;

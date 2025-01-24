@@ -1,4 +1,6 @@
 package com.example.backend;
+import com.example.backend.dto.LoginInfo;
+import com.example.backend.dto.OrderDTO;
 import com.example.backend.exception.EmailNotConfirmedException;
 import com.example.backend.exception.InvalidLoginException;
 import com.example.backend.model.*;

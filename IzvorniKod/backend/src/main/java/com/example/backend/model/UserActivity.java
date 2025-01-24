@@ -1,5 +1,6 @@
 package com.example.backend.model;
 
+import com.example.backend.enums.ActivityType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

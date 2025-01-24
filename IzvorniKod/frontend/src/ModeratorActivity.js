@@ -6,8 +6,42 @@ import logo1 from "./Components/Assets/logo1.png";
 const ModeratorActivity = () => {
     const navigate = useNavigate();
     const [moderatorActivities, setModeratorActivities] = useState([]);
+    const [authenticationTried, setAuthenticationTried] = useState(false);
+
+    const checkTokenValidation = async () => {
+        try {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/validateToken`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            if (!response.ok || !(localStorage.getItem("role") === "admin")) {
+                if(localStorage.getItem("role") === "user")
+                    navigate("/userhome");
+                else if(localStorage.getItem("role") === "moderator")
+                    navigate("/moderatorhome");
+                else if(localStorage.getItem("role")=== "owner")
+                    navigate("/ownerhome");
+                else
+                    navigate("/");
+            }
+
+        } catch (error) {
+            console.log(error);
+            navigate("/");
+        }
+    };
 
     useEffect(() => {
+
+        if(!authenticationTried) {
+            setAuthenticationTried(true);
+            checkTokenValidation();
+        }
+
         const fetchActivities = async () => {
             try {
                 const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getModLogs`, {

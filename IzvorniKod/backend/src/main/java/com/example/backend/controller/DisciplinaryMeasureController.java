@@ -1,7 +1,6 @@
 package com.example.backend.controller;
 
-import com.example.backend.model.SendDcMeasureDTO;
-import com.example.backend.repository.DisciplinaryMeasureRepository;
+import com.example.backend.dto.SendDcMeasureDTO;
 import com.example.backend.service.DisciplinaryMeasureService;
 import com.example.backend.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;

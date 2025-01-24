@@ -1,5 +1,6 @@
 package com.example.backend.model;
 
+import com.example.backend.enums.MeasureType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

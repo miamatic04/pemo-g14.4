@@ -1,7 +1,7 @@
 package com.example.backend;
 
 import com.example.backend.exception.UserNotFoundException;
-import com.example.backend.model.LocationInfo;
+import com.example.backend.dto.LocationInfo;
 import com.example.backend.model.Person;
 import com.example.backend.service.JWTService;
 import com.example.backend.service.LocationService;

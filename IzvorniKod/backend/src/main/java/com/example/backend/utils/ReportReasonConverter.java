@@ -1,6 +1,6 @@
 package com.example.backend.utils;
 
-import com.example.backend.model.ReportReason;
+import com.example.backend.enums.ReportReason;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import java.util.*;

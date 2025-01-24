@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigate } from 'react-router-dom';
 import './stilovi/Navigation.css';
 import logo from './Components/Assets/logo1.png';
@@ -6,6 +6,41 @@ import logo from './Components/Assets/logo1.png';
 function Navigation() {
     const [menuOpen, setMenuOpen] = useState(false); // Stanje za otvaranje/zatvaranje menija
     const navigate = useNavigate(); // Hook za navigaciju
+    const [authenticationTried, setAuthenticationTried] = useState(false);
+
+    const checkTokenValidation = async () => {
+        try {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/validateToken`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            if (!response.ok || !(localStorage.getItem("role") === "moderator")) {
+                if(localStorage.getItem("role") === "user")
+                    navigate("/userhome");
+                else if(localStorage.getItem("role") === "admin")
+                    navigate("/adminhome");
+                else if(localStorage.getItem("role")=== "owner")
+                    navigate("/ownerhome");
+                else
+                    navigate("/");
+            }
+
+        } catch (error) {
+            console.log(error);
+            navigate("/");
+        }
+    };
+
+    useEffect(() => {
+        if(!authenticationTried) {
+            setAuthenticationTried(true);
+            checkTokenValidation();
+        }
+    }, []);
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);

@@ -1,6 +1,9 @@
 package com.example.backend.controller;
 
-import com.example.backend.model.*;
+import com.example.backend.dto.AddProductDTO;
+import com.example.backend.dto.PlatformProductDTO;
+import com.example.backend.dto.ProductInfoDTO;
+import com.example.backend.dto.ProductProfileDTO;
 import com.example.backend.service.ProductService;
 import com.example.backend.utils.Recommend;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.lang.management.PlatformManagedObject;
 import java.util.List;
 
 @RestController

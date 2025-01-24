@@ -1,6 +1,6 @@
 package com.example.backend.controller;
 
-import com.example.backend.model.MapMarkerDTO;
+import com.example.backend.dto.MapMarkerDTO;
 import com.example.backend.service.MapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

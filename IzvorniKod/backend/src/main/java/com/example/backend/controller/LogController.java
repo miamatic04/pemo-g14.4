@@ -1,9 +1,8 @@
 package com.example.backend.controller;
 
-import com.example.backend.model.ModeratingActivityDTO;
-import com.example.backend.model.UserActivityDTO;
+import com.example.backend.dto.ModeratingActivityDTO;
+import com.example.backend.dto.UserActivityDTO;
 import com.example.backend.service.LogService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

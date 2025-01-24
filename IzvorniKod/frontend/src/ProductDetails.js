@@ -6,6 +6,7 @@ import ReportPopup from './Components/ReportPopUp';  // Import the ReportPopup c
 
 const ProductDetails = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [productDetails, setProductDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const userRole = localStorage.getItem('role');
@@ -15,7 +16,12 @@ const ProductDetails = () => {
     const [addedMessage, setAddedMessage] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const reviewsPerPage = 2;
-    const productId = localStorage.getItem('selectedProductId');
+    let productId;
+    if(location.state)
+        productId = location.state.productId;
+    if(!shopId)
+        productId = localStorage.getItem("selectedProductId");
+
     const shopName = localStorage.getItem('selectedShopName');
     const [showReportPopup, setShowReportPopup] = useState(false);
 
@@ -75,8 +81,8 @@ const ProductDetails = () => {
             console.error('Shop ID not found');
             return;
         }
-
-        navigate('/review');
+        localStorage.setItem("cameFrom", "product");
+        navigate('/review', { state: { productId } });
     };
     const addToCart = () => {
         let cart = JSON.parse(localStorage.getItem('cart')) || [];

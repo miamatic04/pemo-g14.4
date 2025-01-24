@@ -99,12 +99,12 @@ function ProductModal({ product, onClose }) {
                 <p className="total-price">Ukupno: ${totalPrice.toFixed(2)}</p>
                 <div className="button-container">
                     <button
-                        onClick={() => navigate('/product', {
+                        onClick={() =>  {localStorage.setItem("selectedProductId", product.id); navigate('/product', {
                             replace: false,
                             state: {
                                 productId: product.id,
                             }
-                        })}
+                        })}}
                         className="btn btn-profile">
                         Idi na profil proizvoda
                     </button>

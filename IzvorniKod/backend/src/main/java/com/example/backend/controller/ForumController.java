@@ -1,6 +1,6 @@
 package com.example.backend.controller;
 
-import com.example.backend.model.ForumDTO;
+import com.example.backend.dto.ForumDTO;
 import com.example.backend.service.ForumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

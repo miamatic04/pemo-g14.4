@@ -1,5 +1,9 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.AddReportDTO;
+import com.example.backend.dto.ReportDTO;
+import com.example.backend.dto.SendWarningDTO;
+import com.example.backend.enums.ReportReason;
 import com.example.backend.exception.*;
 import com.example.backend.model.*;
 import com.example.backend.repository.*;

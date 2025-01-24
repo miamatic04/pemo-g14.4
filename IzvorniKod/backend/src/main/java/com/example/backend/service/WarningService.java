@@ -1,5 +1,6 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.SendWarningDTO;
 import com.example.backend.exception.ReportNotFoundException;
 import com.example.backend.exception.UnauthorizedActionException;
 import com.example.backend.exception.UserNotFoundException;

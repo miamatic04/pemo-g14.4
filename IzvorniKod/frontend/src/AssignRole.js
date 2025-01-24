@@ -11,9 +11,42 @@ const AssignRole = () => {
     const [note, setNote] = useState(''); // State for the note input
     const [showResults, setShowResults] = useState(false); // State for showing search results
     const navigate = useNavigate();
+    const [authenticationTried, setAuthenticationTried] = useState(false);
+
+    const checkTokenValidation = async () => {
+        try {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/validateToken`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            if (!response.ok || !(localStorage.getItem("role") === "admin")) {
+                if(localStorage.getItem("role") === "user")
+                    navigate("/userhome");
+                else if(localStorage.getItem("role") === "moderator")
+                    navigate("/moderatorhome");
+                else if(localStorage.getItem("role")=== "owner")
+                    navigate("/ownerhome");
+                else
+                    navigate("/");
+            }
+
+        } catch (error) {
+            console.log(error);
+            navigate("/");
+        }
+    };
 
     // Fetch users from the backend on component mount
     useEffect(() => {
+
+        if(!authenticationTried) {
+            setAuthenticationTried(true);
+            checkTokenValidation();
+        }
         const fetchUsers = async () => {
             try {
                 const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getUsers`, {

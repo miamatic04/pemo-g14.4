@@ -1,12 +1,11 @@
 package com.example.backend.service;
 
-import com.example.backend.model.MapMarkerDTO;
+import com.example.backend.dto.MapMarkerDTO;
 import com.example.backend.model.Shop;
 import com.example.backend.repository.ShopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

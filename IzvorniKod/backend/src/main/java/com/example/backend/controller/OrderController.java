@@ -1,9 +1,7 @@
 package com.example.backend.controller;
 
-import com.example.backend.model.LoginInfo;
-import com.example.backend.model.ModifyOrderDTO;
-import com.example.backend.model.OrderDTO;
-import com.example.backend.model.ShopDistance;
+import com.example.backend.dto.ModifyOrderDTO;
+import com.example.backend.dto.OrderDTO;
 import com.example.backend.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -46,5 +44,10 @@ public class OrderController {
     @PostMapping("/activateOrder")
     public ResponseEntity<Map<String, Object>> activateOrder(@RequestBody OrderDTO orderDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
         return ResponseEntity.ok(orderService.activateOrder(orderDTO.getId(), authHeader.substring(7)));
+    }
+
+    @PostMapping("/payOrder/{orderId}")
+    public ResponseEntity<String> payOrder(@PathVariable Long orderId) {
+        return ResponseEntity.ok(orderService.payOrder(orderId));
     }
 }

@@ -8,6 +8,8 @@ const Cart = () => {
     const [promoCode, setPromoCode] = useState('');
     const [discount, setDiscount] = useState(0);
     const [savedAmount, setSavedAmount] = useState(0);
+    const [promoCodeApplied, setPromoCodeApplied] = useState(false); // NEW
+    const [appliedShopId, setAppliedShopId] = useState(null); // Track which shop the discount applies to
     const navigate = useNavigate();
     const userRole = localStorage.getItem('role');
 
@@ -57,6 +59,11 @@ const Cart = () => {
 
                 setCart(updatedCart);
                 localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+                // Recalculate discounts if a promo code is applied
+                if (promoCodeApplied) {
+                    applyDiscountToCart(updatedCart, discount, appliedShopId);
+                }
             } else {
                 console.error("Failed to update quantity:", response.statusText);
             }
@@ -89,6 +96,11 @@ const Cart = () => {
                 const updatedCart = cart.filter(item => item.id !== productId);
                 setCart(updatedCart);
                 localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+                // Recalculate discounts if a promo code is applied
+                if (promoCodeApplied) {
+                    applyDiscountToCart(updatedCart, discount, appliedShopId);
+                }
             }
         } catch (error) {
             console.error("Error removing item from cart:", error);
@@ -96,9 +108,37 @@ const Cart = () => {
         }
     };
 
+    const applyDiscountToCart = (cart, discount, shopId) => {
+        let totalSaved = 0;
+
+        const updatedCart = cart.map(item => {
+            if (item.shopId === shopId) {
+                const originalTotal = parseFloat(item.price) * parseInt(item.quantity, 10);
+                const discountValue = originalTotal * (parseFloat(discount) || 0);
+
+                totalSaved += discountValue;
+
+                return {
+                    ...item,
+                    discountedPrice: ((originalTotal - discountValue) / item.quantity).toFixed(2),
+                };
+            }
+            return item;
+        });
+
+        setCart(updatedCart);
+        setSavedAmount(totalSaved.toFixed(2));
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+    };
+
     const handlePromoCodeApply = async () => {
+        if (promoCodeApplied) {
+            alert("Promotivni kod je već primijenjen.");
+            return;
+        }
+
         const token = localStorage.getItem("token");
-        const data = {code: promoCode}
+        const data = { code: promoCode };
         try {
             const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/applyDiscount`, {
                 method: "POST",
@@ -112,34 +152,12 @@ const Cart = () => {
             const result = await response.json();
 
             if (response.ok) {
-                const { discount, shopId } = result; // E.g., discountAmount = 0.15 (15%)
-                let totalSaved = 0;
+                const { discount, shopId } = result;
+                setDiscount(parseFloat(discount) || 0);
+                setPromoCodeApplied(true);
+                setAppliedShopId(shopId); // Track the shopId for future recalculations
 
-                console.log(result);
-
-                const updatedCart = cart.map(item => {
-                    console.log(item.shopId);
-                    if (item.shopId === shopId) {
-                        // Parse price and quantity as numbers
-                        const originalTotal = parseFloat(item.price) * parseInt(item.quantity, 10);
-
-                        // Calculate discount (default to 0 if discountAmount is invalid)
-                        const discountValue = originalTotal * (parseFloat(discount) || 0);
-
-                        totalSaved += discountValue;
-
-                        return {
-                            ...item,
-                            discountedPrice: ((originalTotal - discountValue) / item.quantity).toFixed(2), // Price per item after discount
-                        };
-                    }
-                    return item;
-                });
-
-                setCart(updatedCart);
-                setDiscount(parseFloat(discount) || 0); // Ensure discount is a number
-                setSavedAmount(totalSaved.toFixed(2));
-                localStorage.setItem("cart", JSON.stringify(updatedCart));
+                applyDiscountToCart(cart, discount, shopId); // Apply discount to the cart
             } else {
                 alert(result.message || "Neispravan promotivni kod.");
             }
@@ -147,7 +165,6 @@ const Cart = () => {
             console.error("Error applying promo code:", error);
         }
     };
-
 
     const calculateTotal = () => {
         let total = 0;
@@ -157,7 +174,7 @@ const Cart = () => {
                 ? parseFloat(item.discountedPrice) * item.quantity
                 : item.price * item.quantity;
 
-            total += isNaN(itemPrice) ? 0 : itemPrice; // Prevent NaN from breaking the calculation
+            total += isNaN(itemPrice) ? 0 : itemPrice;
         });
 
         return total.toFixed(2);
@@ -210,7 +227,7 @@ const Cart = () => {
                                         </div>
                                     </div>
                                     <div className="cart-item-column"> <p className="za-mob">Cijena: </p> €{item.discountedPrice || item.price}</div>
-                                    <div className="cart-item-column"> <p className="za-mob">Ukupno: </p>€{(item.discountedPrice * item.quantity) || (item.price * item.quantity).toFixed(2)}</div>
+                                    <div className="cart-item-column"> <p className="za-mob">Ukupno: </p>€{((item.discountedPrice || item.price) * item.quantity).toFixed(2)}</div>
                                     <div className="cart-item-column">
                                         <button className="remove-item" onClick={() => removeItem(item.id, item.quantity)}>
                                             Ukloni
@@ -230,8 +247,11 @@ const Cart = () => {
                                 placeholder="Unesite promotivni kod"
                                 value={promoCode}
                                 onChange={(e) => setPromoCode(e.target.value)}
+                                disabled={promoCodeApplied} // Disable input if promo code applied
                             />
-                            <button onClick={handlePromoCodeApply}>Primjeni</button>
+                            <button onClick={handlePromoCodeApply} disabled={promoCodeApplied}>
+                                {promoCodeApplied ? "Kod primijenjen" : "Primjeni"}
+                            </button>
                         </div>
                         <p>Ukupna cijena: €{calculateTotal()}</p>
                         <p>Ušteđeno: €{savedAmount}</p>

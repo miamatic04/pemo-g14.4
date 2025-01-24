@@ -1,5 +1,7 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.ModeratingActivityDTO;
+import com.example.backend.dto.UserActivityDTO;
 import com.example.backend.exception.UserNotFoundException;
 import com.example.backend.model.*;
 import com.example.backend.repository.*;

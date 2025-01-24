@@ -2,7 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.exception.UserNotFoundException;
 import com.example.backend.model.Forum;
-import com.example.backend.model.ForumDTO;
+import com.example.backend.dto.ForumDTO;
 import com.example.backend.model.ForumReply;
 import com.example.backend.model.Person;
 import com.example.backend.repository.ForumReplyRepository;

@@ -12,14 +12,50 @@ const EditProduct = () => {
     const [quantity, setQuantity] = useState("");
     const navigate = useNavigate();
     const location = useLocation();
+    const [authenticationTried, setAuthenticationTried] = useState(false);
 
-    const productId = location.state?.productId;
+    let productId = location.state?.productId;
+    if(!productId)
+        productId = localStorage.getItem("selectedProductId");
+
+    const checkTokenValidation = async () => {
+        try {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/validateToken`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            if (!response.ok || !(localStorage.getItem("role") === "owner")) {
+                if(localStorage.getItem("role") === "user")
+                    navigate("/userhome");
+                else if(localStorage.getItem("role") === "moderator")
+                    navigate("/moderatorhome");
+                else if(localStorage.getItem("role")=== "admin")
+                    navigate("/adminhome");
+                else
+                    navigate("/");
+            }
+
+        } catch (error) {
+            console.log(error);
+            navigate("/");
+        }
+    };
 
     useEffect(() => {
+
+        if(!authenticationTried) {
+            setAuthenticationTried(true);
+            checkTokenValidation();
+        }
+
         const fetchProductDetails = async () => {
             try {
                 const response = await fetch(
-                    `http://${process.env.REACT_APP_WEB_URL}:8080/products/${productId}`,
+                    `http://${process.env.REACT_APP_WEB_URL}:8080/getProduct/${productId}`,
                     {
                         method: "GET",
                         headers: {
@@ -31,6 +67,7 @@ const EditProduct = () => {
 
                 if (response.ok) {
                     const data = await response.json();
+                    console.log(data);
                     setSelectedPlatformProduct(data.platformProduct);
                     setSelectedProductImage(data.imagePath || "");
                     setSelectedProductId(data.productId || null);
@@ -73,7 +110,7 @@ const EditProduct = () => {
             fetchProductDetails();
         }
         fetchPlatformProducts();
-    }, [productId]);
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -84,7 +121,7 @@ const EditProduct = () => {
         }
 
         const productData = {
-            productId,
+            id: productId,
             platformProduct: selectedPlatformProduct,
             description,
             price,
@@ -95,7 +132,7 @@ const EditProduct = () => {
             const response = await fetch(
                 `http://${process.env.REACT_APP_WEB_URL}:8080/editProduct`,
                 {
-                    method: "PUT",
+                    method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${localStorage.getItem("token")}`,

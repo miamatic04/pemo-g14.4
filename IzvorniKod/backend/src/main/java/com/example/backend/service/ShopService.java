@@ -3,6 +3,11 @@ import java.text.DecimalFormatSymbols;
 import java.time.LocalDateTime;
 import java.util.Locale;
 
+import com.example.backend.dto.AddShopDTO;
+import com.example.backend.dto.ShopProfileDTO;
+import com.example.backend.enums.ActivityType;
+import com.example.backend.enums.Hood;
+import com.example.backend.dto.ShopDistance;
 import com.example.backend.exception.HoodNotChosenException;
 import com.example.backend.exception.NoLocationPermissionException;
 import com.example.backend.exception.ShopNotFoundException;

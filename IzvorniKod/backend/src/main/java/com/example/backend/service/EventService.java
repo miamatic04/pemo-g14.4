@@ -1,6 +1,9 @@
 package com.example.backend.service;
 
-import com.example.backend.exception.NoLocationPermissionException;
+import com.example.backend.dto.AddEventDTO;
+import com.example.backend.dto.EventDTO;
+import com.example.backend.enums.ActivityType;
+import com.example.backend.dto.ShopDistance;
 import com.example.backend.exception.ShopNotFoundException;
 import com.example.backend.exception.UserNotFoundException;
 import com.example.backend.model.*;
@@ -19,7 +22,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;

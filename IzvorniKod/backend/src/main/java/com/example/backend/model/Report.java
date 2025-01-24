@@ -1,5 +1,6 @@
 package com.example.backend.model;
 
+import com.example.backend.enums.ReportReason;
 import com.example.backend.utils.ReportReasonConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

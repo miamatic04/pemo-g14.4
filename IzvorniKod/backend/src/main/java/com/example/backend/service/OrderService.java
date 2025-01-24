@@ -1,15 +1,17 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.OrderDTO;
+import com.example.backend.dto.ProductInfoDTO;
+import com.example.backend.enums.ActivityType;
+import com.example.backend.dto.ModifyOrderDTO;
+import com.example.backend.dto.ProductQuantity;
 import com.example.backend.exception.*;
 import com.example.backend.model.*;
 import com.example.backend.repository.*;
 import com.example.backend.utils.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -436,6 +438,15 @@ public class OrderService {
         orderDTO.setTotal(total);
 
         return orderDTO;
+    }
+
+    public String payOrder(Long orderId) {
+        CustomerOrder order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("Order not found"));
+
+        order.setPaid(true);
+        order.setActive(false);
+        orderRepository.save(order);
+        return "Successfully paid order";
     }
 
     public OrderDTO getOrder(Long orderId, String token) {

@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import './stilovi/district.css';
 import logo1 from "./Components/Assets/logo1.png";
 import { useNavigate } from "react-router-dom";
+import ProductModal from "./Components/ProductModal";
 
 const ShopCard = ({ key1, shopName1, description1, imagePath1 }) => {
     const [imageError, setImageError] = React.useState(false);
@@ -10,9 +11,7 @@ const ShopCard = ({ key1, shopName1, description1, imagePath1 }) => {
     return (
         <div className="shop-card9" onClick={() => navigate('/shop', {
             replace: false,
-            state: {
-                shopId: key1,
-            }
+            state: { shopId: key1 }
         })}>
             <div className="shop-image-container9">
                 {!imageError ? (
@@ -36,14 +35,20 @@ const ShopCard = ({ key1, shopName1, description1, imagePath1 }) => {
     );
 };
 
-const ProductCard = ({ id, title, shopName, description, price, imagePath }) => {
+const ProductCard = ({ id, title, shopName, description, price, imagePath, onProductClick }) => {
     const [imageError, setImageError] = React.useState(false);
     const navigate = useNavigate();
 
     const handleProductClick = () => {
-        localStorage.setItem('selectedProductId', id);
-        localStorage.setItem('selectedShopName', shopName);
-        navigate('/product');  // Maknuli smo state iz navigacije
+        console.log(id);
+        onProductClick({
+            id,
+            title,
+            shopName,
+            description,
+            price,
+            imagePath,
+        });
     };
 
     return (
@@ -108,7 +113,7 @@ const EventCard = ({ name2, shopName2, dateTime2, imagePath2 }) => {
     );
 };
 
-const Section = ({ title, items, itemType }) => {
+const Section = ({ title, items, itemType, onProductClick }) => {
     const contentRef = React.useRef(null);
 
     const scroll = (direction) => {
@@ -164,6 +169,7 @@ const Section = ({ title, items, itemType }) => {
                                         description={item.description}
                                         price={item.price}
                                         imagePath={item.imagePath}
+                                        onProductClick={onProductClick}
                                     />
                                 );
                             } else {
@@ -195,6 +201,18 @@ const District = () => {
     const [products, setProducts] = useState([]);
     const [events, setEvents] = useState([]);
     const [radius] = useState(5000);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+
+    const handleProductClick = (product) => {
+        setSelectedProduct(product); // Set the clicked product as the selected product
+        setModalOpen(true); // Open the modal
+    };
+
+    const closeModal = () => {
+        setModalOpen(false); // Close the modal
+        setSelectedProduct(null); // Clear the selected product
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -212,12 +230,10 @@ const District = () => {
                 );
                 if (!shopsResponse.ok) {
                     try {
-                        const errorResponse = await shopsResponse.json(); // Parse the JSON body
-                        if (errorResponse.code != null) {
-                            if(errorResponse.code === "hood") {
-                                alert("Kvart nije odabran. Molim odaberite kvart u postavkama profila.");
-                                window.location.href = `http://${process.env.REACT_APP_WEB_URL}:3000/userProfile`
-                            }
+                        const errorResponse = await shopsResponse.json();
+                        if (errorResponse.code === "hood") {
+                            alert("Kvart nije odabran. Molim odaberite kvart u postavkama profila.");
+                            window.location.href = `http://${process.env.REACT_APP_WEB_URL}:3000/userProfile`;
                         } else {
                             alert("An unknown error occurred.");
                         }
@@ -254,7 +270,6 @@ const District = () => {
         fetchData();
     }, []);
 
-    // Hardkodirani podaci za popuste
     const discounts = [
         { shopName: 'Konzum popust', imagePath: '', id: 1 },
         { shopName: 'Lidl posebna ponuda', imagePath: '', id: 2 },
@@ -273,16 +288,19 @@ const District = () => {
                         alt="Logo"
                         className="logo"
                         onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
-                        style={{cursor: 'pointer'}}
+                        style={{ cursor: 'pointer' }}
                     />
                 </div>
                 <h1 className="header-title">Kvart</h1>
             </div>
 
             <Section title="Trgovine" items={shops} itemType="shop" />
-            <Section title="Proizvodi" items={products} itemType="product" />
+            <Section title="Proizvodi" items={products} itemType="product" onProductClick={handleProductClick}/>
             <Section title="Događaji" items={events} itemType="event" />
             <Section title="Ponude i popusti" items={discounts} itemType="shop" />
+            {modalOpen && selectedProduct && (
+                <ProductModal product={selectedProduct} onClose={closeModal} />
+            )}
         </div>
     );
 };

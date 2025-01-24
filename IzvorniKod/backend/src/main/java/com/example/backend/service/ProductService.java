@@ -1,5 +1,8 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.*;
+import com.example.backend.enums.ActivityType;
+import com.example.backend.dto.ShopDistance;
 import com.example.backend.exception.*;
 import com.example.backend.model.*;
 import com.example.backend.repository.*;
@@ -7,10 +10,8 @@ import com.example.backend.utils.DistanceCalculator;
 import com.example.backend.utils.Recommend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.geo.Distance;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -19,7 +20,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +83,9 @@ public class ProductService {
 
         // Map the product data to ProductDTO
         ProductProfileDTO productDTO = new ProductProfileDTO();
+        productDTO.setId(product.getId());
+        productDTO.setQuantity(product.getQuantity());
+        productDTO.setPlatformProduct(product.getProduct().getName());
         productDTO.setName(product.getProduct().getName());
         productDTO.setDescription(product.getDescription());
         productDTO.setPrice(product.getPrice());

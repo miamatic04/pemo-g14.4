@@ -1,7 +1,7 @@
 package com.example.backend.controller;
 
-import com.example.backend.model.PromotionRequestDTO;
-import com.example.backend.model.UserDTO;
+import com.example.backend.dto.PromotionRequestDTO;
+import com.example.backend.dto.UserDTO;
 import com.example.backend.service.PromotionRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
