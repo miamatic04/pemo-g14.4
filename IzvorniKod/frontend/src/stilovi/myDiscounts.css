@@ -1,0 +1,125 @@
+.page-container-discounts-owner {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #9bd7eb, #f9faac);
+    display: flex;
+    flex-direction: column;
+}
+
+.header-discounts-owner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: white;
+}
+
+.logo-container-discounts-owner {
+    flex-shrink: 0; /* Sprječava smanjenje loga */
+}
+
+.logo-discounts-owner {
+    width: 70px; /* Širina loga */
+
+}
+
+.shop-select {
+    width: 200px;  /* Adjust this value to make it narrower or wider */
+    padding: 5px;
+    font-size: 18px; /* Adjust the font size to fit well */
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    appearance: none;  /* Remove default arrow (optional, can add custom arrow if needed) */
+    background-color: #fff;
+}
+
+.header-title-discounts-owner {
+    font-size: 2rem;
+    color: midnightblue;
+    flex-grow: 1; /* Naslov zauzima preostali prostor */
+    text-align: center; /* Centriranje teksta unutar naslova */
+}
+
+/* Kontejner za popuste */
+.discounts-container-owner {
+    display: grid; /* Koristimo grid layout za raspored kartica */
+    grid-template-columns: repeat(5, 1fr); /* Pet kartica u jednom redu */
+    gap: 20px; /* Razmak između kartica */
+    padding: 2%;
+}
+
+/* Kartica za svaki popust */
+.discount-card-owner {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    padding: 2%;
+    border: 0.5vh solid #9bd7eb;
+}
+
+/* Slika unutar kartice */
+.discount-image-owner {
+    width: 100%;
+    height: auto; /* Održava proporcije slike */
+}
+
+/* Naslov unutar kartice */
+.discount-title-owner {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.dodajNoviPopust{
+    background-color: midnightblue;
+    color: white;
+    width: 10%;
+    text-align: center;
+    padding: 1%;
+    margin: 1%;
+    margin-left: auto;
+}
+
+.dodajNoviPopust:hover{
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1024px) {
+    .discounts-container-owner {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .dodajNoviPopust {
+        width: 20%;
+    }
+
+    .header-title-discounts-owner {
+        font-size: 1.8rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .discounts-container-owner {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .dodajNoviPopust {
+        width: 40%;
+    }
+
+    .header-title-discounts-owner {
+        font-size: 1.5rem;
+    }
+
+    .discount-card-owner {
+        border-width: 3px;
+    }
+
+    .discount-title-owner {
+        font-size: 1rem;
+    }
+}

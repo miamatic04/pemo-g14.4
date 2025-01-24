@@ -1,17 +1,30 @@
 package com.example.backend.service;
+import java.text.DecimalFormatSymbols;
+import java.time.LocalDateTime;
+import java.util.Locale;
 
-import com.example.backend.model.Person;
-import com.example.backend.model.Shop;
-import com.example.backend.model.ShopDistance;
+import com.example.backend.dto.AddShopDTO;
+import com.example.backend.dto.ShopProfileDTO;
+import com.example.backend.enums.ActivityType;
+import com.example.backend.enums.Hood;
+import com.example.backend.dto.ShopDistance;
+import com.example.backend.exception.HoodNotChosenException;
+import com.example.backend.exception.NoLocationPermissionException;
+import com.example.backend.exception.ShopNotFoundException;
+import com.example.backend.exception.UserNotFoundException;
+import com.example.backend.model.*;
+import com.example.backend.repository.ProductShopRepository;
+import com.example.backend.repository.ReviewRepository;
 import com.example.backend.repository.ShopRepository;
+import com.example.backend.repository.UserActivityRepository;
+import com.example.backend.utils.DistanceCalculator;
+import com.example.backend.utils.Recommend;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +48,24 @@ public class ShopService {
 
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private ProductShopRepository productShopRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
+
+    @Autowired
+    private DistanceCalculator distanceCalculator;
+
+    @Autowired
+    private UserActivityRepository userActivityRepository;
+
+    @Autowired
+    private Recommend recommend;
+
+    @Value("${spring.boot.web.url.img}")
+    private String web_url_img;
 
     public List<Shop> findAll() {
         return shopRepository.findAll();
@@ -64,8 +95,9 @@ public class ShopService {
         List<ShopDistance> shopsWithDistance = new ArrayList<>();
 
         for(Shop shop : shops) {
-            double distance = calculateDistance(userLatitude, userLongitude, shop.getLatitude(), shop.getLongitude());
-            double roundedDistance = Double.parseDouble(df.format(distance));
+            double distance = distanceCalculator.calculateDistance(userLatitude, userLongitude, shop.getLatitude(), shop.getLongitude());
+            String formattedDistance = df.format(distance).replace(",", ".");
+            double roundedDistance = Double.parseDouble(formattedDistance);
             shopsWithDistance.add(new ShopDistance(shop, roundedDistance));
         }
 
@@ -88,7 +120,7 @@ public class ShopService {
         List<ShopDistance> shopsWithDistance = new ArrayList<>();
 
         for(Shop shop : shops) {
-            double distance = calculateDistance(userLatitude, userLongitude, shop.getLatitude(), shop.getLongitude());
+            double distance = distanceCalculator.calculateDistance(userLatitude, userLongitude, shop.getLatitude(), shop.getLongitude());
             double roundedDistance = Double.parseDouble(df.format(distance));
             shopsWithDistance.add(new ShopDistance(shop, roundedDistance));
         }
@@ -112,7 +144,7 @@ public class ShopService {
         List<ShopDistance> shopsWithDistance = new ArrayList<>();
 
         for(Shop shop : shops) {
-            double distance = calculateDistance(userLatitude, userLongitude, shop.getLatitude(), shop.getLongitude());
+            double distance = distanceCalculator.calculateDistance(userLatitude, userLongitude, shop.getLatitude(), shop.getLongitude());
             double roundedDistance = Double.parseDouble(df.format(distance));
             shopsWithDistance.add(new ShopDistance(shop, roundedDistance));
         }
@@ -122,13 +154,48 @@ public class ShopService {
         return ResponseEntity.ok(shopsWithDistance);
     }
 
-    public ResponseEntity<Map<String, Object>> addShop(MultipartFile file, String shopName, double latitude, double longitude, String description, String authHeader) {
+    public ResponseEntity<List<ShopDistance>> getRecommendedShopsSortedByNameAsc(String authHeader) {
 
-        if (file.isEmpty()) {
+        String email = jwtService.extractUsername(authHeader.substring(7));
+
+        List<ShopDistance> shopsWithDistance = recommend.recommendShops(email);
+
+        shopsWithDistance.sort(Comparator.comparing(shopDistance -> shopDistance.getShopDTO().getShopName()));
+
+        return ResponseEntity.ok(shopsWithDistance);
+    }
+
+    public ResponseEntity<List<ShopDistance>> getRecommendedShopsSortedByNameDesc(String authHeader) {
+
+        String email = jwtService.extractUsername(authHeader.substring(7));
+
+        List<ShopDistance> shopsWithDistance = recommend.recommendShops(email);
+
+        shopsWithDistance.sort(
+                Comparator.comparing(shopDistance -> shopDistance.getShopDTO().getShopName(), Comparator.reverseOrder())
+        );
+
+        return ResponseEntity.ok(shopsWithDistance);
+    }
+
+    public ResponseEntity<List<ShopDistance>> getRecommendedShopsSortedByDistanceAsc(String authHeader) {
+
+        String email = jwtService.extractUsername(authHeader.substring(7));
+
+        List<ShopDistance> shopsWithDistance = recommend.recommendShops(email);
+
+        shopsWithDistance.sort(Comparator.comparingDouble(ShopDistance::getDistance));
+
+        return ResponseEntity.ok(shopsWithDistance);
+    }
+
+    public ResponseEntity<Map<String, Object>> addShop(AddShopDTO addShopDTO, String authHeader) {
+
+        if (addShopDTO.getFile().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
-        String folderPath = "../frontend/public/userUploads/";
+        String folderPath = "public/userUploads/";
 
         try {
 
@@ -142,9 +209,27 @@ public class ShopService {
 
             Person owner = personService.findUser(email);
 
-            int index = owner.getShops().size();
+            int index = 0;
+            List<Shop> shops = owner.getShops();
 
-            String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+            for (Shop shop : shops) {
+                String imagePath = shop.getImagePath();
+                if (imagePath != null && imagePath.contains(".")) {
+                    String[] parts = imagePath.split("\\.");
+                    if (parts.length > 1) {
+                        try {
+                            int currentIndex = Integer.parseInt(parts[0].substring(parts[0].length() - 1));
+                            index = Math.max(index, currentIndex);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid image index format in path: " + imagePath);
+                        }
+                    }
+                }
+            }
+
+            index++;
+
+            String originalFilename = StringUtils.cleanPath(addShopDTO.getFile().getOriginalFilename());
             String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
             String newFilename = emailNoPeriods + "_shop" + index + extension; // e.g. asd@gmailcom_shop0.png
 
@@ -159,20 +244,29 @@ public class ShopService {
                 }
             }
 
-            Files.copy(file.getInputStream(), targetLocation);
+            Files.copy(addShopDTO.getFile().getInputStream(), targetLocation);
 
-            String frontendPath = "/userUploads/" + newFilename;
+            String frontendPath = "http://" + web_url_img + "/userUploads/" + newFilename;
 
             Shop shop = new Shop();
-            shop.setShopName(shopName);
-            shop.setLatitude(latitude);
-            shop.setLongitude(longitude);
+            shop.setShopName(addShopDTO.getShopName());
+            shop.setLatitude(addShopDTO.getLatitude());
+            shop.setLongitude(addShopDTO.getLongitude());
             shop.setImagePath(frontendPath);
-            shop.setDescription(description);
+            shop.setDescription(addShopDTO.getDescription());
+
+            shop.setHood(Hood.valueOf(addShopDTO.getHood()));
 
             shop.setShopOwner(owner);
 
-            saveShop(shop);
+            Shop savedShop = saveShop(shop);
+
+            UserActivity userActivity = new UserActivity();
+            userActivity.setUser(owner);
+            userActivity.setActivityType(ActivityType.CREATED_SHOP);
+            userActivity.setDateTime(LocalDateTime.now());
+            userActivity.setNote("User " + owner.getEmail() + " created shop with id = " + savedShop.getId());
+            userActivityRepository.save(userActivity);
 
             return ResponseEntity.ok(Map.of("filePath", frontendPath));
 
@@ -185,22 +279,92 @@ public class ShopService {
         }
     }
 
-    // Haversina formula umjesto google distance matrix api
-    public double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+    public ShopProfileDTO getShopProfileDetails(Long shopId, String token) {
+        // Pronalaženje trgovine
+        Shop shop = shopRepository.findById(shopId)
+                .orElseThrow(() -> new RuntimeException("Shop not found"));
 
-        double lat1Rad = Math.toRadians(lat1);
-        double lon1Rad = Math.toRadians(lon1);
-        double lat2Rad = Math.toRadians(lat2);
-        double lon2Rad = Math.toRadians(lon2);
+        String email = jwtService.extractUsername(token);
 
-        double deltaLat = lat2Rad - lat1Rad;
-        double deltaLon = lon2Rad - lon1Rad;
+        Person user = personService.findUser(email);
 
-        double a = Math.pow(Math.sin(deltaLat / 2), 2) +
-                Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.pow(Math.sin(deltaLon / 2), 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        if(user == null) {
+            throw new UserNotFoundException("User not found");
+        }
 
-        return 6371 * c; // u kilometrima
+        boolean isOwner = false;
+        if(user.getEmail().equals(shop.getShopOwner().getEmail())) {
+            isOwner = true;
+        }
+
+        // Kreiranje ShopDTO objekta
+        return new ShopProfileDTO(shop, isOwner);
+    }
+
+    public List<ShopDistance> getHoodShops(String token) {
+
+        String email = jwtService.extractUsername(token);
+
+        Person user = personService.findUser(email);
+
+        if(user == null)
+            throw new UserNotFoundException("User not found");
+
+        double userLatitude = user.getLatitude();
+        double userLongitude = user.getLongitude();
+
+        if(userLatitude == 0 || userLongitude == 0)
+            throw new NoLocationPermissionException("Location permission denied");
+
+        List<Shop> shops = shopRepository.findAllSortedByNameAsc();
+
+        List<Shop> hoodShops = new ArrayList<>();
+
+        if(user.getHood() == null)
+            throw new HoodNotChosenException("Hood not chosen: please choose one in profile settings");
+
+        hoodShops = shops
+                .stream()
+                .filter((shop) -> shop.getHood().equals(user.getHood()))
+                .toList();
+
+        DecimalFormat df = new DecimalFormat("#.#");
+        df.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
+
+        List<ShopDistance> shopsWithDistance = new ArrayList<>();
+
+        for(Shop shop : hoodShops) {
+            double distance = distanceCalculator.calculateDistance(userLatitude, userLongitude, shop.getLatitude(), shop.getLongitude());
+            String formattedDistance = df.format(distance);
+            double roundedDistance = Double.parseDouble(formattedDistance);
+            shopsWithDistance.add(new ShopDistance(shop, roundedDistance));
+        }
+
+        return shopsWithDistance;
+    }
+
+    public String editShop(AddShopDTO editShopDTO) {
+
+        Shop shop = shopRepository.findById(editShopDTO.getId()).orElseThrow(() -> new ShopNotFoundException("Shop not found"));
+
+        if(editShopDTO.getShopName() != null)
+            shop.setShopName(editShopDTO.getShopName());
+
+        if(editShopDTO.getLatitude() != 0)
+            shop.setLatitude(editShopDTO.getLatitude());
+
+        if(editShopDTO.getLongitude() != 0)
+            shop.setLongitude(editShopDTO.getLongitude());
+
+        if(editShopDTO.getDescription() != null)
+            shop.setDescription(editShopDTO.getDescription());
+
+        if(editShopDTO.getImagePath() != null)
+            shop.setImagePath(editShopDTO.getImagePath());
+
+        shopRepository.save(shop);
+
+        return "Shop edited successfully";
     }
 
     /*   FUNKCIJE KOJE KORISTE GOOGLE DISTANCE MATRIX API ZA DOHVAT UDALJENOST IZMEDJU DVIJE TOCKE -

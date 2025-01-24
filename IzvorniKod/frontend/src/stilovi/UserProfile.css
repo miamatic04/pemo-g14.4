@@ -1,0 +1,280 @@
+.user-profile-page {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #9bd7eb, #f9faac) no-repeat center center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-profile-container {
+    background: white;
+    border-radius: 25px;
+    width: 70%;
+    padding: 2%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.myProfile {
+    font-size: 200%; /* Veličina fonta naslova */
+    color: midnightblue;
+    text-align: center;
+    margin-bottom: 2%;
+
+}
+
+.header-section {
+    display: flex; /* Koristi Flexbox za raspored */
+    align-items: center; /* Poravnava sve elemente vertikalno */
+    margin-bottom: 20px; /* Razmak ispod zaglavlja */
+}
+
+.avatar {
+    width: 100px; /* Širina slike avatara */
+    height: 100px; /* Visina slike avatara */
+    border-radius: 50%; /* Zaobljeni oblik */
+    margin-right: 20px; /* Razmak između slike i informacija */
+}
+
+.profile-info {
+    flex-grow: 1; /* Omogućuje da profil informacije zauzmu preostali prostor */
+}
+
+.imeUsera,
+.mailUsera {
+    margin: 0; /* Uklanja marginu oko paragrafa */
+}
+
+.delete-button, .askOwnerButton {
+    background-color: #4A90E2; /* Boja dugmeta za brisanje */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 3%;
+    cursor: pointer;
+}
+
+.askOwnerButton{
+    margin-top: 2vh;
+}
+
+.delete-button:hover {
+    background-color: red; /* Tamnija boja na hover */
+}
+
+.askOwnerButton:hover {
+    background-color: darkblue;
+}
+
+.izbrisiZatrazi {
+    display: flex;
+    flex-direction: column; /* Postavlja elemente u kolonu */
+    margin-left: auto; /* Poravnanje na desnu stranu */
+    width: 20%;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-box-profile {
+    display: flex;
+    flex-direction: column; /* Postavlja oznaku iznad unosa */
+    align-items: flex-start; /* Poravnava tekst oznake lijevo */
+    margin-bottom: 3%; /* Razmak između polja */
+    position: relative;
+    width: 100%; /* Omogućuje dosljednu širinu */
+}
+
+.input-box-profile label {
+    margin-bottom: 5px; /* Dodaje razmak ispod oznake */
+    font-weight: bold; /* Ističe oznaku */
+    font-size: 14px; /* Smanjuje veličinu fonta */
+    color: #333; /* Boja oznake */
+}
+
+.input-box-profile input {
+    width: 100%; /* Osigurava da input zauzme cijelu širinu */
+    padding: 10px; /* Unutarnji razmak unutar inputa */
+    border: 1px solid #ccc; /* Okvir oko inputa */
+    border-radius: 5px; /* Zaobljeni rubovi */
+    font-size: 16px; /* Veličina fonta */
+    background-color: #e6f7ff; /* Svijetlo plava pozadina */
+}
+
+.input-box-profile input:focus {
+    border-color: #4A90E2; /* Boja okvira kada je input u fokusu */
+    outline: none; /* Uklanja standardni outline */
+}
+
+.dropdown {
+    position: absolute; /* Pozicioniranje padajućeg izbornika */
+    background-color: white;
+    border: 1px solid #ccc;
+}
+
+.dropdown-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f0f0; /* Hover efekat na stavkama izbornika */
+}
+
+.logo1-profile {
+    position: relative; /* Omogućava pozicioniranje djece unutar ovog elementa */
+    display: flex;
+    align-items: center; /* Vertikalno poravnanje elemenata */
+    justify-content: center; /* Centriranje naslova horizontalno */
+    margin-bottom: 20px;
+}
+
+.logo1-profile-image {
+    position: absolute; /* Pozicionira logo apsolutno unutar roditelja */
+    left: 0; /* Postavlja logo uz lijevi rub */
+    width: 5%; /* Širina loga */
+    height: auto;
+}
+
+#submitProfile {
+    background-color: #4A90E2; /* Boja dugmeta */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+
+#submitProfile:hover{
+    background-color: limegreen;
+}
+
+.form-columns {
+    display: flex; /* Koristi Flexbox za raspored */
+    justify-content: space-between; /* Razmak između stupaca */
+    border: 10px solid #4A90E2;
+    border-radius: 3%;
+    padding: 5%;
+    margin: 3%;
+}
+
+.left-column,
+.right-column {
+    flex: 1; /* Oba stupca zauzimaju jednake dijelove prostora */
+    margin-right: 20px; /* Razmak između lijevog i desnog stupca */
+}
+
+.right-column {
+    display: flex; /* Koristi Flexbox za raspored unutar desnog stupca */
+    flex-direction: column; /* Stavlja elemente u kolonu */
+}
+
+.nameOfUser, .lastNameOfUser, .mailUser{
+    text-align: left;
+    margin-bottom: 10px; /* Razmak između redaka */
+}
+
+#firstNameProfile, #lastNameProfile, #emailProfile{
+    margin: 0; /* Uklanja nepotrebne margine */
+}
+
+.DateUser{
+    margin-left: 0; /* Poravnanje datuma s ostalim elementima */
+}
+
+#dateOfBirth{
+    margin: 0; /* Uklanja nepotrebne margine */
+}
+
+.iconDown {
+    position: absolute;
+    cursor: pointer; /* Promjena kursora na pointer prilikom hovera */
+    margin-left: 90%;
+}
+
+@media screen and (max-width: 1024px) {
+    .user-profile-container {
+        width: 85%;
+    }
+
+    .form-columns {
+        padding: 3%;
+    }
+
+    .avatar {
+        width: 80px;
+        height: 80px;
+    }
+
+    .logo1 img {
+        width: 60px;
+        height: auto;
+    }
+
+    .izbrisiZatrazi {
+        width: 25%;
+    }
+}
+
+/* Mobile styles */
+@media screen and (max-width: 768px) {
+    .user-profile-container {
+        width: 95%;
+        padding: 4%;
+    }
+
+    .header-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .avatar {
+        width: 60px;
+        height: 60px;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .logo1 img {
+        width: 40px;
+        height: auto;
+    }
+
+    .profile-info {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .izbrisiZatrazi {
+        width: 100%;
+    }
+
+    .form-columns {
+        flex-direction: column;
+        margin: 2%;
+        padding: 4%;
+    }
+
+    .left-column,
+    .right-column {
+        margin-right: 0;
+    }
+
+    .input-box-profile {
+        margin-bottom: 15px;
+    }
+
+    .delete-button,
+    .askOwnerButton {
+        width: 100%;
+        padding: 10px;
+    }
+
+    #submitProfile {
+        width: 100%;
+    }
+
+    .myProfile {
+        font-size: 24px;
+    }
+}

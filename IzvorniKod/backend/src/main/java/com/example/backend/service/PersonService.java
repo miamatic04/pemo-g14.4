@@ -1,22 +1,27 @@
 package com.example.backend.service;
 
-import com.example.backend.exception.CustomConstraintViolationException;
-import com.example.backend.exception.EmailAlreadyInUseException;
-import com.example.backend.exception.PasswordsDontMatchException;
+import com.example.backend.dto.EditProfileDTO;
+import com.example.backend.dto.RegistrationInfo;
+import com.example.backend.dto.UserDTO;
+import com.example.backend.dto.UserProfileDTO;
+import com.example.backend.enums.ActivityType;
+import com.example.backend.enums.Hood;
+import com.example.backend.exception.*;
 import com.example.backend.model.*;
 import com.example.backend.repository.PersonRepository;
+import com.example.backend.repository.UserActivityRepository;
 import jakarta.mail.MessagingException;
-import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -34,8 +39,14 @@ public class PersonService {
     @Autowired
     private JWTService jwtService;
 
+    @Autowired
+    private UserActivityRepository userActivityRepository;
+
     @Value("${spring.boot.web.url}")
     private String web_url;
+
+    @Value("${spring.boot.web.url.img}")
+    private String web_url_img;
 
     public Person findUser(String email) {
         return personRepository.findByEmail(email);
@@ -72,6 +83,13 @@ public class PersonService {
 
             emailService.sendConfirmationEmail(user.getEmail(), subject, text);
 
+            UserActivity userActivity = new UserActivity();
+            userActivity.setUser(user);
+            userActivity.setActivityType(ActivityType.REGISTERED);
+            userActivity.setDateTime(LocalDateTime.now());
+            userActivity.setNote("User registered with email " + user.getEmail());
+            userActivityRepository.save(userActivity);
+
         }
 
         return ResponseEntity.ok(response);
@@ -85,9 +103,70 @@ public class PersonService {
         if (user != null) {
                 user.setEmailConfirmed(true);
                 save(user);
-                return new RedirectView("http://" + web_url + ":3000/?confirmed=true");
+                return new RedirectView("http://" + web_url + "/?confirmed=true");
         }
         return new RedirectView("/?confirmed=false");
+    }
+
+    public String editProfile(EditProfileDTO editProfileDTO, String token) {
+
+        String email = jwtService.extractUsername(token);
+
+        Person user = personRepository.findByEmail(email);
+
+        if(editProfileDTO.getDateOfBirth() != null) {
+            user.setDateOfBirth(editProfileDTO.getDateOfBirth());
+        }
+
+        if(editProfileDTO.getHood() != null) {
+            String hood = editProfileDTO.getHood().toUpperCase();
+            hood = hood.replaceAll(" ", "_");
+            user.setHood(Hood.valueOf(hood));
+        }
+
+        personRepository.save(user);
+
+        return "User profile updated successfully.";
+    }
+
+    public List<UserDTO> getUsers() {
+
+        List<Person> users = personRepository.findAll();
+
+        List<UserDTO> userDTOs = new ArrayList<>();
+
+        userDTOs = users
+                .stream()
+                .filter((user) -> user.getRole().contains("owner") || user.getRole().contains("user") || user.getRole().contains("moderator"))
+                .map((user) -> {
+                    UserDTO userDTO = new UserDTO();
+                    userDTO.setEmail(user.getEmail());
+                    userDTO.setName(user.getName());
+                    return userDTO;
+                })
+                .toList();
+
+        return userDTOs;
+    }
+
+    public UserProfileDTO getUserProfile(String token) {
+
+        String email = jwtService.extractUsername(token);
+
+        Person user = personRepository.findByEmail(email);
+
+        if(user == null) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        UserProfileDTO userProfileDTO = new UserProfileDTO();
+        userProfileDTO.setFirstName(user.getFirstName());
+        userProfileDTO.setLastName(user.getLastName());
+        userProfileDTO.setHood(user.getHood());
+        userProfileDTO.setEmail(user.getEmail());
+        if(user.getDateOfBirth() != null)
+            userProfileDTO.setDateOfBirth(user.getDateOfBirth().toString());
+        return userProfileDTO;
     }
 
 }

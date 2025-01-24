@@ -1,0 +1,63 @@
+.modal-backdrop1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content1 {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+    margin: 0 auto;
+    border-top: 3px solid #2563eb;
+    min-height: 150px;
+    max-height: 80vh;
+}
+
+.modal-close1{
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    color: #666;
+    padding: 2px;
+    line-height: 1;
+}
+
+.modal-content1 h2 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #2563eb;
+}
+
+.button-container {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.modal-content1 button {
+    padding: 6px 16px;
+    border-radius: 4px;
+    border: 1px solid #2563eb;
+    background: #fff;
+    cursor: pointer;
+    color: #2563eb;
+    min-width: 80px;
+    min-height: 32px;
+}

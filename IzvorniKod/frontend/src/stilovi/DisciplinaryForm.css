@@ -1,0 +1,28 @@
+.button-disciplinary-form-odustani, .button-disciplinary-form-posalji{
+    margin-left: 7%;
+    background-color: #9bd7eb;
+}
+
+.button-disciplinary-form-odustani:hover{
+    background-color: red;
+}
+
+.button-disciplinary-form-posalji:hover{
+    background-color: limegreen;
+}
+
+@media screen and (max-width: 768px) {
+    .button-disciplinary-form-odustani,
+    .button-disciplinary-form-posalji {
+        margin: 10px 0;
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .button-disciplinary-form-odustani,
+    .button-disciplinary-form-posalji {
+        margin: 15px 5%;
+        width: 40%;
+    }
+}

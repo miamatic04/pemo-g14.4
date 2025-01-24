@@ -1,0 +1,203 @@
+.shopsList-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh; /* Osigurava da je sadržaj centriran vertikalno */
+    background: linear-gradient(to bottom, #9bd7eb, #f9faac) no-repeat center center; /* prelazak iz plave u žutu */
+    background-size: cover; /* da pozadina bude preko cijelog ekrana */
+}
+
+.header-shopsList {
+    display: flex;
+    align-items: center; /* Poravnava logo i naslov po visini */
+    width: 100%; /* Širina zaglavlja */
+    justify-content: space-between; /* Razmak između loga i naslova */
+    padding: 1%;
+    background-color: white;
+}
+
+.logo-container {
+    flex: 0 0 auto; /* Logo se ne širi */
+}
+
+.logo {
+    width: 70%; /* Postavite širinu loga na 50% od roditeljskog elementa */
+    max-width: 100px; /* Maksimalna širina loga */
+}
+
+.header-title {
+    font-size: 250%; /* Veličina naslova */
+    text-align: center;
+    flex-grow: 1; /* Naslov zauzima preostali prostor */
+    color: midnightblue;
+}
+
+.filter-container {
+    position: relative; /* Omogućava pozicioniranje opcija unutar kontejnera */
+}
+
+.filter-button {
+    margin-left: auto;
+    padding: 2vh; /* Unutarnji razmak unutar gumba */
+    background-color: midnightblue; /* Pozadina gumba */
+    border: none;
+    border-radius: 1vh; /* Zaobljeni rubovi */
+    cursor: pointer; /* Promjena kursora na pointer */
+    color: white;
+}
+
+.filter-arrow {
+    margin-left: 0.5vh; /* Razmak između teksta i strelice */
+    color: white;
+}
+
+.filter-options {
+    position: absolute; /* Pozicioniranje opcija */
+    top: 100%; /* Ispod gumba */
+    right: 0; /* Poravnanje s desnom stranom gumba */
+    background-color: white; /* Pozadina opcija */
+    border-radius: 1vh; /* Zaobljeni rubovi */
+}
+
+.filter-options button {
+    display: block; /* Opcije su blok elementi */
+    padding: 2vh; /* Unutarnji razmak unutar gumba */
+    border: none; /* Uklonite obrub */
+    width: 100%; /* Širina gumba je puna širine kontejnera */
+}
+
+.filter-options button:hover {
+    background-color: lightskyblue; /* Promjena boje pri hoveru */
+}
+
+.spacer {
+    height: 6vh; /* Visina razmaka */
+    width: 100%; /* Širina razmaka */
+    background-color: transparent; /* Prozirna pozadina */
+}
+
+.shop-container {
+    display: flex;
+    flex-wrap: wrap; /* Omogućava višeredni raspored kartica */
+    justify-content: center; /* Centriranje kartica unutar kontejnera */
+}
+
+.shops-card {
+    display: flex;
+    flex-direction: column; /* Postavlja sliku i ime trgovine jedan ispod drugog */
+    align-items: center; /* Centriranje sadržaja unutar kartice */
+    border: 0.5rem solid lightskyblue; /* Plava granica */
+    border-radius: 1%; /* Zaobljeni rubovi */
+    padding: 2vh; /* Unutarnji razmak */
+    margin-bottom: 3vh; /* Razmak između trgovina */
+    background-color: white; /* Pozadina kartice  */
+    width: 20vw; /* Širina kartice */
+    margin-right: 3vh; /* Razmak između trgovina */
+    cursor: pointer; /* Promjena kursora u ručicu */
+    transition: transform 0.2s; /* Dodavanje efekta prelaska */
+}
+
+.shops-card:hover {
+    transform: scale(1.05); /* Lagano povećanje kartice pri prelasku mišem */
+}
+
+.shop-image {
+    width: 80%; /* Slika zauzima većinu širine kartice */
+    height: auto; /* Održava omjer slike */
+}
+
+.shop-name-list {
+    margin-top: 2vh; /* Razmak iznad imena trgovine */
+    text-align: center; /* Centriranje imena trgovine */
+    color: lightskyblue;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5%; /* Razmak iznad navigacije */
+}
+
+.navigation-btn {
+    cursor: pointer;
+}
+
+.filter-container-list{
+    background-color: midnightblue;
+    color: white;
+    padding: 0.5%;
+    width: 18%;
+}
+
+.select-filter-shopList{
+    margin-left: 1%;
+    color: white;
+}
+
+.labellll{
+    color: white;
+}
+
+@media screen and (max-width: 1024px) {
+    .header-title {
+        font-size: 200%;
+    }
+
+    .shops-card {
+        width: 40vw;
+        margin-right: 2vh;
+    }
+
+    .filter-container-list {
+        width: 25%;
+    }
+}
+
+/* Mobile */
+@media screen and (max-width: 768px) {
+    .header-shopsList {
+        flex-direction: column;
+        padding: 3%;
+    }
+
+    .header-title {
+        font-size: 150%;
+        margin: 2vh 0;
+    }
+
+    .logo {
+        width: 80%;
+    }
+
+    .shops-card {
+        width: 80vw;
+        margin-right: 0;
+    }
+
+    .filter-container-list {
+        width: 80%;
+        margin-top: 2vh;
+        padding: 2%;
+    }
+
+    .select-filter-shopList {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 1vh;
+    }
+
+    .pagination {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 2vh;
+        width: 100%;
+    }
+
+    .page-number {
+        display: flex;
+        gap: 1vh;
+    }
+}

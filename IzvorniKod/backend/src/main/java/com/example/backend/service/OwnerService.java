@@ -4,12 +4,12 @@ import com.example.backend.exception.ShopDoesntBelongToGivenOwnerException;
 import com.example.backend.exception.UserNotFoundException;
 import com.example.backend.model.Person;
 import com.example.backend.model.Shop;
+import com.example.backend.dto.ShopInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,16 +24,21 @@ public class OwnerService {
     @Autowired
     private ShopService shopService;
 
-    public ResponseEntity<List<Shop>> getMyShops(String authHeader) {
+    public ResponseEntity<List<ShopInfoDTO>> getMyShops(String authHeader) {
+
         String email = jwtService.extractUsername(authHeader.substring(7));
 
         Person owner = personService.findUser(email);
 
         List<Shop> myShops;
+        List<ShopInfoDTO> shopInfoDTOs = new ArrayList<>();
 
         if(owner != null) {
             myShops = owner.getShops();
-            return ResponseEntity.ok(myShops);
+            for(Shop shop : myShops) {
+                shopInfoDTOs.add(new ShopInfoDTO(shop.getId(), shop.getShopName()));
+            }
+            return ResponseEntity.ok(shopInfoDTOs);
         } else {
             throw new UserNotFoundException("Owner not found.");
         }

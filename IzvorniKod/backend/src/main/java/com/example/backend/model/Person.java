@@ -1,16 +1,16 @@
 package com.example.backend.model;
 
+import com.example.backend.dto.RegistrationInfo;
+import com.example.backend.enums.Hood;
 import com.example.backend.service.TokenGenerator;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
 @Data
 @AllArgsConstructor
@@ -18,7 +18,6 @@ import java.util.List;
 @Entity
 public class Person {
 
-    //zajednicki:
     @Id
     private String email;
     private String firstName;
@@ -29,8 +28,9 @@ public class Person {
     private double latitude;
     private String confirmationToken;
     private Boolean emailConfirmed;
+    private String imagePath;
+    private LocalDate dateOfBirth;
 
-    //shopOwner:
     private String OIB;
     @OneToMany(mappedBy = "shopOwner", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -38,6 +38,8 @@ public class Person {
 
     @Transient
     private String passConfirm;
+
+    private String googleAccessToken;
 
     public Person(RegistrationInfo registrationInfo) {
         this.email = registrationInfo.getEmail();
@@ -48,5 +50,34 @@ public class Person {
         this.confirmationToken = TokenGenerator.generateToken();
         this.emailConfirmed = false;
     }
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "reporter", cascade = CascadeType.ALL)
+    private List<Report> sentReports = new ArrayList<>();
+
+    @OneToMany(mappedBy = "reportedUser", cascade = CascadeType.ALL)
+    private List<Report> incomingReports = new ArrayList<>();
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private List<Reply> replies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "warnedPerson", cascade = CascadeType.ALL)
+    private List<Warning> warnings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "disciplinedPerson", cascade = CascadeType.ALL)
+    private List<DisciplinaryMeasure> disciplinaryMeasures = new ArrayList<>();
+
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CustomerOrder> customerOrders;
+
+    public String getName() {
+        return firstName + " " + lastName;
+    }
+
+    @Enumerated(EnumType.STRING)
+    private Hood hood;
 }
 

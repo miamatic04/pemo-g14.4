@@ -31,27 +31,32 @@ body{
 }
 
 /*Postavljanje stilova za zaglavlje i elemente zaglavlja*/
-.header{
+.header2{
     background-color: white;
-    height: 10%;
+    height: 11%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 30px;
-
+    position: relative;
 }
 
-.lista{
+.lista {
     float: right;
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.el{
-    display:inline;
+.el {
+    display: inline;
     margin-right: 50px;
     font-size: 25px;
 }
 
-.logo{
+.logo33{
     height: 100%;
 }
 
@@ -98,7 +103,7 @@ body{
     border-radius: 10px;
     background-color: #9bd7eb;
     cursor: pointer;
-    font-weight: bold;
+    color: black;
 }
 
 /*Postavljanje stilova za dio stranice s listom trgovina*/
@@ -108,17 +113,35 @@ body{
     margin-top: -1%;
 }
 
-.forma1{
+.forma12{
     font-size: 25px;
     border: 2px solid black;
     padding: 5px 10px;
     background-color: #9bd7eb;
 }
 
-.forma1 select{
+.select12{
     font-size:20px;
     background-color: #f9faac;
     cursor: pointer;
+}
+
+.select12 option{
+    background-color: #9bd7eb;
+}
+
+.select12:focus{
+    background-color: #f9faac;
+    border: none;
+}
+
+.preporucene{
+    cursor: pointer;
+    font-size: 1.5rem;
+    text-decoration: underline;
+    font-style: italic;
+    font-weight: bold;
+    color:darkblue;
 }
 
 .klasa2{
@@ -136,7 +159,6 @@ body{
     margin-left: 6.5%;
     margin-right: 6.5%;
     height: 600px;
-    border: 8px solid  #79D3D6;
     cursor: pointer;
 }
 
@@ -151,19 +173,23 @@ body{
     display: flex;
     justify-content: center;
     background-color: white;
+    border-top: 8px solid #79D3D6;
+    border-left: 8px solid #79D3D6;
+    border-right: 8px solid #79D3D6;
 }
 
 .store-list{
     width: 90%;
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
 }
 
 .opis{
     width: 100%;
-    height: 15%;
-    border-top: 8px solid #79D3D6;
+    height: 20%;
+    border: 8px solid #79D3D6;
     background-color: #FEF1BB;
     padding-left: 5%;
 }
@@ -181,7 +207,7 @@ body{
 }
 
 #prvi-btn{
-    margin-left: 6%;
+    margin-left: 3%;
 }
 
 .navigacija{
@@ -201,6 +227,7 @@ button:disabled {
     color: #B0CACA;
     border: 4px solid  #B0CACA;
 }
+
 
 /*Postavljanje stilova za dio stranice s listom proizvoda*/
 .klasa3{
@@ -225,11 +252,12 @@ button:disabled {
 
 .info{
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
+
 }
 
 .info p{
-    margin-left: 8%;
     font-size: 17px;
     color:#757070;
 }
@@ -241,7 +269,7 @@ button:disabled {
 .opis1{
     color:#13B3C7;
     width: 100%;
-    height: 30%;
+    height: 35%;
     border: 4px solid  #79D3D6;
     background-color: #FEF1BB;
     text-align: center;
@@ -251,4 +279,225 @@ button:disabled {
     height: 75%;
     border: 4px solid  #79D3D6;
     border-bottom: none;
+}
+
+.hamburger {
+    margin-left: auto;
+    position: relative;
+    display: inline-block;
+}
+
+.hamburger-btn {
+    font-size: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.hamburger-btn:hover{
+    font-weight: bold;
+}
+
+.hamburger-menu {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background: white;
+    border: 1px solid grey;
+    z-index: 1000;
+    width: 200px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.hamburger-menu button {
+    background: none;
+    color:#3e423f;
+    border: 1px solid grey;
+    border-radius: 0;
+    padding: 15px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 20px;
+    width: 100%;
+    margin: 0;
+}
+
+.hamburger-menu button:hover {
+    background-color: #f5f5f5;
+    color: black;
+}
+
+.hamburger-btn1{
+    display: none;
+}
+#id-skriven{
+    display: none;
+}
+
+@media screen and (max-width: 1024px) {
+    .el {
+        margin-right: 30px;
+        font-size: 20px;
+    }
+
+    .naslov {
+        font-size: 60px;
+    }
+
+    .store-item {
+        width: 60%; /* Reduced from 90% */
+        height: 400px;
+        margin: 10px auto;
+    }
+
+    #proizvod {
+        width: 30%;
+    }
+    .store-list {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #proizvodi{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .opis{
+        height: 30%;
+    }
+
+    .klasa2 h1{
+        margin-right: 100px !important;
+    }
+    .hamburger-btn1{
+        display: none;
+    }
+    #id-skriven{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .hamburger-btn1 {
+        display: block;
+        margin-left: auto;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 2rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        align-self: flex-end;
+        width: 20%;
+    }
+
+    .hamburger-btn{
+        display: none;
+    }
+
+    .lista {
+        display: none;
+        width: 100%;
+    }
+
+    #id-skriven{
+        display: block;
+    }
+
+    .lista.active {
+        display: flex;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        flex-direction: column;
+        background: white;
+        width: 200px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        z-index: 1000;
+    }
+
+    .el {
+        width: 100%;
+        margin: 0;
+        padding: 1rem;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+    .header2 {
+        padding: 10px 15px;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .lista {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .naslov {
+        font-size: 40px;
+        padding: 0 20px;
+    }
+
+    .store-item {
+        width: 60%;
+        margin: 10px 0;
+    }
+
+    #proizvod {
+        width: 45%;
+    }
+
+    .klasa2 {
+        padding: 50px 20px;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .forma12 {
+        font-size: 18px;
+    }
+
+    .select12 {
+        font-size: 16px;
+    }
+
+    .btn1{
+        font-size: 1rem;
+    }
+
+    .klasa2 h1{
+        font-size: 2rem;
+    }
+    .opis1{
+        height: 45%;
+    }
+}
+
+@media (max-width: 518px) {
+    .store-item{
+        width: 100%;
+        margin: 0;
+    }
+    .opis1{
+        height: 50%;
+    }
+    #prvi-btn1{
+        margin-left: 0;
+    }
+
 }

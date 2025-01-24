@@ -1,0 +1,172 @@
+.edit-event-page {
+    background: linear-gradient(to bottom, #9bd7eb, #f9faac) no-repeat center center; /* Transition from blue to yellow */
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.edit-event-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 600px;
+    width: 100%;
+    padding: 3%;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+}
+
+.edit-event-card {
+    background-color: white;
+    border-radius: 10px;
+    border: 5px solid #9bd7eb; /* Blue border */
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.edit-event-card h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.logo12{
+    height: 10%;
+    width: 20%;
+}
+
+.logo12 img{
+    height: 100%;
+    width: 100%;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 4px solid #9bd7eb; /* Blue border for inputs */
+    border-radius: 3%; /* Rounded corners */
+    font-size: 16px;
+    font-family: "Courier New", serif;
+}
+
+textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+input[type="file"] {
+    padding: 0;
+}
+
+input, textarea {
+    background-color: rgba(164, 213, 236, 0.29); /* Light blue background */
+    border-radius: 1vw;
+    position: relative;
+    font-weight: bold;
+    font-family: "Courier New", serif;
+}
+
+.submit-button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #9bd7eb; /* Blue background for button */
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.submit-button:hover {
+    background-color: #45a049;
+}
+
+.current-image {
+    width: 100%;
+    max-width: 200px;
+    margin-top: 10px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.back-button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #f9faac; /* Yellow background for back button */
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px; /* Add space above the back button */
+    font-family: Arial, sans-serif;
+}
+
+.back-button:hover {
+    background-color: #e53935;
+}
+
+.logo1 img {
+    cursor: pointer;
+    max-width: 150px;
+}
+
+@media (max-width: 768px) {
+    .edit-event-container {
+        flex-direction: column;
+    }
+
+    .left-panel, .right-panel {
+        padding: 10px;
+    }
+
+    .submit-button, .back-button {
+        font-size: 14px;
+    }
+}
+
+
+select {
+    width: 100%;
+    padding: 12px;
+    border: 4px solid #9bd7eb;
+    border-radius: 3%; /* Rounded corners */
+    font-size: 16px;
+    font-family: "Courier New", serif;
+    background-color: rgba(164, 213, 236, 0.29);
+    font-weight: bold;
+    appearance: none; /* Removes default dropdown arrow for customization */
+    cursor: pointer;
+    position: relative;
+}
+
+select:focus {
+    outline: none;
+    border-color: #45a049; /* Highlight border when focused */
+    background-color: rgba(164, 213, 236, 0.5);
+}
+
+select option {
+    font-size: 16px;
+    font-family: "Courier New", serif;
+    font-weight: bold;
+}

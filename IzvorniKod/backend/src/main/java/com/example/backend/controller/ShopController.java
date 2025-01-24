@@ -1,21 +1,15 @@
 package com.example.backend.controller;
 
-import com.example.backend.model.*;
+import com.example.backend.dto.AddShopDTO;
+import com.example.backend.dto.ShopProfileDTO;
+import com.example.backend.dto.ShopDistance;
 import com.example.backend.service.JWTService;
 import com.example.backend.service.PersonService;
 import com.example.backend.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +21,7 @@ public class ShopController {
 
     @Autowired
     private JWTService jwtService;
+
     @Autowired
     private PersonService personService;
 
@@ -45,14 +40,39 @@ public class ShopController {
         return shopService.getShopsSortedByDistanceAsc(authHeader);
     }
 
+    @GetMapping("/home/getRecommendedShopsAZ")
+    public ResponseEntity<List<ShopDistance>> getRecommendedShopsAZ(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return shopService.getRecommendedShopsSortedByNameAsc(authHeader);
+    }
+
+    @GetMapping("/home/getRecommendedShopsZA")
+    public ResponseEntity<List<ShopDistance>> getRecommendedShopsZA(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return shopService.getRecommendedShopsSortedByNameDesc(authHeader);
+    }
+
+    @GetMapping("/home/getRecommendedShopsByDistanceAsc")
+    public ResponseEntity<List<ShopDistance>> getRecommendedShopsByDistanceAsc(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return shopService.getRecommendedShopsSortedByDistanceAsc(authHeader);
+    }
+
     @PostMapping("/addShop")
-    public ResponseEntity<Map<String, Object>> addShop(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("shopName") String shopName,
-            @RequestParam("latitude") double latitude,
-            @RequestParam("longitude") double longitude,
-            @RequestParam("description") String description,
-            @RequestHeader(value = "Authorization", required = false) String authHeader) {
-        return shopService.addShop(file, shopName, latitude, longitude, description, authHeader);
+    public ResponseEntity<Map<String, Object>> addShop(@ModelAttribute AddShopDTO addShopDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return shopService.addShop(addShopDTO, authHeader);
+    }
+
+    @PostMapping("/editShop")
+    public ResponseEntity<String> editShop(@ModelAttribute AddShopDTO editShopDTO) {
+        return ResponseEntity.ok(shopService.editShop(editShopDTO));
+    }
+
+    @GetMapping("/shops/{shopId}")
+    public ResponseEntity<ShopProfileDTO> getShopDetails(@PathVariable Long shopId, @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        ShopProfileDTO shopDetails = shopService.getShopProfileDetails(shopId, authHeader.substring(7));
+        return ResponseEntity.ok(shopDetails);
+    }
+
+    @GetMapping("/hood/getShops")
+    public ResponseEntity<List<ShopDistance>> getHoodShops(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return ResponseEntity.ok(shopService.getHoodShops(authHeader.substring(7)));
     }
 }

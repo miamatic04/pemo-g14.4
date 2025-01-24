@@ -1,0 +1,109 @@
+.report-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.report-popup-content {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 500px; /* Width adjusted for better readability */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.report-popup-content h2 {
+    margin-bottom: 15px;
+    text-align: left; /* Align to the left */
+}
+
+.report-popup-content p {
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #333;
+    text-align: left; /* Align to the left */
+}
+
+.title-prijavi-trgovinu{
+    color: midnightblue;
+}
+
+.title-prijavi-trgovinu-container{
+    display: flex;
+    justify-content: center;
+}
+
+.report-reasons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align content to the left */
+    margin-bottom: 15px;
+}
+
+.reason-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    width: 100%;
+    text-align: left; /* Align the reason text to the left */
+}
+
+.reason-item input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+    width:20px;
+}
+
+.reason-text {
+    text-transform: capitalize;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.report-note {
+    width: 100%;
+    height: 60px; /* Reduced height */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 15px;
+    resize: none;
+}
+
+.report-popup-actions {
+    display: flex;
+    justify-content: space-between; /* Align buttons on opposite sides */
+    gap: 10px; /* Add spacing between buttons */
+}
+
+.cancel-btn-report-popup,
+.submit-btn-report-popup {
+    background-color: #9bd7eb;
+    color: #333;
+    border: none;
+    padding: 8px 12px; /* Smaller size for buttons */
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    width: 90px; /* Ensure both buttons are the same size */
+    text-align: center;
+    font-weight: bold;
+}
+
+.cancel-btn-report-popup:hover {
+    background-color: red;
+}
+
+.submit-btn-report-popup:hover {
+    background-color: limegreen;
+}

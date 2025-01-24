@@ -1,9 +1,6 @@
 package com.example.backend.controller;
 
-import com.example.backend.exception.ShopDoesntBelongToGivenOwnerException;
-import com.example.backend.exception.UserNotFoundException;
-import com.example.backend.model.Person;
-import com.example.backend.model.Shop;
+import com.example.backend.dto.ShopInfoDTO;
 import com.example.backend.service.JWTService;
 import com.example.backend.service.OwnerService;
 import com.example.backend.service.PersonService;
@@ -13,11 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
 public class OwnerController {
 
     @Autowired
@@ -33,7 +28,7 @@ public class OwnerController {
     private OwnerService ownerService;
 
     @GetMapping("/owner/getMyShops")
-    public ResponseEntity<List<Shop>> getMyShops(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+    public ResponseEntity<List<ShopInfoDTO>> getMyShops(@RequestHeader(value = "Authorization", required = false) String authHeader) {
         return ownerService.getMyShops(authHeader);
     }
 

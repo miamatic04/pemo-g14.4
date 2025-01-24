@@ -36,6 +36,8 @@ public class OAuth2Service {
     @Autowired
     private PersonService personService;
 
+    private String access_token;
+
     public RedirectView handleOAuth2Callback(String code) throws JsonProcessingException {
         SecurityContextHolder.getContext().setAuthentication(createAuthenticationFromCode(code));
 
@@ -53,14 +55,20 @@ public class OAuth2Service {
             user.setFirstName(firstName);
             user.setLastName(lastName);
             user.setRole("user");
+            user.setGoogleAccessToken(access_token);
+            personService.save(user);
+        } else {
+            user.setGoogleAccessToken(access_token);
             personService.save(user);
         }
 
-        return new RedirectView("http://" + web_url + ":3000/userhome?token=" + jwtToken + "&role=" + user.getRole());
+        return new RedirectView("http://" + web_url + "/userhome?token=" + jwtToken + "&role=" + user.getRole());
     }
 
     public OAuth2AuthenticationToken createAuthenticationFromCode(String code) {
         String accessToken = exchangeCodeForToken(code);
+
+        access_token = accessToken;
 
         Map<String, Object> userAttributes = fetchUserDetailsWithAccessToken(accessToken).getAttributes();
 
@@ -70,7 +78,7 @@ public class OAuth2Service {
         OAuth2User oAuth2User = fetchUserDetailsWithAccessToken(accessToken);
 
         List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("user");
-        return new OAuth2AuthenticationToken(oAuth2User, authorities, "128191605968-jg0b3nos05aieno3lel20kli5f8eobr7.apps.googleusercontent.com");
+        return new OAuth2AuthenticationToken(oAuth2User, authorities, "828869351024-4b3mefodfksotddch8mkiha71t2tn83j.apps.googleusercontent.com");
     }
 
 
@@ -84,8 +92,8 @@ public class OAuth2Service {
                 .body(BodyInserters.fromFormData("grant_type", "authorization_code")
                         .with("code", code)
                         .with("redirect_uri", "http://" + web_url + ":8080/oauth2/callback")  // Ensure this matches provider config
-                        .with("client_id", "128191605968-jg0b3nos05aieno3lel20kli5f8eobr7.apps.googleusercontent.com")
-                        .with("client_secret", "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"))
+                        .with("client_id", "828869351024-4b3mefodfksotddch8mkiha71t2tn83j.apps.googleusercontent.com")
+                        .with("client_secret", "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"))
                 .retrieve()
                 .bodyToMono(Map.class)
                 .map(response -> (String) response.get("access_token"))

@@ -1,0 +1,186 @@
+.payment-page {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #9bd7eb, #f9faac) no-repeat center center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.payment-container {
+    background: white;
+    border-radius: 25px;
+    width: 70%;
+    padding: 2%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.payment{
+    margin-bottom: 2%;
+    text-align: center;
+}
+
+.header-section-payment {
+    display: flex;
+    flex-direction: column; /* Promjena na stupčasti raspored */
+    align-items: center; /* Centriranje svih elemenata */
+    margin-bottom: 20px; /* Razmak ispod zaglavlja */
+}
+
+.header-content {
+    text-align: center; /* Centriranje teksta unutar header-content */
+    margin-top: -9%;
+}
+
+.detailsPayment{
+    color: #1d4ed8;
+    font-weight: bold;
+}
+
+.detailsPayment:hover{
+    cursor:pointer;
+}
+
+.payment-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-box-payment {
+    display: flex;
+    align-items: center; /* Poravnava tekst i input vertikalno */
+    margin-bottom: 3%; /* Razmak između polja */
+    position: relative;
+    margin-right: -2%;
+}
+
+.input-box-payment label {
+    margin-right: 1%; /* Razmak između oznake i inputa */
+    min-width: 150px; /* Postavljanje minimalne širine za oznake radi dosljednosti */
+}
+
+.input-box-payment input {
+    flex-grow: 1; /* Input će zauzeti preostali prostor */
+    flex-basis: 100%; /* Osigurava da svi inputi imaju istu širinu */
+    padding: 10px; /* Unutarnji razmak unutar inputa */
+    border: 1px solid #ccc; /* Okvir oko inputa */
+    border-radius: 5px; /* Zaobljeni rubovi */
+    font-size: 16px; /* Veličina fonta */
+    background-color: #e6f7ff; /* Svijetlo plava pozadina */
+}
+
+.input-box-payment input:focus {
+    border-color: #4A90E2; /* Boja okvira kada je input u fokusu */
+    outline: none; /* Uklanja standardni outline */
+}
+
+.logoPay {
+    margin-left: 2%;
+    width: 7%;
+    height: auto;
+}
+
+#submitPayment {
+    background-color: #4A90E2; /* Boja dugmeta */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-bottom: 2%;
+}
+
+#submitPayment:hover{
+    background-color: limegreen;
+}
+
+#stopPayment {
+    background-color: #4A90E2; /* Boja dugmeta */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+
+#stopPayment:hover{
+    background-color: red;
+}
+
+.payment-form {
+    display: flex; /* Koristi Flexbox za raspored */
+    justify-content: space-between; /* Razmak između stupaca */
+    border: 10px solid #4A90E2;
+    border-radius: 3%;
+    padding: 5%;
+    margin: 3%;
+}
+
+.left-column-payment{
+    flex: 1; /* Oba stupca zauzimaju jednake dijelove prostora */
+    margin-right: 20px; /* Razmak između lijevog i desnog stupca */
+}
+
+
+.iconDown {
+    position: absolute;
+    cursor: pointer; /* Promjena kursora na pointer prilikom hovera */
+    margin-left: 90%;
+}
+
+@media screen and (max-width: 1024px) {
+    .payment-container {
+        width: 85%;
+        padding: 3%;
+    }
+
+    .logoPay {
+        width: 10%;
+    }
+
+    .input-box-payment label {
+        min-width: 120px;
+    }
+}
+
+/* Mobile styles */
+@media screen and (max-width: 768px) {
+    .payment-container {
+        width: 95%;
+        padding: 4%;
+    }
+
+    .logoPay {
+        width: 15%;
+    }
+
+    .header-content {
+        margin-top: 0;
+    }
+
+    .payment {
+        font-size: 24px;
+    }
+
+    .input-box-payment {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-right: 0;
+    }
+
+    .input-box-payment label {
+        margin-bottom: 5px;
+    }
+
+    .input-box-payment input {
+        width: 100%;
+    }
+
+    #submitPayment,
+    #stopPayment {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .payment-form {
+        margin: 2%;
+        padding: 3%;
+    }
+}

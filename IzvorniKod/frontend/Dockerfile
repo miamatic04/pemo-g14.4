@@ -6,7 +6,11 @@ COPY package.json package-lock.json ./
 
 RUN npm install
 
+RUN npm install -g serve
+
 COPY . .
 
+RUN npm run build
 
-ENTRYPOINT [ "npm", "run", "start"  ]
+ENTRYPOINT [ "npx", "serve", "-s", "build" ]
+#ENTRYPOINT [ "npm", "run", "start" ]

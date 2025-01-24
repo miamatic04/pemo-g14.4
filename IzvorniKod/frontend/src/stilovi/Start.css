@@ -14,7 +14,7 @@
     width: 70vw;
     height: 70vh;
     background: white;
-    border-radius: 5%;
+    border-radius: 5%;;
 }
 
 .login-form {
@@ -39,6 +39,22 @@
     width: auto;
     border-radius: 5%; /* zakrivljeni rubovi */
     padding: 2%;
+}
+
+@media (max-width: 800px) {
+    .image-container img {
+        border-radius: 5%; /* zakrivljeni rubovi */
+        padding: 2%;
+    }
+
+    .image-container{
+        margin-top: -6vh;
+        height: 1%;
+    }
+
+    .wrapper{
+        height: 80vh;
+    }
 }
 
 .form{
@@ -91,20 +107,21 @@
     position: relative;
 }
 
-#submit{
+#submitprijava{
     border-radius: 1vw;
     background-color: lightskyblue;
     cursor: pointer; /* kada se prede misem preko gumba za predaju, kursor misa se pretvori iz strelice u ruku */
     font-family: Garamond, serif;
     padding: 2%;
     font-size: 3vh;
+    width: 80%;
 }
 
 .registration{
     font-family: Garamond, serif;
     text-wrap: nowrap;
     font-size: 2.5vh;
-    margin-top: 5%;
+    margin-top: 2%;
     text-align: center;
 }
 
@@ -120,4 +137,72 @@
 a{
     color: #72b9e0;
     font-family: Garamond, serif;
+}
+
+@media screen and (max-width: 1400px) {
+    .wrapper {
+        width: 85vw;
+        height: 75vh;
+    }
+
+    .image-container {
+        flex: 0.4;
+    }
+
+    .login-form {
+        margin: 3%;
+    }
+
+    #email, #pass {
+        height: 3.5vh;
+        font-size: 75%;
+    }
+
+    #submitprijava {
+        font-size: 2.5vh;
+        align-self: flex-start;
+    }
+}
+
+/* Mobile View (max-width: 768px) */
+@media screen and (max-width: 804px) {
+    .wrapper {
+        width: 90vw;
+        height: auto;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .login-form {
+        margin: 0;
+        padding: 15px;
+        border-width: 3px;
+    }
+
+    .image-container {
+        display: none;
+    }
+
+    .input-box {
+        width: 100%;
+    }
+
+    .input-box input {
+        width: 90%;
+    }
+
+    #email, #pass {
+        height: 35px;
+        font-size: 14px;
+    }
+
+    #submitprijava {
+        width: 90%;
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    .registration, .others {
+        font-size: 14px;
+    }
 }

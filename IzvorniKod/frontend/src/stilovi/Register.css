@@ -50,23 +50,76 @@
     height: auto;
 }
 
-@media screen and (max-width: 768px){
-    .wrapper{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        max-width: 60vw;
-        height: 80vh;
+.input-box{
+    margin-bottom: 2px;
+}
+
+cssCopy/* Tablet View (max-width: 1024px) */
+@media screen and (max-width: 1024px) {
+    .wrapper {
+        max-width: 85vw;
     }
-    .image-container {
-        width: 60vw;
-        display:flex;
-        justify-content: center;
-        background-color: white;
+
+    .registracija{
+        margin-bottom: 4rem;
     }
-    .image-container img{
-        max-height: 30vh;
+
+    .register-form {
+        padding: 1.5%;
+    }
+
+    .image-container img {
+        width: 35vw;
+    }
+
+    #firstName, #lastName, #passConfirm {
+        height: 3.5vh;
+        font-size: 75%;
+    }
+}
+
+/* Mobile View (max-width: 768px) */
+@media screen and (max-width: 768px) {
+    .wrapper {
+        width: 90vw;
+        height: auto;
+        padding: 15px;
+    }
+
+    .registracija{
+        margin-bottom: 2rem;
+    }
+
+    .register-form {
+        margin: 0;
+        padding: 15px;
+        border-width: 3px;
+        width: 100%;
+    }
+
+    .input-box {
+        width: 100%;
+    }
+
+    #firstName, #lastName, #passConfirm {
         width: 90%;
-        object-fit: contain;
+        height: 35px;
+        font-size: 14px;
+        margin-bottom: 0;
+    }
+
+    .icon {
+        right: 12%;
+    }
+
+    .image-container {
+        display: none;
+    }
+
+    #submit {
+        width: 90%;
+        font-size: 16px;
+        padding: 10px;
+        margin-top: 15px;
     }
 }

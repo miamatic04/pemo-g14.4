@@ -47,8 +47,10 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeRequests(auth -> auth
-                        .requestMatchers("/oauth2/**", "/register/addUser", "/login", "/confirmEmail").permitAll()
+                        .requestMatchers("/oauth2/**", "/register/addUser", "/login", "/confirmEmail", "/userUploads/**").permitAll()
                         .requestMatchers("/ownerhome").hasAuthority("owner")
+                        .requestMatchers("/moderatorhome").hasAuthority("moderator")
+                        .requestMatchers("/adminhome").hasAuthority("admin")
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
@@ -67,7 +69,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://" + web_url + ":3000"));
+        configuration.setAllowedOrigins(Arrays.asList("http://" + web_url + ":3000", "http://" + web_url));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
 

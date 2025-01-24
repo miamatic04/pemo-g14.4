@@ -1,7 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.exception.UserNotFoundException;
-import com.example.backend.model.LocationInfo;
+import com.example.backend.dto.LocationInfo;
 import com.example.backend.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

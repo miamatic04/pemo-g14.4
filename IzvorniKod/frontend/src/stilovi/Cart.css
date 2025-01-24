@@ -1,0 +1,336 @@
+.cart-page {
+    min-height: 100vh;
+    background: linear-gradient(to top, #f9faac, #9bd7eb) no-repeat center center;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    font-family:"Courier New", serif;
+
+}
+
+.cart-container {
+    background: white;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 1200px;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.logo {
+    width: 50px;
+    margin: 10px;
+}
+
+.za-mob{
+    display: none;
+}
+
+.logo:hover{
+    cursor: pointer;
+}
+
+.cart-header {
+    display: flex;
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 3px solid #9bd7eb;
+}
+
+.cart-content {
+    display: flex;
+    gap: 30px;
+}
+
+.left-column {
+    border: 4px solid #9bd7eb;
+    border-radius: 10px;
+    padding: 15px;
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.cart-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.cart-item-column {
+    flex: 1;
+    text-align: center;
+    display: flex;
+    font-size: 14px;
+}
+
+.cart-item-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.cart-item-column img {
+    margin-right: 5px;
+}
+
+.header {
+    font-weight: bold;
+    background-color: #f8f8f8;
+    padding: 5px 0;
+}
+
+.shop-name {
+    font-size: 12px;
+    color: #777;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.quantity-controls button {
+    background-color: #e0e0e0;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.quantity-controls input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.right-column {
+    flex: 1;
+    border-radius: 15px;
+    padding: 0px;
+}
+
+.right-column h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.right-column p {
+    font-size: 16px;
+    color: #555;
+    margin: 10px 0;
+}
+
+.promo-code {
+    display: flex;
+    margin: 20px 0;
+}
+
+.promo-code input {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.promo-code button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.promo-code button:hover {
+    background-color: #0056b3;
+}
+
+.proceed-to-payment,
+.cancel-order {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.proceed-to-payment {
+    background-color: #28a745;
+    color: white;
+}
+
+.proceed-to-payment:hover {
+    background-color: #218838;
+}
+
+.cancel-order {
+    background-color: #ff6b6b;
+    color: white;
+}
+
+.cancel-order:hover {
+    background-color: #e65555;
+}
+
+
+/* Proizvodi u košarici */
+.table-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.table-row img {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+}
+
+.table-row h4 {
+    font-size: 16px;
+    margin: 0;
+    color: #333;
+}
+
+.table-row p {
+    font-size: 14px;
+    margin: 0;
+    color: #555;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.quantity-controls button {
+    background-color: #e0e0e0;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.quantity-controls input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.cart-header-title {
+    font-size: 250%; /* Veličina naslova */
+    text-align: center;
+    flex-grow: 1; /* Naslov zauzima preostali prostor */
+    color: midnightblue;
+    font-weight: bold;
+    margin-top: 3%;
+    font-family: Arial, sans-serif
+}
+
+@media screen and (max-width: 1024px) {
+    .cart-content {
+        flex-direction: column;
+    }
+
+    .right-column {
+        margin-top: 20px;
+    }
+
+    .cart-container {
+        padding: 20px;
+    }
+
+    .cart-item-column {
+        font-size: 12px;
+    }
+}
+
+/* Mobile styles */
+@media screen and (max-width: 768px) {
+    .cart-page {
+        padding: 20px 10px;
+    }
+
+    .za-mob{
+        display: flex;
+    }
+
+    .cart-container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .cart-header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cart-header h1 {
+        font-size: 24px;
+        margin: 10px;
+    }
+
+    .cart-item-row {
+        flex-direction: column;
+        gap: 10px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+
+    .cart-item-row.header {
+        display: none;
+    }
+
+    .cart-item-column {
+        justify-content: center;
+        width: 100%;
+        text-align: center;
+    }
+
+    .quantity-controls {
+        justify-content: center;
+    }
+
+    .promo-code {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .promo-code button {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .right-column {
+        text-align: center;
+    }
+}
