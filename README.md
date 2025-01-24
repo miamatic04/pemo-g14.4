@@ -8,6 +8,8 @@ Ovaj projekt rezultat je timskog rada razvijenog u sklopu projektnog zadatka kol
 * Vlasnik: email - vlasnik@gmail.com / lozinka - a
 * Moderator: email - moderator@gmail.com / lozinka - a
 * Admin: email - admin@gmail.com / lozinka - a
+
+Admin dodaje proizvode na platformu, te proizvode mogu vlasnici dodavati u svoje trgovine.
   
 # Stop 'n Shop
 Naš je projektni zadatak na kolegiju Programsko inženjerstvo bio izraditi web aplikaciju koja bi ublažila problem nedovoljne povezanosti između stanovništva i njihovih lokalnih trgovina. 
