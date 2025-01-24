@@ -1,11 +1,4 @@
-import React, { useState } from 'react';
-
 import React, {useEffect, useState} from 'react';
-/*import ModeratorActivity from './ModeratorActivity';
-import UserActivity from './UserActivity';
-import AssignDisciplinaryMeasure from './AssignDisciplinaryMeasure';
-import AssignRole from './AssignRole';
-import './stilovi/AdminPanel.css';*/
 import logo from "./Components/Assets/logo1.png";
 import {useLocation, useNavigate} from "react-router-dom";
 
