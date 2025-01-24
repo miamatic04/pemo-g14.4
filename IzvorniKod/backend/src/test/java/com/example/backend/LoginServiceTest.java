@@ -76,8 +76,7 @@ class LoginServiceTest {
         when(jwtService.generateToken(loginInfo.getEmail())).thenReturn(generatedToken);
 
 
-        OrderDTO activeOrderDTO = new OrderDTO((long) 10000, (long) 12345, "konzum", "/image/path", null,
-                0.0, true,  false, true, LocalDate.of(2025, 1, 1));
+        OrderDTO activeOrderDTO = new OrderDTO((long) 10000, null, 0.0, true,  false, true, LocalDate.of(2025, 1, 1));
         when(orderService.getActiveOrder(generatedToken)).thenReturn(activeOrderDTO);
 
 
@@ -168,6 +167,9 @@ class LoginServiceTest {
         assertThrows(EmailNotConfirmedException.class, () -> {
             loginService.login(loginInfo);
         });
+
+        verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
+        verify(personService, times(1)).findUser(loginInfo.getEmail());
     }
 
     @Test
@@ -182,5 +184,6 @@ class LoginServiceTest {
         assertThrows(InvalidLoginException.class, () -> {
             loginService.login(loginInfo);
         });
+
     }
 }
