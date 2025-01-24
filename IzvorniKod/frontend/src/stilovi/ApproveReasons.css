@@ -1,4 +1,4 @@
-.modal-backdrop {
+.modal-backdrop1 {
     position: fixed;
     top: 0;
     left: 0;
@@ -11,7 +11,7 @@
     z-index: 1000;
 }
 
-.modal-content {
+.modal-content1 {
     background: #fff;
     padding: 2rem;
     border-radius: 4px;
@@ -25,7 +25,7 @@
     max-height: 80vh;
 }
 
-.modal-close {
+.modal-close1{
     position: absolute;
     top: 4px;
     right: 4px;
@@ -38,7 +38,7 @@
     line-height: 1;
 }
 
-.modal-content h2 {
+.modal-content1 h2 {
     margin-top: 0;
     font-size: 1.1rem;
     margin-bottom: 0.5rem;
@@ -51,7 +51,7 @@
     margin-top: 10px;
 }
 
-.modal-content button {
+.modal-content1 button {
     padding: 6px 16px;
     border-radius: 4px;
     border: 1px solid #2563eb;

@@ -6,9 +6,9 @@ function Modal({ isOpen, onClose, children }) {
     if (!isOpen) return null;
 
     return (
-        <div className="modal-backdrop">
-            <div className="modal-content">
-                <button className="modal-close" onClick={onClose}>
+        <div className="modal-backdrop1">
+            <div className="modal-content1">
+                <button className="modal-close1" onClick={onClose}>
                     ×
                 </button>
                 {children}
