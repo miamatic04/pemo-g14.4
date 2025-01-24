@@ -4,6 +4,7 @@ import '../stilovi/district.css';
 import logo1 from "../Components/Assets/logo1.png";
 import { useNavigate } from "react-router-dom";
 import ProductModal from "../Components/ProductModal";
+import EventModal from "../Components/EventModal";
 
 const ShopCard = ({ key1, shopName1, description1, imagePath1, code, discount }) => {
     const [imageError, setImageError] = React.useState(false);
@@ -83,39 +84,63 @@ const ProductCard = ({ id, title, shopName, description, price, imagePath, onPro
     );
 };
 
-const EventCard = ({ name2, shopName2, dateTime2, imagePath2 }) => {
-    const [imageError, setImageError] = React.useState(false);
+const EventCard = ({ name2, shopName2, dateTime2, imagePath2, event }) => {
+    const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate();
+    const [registeredEvents, setRegisteredEvents] = useState([]);
 
-    const formattedDateTime = new Date(dateTime2).toLocaleString('hr-HR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
+    const handleSignup = async (eventId) => {
+        try {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/signup/${eventId}`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            if (response.ok) {
+                setRegisteredEvents([...registeredEvents, eventId]);
+                alert('Uspješno ste se prijavili na događaj!');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
     return (
-        <div className="shop-card9">
-            <div className="shop-image-container9">
-                {!imageError ? (
+        <>
+            <div className="shop-card9" onClick={() => setShowModal(true)}>
+                <div className="shop-image-container9">
                     <img
                         src={imagePath2 || "/api/placeholder/200/120"}
                         alt={name2}
                         className="shop-image9"
-                        onError={() => setImageError(true)}
+                        onError={(e) => e.target.src = "/api/placeholder/200/120"}
                     />
-                ) : (
-                    <img
-                        src="/api/placeholder/200/120"
-                        alt="Event"
-                        className="shop-image9"
-                    />
-                )}
+                </div>
+                <p className="shop-title">{name2}</p>
+                <p className="shop-name">{shopName2}</p>
+                <p className="event-datetime">
+                    {new Date(dateTime2).toLocaleString('hr-HR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    })}
+                </p>
             </div>
-            <p className="shop-title">{name2}</p>
-            <p className="shop-name">{shopName2}</p>
-            <p className="event-datetime">{formattedDateTime}</p>
-        </div>
+
+            {showModal && (
+                <EventModal
+                    event={event}
+                    onClose={() => setShowModal(false)}
+                    onSignup={handleSignup}
+                    navigate={navigate}
+                />
+            )}
+        </>
     );
 };
 
@@ -163,6 +188,8 @@ const Section = ({ title, items, itemType, onProductClick }) => {
                                         shopName2={item.shopName}
                                         dateTime2={item.dateTime}
                                         imagePath2={item.imagePath}
+                                        event={item} // Pass the entire event object
+                                        shopId2={item.shopId}
                                     />
                                 );
                             } else if (itemType === 'product') {
