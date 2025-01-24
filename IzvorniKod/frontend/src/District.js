@@ -5,32 +5,38 @@ import logo1 from "./Components/Assets/logo1.png";
 import { useNavigate } from "react-router-dom";
 import ProductModal from "./Components/ProductModal";
 
-const ShopCard = ({ key1, shopName1, description1, imagePath1 }) => {
+const ShopCard = ({ key1, shopName1, description1, imagePath1, code, discount }) => {
     const [imageError, setImageError] = React.useState(false);
     const navigate = useNavigate();
+
+    const handleClick = code ? null : () => {
+        navigate('/shop', { replace: false, state: { shopId: key1 } });
+    };
+
     return (
-        <div className="shop-card9" onClick={() => navigate('/shop', {
-            replace: false,
-            state: { shopId: key1 }
-        })}>
-            <div className="shop-image-container9">
-                {!imageError ? (
-                    <img
-                        src={imagePath1 || "/api/placeholder/200/120"}
-                        alt="Trgovina"
-                        className="shop-image9"
-                        onError={() => setImageError(true)}
-                    />
-                ) : (
-                    <img
-                        src="/api/placeholder/200/120"
-                        alt="Trgovina"
-                        className="shop-image"
-                    />
-                )}
-            </div>
-            <p className="shop-title">{shopName1}</p>
-            {description1 && <p className="shop-description">{description1}</p>}
+        <div
+            className={`shop-card9 ${code ? 'discount-card' : ''}`}
+            onClick={handleClick}
+        >
+            {code ? (
+                <div className="discount-content">
+                    <p className="discount-code">{code}</p>
+                    <p className="shop-title">{shopName1}</p>
+                    <h2 className="discount-percentage">{discount * 100}%</h2>
+                </div>
+            ) : (
+                <div>
+                    <div className="shop-image-container9">
+                        <img
+                            src={imagePath1 || "/api/placeholder/200/120"}
+                            alt="Trgovina"
+                            className="shop-image9"
+                            onError={(e) => (e.target.src = "/api/placeholder/200/120")}
+                        />
+                    </div>
+                    <p className="shop-title">{shopName1}</p>
+                </div>
+            )}
         </div>
     );
 };
@@ -180,6 +186,8 @@ const Section = ({ title, items, itemType, onProductClick }) => {
                                         shopName1={item.shopDTO ? item.shopDTO.shopName : item.shopName || ''}
                                         description1={item.shopDTO ? item.shopDTO.description : item.description || ''}
                                         imagePath1={item.shopDTO ? item.shopDTO.imagePath : item.imagePath || ''}
+                                        code={item.code || ''}
+                                        discount={item.discount || ''}
                                     />
                                 );
                             }
@@ -200,6 +208,7 @@ const District = () => {
     const [shops, setShops] = useState([]);
     const [products, setProducts] = useState([]);
     const [events, setEvents] = useState([]);
+    const [discounts, setDiscounts] = useState([]);
     const [radius] = useState(5000);
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
@@ -262,6 +271,15 @@ const District = () => {
                 const eventsData = await eventsResponse.json();
                 setEvents(eventsData);
 
+                const discountsResponse = await fetch(
+                    `http://${process.env.REACT_APP_WEB_URL}:8080/getHoodDiscounts`,
+                    { method: 'GET', headers }
+                );
+                if (!eventsResponse.ok) throw new Error('Failed to fetch events');
+                const discountData = await discountsResponse.json();
+                console.log(discountData);
+                setDiscounts(discountData);
+
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -269,15 +287,6 @@ const District = () => {
 
         fetchData();
     }, []);
-
-    const discounts = [
-        { shopName: 'Konzum popust', imagePath: '', id: 1 },
-        { shopName: 'Lidl posebna ponuda', imagePath: '', id: 2 },
-        { shopName: 'Kik popusti', imagePath: '', id: 3 },
-        { shopName: 'Tedi popust', imagePath: '', id: 4 },
-        { shopName: 'Spar popust', imagePath: '', id: 5 },
-        { shopName: 'Tisak popust', imagePath: '', id: 6 }
-    ];
 
     return (
         <div className="page-container9">

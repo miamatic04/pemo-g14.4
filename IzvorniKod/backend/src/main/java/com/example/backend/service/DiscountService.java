@@ -128,6 +128,7 @@ public class DiscountService {
                 .filter((discount) -> discount.getShop().getHood().equals(user.getHood()))
                 .map((discount) -> {
                     DiscountDTO discountDTO = new DiscountDTO();
+                    discountDTO.setShopName(discount.getShop().getShopName());
                     discountDTO.setDiscount(discount.getDiscount());
                     discountDTO.setCode(discount.getCode());
                     discountDTO.setShopId(discount.getShop().getId());

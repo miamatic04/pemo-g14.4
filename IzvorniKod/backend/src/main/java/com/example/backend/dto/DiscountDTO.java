@@ -11,4 +11,5 @@ public class DiscountDTO {
     private String code;
     private double discount;
     private Long shopId;
+    private String shopName;
 }
