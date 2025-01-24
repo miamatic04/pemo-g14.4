@@ -13,3 +13,4 @@ COPY . .
 RUN npm run build
 
 ENTRYPOINT [ "npx", "serve", "-s", "build" ]
+#ENTRYPOINT [ "npm", "run", "start" ]
