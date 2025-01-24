@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import './stilovi/UserProfile.css';
 import logo1 from './Components/Assets/logo1.png';
 import avatarImage from './Components/Assets/avatar.png'; // Putanja do slike avatara
-import { FaCaretDown } from 'react-icons/fa'; /* ikona za kvart */
 
 const UserProfile = () => {
     const [formData, setFormData] = useState({
@@ -83,15 +82,6 @@ const UserProfile = () => {
         setBackendResult(null);
     };
 
-    const toggleDistricts = () => {
-        setDistrictsVisible(!districtsVisible);
-    };
-
-    const handleDistrictSelect = (district) => {
-        setFormData({ ...formData, district });
-        setDistrictsVisible(false); // zatvori izbornik nakon odabira
-    };
-
     const handleRequestPromotion = async () => {
         try {
             const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/requestPromotion`, {
@@ -115,24 +105,6 @@ const UserProfile = () => {
             console.error('Error:', error);
             setBackendResult({ message: "Došlo je do greške pri slanju zahtjeva." });
         }
-    };
-
-    const handleDeleteProfile = () => {
-        // Ukloni podatke iz localStorage
-        localStorage.removeItem('userProfile');
-
-        // Resetiraj stanje forme
-        setFormData({
-            firstName: '',
-            lastName: '',
-            email: '',
-            dateOfBirth: '',
-            username: '',
-            district: '',
-            role: 'user'
-        });
-
-        setBackendResult({ message: "Profil je uspješno izbrisan!" });
     };
 
     const fetchUserInfo = async () => {
@@ -194,11 +166,13 @@ const UserProfile = () => {
     return (
         <div className="user-profile-page">
             <div className="user-profile-container">
-                <div className="logo1">
-                    <img src={logo1} onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')} style={{ cursor: 'pointer' }} />
+                <div className="logo1-profile">
+                    <img src={logo1} className="logo1-profile-image"
+                         onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
+                         style={{cursor: 'pointer'}}/>
+                    <h1 className="myProfile">MOJ PROFIL</h1>
                 </div>
                 <form className="profile-form" onSubmit={handleSubmit}>
-                    <h1 className="myProfile">MOJ PROFIL</h1>
                     <div className="header-section">
                         <img src={avatarImage} alt="Avatar" className="avatar" />
                         <div className="profile-info">

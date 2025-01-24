@@ -183,7 +183,7 @@ const Cart = () => {
             <div className="cart-container">
                 <div className="cart-header">
                     <img className="logo" src={logo1} onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}></img>
-                    <h1>Vaša košarica</h1>
+                    <h1 className="cart-header-title">Vaša košarica</h1>
                 </div>
                 <div className="cart-content">
                     <div className="left-column">

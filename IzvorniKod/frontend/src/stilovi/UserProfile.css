@@ -14,9 +14,12 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.myProfile{
-    margin-bottom: 2%;
+.myProfile {
+    font-size: 200%; /* Veličina fonta naslova */
+    color: midnightblue;
     text-align: center;
+    margin-bottom: 2%;
+
 }
 
 .header-section {
@@ -119,8 +122,19 @@
     background-color: #f0f0f0; /* Hover efekat na stavkama izbornika */
 }
 
-.logo1 {
-    margin-bottom: 20px; /* Razmak ispod loga */
+.logo1-profile {
+    position: relative; /* Omogućava pozicioniranje djece unutar ovog elementa */
+    display: flex;
+    align-items: center; /* Vertikalno poravnanje elemenata */
+    justify-content: center; /* Centriranje naslova horizontalno */
+    margin-bottom: 20px;
+}
+
+.logo1-profile-image {
+    position: absolute; /* Pozicionira logo apsolutno unutar roditelja */
+    left: 0; /* Postavlja logo uz lijevi rub */
+    width: 5%; /* Širina loga */
+    height: auto;
 }
 
 #submitProfile {

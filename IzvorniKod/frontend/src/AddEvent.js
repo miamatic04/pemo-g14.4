@@ -228,7 +228,7 @@ const AddEvent = () => {
                         )}
                     </div>
 
-                    <button type="submit" className="submit-button-event">
+                    <button type="submit" className="submit-button">
                         Dodaj događaj
                     </button>
                 </form>
