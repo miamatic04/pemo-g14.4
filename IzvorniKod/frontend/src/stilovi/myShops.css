@@ -119,3 +119,41 @@ button {
 .no-shops p {
     margin: 10px 0;
 }
+
+@media screen and (max-width: 768px) {
+    .shop-list {
+        max-width: 95%;
+        margin: 10px auto;
+        padding: 15px;
+    }
+
+    .li1 {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .button-group {
+        width: 100%;
+        justify-content: center;
+    }
+
+    button {
+        width: 45%;
+        padding: 8px;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .shop-list {
+        max-width: 80%;
+    }
+
+    .li1 {
+        padding: 15px;
+    }
+
+    button {
+        padding: 8px 15px;
+    }
+}

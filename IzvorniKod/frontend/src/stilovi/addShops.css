@@ -105,3 +105,42 @@ textarea {
 .back-button:hover {
     background-color: #e53935;
 }
+
+@media screen and (max-width: 768px) {
+    .shop-creator {
+        max-width: 95%;
+        padding: 5%;
+        border-radius: 3%;
+    }
+
+    .registrirajTrgovinu {
+        font-size: 1.5em;
+    }
+
+    #shopName, #description, #shopImage {
+        padding: 4%;
+    }
+
+    .map-container {
+        height: 250px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .shop-creator {
+        max-width: 80%;
+        padding: 4%;
+    }
+
+    .registrirajTrgovinu {
+        font-size: 1.8em;
+    }
+
+    .map-container {
+        height: 280px;
+    }
+}

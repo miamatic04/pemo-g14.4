@@ -3,16 +3,17 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    min-height: 100vh; /* Osigurava da je sadržaj centriran vertikalno */
-    background: linear-gradient(to bottom, #9bd7eb, #f9faac) no-repeat center center; /* Prelazak iz plave u žutu */
-    background-size: cover; /* Da pozadina bude preko cijelog ekrana */
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #9bd7eb, #f9faac) no-repeat center center;
+    background-size: cover;
+    min-width: 100vw;
 }
 
 .header-reported-products {
     display: flex;
-    align-items: center; /* Poravnava logo i naslov po visini */
-    width: 100%; /* Širina zaglavlja */
-    justify-content: center; /* Centriranje sadržaja unutar zaglavlja */
+    align-items: center;
+    width: 100%;
+    justify-content: center;
     padding: 1%;
     background-color: white;
 }
@@ -24,10 +25,10 @@
 }
 
 .header-title-reported-products {
-    font-size: 250%; /* Veličina naslova */
+    font-size: 250%;
     text-align: center;
     color: midnightblue;
-    flex-grow: 1; /* Naslov zauzima preostali prostor */
+    flex-grow: 1;
 }
 
 .reported-products-container {
@@ -39,11 +40,46 @@
 
 .reported-products-card {
     display: flex;
-    border: 0.5rem solid lightskyblue; /* Plava granica */
-    border-radius: 1%; /* Zaobljeni rubovi */
-    padding: 2vh; /* Unutarnji razmak */
-    margin-top: 2vh; /* Razmak između događaja */
-    margin-bottom: 2vh;
-    background-color: white; /* Pozadina kartice događaja */
-    width: 70%; /* Širina kartice događaja */
+    border: 0.5rem solid lightskyblue;
+    border-radius: 1%;
+    padding: 2vh;
+    margin: 2vh 0;
+    background-color: white;
+    width: 70%;
+}
+
+@media screen and (max-width: 768px) {
+    .header-title-reported-products {
+        font-size: 120%;
+    }
+
+    .report-product-logo {
+        height: 5vh;
+    }
+
+    .reported-products-card {
+        width: 95%;
+        padding: 1vh;
+        border: 0.3rem solid lightskyblue;
+    }
+
+    .header-reported-products {
+        padding: 2%;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .header-title-reported-products {
+        font-size: 180%;
+    }
+
+    .report-product-logo {
+        height: 6vh;
+    }
+
+    .reported-products-card {
+        width: 85%;
+        padding: 1.5vh;
+        border: 0.4rem solid lightskyblue;
+    }
 }

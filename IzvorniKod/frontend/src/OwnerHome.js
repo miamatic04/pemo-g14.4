@@ -391,19 +391,15 @@ const OwnerHome = () => {
                 <div className="klasa2">
                     <h1>Trgovine</h1>
                     {showingAllShops && (
-                        <small style={{ color: 'gray', fontStyle: 'italic', fontSize: '20px' }}>
-                            <p onClick={fetchRecommendedShops} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>Show recommended shops</p>
-                        </small>
+                        <p onClick={fetchRecommendedShops} className="preporucene">Prikaži preporučene trgovine</p>
                     )}
                     {!showingAllShops && (
-                        <small style={{ color: 'gray', fontStyle: 'italic', fontSize: '20px' }}>
-                            <p onClick={fetchShops} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>Show all shops</p>
-                        </small>
+                        <p onClick={fetchShops} className="preporucene">Prikaži sve trgovine</p>
                     )}
-                    <form className="forma1">
-                        <label>
+                    <form className="forma12">
+                    <label>
                             <i>Sortiraj trgovine po: </i>
-                            <select value={sortOrder} onChange={handleSortChange}>
+                            <select value={sortOrder} className="select12" onChange={handleSortChange}>
                                 <option value="AZ">nazivu A-Z</option>
                                 <option value="ZA">nazivu Z-A</option>
                                 <option value="udaljenostBlizi">udaljenosti (prvo bliži)</option>
@@ -438,14 +434,10 @@ const OwnerHome = () => {
                 <div className="klasa2">
                     <h1>Proizvodi</h1>
                     {showingAllProducts && (
-                        <small style={{ color: 'gray', fontStyle: 'italic', fontSize: '20px' }}>
-                            <p onClick={fetchRecommendedProducts} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>Show recommended products</p>
-                        </small>
+                        <p onClick={fetchRecommendedProducts} className="preporucene">Prikaži preporučene proizvode</p>
                     )}
                     {!showingAllProducts && (
-                        <small style={{ color: 'gray', fontStyle: 'italic', fontSize: '20px' }}>
-                            <p onClick={fetchProducts} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>Show all products</p>
-                        </small>
+                        <p onClick={fetchProducts} className="preporucene">Prikaži sve proizvode</p>
                     )}
                     {/*<form className="forma1">
                         <label>

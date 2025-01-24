@@ -85,7 +85,7 @@ function ReportItem({
             <h4>Prijavljeni korisnik: {reportedName}</h4>
 
             {reviewText && (
-                <p>
+                <p id="sadrzaji">
                     <strong>Sadržaj:</strong> {reviewText}
                 </p>
             )}
@@ -145,7 +145,7 @@ function ReportItem({
             )}
 
             <ApproveReasons isOpen={showReasonsPopup} onClose={() => setShowReasonsPopup(false)}>
-                <h4>Approve Report Reasons</h4>
+                <h4>Potvrdi razloge prijave</h4>
                 <ul>
                     {reportReasons.map((reason, index) => (
                         <li key={index}>
@@ -161,8 +161,8 @@ function ReportItem({
                     ))}
                 </ul>
                 <div className="popup-actions">
-                    <button onClick={handleConfirmReasons}>Confirm</button>
-                    <button onClick={() => setShowReasonsPopup(false)}>Cancel</button>
+                    <button onClick={handleConfirmReasons}>Potvrdi</button>
+                    <button onClick={() => setShowReasonsPopup(false)}>Otkaži</button>
                 </div>
             </ApproveReasons>
         </div>

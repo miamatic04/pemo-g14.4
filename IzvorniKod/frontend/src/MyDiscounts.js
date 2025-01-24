@@ -32,7 +32,7 @@ const MyDiscounts = () => {
             </div>
 
             {/* Discounts Grid */}
-            <btn className="dodajNoviPopust" onClick={() => navigate('/addDiscount')}>Dodaj novi popust</btn>
+            <button className="dodajNoviPopust" onClick={() => navigate('/addDiscount')}>Dodaj novi popust</button>
             <div className="discounts-container-owner">
                 {discounts.map((discount) => (
                     <div key={discount.id} className="discount-card-owner">

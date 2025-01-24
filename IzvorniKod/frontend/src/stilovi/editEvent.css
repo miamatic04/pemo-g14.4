@@ -43,6 +43,16 @@ label {
     font-weight: bold;
 }
 
+.logo12{
+    height: 10%;
+    width: 20%;
+}
+
+.logo12 img{
+    height: 100%;
+    width: 100%;
+}
+
 input, textarea {
     width: 100%;
     padding: 12px;

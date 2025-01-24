@@ -113,7 +113,7 @@ const EditEvent = () => {
         <div className="edit-event-page">
             <div className="edit-event-container">
                 <div className="edit-event-card">
-                    <div className="logo1">
+                    <div className="logo12">
                         <img
                             src={logo1}
                             onClick={() => navigate('/ownerhome')}

@@ -10,3 +10,26 @@
 .button-warning-form-posalji:hover{
     background-color: limegreen;
 }
+
+@media screen and (max-width: 768px) {
+    .button-warning-form-odustani,
+    .button-warning-form-posalji {
+        margin: 10px 0;
+        width: 100%;
+        padding: 12px;
+    }
+
+    textarea {
+        font-size: 16px;
+        padding: 8px;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .button-warning-form-odustani,
+    .button-warning-form-posalji {
+        margin: 15px 5%;
+        width: 40%;
+        padding: 10px;
+    }
+}

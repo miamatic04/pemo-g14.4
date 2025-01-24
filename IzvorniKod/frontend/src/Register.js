@@ -154,7 +154,7 @@ const Register = () => {
                     </div>
 
                     <br/><br/>
-                    <input type="submit" id="submit" value="Registriraj se"/>
+                    <input type="submit" id="submitprijava" value="Registriraj se"/>
 
                     {backendResult && (
                         <div>

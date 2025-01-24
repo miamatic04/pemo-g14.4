@@ -139,7 +139,7 @@ a{
     font-family: Garamond, serif;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1400px) {
     .wrapper {
         width: 85vw;
         height: 75vh;
@@ -160,11 +160,12 @@ a{
 
     #submitprijava {
         font-size: 2.5vh;
+        align-self: flex-start;
     }
 }
 
 /* Mobile View (max-width: 768px) */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 804px) {
     .wrapper {
         width: 90vw;
         height: auto;

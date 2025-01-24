@@ -1,7 +1,7 @@
 .report-item {
     border-radius: 5px;
     padding: 15px;
-    width: 100%;
+    min-width: 100%;
 }
 
 .report-item h3, .report-item h4 {
@@ -45,8 +45,44 @@
     color: white;
 }
 
+#sadrzaji{
+    flex: 1;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 90%;
+    text-align: left;
+}
+
 .action-buttons-reportitem button:nth-child(5):hover {
     background-color: limegreen;
     color: white;
+}
+
+@media screen and (max-width: 768px) {
+    .action-buttons-reportitem {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .action-buttons-reportitem button {
+        align-self: center;
+        width: 70%;
+        margin: 5px 0;
+        padding: 10px;
+    }
+
+    #sadrzaji {
+        max-width: 100%;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .action-buttons-reportitem {
+        gap: 15px;
+    }
+
+    /*.action-buttons-reportitem button {
+        min-width: 150px;
+    }*/
 }
 

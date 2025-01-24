@@ -50,10 +50,18 @@
     height: auto;
 }
 
+.input-box{
+    margin-bottom: 2px;
+}
+
 cssCopy/* Tablet View (max-width: 1024px) */
 @media screen and (max-width: 1024px) {
     .wrapper {
         max-width: 85vw;
+    }
+
+    .registracija{
+        margin-bottom: 4rem;
     }
 
     .register-form {
@@ -76,6 +84,10 @@ cssCopy/* Tablet View (max-width: 1024px) */
         width: 90vw;
         height: auto;
         padding: 15px;
+    }
+
+    .registracija{
+        margin-bottom: 2rem;
     }
 
     .register-form {
