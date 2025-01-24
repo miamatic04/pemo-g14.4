@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -213,7 +214,7 @@ public class ProductService {
         return "Product successfully updated";
     }
 
-    public ResponseEntity<String> addProductToPlatform(PlatformProductDTO platformProductDTO, String token) throws IOException {
+    public ResponseEntity<String> addProductToPlatform(PlatformProductDTO platformProductDTO, MultipartFile file, String token) throws IOException {
 
         String email = jwtService.extractUsername(token);
 
@@ -226,7 +227,7 @@ public class ProductService {
         if(!admin.getRole().contains("admin"))
             throw new UnauthorizedActionException("Not an admin.");
 
-        if (platformProductDTO.getFile().isEmpty()) {
+        if (file.isEmpty()) {
             throw new ImageNotFoundException("Image not found. Make sure you provide an image.");
         }
 
@@ -259,7 +260,7 @@ public class ProductService {
 
             index++;
 
-            String originalFilename = StringUtils.cleanPath(platformProductDTO.getFile().getOriginalFilename());
+            String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
             String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
             String newFilename = "product" + index + extension; // e.g. product7.png
 
@@ -274,7 +275,7 @@ public class ProductService {
                 }
             }
 
-            Files.copy(platformProductDTO.getFile().getInputStream(), targetLocation);
+            Files.copy(file.getInputStream(), targetLocation);
 
             String frontendPath = "http://" + web_url_img + "/userUploads/" + newFilename;
 

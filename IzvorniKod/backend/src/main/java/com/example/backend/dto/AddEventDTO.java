@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class AddEventDTO {
-
+    private Long id;
     private String name;
     private String description;
     private String dateTime;

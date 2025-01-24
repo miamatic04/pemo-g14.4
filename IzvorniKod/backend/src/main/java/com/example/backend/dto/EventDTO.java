@@ -25,6 +25,7 @@ public class EventDTO {
     private double distance;
 
     public EventDTO(Event event, double distance) {
+        this.id = event.getId();
         this.name = event.getName();
         this.description = event.getDescription();
         this.address = event.getAddress();

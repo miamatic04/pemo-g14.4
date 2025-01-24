@@ -114,11 +114,6 @@ const Events = () => {
                          style={{ cursor: 'pointer' }} />
                 </div>
                 <h1 className="header-title">Događaji</h1>
-                {userRole === 'owner' && (
-                    <button className="add-event-btn" onClick={handleAddEventClick}>
-                        Dodaj događaj
-                    </button>
-                )}
             </div>
             <div className="spacer"></div>
             <div className="event-container">
