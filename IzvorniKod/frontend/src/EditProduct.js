@@ -217,7 +217,7 @@ const EditProduct = () => {
                         />
                     </div>
 
-                    <button type="submit" className="submit-button">
+                    <button type="submit" className="submit-button-edit-product">
                         Spremi promjene
                     </button>
                     <button

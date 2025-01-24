@@ -90,40 +90,43 @@ const MyShops = () => {
 
     return (
         <div className="pozadina2">
-        <div className="shop-list">
-            <h2>Shop List</h2>
+            <div className="shop-list">
+                <h2>Popis trgovina</h2>
 
-            {/* Back to Owner Home Button */}
-            <a href="/ownerhome" className="back-gumb">
-                Natrag na početnu stranicu
-            </a>
 
-            <a href="/addShop" className="add-shop-button">
-                Dodaj novu trgovinu
-            </a>
+                <a href="/addShop" className="add-shop-button">
+                    Dodaj novu trgovinu
+                </a>
 
-            {shops !== null && shops.length > 0 ? (
-                <ul>
-                    {shops.map(shop => (
-                        <li key={shop.id} className="li1">
-                            <span>{shop.name}</span>
-                            <div className="button-group">
-                                <button className="edit-button" onClick={() => {
-                                    localStorage.setItem("selectedShopId", shop.id);
-                                    navigate("../edit-shop");
-                                }}>Uredi</button>
-                                <button onClick={() => deleteShop(shop.id)} className="delete-button">Obriši</button>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <div className="no-shops">
-                    <p>Nema dostupnih trgovina.</p>
-                    <p>Pritisnite "Dodaj novu trgovinu" kako biste registrirali svoju prvu trgovinu!</p>
-                </div>
-            )}
-        </div>
+                <a href="/ownerhome" className="back-gumb-shops">
+                    Natrag na početnu stranicu
+                </a>
+
+
+                {shops !== null && shops.length > 0 ? (
+                    <ul>
+                        {shops.map(shop => (
+                            <li key={shop.id} className="li1">
+                                <span>{shop.name}</span>
+                                <div className="button-group">
+                                    <button className="edit-button" onClick={() => {
+                                        localStorage.setItem("selectedShopId", shop.id);
+                                        navigate("../edit-shop");
+                                    }}>Uredi
+                                    </button>
+                                    <button onClick={() => deleteShop(shop.id)} className="delete-button">Obriši
+                                    </button>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <div className="no-shops">
+                        <p>Nema dostupnih trgovina.</p>
+                        <p>Pritisnite "Dodaj novu trgovinu" kako biste registrirali svoju prvu trgovinu!</p>
+                    </div>
+                )}
+            </div>
         </div>
     )
 }

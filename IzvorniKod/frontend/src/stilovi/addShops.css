@@ -64,7 +64,7 @@ textarea {
     color: #666;
 }
 
-.submit-button {
+.submit-button-dodaj-trgovinu {
     display: block;
     width: 100%;
     padding: 10px;
@@ -74,9 +74,10 @@ textarea {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-weight: bold;
 }
 
-.submit-button:hover {
+.submit-button-dodaj-trgovinu:hover {
     background-color: #45a049;
 }
 

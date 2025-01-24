@@ -226,7 +226,7 @@ const AddShop = () => {
                         )}
                     </div>
 
-                    <button type="submit" className="submit-button">
+                    <button type="submit" className="submit-button-dodaj-trgovinu">
                         Predaj registraciju
                     </button>
                 </form>

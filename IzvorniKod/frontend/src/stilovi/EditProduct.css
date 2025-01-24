@@ -20,7 +20,7 @@
 .urediProizvod {
     text-align: center;
     font-size: 24px;
-    color: #333;
+    color: midnightblue;
     margin-bottom: 20px;
     font-weight: bold;
 }
@@ -57,7 +57,7 @@ textarea.unosZaProizvod {
     resize: vertical;
 }
 
-.submit-button, .back-button {
+.submit-button-edit-product, .back-button {
     display: block;
     width: 100%;
     padding: 12px;
@@ -69,13 +69,12 @@ textarea.unosZaProizvod {
     font-weight: bold;
 }
 
-.submit-button {
+.submit-button-edit-product {
     background-color: #9bd7eb;
-    color: white;
     margin-top: 15px;
 }
 
-.submit-button:hover {
+.submit-button-edit-product:hover {
     background-color: #45a049; /* Zelena za hover */
 }
 

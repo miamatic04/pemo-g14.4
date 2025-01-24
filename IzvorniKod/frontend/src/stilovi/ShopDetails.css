@@ -193,6 +193,15 @@
 
 }
 
+.edit-product-btn{
+    background-color: #9bd7eb;
+}
+
+.edit-product-btn:hover{
+    background-color: midnightblue;
+    color: white;
+}
+
 .button-shopDetails-uredi{
     background-color: #9bd7eb;
 }
