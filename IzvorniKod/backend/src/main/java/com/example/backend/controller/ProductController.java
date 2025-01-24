@@ -9,6 +9,7 @@ import com.example.backend.utils.Recommend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -51,8 +52,8 @@ public class ProductController {
     }
 
     @PostMapping("/addProductToPlatform")
-    public ResponseEntity<String> addProductToPlatform(@ModelAttribute PlatformProductDTO platformProductDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) throws IOException {
-        return productService.addProductToPlatform(platformProductDTO, authHeader.substring(7));
+    public ResponseEntity<String> addProductToPlatform(@ModelAttribute PlatformProductDTO platformProductDTO, @RequestParam(value = "file", required = false) MultipartFile file, @RequestHeader(value = "Authorization", required = false) String authHeader) throws IOException {
+        return productService.addProductToPlatform(platformProductDTO, file,  authHeader.substring(7));
     }
 
     @GetMapping("/getPlatformProducts")

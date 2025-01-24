@@ -141,7 +141,7 @@ const Events = () => {
                         </div>
                         <div className="event-column right-column">
                             <button className="learn-more"
-                                    onClick={() => navigate('/editEvent')/*, {state: {shopId: event.shopId}})*/}>
+                                    onClick={() => navigate('/editEvent', {state: {eventId: event.id}})}>
                                 Uredi
                             </button>
                             <button

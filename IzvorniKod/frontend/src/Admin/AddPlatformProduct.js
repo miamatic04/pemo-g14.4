@@ -1,224 +1,125 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import "../stilovi/addProduct.css";
+import React, { useState } from 'react';
 
-const AddProduct = () => {
-    const [platformProducts, setPlatformProducts] = useState([]);
-    const [selectedPlatformProduct, setSelectedPlatformProduct] = useState("");
-    const [selectedProductImage, setSelectedProductImage] = useState("");
-    const [selectedProductId, setSelectedProductId] = useState(null);
-    const [description, setDescription] = useState("");
-    const [price, setPrice] = useState("");
-    const [quantity, setQuantity] = useState("");
-    const navigate = useNavigate();
-    const [authenticationTried, setAuthenticationTried] = useState(false);
+function AddPlatformProduct() {
+    const [name, setName] = useState('');
+    const [category, setCategory] = useState('');
+    const [ageRestriction, setAgeRestriction] = useState(0); // Default to 0 for no restriction
+    const [file, setFile] = useState(null);
 
-    // Retrieve shopId from local storage
-    const shopId = localStorage.getItem("shopId");
+    // Predefined categories
+    const categories = ['Igre', 'Filmovi', 'Glazba', 'Knjige', 'Elektronika', 'Hrana', 'Piće'];
 
-    const checkTokenValidation = async () => {
-        try {
-            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/validateToken`, {
-                method: 'GET',
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`
-                }
-            });
-
-            if (!response.ok || !(localStorage.getItem("role") === "admin")) {
-                if(localStorage.getItem("role") === "user")
-                    navigate("/userhome");
-                else if(localStorage.getItem("role") === "moderator")
-                    navigate("/moderatorhome");
-                else if(localStorage.getItem("role")=== "owner")
-                    navigate("/ownerhome");
-                else
-                    navigate("/");
-            }
-
-        } catch (error) {
-            console.log(error);
-            navigate("/");
-        }
+    // Handle file selection
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        setFile(file);
     };
 
-    // Fetch platform products
-    useEffect(() => {
+    // Handle form submission
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
-        if(!authenticationTried) {
-            setAuthenticationTried(true);
-            checkTokenValidation();
-        }
-        const fetchPlatformProducts = async () => {
-            try {
-                const response = await fetch(
-                    `http://${process.env.REACT_APP_WEB_URL}:8080/getPlatformProducts`,
-                    {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${localStorage.getItem("token")}`,
-                        },
-                    }
-                );
-
-                if (response.ok) {
-                    const data = await response.json();
-                    setPlatformProducts(data);
-                } else {
-                    console.error("Failed to fetch platform products");
-                }
-            } catch (error) {
-                console.error("Error fetching platform products:", error);
-            }
-        };
-
-        fetchPlatformProducts();
-    }, []);
-
-    const handleProductChange = (e) => {
-        const selectedProductName = e.target.value;
-        setSelectedPlatformProduct(selectedProductName);
-
-        const selectedProduct = platformProducts.find(
-            (product) => product.name === selectedProductName
-        );
-        setSelectedProductImage(selectedProduct?.imagePath || "");
-        setSelectedProductId(selectedProduct?.id || null);
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        if (!selectedPlatformProduct || !description || !price || !quantity || !shopId) {
-            alert("Molimo ispunite sva polja.");
-            return;
+        const data = {
+            name: name,
+            category: category,
+            ageRestriction: ageRestriction,
+            file: file
         }
 
-        const productData = {
-            productId: selectedProductId,
-            platformProduct: selectedPlatformProduct,
-            description,
-            price,
-            quantity,
-            shopId, // Include shopId from local storage
-        };
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('file', file);
+        formData.append('category', category);
+        formData.append('ageRestriction', ageRestriction);
 
+        console.log(data);
+
+        // Send data to backend via POST request
         try {
             const response = await fetch(
-                `http://${process.env.REACT_APP_WEB_URL}:8080/addProduct`,
+                `http://${process.env.REACT_APP_WEB_URL}:8080/addProductToPlatform`,
                 {
                     method: "POST",
+                    body: formData,
                     headers: {
-                        "Content-Type": "application/json",
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
                     },
-                    body: JSON.stringify(productData),
+
                 }
             );
 
             if (response.ok) {
-                alert("Proizvod je uspješno dodan.");
-                navigate(-1); // Navigate back to the previous page
+                // Handle successful submission (you can show a success message, reset the form, etc.)
+                alert('Product added successfully');
             } else {
-                alert("Dodavanje proizvoda nije uspjelo.");
+                alert('Error adding product');
             }
         } catch (error) {
-            console.error("Greška:", error);
-            alert("Dodavanje proizvoda nije uspjelo.");
+            console.error('Error submitting form:', error);
+            alert('Error submitting form');
         }
     };
 
     return (
         <div className="pozadina2">
             <div className="product-creator">
-                <h1 className="dodajProizvod">Dodaj novi proizvod</h1>
+                <h1>Dodaj proizvod na platformu</h1>
                 <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="platformProduct">Platformski Proizvod:</label>
+                    <div>
+                        <label htmlFor="name">Naziv:</label>
+                        <input
+                            type="text"
+                            id="name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="category">Kategorija:</label>
                         <select
-                            id="platformProduct"
-                            className="unosZaProizvod"
-                            value={selectedPlatformProduct}
-                            onChange={handleProductChange}
+                            id="category"
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
                             required
                         >
-                            <option value="">Odaberite platformski proizvod</option>
-                            {platformProducts.map((product) => (
-                                <option key={product.id} value={product.name}>
-                                    {product.name}
+                            <option value="">Odaberite kategoriju</option>
+                            {categories.map((cat, index) => (
+                                <option key={index} value={cat}>
+                                    {cat}
                                 </option>
                             ))}
                         </select>
                     </div>
 
-                    {selectedProductImage && (
-                        <div className="form-group">
-                            <img
-                                src={selectedProductImage}
-                                alt="Platform Product"
-                                className="product-image11"
-                                style={{maxWidth: "100%", height: "auto", marginTop: "10px"}}
-                            />
-                        </div>
-                    )}
-
-                    <div className="form-group">
-                        <label className="label33" htmlFor="description">Opis proizvoda:</label>
-                        <textarea
-                            id="description"
-                            className="unosZaProizvod"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            required
-                            placeholder="Opišite proizvod"
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label className="label33" htmlFor="price">Cijena proizvoda (€):</label>
+                    <div>
+                        <label htmlFor="ageRestriction">Age Restriction:</label>
                         <input
-                            id="price"
-                            className="unosZaProizvod"
                             type="number"
-                            value={price}
-                            onChange={(e) => setPrice(e.target.value)}
-                            required
-                            placeholder="Unesite cijenu proizvoda"
-                            step="0.01"
+                            id="ageRestriction"
+                            value={ageRestriction}
+                            onChange={(e) => setAgeRestriction(Number(e.target.value))}
                             min="0"
                         />
+                        <small>(0 means no restriction)</small>
                     </div>
 
-                    <div className="form-group">
-                        <label className="label33" htmlFor="quantity">Količina:</label>
+                    <div>
+                        <label htmlFor="pImage">Slika:</label>
                         <input
-                            id="quantity"
-                            className="unosZaProizvod"
-                            type="number"
-                            value={quantity}
-                            onChange={(e) => setQuantity(e.target.value)}
+                            type="file"
+                            id="pImage"
+                            accept="image/*"
+                            onChange={handleFileChange}
                             required
-                            placeholder="Unesite količinu proizvoda"
-                            min="1"
                         />
                     </div>
 
-                    <button type="submit" className="submit-button33">
-                        Dodaj proizvod
-                    </button>
-                    <button
-                        type="button"
-                        className="back-button"
-                        onClick={() => navigate(-1)}
-                    >
-                        Natrag
-                    </button>
+                    <button type="submit">Dodaj</button>
                 </form>
             </div>
         </div>
     );
-};
+}
 
-export default AddProduct;
+export default AddPlatformProduct;

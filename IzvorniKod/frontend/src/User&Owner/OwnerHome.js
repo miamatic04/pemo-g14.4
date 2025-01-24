@@ -382,7 +382,10 @@ const OwnerHome = () => {
                     </button>
                     <ul className={`lista ${isMenuOpen ? 'active' : ''}`}>
                         <li className="el"><a className="a1" onClick={() => navigate('/district')}>Kvart</a></li>
-                        <li className="el"><a className="a1" onClick={() => navigate('/myevents')}>Moji događaji</a></li>
+                        <li className="el"><a className="a1" onClick={() => navigate('/myevents')}>Moji događaji</a>
+                        </li>
+                        <li className="el"><a className="a1" onClick={() => navigate('/events')}>Događaji</a>
+                        </li>
                         <li className="el"><a className="a1" onClick={() => navigate('/shopsList')}>Popis trgovina</a>
                         </li>
                         <li className="el"><a href="/myShops" className="a1">Moje trgovine</a></li>

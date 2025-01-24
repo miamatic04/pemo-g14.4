@@ -15,7 +15,6 @@ const EditEvent = () => {
         frequency: ''
     });
     const [loading, setLoading] = useState(true);
-    const [imageFile, setImageFile] = useState(null);
     const [customFrequencyValue, setCustomFrequencyValue] = useState('');
     const [authenticationTried, setAuthenticationTried] = useState(false);
     const eventId = location.state?.eventId;
@@ -62,7 +61,7 @@ const EditEvent = () => {
             }
 
             try {
-                const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/events/${eventId}`, {
+                const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getEvent/${eventId}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -76,6 +75,7 @@ const EditEvent = () => {
 
                 const data = await response.json();
                 setEventDetails({
+                    id: data.id,
                     name: data.name,
                     description: data.description,
                     address: data.address,
@@ -110,26 +110,27 @@ const EditEvent = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
+        formData.append("id", eventId);
         formData.append('name', eventDetails.name);
         formData.append('description', eventDetails.description);
         formData.append('address', eventDetails.address);
         formData.append('dateTime', eventDetails.dateTime);
-        if (imageFile) {
-            formData.append('image', imageFile);
-        }
+        console.log(eventDetails);
+        console.log(formData);
 
         try {
-            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/events/update/${eventId}`, {
+            const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/editEvent`, {
                 method: 'POST',
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`,
                 },
-                body: formData,
+                body: JSON.stringify(eventDetails),
             });
 
             if (response.ok) {
                 alert('Detalji događaja uspješno ažurirani');
-                navigate(`/aboutEvent`, { state: { eventId: eventId } });
+                navigate(`/myEvents`, { state: { eventId: eventId } });
             } else {
                 throw new Error('Failed to update event details');
             }
@@ -202,33 +203,35 @@ const EditEvent = () => {
                         </div>
                         <div className="form-group">
                             <label>Frekvencija ponavljanja:</label>
-                            <select
-                                name="frequency"
-                                value={eventDetails.frequency || ''}
-                                onChange={handleInputChange}
-                                required
-                            >
-                                <option value="">Odaberite frekvenciju</option>
-                                <option value="never">Nikad</option>
-                                <option value="daily">Dnevno</option>
-                                <option value="weekly">Tjedno</option>
-                                <option value="customWeeks">Jednom u [unesite broj] tjedana</option>
-                                <option value="monthly">Mjesečno</option>
-                                <option value="customMonths">Jednom u [unesite broj] mjeseci</option>
-                                <option value="yearly">Godišnje</option>
-                            </select>
-                            {(eventDetails.frequency === 'customWeeks' || eventDetails.frequency === 'customMonths') && (
-                                <input
-                                    type="number"
-                                    min="1"
-                                    className="unosZaDogadjaj"
-                                    placeholder="Unesite broj"
-                                    value={customFrequencyValue}
-                                    onChange={(e) => setCustomFrequencyValue(e.target.value)}
+                                <select
+                                    name="frequency"
+                                    value={eventDetails.frequency || ''}
+                                    onChange={handleInputChange}
                                     required
-                                />
-                            )}
-                        </div>
+                                >
+                                    <option value="" disabled>
+                                        Odaberite frekvenciju
+                                    </option>
+                                    <option value="">Nikad</option>
+                                    <option value="daily">Dnevno</option>
+                                    <option value="weekly">Tjedno</option>
+                                    <option value="biweekly">Svaka 2 tjedna</option>
+                                    <option value="monthly">Mjesečno</option>
+                                    <option value="bimonthly">Svaka 2 mjeseca</option>
+                                    <option value="quarterly">Svaka 3 mjeseca</option>
+                                </select>
+                                {(eventDetails.frequency === 'customWeeks' || eventDetails.frequency === 'customMonths') && (
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        className="unosZaDogadjaj"
+                                        placeholder="Unesite broj"
+                                        value={customFrequencyValue}
+                                        onChange={(e) => setCustomFrequencyValue(e.target.value)}
+                                        required
+                                    />
+                                )}
+                            </div>
                         <div className="form-group">
                             <button type="submit">Spremi promjene</button>
                         </div>

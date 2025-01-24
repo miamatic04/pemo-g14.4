@@ -41,4 +41,19 @@ public class EventController {
     public ResponseEntity<String> addEvent(@ModelAttribute AddEventDTO addEventDTO, @RequestHeader(value = "Authorization", required = false) String authHeader) {
         return ResponseEntity.ok(eventService.addEvent(addEventDTO, authHeader.substring(7)));
     }
+
+    @GetMapping("/getMyEvents")
+    public ResponseEntity<List<EventDTO>> getMyEvents(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        return ResponseEntity.ok(eventService.getMyEvents(authHeader.substring(7)));
+    }
+
+    @PostMapping("/editEvent")
+    public ResponseEntity<String> editEvent(@RequestBody AddEventDTO editEventDTO) {
+        return ResponseEntity.ok(eventService.editEvent(editEventDTO));
+    }
+
+    @GetMapping("/getEvent/{eventId}")
+    public ResponseEntity<EventDTO> getMyEvents(@PathVariable Long eventId) {
+        return ResponseEntity.ok(eventService.getEvent(eventId));
+    }
 }

@@ -196,4 +196,83 @@ public class EventService {
 
         return "Event added successfully";
     }
+
+    public String editEvent(AddEventDTO editEventDTO) {
+
+        Event event = eventRepository.findById(editEventDTO.getId()).orElse(null);
+
+        if (event != null) {
+            if (editEventDTO.getName() != null) {
+                event.setName(editEventDTO.getName());
+            }
+            if (editEventDTO.getDescription() != null) {
+                event.setDescription(editEventDTO.getDescription());
+            }
+            if (editEventDTO.getDateTime() != null) {
+                try {
+                    LocalDateTime dateTime = LocalDateTime.parse(editEventDTO.getDateTime());
+                    event.setDateTime(dateTime);
+                } catch (Exception e) {
+                    return "Invalid date time format!";
+                }
+            }
+            if (editEventDTO.getFrequency() != null) {
+                event.setFrequency(editEventDTO.getFrequency());
+            }
+            if (editEventDTO.getDuration() != null) {
+                event.setDuration(editEventDTO.getDuration());
+            }
+            if (editEventDTO.getAddress() != null) {
+                event.setAddress(editEventDTO.getAddress());
+            }
+
+            eventRepository.save(event);
+        }
+
+        return "Event updated successfully!";
+    }
+
+    public List<EventDTO> getMyEvents(String token) {
+
+        List<Event> events = eventRepository.findAll();
+
+        String email = jwtService.extractUsername(token);
+
+        return events.stream()
+                .filter(event -> event.getShop().getShopOwner().getEmail().equals(email))
+                .map(event -> new EventDTO(
+                        event.getId(),
+                        event.getName(),
+                        event.getDescription(),
+                        event.getAddress(),
+                        event.getDateTime(),
+                        event.getDuration(),
+                        event.getImagePath(),
+                        event.getShop().getId(),
+                        event.getShop().getShopName(),
+                        -1
+                ))
+                .collect(Collectors.toList());
+    }
+
+    public EventDTO getEvent(Long eventId) {
+        Event event = eventRepository.findById(eventId).orElse(null);
+        if(eventId != null) {
+            return new EventDTO(
+                    eventId,
+                    event.getName(),
+                    event.getDescription(),
+                    event.getAddress(),
+                    event.getDateTime(),
+                    event.getDuration(),
+                    event.getImagePath(),
+                    event.getShop().getId(),
+                    event.getShop().getShopName(),
+                    -1
+            );
+        }
+
+        return null;
+
+    }
 }
