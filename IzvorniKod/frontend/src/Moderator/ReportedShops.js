@@ -86,6 +86,9 @@ function ReportedShops() {
                 <img src={logo} alt="Logo" className="report-shop-logo" onClick={() => navigate(`/moderatorHome`)}/>
                 <h2 className="header-title-reported-shops">Prijavljene trgovine</h2>
             </div>
+            <a onClick={() => navigate(-1)} className="back-button22">
+                ← Natrag
+            </a>
             <div className="reported-shops-container">
                 {shops.length === 0 ? (
                     <p>No reported shops available</p>

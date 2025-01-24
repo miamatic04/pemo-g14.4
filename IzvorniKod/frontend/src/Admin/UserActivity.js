@@ -74,6 +74,9 @@ const UserActivity = () => {
                 </div>
                 <h1 className="header-title">Aktivnost korisnika</h1>
             </div>
+            <a onClick={() => navigate(-1)} className="back-button22">
+                ← Natrag
+            </a>
             <table>
                 <thead>
                 <tr>

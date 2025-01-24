@@ -174,7 +174,7 @@ const UserProfile = () => {
                 </div>
                 <form className="profile-form" onSubmit={handleSubmit}>
                     <div className="header-section">
-                        <img src={avatarImage} alt="Avatar" className="avatar" />
+                        <img src={avatarImage} alt="Avatar" className="avatar"/>
                         <div className="profile-info">
                             <b><p className="imeUsera">{userInfo.firstName} {userInfo.lastName}</p></b>
                             <p className="mailUsera">{userInfo.email}</p>
@@ -246,7 +246,7 @@ const UserProfile = () => {
                         </div>
                     </div>
 
-                    <input type="submit" id="submitProfile" value="Spremi promjene" />
+                    <input type="submit" id="submitProfile" value="Spremi promjene"/>
 
                     {backendResult && (
                         <div>
@@ -254,6 +254,9 @@ const UserProfile = () => {
                         </div>
                     )}
                 </form>
+                <a onClick={() => navigate(-1)} className="back-button22">
+                    ← Natrag
+                </a>
             </div>
         </div>
     );

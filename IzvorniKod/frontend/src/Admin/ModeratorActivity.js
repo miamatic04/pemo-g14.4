@@ -74,6 +74,9 @@ const ModeratorActivity = () => {
                 </div>
                 <h1 className="header-title">Aktivnost moderatora</h1>
             </div>
+            <a onClick={() => navigate(-1)} className="back-button22">
+                ← Natrag
+            </a>
             <table id="table-moderator">
                 <thead>
                 <tr>

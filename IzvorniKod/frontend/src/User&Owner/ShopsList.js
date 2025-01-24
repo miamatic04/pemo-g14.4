@@ -69,7 +69,7 @@ const ShopsList = () => {
                         alt="Logo"
                         className="logo"
                         onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
-                        style={{ cursor: 'pointer' }}
+                        style={{cursor: 'pointer'}}
                     />
                 </div>
                 <h1 className="header-title">Popis trgovina</h1>
@@ -77,18 +77,20 @@ const ShopsList = () => {
                     <label className="labellll">
                         Sortiraj po:
                     </label>
-                        <select
-                            value={sortOrder}
-                            onChange={(e) => setSortOrder(e.target.value)}
-                            className="select-filter-shopList"
-                        >
-                            <option value="AZ">Nazivu A-Z</option>
-                            <option value="ZA">Nazivu Z-A</option>
-                            <option value="udaljenostBlizi">Udaljenosti (prvo bliži)</option>
-                        </select>
+                    <select
+                        value={sortOrder}
+                        onChange={(e) => setSortOrder(e.target.value)}
+                        className="select-filter-shopList"
+                    >
+                        <option value="AZ">Nazivu A-Z</option>
+                        <option value="ZA">Nazivu Z-A</option>
+                        <option value="udaljenostBlizi">Udaljenosti (prvo bliži)</option>
+                    </select>
                 </div>
             </div>
-
+            <a onClick={() => navigate(-1)} className="back-button22">
+                ← Natrag
+            </a>
             <div className="spacer"></div>
             <div className="shop-container">
                 {getCurrentShops().map((shop) => (
@@ -96,10 +98,10 @@ const ShopsList = () => {
                         key={shop.shopDTO.id}
                         className="shops-card"
                         onClick={() =>
-                            navigate('/shop', { state: { shopId: shop.shopDTO.id } })
+                            navigate('/shop', {state: {shopId: shop.shopDTO.id}})
                         }
                     >
-                        <img src={shop.shopDTO.imagePath} alt={shop.shopDTO.shopName} className="shop-image" />
+                        <img src={shop.shopDTO.imagePath} alt={shop.shopDTO.shopName} className="shop-image"/>
                         <h2 className="shop-name-list">{shop.shopDTO.shopName}</h2>
                         <p className="shop-description">{shop.shopDTO.description}</p>
                         <p className="shop-distance">{shop.distance} km</p>

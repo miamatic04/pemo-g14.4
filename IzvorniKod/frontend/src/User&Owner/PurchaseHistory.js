@@ -286,12 +286,14 @@ const ShoppingPage = () => {
                         alt="Logo"
                         className="logo"
                         onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
-                        style={{ cursor: 'pointer' }}
+                        style={{cursor: 'pointer'}}
                     />
                 </div>
                 <h1 className="header-title">Povijest kupovina</h1>
             </div>
-
+            <a onClick={() => navigate(-1)} className="back-button22">
+                ← Natrag
+            </a>
             <div className="shopping-list">
                 {currentOrders.map((order, index) => (
                     <ShoppingCard
@@ -317,7 +319,7 @@ const ShoppingPage = () => {
                     >
                         <span className="arrow-text">&#8249;</span>
                     </button>
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
+                    {Array.from({length: totalPages}, (_, i) => i + 1).map((num) => (
                         <button
                             key={num}
                             className={`pagination-number ${currentPage === num ? 'active' : ''}`}

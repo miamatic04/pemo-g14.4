@@ -324,18 +324,20 @@ const District = () => {
                         alt="Logo"
                         className="logo"
                         onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
-                        style={{ cursor: 'pointer' }}
+                        style={{cursor: 'pointer'}}
                     />
                 </div>
                 <h1 className="header-title">Kvart</h1>
             </div>
-
-            <Section title="Trgovine" items={shops} itemType="shop" />
+            <a onClick={() => navigate(-1)} className="back-button22">
+                ← Natrag
+            </a>
+            <Section title="Trgovine" items={shops} itemType="shop"/>
             <Section title="Proizvodi" items={products} itemType="product" onProductClick={handleProductClick}/>
-            <Section title="Događaji" items={events} itemType="event" />
-            <Section title="Ponude i popusti" items={discounts} itemType="shop" />
+            <Section title="Događaji" items={events} itemType="event"/>
+            <Section title="Ponude i popusti" items={discounts} itemType="shop"/>
             {modalOpen && selectedProduct && (
-                <ProductModal product={selectedProduct} onClose={closeModal} />
+                <ProductModal product={selectedProduct} onClose={closeModal}/>
             )}
         </div>
     );

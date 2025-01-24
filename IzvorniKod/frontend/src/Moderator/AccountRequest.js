@@ -105,6 +105,9 @@ function AccountRequests() {
                 />
                 <h2 className="header-title-account-requests">Zahtjevi za vlasnički račun</h2>
             </div>
+            <a onClick={() => navigate(-1)} className="back-button22">
+                ← Natrag
+            </a>
             <div className="account-requests-container">
                 {requests.length === 0 ? (
                     <p>No account requests available</p>
@@ -115,7 +118,7 @@ function AccountRequests() {
                             <div className="button-group-account-request">
                                 <button
                                     className="button-account-request-profil"
-                                    onClick={() => navigate(`/userProfile`, { state: { email: request.email } })}
+                                    onClick={() => navigate(`/userProfile`, {state: {email: request.email}})}
                                 >
                                     Idi na profil
                                 </button>

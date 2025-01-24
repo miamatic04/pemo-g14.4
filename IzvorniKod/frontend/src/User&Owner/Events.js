@@ -110,8 +110,9 @@ const Events = () => {
         <div className="event-page">
             <div className="header-events">
                 <div className="logo-container">
-                    <img src={logo1} alt="Logo" className="logo" onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
-                         style={{ cursor: 'pointer' }} />
+                    <img src={logo1} alt="Logo" className="logo"
+                         onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
+                         style={{cursor: 'pointer'}}/>
                 </div>
                 <h1 className="header-title">Događaji</h1>
                 {userRole === 'owner' && (
@@ -120,13 +121,16 @@ const Events = () => {
                     </button>
                 )}
             </div>
+            <a onClick={() => navigate(-1)} className="back-button22">
+                ← Natrag
+            </a>
             <div className="spacer"></div>
             <div className="event-container">
                 {getCurrentEvents().map(event => (
                     <div key={event.id} className="event-card">
                         <div className="event-column-left-column">
                             <h2 className="event-name">{event.name}</h2>
-                            <img src={event.imagePath} alt={event.name} className="event-image" />
+                            <img src={event.imagePath} alt={event.name} className="event-image"/>
                         </div>
                         <div className="event-column middle-column">
                             <p className="event-info"><b>Informacije o događaju:</b></p>
@@ -142,7 +146,7 @@ const Events = () => {
                             </button>
                             {registeredEvents.includes(event.id) ? (
                                 <div>
-                                <p className="uspjesnaPrijava">Uspješna prijava!</p>
+                                    <p className="uspjesnaPrijava">Uspješna prijava!</p>
 
                                 </div>
                             ) : (

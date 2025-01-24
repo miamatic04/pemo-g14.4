@@ -88,7 +88,7 @@ const ShopDetails = () => {
                     <div className="shop-card">
                         <div className="shop-image">
                             {shopDetails.imagePath && (
-                                <img src={shopDetails.imagePath} alt={shopDetails.shopName} />
+                                <img src={shopDetails.imagePath} alt={shopDetails.shopName}/>
                             )}
                         </div>
                         <h2>{shopDetails.shopName}</h2>
@@ -96,7 +96,8 @@ const ShopDetails = () => {
 
                         {shopDetails.shopOwner && (
                             <div className="owner-actions">
-                                <button className="button-shopDetails-uredi" onClick={() => navigate('/edit-shop', { state: { shopId } })}>
+                                <button className="button-shopDetails-uredi"
+                                        onClick={() => navigate('/edit-shop', {state: {shopId}})}>
                                     Uredi informacije
                                 </button>
                             </div>
@@ -147,7 +148,11 @@ const ShopDetails = () => {
                             {!shopDetails.shopOwner && (
                                 <button
                                     className="add-review"
-                                    onClick={() => {localStorage.setItem("selectedShopId", shopId); localStorage.setItem("cameFrom", "shop"); navigate('/review', { state: { shopId } })}}
+                                    onClick={() => {
+                                        localStorage.setItem("selectedShopId", shopId);
+                                        localStorage.setItem("cameFrom", "shop");
+                                        navigate('/review', {state: {shopId}})
+                                    }}
                                 >
                                     Ostavi recenziju
                                 </button>
@@ -166,11 +171,14 @@ const ShopDetails = () => {
 
                         </div>
                     </div>
+                    <a onClick={() => navigate(-1)} className="back-button22">
+                        ← Natrag
+                    </a>
                 </div>
 
                 {/* Right Panel */}
                 <div className="right-panel">
-                    <div className="logo1-shopDetails">
+                <div className="logo1-shopDetails">
                         <img
                             src={logo1}
                             onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}

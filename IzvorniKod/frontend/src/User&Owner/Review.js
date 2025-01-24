@@ -140,6 +140,9 @@ const ReviewPage = () => {
                     <button className="submit-btn" onClick={handleSubmit}>Pošalji recenziju</button>
                     <button className="submit-btn" id="otkazi-btn" onClick={handleOtkazi}>Otkaži recenziju</button>
                 </div>
+                <a onClick={() => navigate(-1)} className="back-button22">
+                    ← Natrag
+                </a>
             </div>
         </div>
     );

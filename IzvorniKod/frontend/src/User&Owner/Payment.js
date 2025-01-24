@@ -113,7 +113,7 @@ const Payment = () => {
                     <img
                         src={logo1}
                         onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
-                        style={{ cursor: 'pointer' }}
+                        style={{cursor: 'pointer'}}
                         className="logoPay"
                     />
                 </div>
@@ -193,7 +193,7 @@ const Payment = () => {
                         </div>
                     </div>
 
-                    <input type="submit" id="submitPayment" value="Plati" />
+                    <input type="submit" id="submitPayment" value="Plati"/>
 
                     {backendResult && (
                         <div>
@@ -202,6 +202,9 @@ const Payment = () => {
                     )}
                     <button type="button" id="stopPayment" onClick={handleStopPayment}>Otkaži plaćanje</button>
                 </form>
+                <a onClick={() => navigate(-1)} className="back-button22">
+                    ← Natrag
+                </a>
             </div>
         </div>
     );

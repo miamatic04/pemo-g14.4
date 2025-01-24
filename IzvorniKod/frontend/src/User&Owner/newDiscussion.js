@@ -60,7 +60,7 @@ const NewDiscussion = () => {
                         alt="Logo"
                         className="logo1Discussion"
                         onClick={() => navigate('/userhome')}
-                        style={{ cursor: 'pointer' }}
+                        style={{cursor: 'pointer'}}
                     />
                     <h1 className="newDiscussionTitle">NOVA RASPRAVA</h1>
                 </div>
@@ -70,7 +70,7 @@ const NewDiscussion = () => {
                     <input
                         className="newDiscussionNameInput"
                         value={discussionData.name}
-                        onChange={(e) => setDiscussionData({ ...discussionData, name: e.target.value })}
+                        onChange={(e) => setDiscussionData({...discussionData, name: e.target.value})}
                     />
                 </div>
 
@@ -79,7 +79,7 @@ const NewDiscussion = () => {
                     <textarea
                         className="newDiscussionDescriptionInput"
                         value={discussionData.description}
-                        onChange={(e) => setDiscussionData({ ...discussionData, description: e.target.value })}
+                        onChange={(e) => setDiscussionData({...discussionData, description: e.target.value})}
                     ></textarea>
                 </div>
 
@@ -89,6 +89,9 @@ const NewDiscussion = () => {
                     <button className="publishDiscussion" onClick={handlePublish}>Objavi raspravu</button>
                     <button className="discardDiscussion" onClick={handleDiscard}>Odustani od rasprave</button>
                 </div>
+                <a onClick={() => navigate(-1)} className="back-button22">
+                    ← Natrag
+                </a>
             </div>
         </div>
     );

@@ -86,6 +86,9 @@ function ReportedUsers() {
                 <img src={logo} alt="Logo" className="report-user-logo" onClick={() => navigate(`/moderatorHome`)}/>
                 <h2 className="header-title-reported-users">Prijavljeni korisnici</h2>
             </div>
+            <a onClick={() => navigate(-1)} className="back-button22">
+                ← Natrag
+            </a>
             <div className="reported-users-container">
                 {users.length === 0 ? (
                     <p>No reported users available</p>

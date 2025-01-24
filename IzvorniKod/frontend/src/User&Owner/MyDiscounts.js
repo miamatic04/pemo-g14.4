@@ -88,7 +88,7 @@ const MyDiscounts = () => {
                         alt="Logo"
                         className="logo"
                         onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
-                        style={{ cursor: 'pointer' }}
+                        style={{cursor: 'pointer'}}
                     />
                 </div>
                 <h1 className="header-title-discounts-owner">Popusti i ponude</h1>
@@ -106,7 +106,9 @@ const MyDiscounts = () => {
                     ))}
                 </select>
             </div>
-
+            <a onClick={() => navigate(-1)} className="back-button22">
+                ← Natrag
+            </a>
             {/* Discounts Grid */}
             <button className="dodajNoviPopust" onClick={() => navigate('/addDiscount')}>Dodaj novi popust</button>
             <div className="discounts-container-owner">

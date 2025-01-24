@@ -143,6 +143,9 @@ const AssignRole = () => {
                 </div>
                 <h1 className="header-title">Dodijeli ulogu</h1>
             </div>
+            <a onClick={() => navigate(-1)} className="back-button22">
+                ← Natrag
+            </a>
             <form onSubmit={handleSubmit}>
                 {/* Search User */}
                 <div>

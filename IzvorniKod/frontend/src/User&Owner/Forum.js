@@ -81,11 +81,15 @@ const Forum = () => {
         <div className="forum-page">
             <div className="header-forum">
                 <div className="logo-container">
-                    <img src={logo1} alt="Logo" className="logo" onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
-                         style={{ cursor: 'pointer' }} />
+                    <img src={logo1} alt="Logo" className="logo"
+                         onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
+                         style={{cursor: 'pointer'}}/>
                 </div>
                 <h1 className="header-title">Forum</h1>
             </div>
+            <a onClick={() => navigate(-1)} className="back-button22">
+                ← Natrag
+            </a>
             <div className="spacer"></div>
             <div className="gumbNovaRasprava" onClick={() => navigate("/newDiscussion")}>
                 <button className="novaRasprava">Pokreni novu raspravu</button>

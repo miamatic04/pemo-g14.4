@@ -86,6 +86,9 @@ function ReportedProducts() {
                 <img src={logo} alt="Logo" className="report-product-logo" onClick={() => navigate(`/moderatorHome`)}/>
                 <h2 className="header-title-reported-products">Prijavljeni proizvodi</h2>
             </div>
+            <a onClick={() => navigate(-1)} className="back-button22">
+                ← Natrag
+            </a>
             <div className="reported-products-container">
                 {products.length === 0 ? (
                     <p>No reported products available</p>

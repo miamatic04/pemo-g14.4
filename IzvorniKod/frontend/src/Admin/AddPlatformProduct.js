@@ -159,7 +159,7 @@ const AddProduct = () => {
                                 src={selectedProductImage}
                                 alt="Platform Product"
                                 className="product-image11"
-                                style={{ maxWidth: "100%", height: "auto", marginTop: "10px" }}
+                                style={{maxWidth: "100%", height: "auto", marginTop: "10px"}}
                             />
                         </div>
                     )}

@@ -151,7 +151,7 @@ const EditEvent = () => {
                         <img
                             src={logo1}
                             onClick={() => navigate('/ownerhome')}
-                            style={{ cursor: 'pointer' }}
+                            style={{cursor: 'pointer'}}
                             alt="Logo"
                         />
                     </div>
@@ -202,37 +202,40 @@ const EditEvent = () => {
                         </div>
                         <div className="form-group">
                             <label>Frekvencija ponavljanja:</label>
-                                <select
-                                    name="frequency"
-                                    value={eventDetails.frequency || ''}
-                                    onChange={handleInputChange}
+                            <select
+                                name="frequency"
+                                value={eventDetails.frequency || ''}
+                                onChange={handleInputChange}
+                                required
+                            >
+                                <option value="">Odaberite frekvenciju</option>
+                                <option value="never">Nikad</option>
+                                <option value="daily">Dnevno</option>
+                                <option value="weekly">Tjedno</option>
+                                <option value="customWeeks">Jednom u [unesite broj] tjedana</option>
+                                <option value="monthly">Mjesečno</option>
+                                <option value="customMonths">Jednom u [unesite broj] mjeseci</option>
+                                <option value="yearly">Godišnje</option>
+                            </select>
+                            {(eventDetails.frequency === 'customWeeks' || eventDetails.frequency === 'customMonths') && (
+                                <input
+                                    type="number"
+                                    min="1"
+                                    className="unosZaDogadjaj"
+                                    placeholder="Unesite broj"
+                                    value={customFrequencyValue}
+                                    onChange={(e) => setCustomFrequencyValue(e.target.value)}
                                     required
-                                >
-                                    <option value="">Odaberite frekvenciju</option>
-                                    <option value="never">Nikad</option>
-                                    <option value="daily">Dnevno</option>
-                                    <option value="weekly">Tjedno</option>
-                                    <option value="customWeeks">Jednom u [unesite broj] tjedana</option>
-                                    <option value="monthly">Mjesečno</option>
-                                    <option value="customMonths">Jednom u [unesite broj] mjeseci</option>
-                                    <option value="yearly">Godišnje</option>
-                                </select>
-                                {(eventDetails.frequency === 'customWeeks' || eventDetails.frequency === 'customMonths') && (
-                                    <input
-                                        type="number"
-                                        min="1"
-                                        className="unosZaDogadjaj"
-                                        placeholder="Unesite broj"
-                                        value={customFrequencyValue}
-                                        onChange={(e) => setCustomFrequencyValue(e.target.value)}
-                                        required
-                                    />
-                                )}
-                            </div>
+                                />
+                            )}
+                        </div>
                         <div className="form-group">
                             <button type="submit">Spremi promjene</button>
                         </div>
                     </form>
+                    <a onClick={() => navigate(-1)} className="back-button22">
+                        ← Natrag
+                    </a>
                 </div>
             </div>
         </div>

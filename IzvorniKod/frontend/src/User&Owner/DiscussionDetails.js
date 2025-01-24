@@ -161,7 +161,7 @@ const DiscussionDetails = () => {
                     </div>
                 </div>
 
-                <button className="backToForum" onClick={() => navigate('/forum')}>
+                <button className="backToForum" onClick={() => navigate(-1)}>
                     Nazad na forum
                 </button>
             </div>

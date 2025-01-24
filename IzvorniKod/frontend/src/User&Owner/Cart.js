@@ -199,7 +199,8 @@ const Cart = () => {
         <div className="cart-page">
             <div className="cart-container">
                 <div className="cart-header">
-                    <img className="logo" src={logo1} onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}></img>
+                    <img className="logo" src={logo1}
+                         onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}></img>
                     <h1 className="cart-header-title">Vaša košarica</h1>
                 </div>
                 <div className="cart-content">
@@ -215,7 +216,7 @@ const Cart = () => {
                             <div key={item.id} className="cart-item">
                                 <div className="cart-item-row">
                                     <div className="cart-item-column">
-                                        <img src={item.imagePath} alt={item.name} className="cart-item-image" />
+                                        <img src={item.imagePath} alt={item.name} className="cart-item-image"/>
                                         <p>{item.name}</p>
                                         <p className="shop-name">{item.shopName}</p>
                                     </div>
@@ -226,10 +227,14 @@ const Cart = () => {
                                             <button onClick={() => updateQuantity(item.id, 1)}>+</button>
                                         </div>
                                     </div>
-                                    <div className="cart-item-column"> <p className="za-mob">Cijena: </p> €{item.discountedPrice || item.price}</div>
-                                    <div className="cart-item-column"> <p className="za-mob">Ukupno: </p>€{((item.discountedPrice || item.price) * item.quantity).toFixed(2)}</div>
+                                    <div className="cart-item-column"><p
+                                        className="za-mob">Cijena: </p> €{item.discountedPrice || item.price}</div>
+                                    <div className="cart-item-column"><p
+                                        className="za-mob">Ukupno: </p>€{((item.discountedPrice || item.price) * item.quantity).toFixed(2)}
+                                    </div>
                                     <div className="cart-item-column">
-                                        <button className="remove-item" onClick={() => removeItem(item.id, item.quantity)}>
+                                        <button className="remove-item"
+                                                onClick={() => removeItem(item.id, item.quantity)}>
                                             Ukloni
                                         </button>
                                     </div>
@@ -260,6 +265,9 @@ const Cart = () => {
                         </button>
                     </div>
                 </div>
+                <a onClick={() => navigate(-1)} className="back-button22">
+                    ← Natrag
+                </a>
             </div>
         </div>
     );

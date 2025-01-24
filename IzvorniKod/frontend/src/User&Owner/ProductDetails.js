@@ -183,11 +183,14 @@ const ProductDetails = () => {
                         </button>
                         <p className="prijavi1" onClick={handleReportClick}>Prijavi proizvod</p>
                     </div>
+                    <a onClick={() => navigate(-1)} className="back-button22">
+                        ← Natrag
+                    </a>
                 </div>
 
                 <div className="right-panel">
                     <div className="logo111">
-                        <img src={logo1} onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
+                    <img src={logo1} onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
                              style={{ cursor: 'pointer' }}/>
                     </div>
 

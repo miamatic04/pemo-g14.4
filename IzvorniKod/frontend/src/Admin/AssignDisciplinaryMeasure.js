@@ -184,6 +184,9 @@ const AssignDisciplinaryMeasure = () => {
                 </div>
                 <h1 className="header-title">Dodijeli disciplinsku mjeru</h1>
             </div>
+            <a onClick={() => navigate(-1)} className="back-button22">
+                ← Natrag
+            </a>
             <form onSubmit={handleSubmit}>
                 <div>
                     <input

@@ -80,6 +80,9 @@ function ReportedReviews() {
             </div>
             {loading && <p>Loading...</p>}
             {error && <p>Error: {error}</p>}
+            <a onClick={() => navigate(-1)} className="back-button22">
+                ← Natrag
+            </a>
             <div className="reported-reviews-container">
                 {reviews.map((review, index) => (
                     <div className="reported-reviews-card" key={index}>
