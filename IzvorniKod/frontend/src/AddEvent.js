@@ -88,7 +88,7 @@ const AddEvent = () => {
     };
 
     return (
-        <div className="pozadina3">
+        <div className="pozadina3" id="pozadinaId3">
             <div className="event-creator">
                 <h1 className="dodajDogadjaj">Dodaj novi događaj</h1>
                 <form onSubmit={handleSubmit}>

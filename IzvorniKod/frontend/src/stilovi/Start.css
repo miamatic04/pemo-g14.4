@@ -138,3 +138,70 @@ a{
     color: #72b9e0;
     font-family: Garamond, serif;
 }
+
+@media screen and (max-width: 1024px) {
+    .wrapper {
+        width: 85vw;
+        height: 75vh;
+    }
+
+    .image-container {
+        flex: 0.4;
+    }
+
+    .login-form {
+        margin: 3%;
+    }
+
+    #email, #pass {
+        height: 3.5vh;
+        font-size: 75%;
+    }
+
+    #submitprijava {
+        font-size: 2.5vh;
+    }
+}
+
+/* Mobile View (max-width: 768px) */
+@media screen and (max-width: 768px) {
+    .wrapper {
+        width: 90vw;
+        height: auto;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .login-form {
+        margin: 0;
+        padding: 15px;
+        border-width: 3px;
+    }
+
+    .image-container {
+        display: none;
+    }
+
+    .input-box {
+        width: 100%;
+    }
+
+    .input-box input {
+        width: 90%;
+    }
+
+    #email, #pass {
+        height: 35px;
+        font-size: 14px;
+    }
+
+    #submitprijava {
+        width: 90%;
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    .registration, .others {
+        font-size: 14px;
+    }
+}

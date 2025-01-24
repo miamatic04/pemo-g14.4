@@ -82,3 +82,58 @@
     font-size: 1.5rem; /* Povećanje veličine fonta */
     font-weight: bold; /* Podebljanje teksta (opcionalno) */
 }
+
+@media screen and (max-width: 1024px) {
+    .new-discussion-container {
+        width: 85%;
+        padding: 3%;
+    }
+
+    .logo1Discussion {
+        width: 10%;
+    }
+
+    .newDiscussionNameInput {
+        width: 50%;
+    }
+}
+
+/* Mobile styles */
+@media screen and (max-width: 768px) {
+    .new-discussion-container {
+        width: 95%;
+        padding: 4%;
+    }
+
+    .header-section {
+        flex-direction: column;
+    }
+
+    .logo1Discussion {
+        width: 15%;
+        margin-bottom: 2%;
+    }
+
+    .newDiscussionTitle {
+        font-size: 24px;
+    }
+
+    .newDiscussionNameInput {
+        width: 90%;
+    }
+
+    .button-container-discussion {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .publishDiscussion,
+    .discardDiscussion {
+        width: 100%;
+        margin: 2%;
+    }
+
+    .messageDiscussion {
+        font-size: 1.2rem;
+    }
+}

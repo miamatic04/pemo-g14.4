@@ -153,3 +153,68 @@
     padding: 12px;
     font-size: 1.2rem;
 }
+
+@media screen and (max-width: 1024px) {
+    .input1,
+    .user-list,
+    .forma-za-biranje {
+        width: 90%;
+        max-width: 50rem;
+    }
+
+    .forma-za-biranje > div:first-child {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .label11 {
+        font-size: 1.1rem;
+    }
+}
+
+/* Mobile View (max-width: 768px) */
+@media screen and (max-width: 768px) {
+    .input1,
+    .user-list,
+    .forma-za-biranje {
+        width: 95%;
+        max-width: 100%;
+    }
+
+    .input1 {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    .forma-za-biranje {
+        padding: 1rem;
+        margin: 2rem 0;
+    }
+
+    .forma-za-biranje > div:first-child {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .label11 {
+        font-size: 1rem;
+        padding: 6px 12px;
+    }
+
+    .textarea11,
+    .select11 {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    .submit11 {
+        font-size: 1.1rem;
+        padding: 10px 20px;
+    }
+
+    .user-list-item {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}

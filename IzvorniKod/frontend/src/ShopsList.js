@@ -74,8 +74,9 @@ const ShopsList = () => {
                 </div>
                 <h1 className="header-title">Popis trgovina</h1>
                 <div className="filter-container-list">
-                    <label>
+                    <label className="labellll">
                         Sortiraj po:
+                    </label>
                         <select
                             value={sortOrder}
                             onChange={(e) => setSortOrder(e.target.value)}
@@ -85,7 +86,6 @@ const ShopsList = () => {
                             <option value="ZA">Nazivu Z-A</option>
                             <option value="udaljenostBlizi">Udaljenosti (prvo bliži)</option>
                         </select>
-                    </label>
                 </div>
             </div>
 

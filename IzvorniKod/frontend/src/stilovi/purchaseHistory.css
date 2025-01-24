@@ -1,5 +1,5 @@
 .shopping-page{
-    height: 100vh;
+    min-height: 100vh;
     background: linear-gradient(to bottom,#9bd7eb,#f9faac) no-repeat center center;
 }
 
@@ -170,4 +170,77 @@
 
 .pause-shopping:hover{
     background-color: #f9faac;
+}
+
+@media screen and (max-width: 1024px) {
+    .shopping-list {
+        padding: 5% 5%;
+    }
+
+    .shopping-card {
+        font-size: 16px;
+        height: auto;
+        min-height: 15vh;
+    }
+
+    .card-content {
+        gap: 10%;
+    }
+
+    .shop-name1 {
+        font-size: 1.1rem;
+    }
+
+    .card-price-details {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .logo {
+        width: 60px;
+        height: auto;
+    }
+}
+
+/* Mobile styles */
+@media screen and (max-width: 768px) {
+
+    .shopping-card {
+        font-size: 14px;
+        padding: 10px;
+        border-width: 4px;
+    }
+
+    .card-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .card-price-details {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .shop-name1 {
+        font-size: 1rem;
+    }
+
+    .pause-shopping,
+    .continue-shopping {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+    }
+
+    .logo {
+        width: 40px;
+    }
+
+    .header-title {
+        font-size: 24px;
+    }
 }

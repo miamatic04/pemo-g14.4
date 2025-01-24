@@ -116,3 +116,76 @@
     color: green;
     font-weight: bold;
 }
+
+@media screen and (max-width: 1024px) {
+    .discussion-details-container {
+        width: 85%;
+        padding: 3%;
+    }
+
+    .logo1DiscussionImage {
+        width: 8%;
+    }
+
+    .inputDiscussionDetails {
+        width: 80%;
+        margin-left: 20%;
+    }
+
+    .sendResponseDiscussion,
+    .discardResponseDiscussion {
+        width: 35%;
+    }
+}
+
+/* Mobile styles */
+@media screen and (max-width: 768px) {
+    .discussion-details-container {
+        width: 95%;
+        padding: 4%;
+    }
+
+    .logo1DiscussionImage {
+        width: 12%;
+    }
+
+    .header-section-discussionDetails,
+    .header-section-discussionDetailsResponse {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .avatarDiscussionDetails {
+        margin-bottom: 10px;
+    }
+
+    .inputDiscussionDetails {
+        width: 100%;
+        margin-left: 0;
+        height: 100px;
+    }
+
+    .opisDiscussionDetails {
+        max-width: 100%;
+    }
+
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .sendResponseDiscussion,
+    .discardResponseDiscussion {
+        width: 100%;
+        margin: 0;
+    }
+
+    .backToForum {
+        width: 100%;
+    }
+
+    .discussionDetailsResponse-info {
+        text-align: center;
+    }
+}

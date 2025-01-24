@@ -175,3 +175,92 @@
 .add-event-btn:hover {
     background-color: #388e3c;
 }
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .event-card {
+        flex-direction: column;
+        width: 90%;
+        padding: 1rem;
+    }
+
+    .event-column-left-column {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .event-image {
+        width: 80%;
+    }
+
+    .middle-column, .right-column {
+        width: 100%;
+        padding: 0.5rem;
+    }
+
+    .learn-more, .register, .add-to-calendar {
+        width: 80%;
+        margin-top: 0.5rem;
+    }
+
+    .header-events {
+        padding: 0.5rem;
+    }
+
+    .header-title {
+        font-size: 1.5rem;
+    }
+
+    .logo {
+        width: 50px;
+    }
+
+    .navigation-btn {
+        height: 5vh;
+        width: 5vh;
+        margin: 0 2vw;
+    }
+
+    .page-number span {
+        font-size: 200%;
+        padding: 3px 8px;
+    }
+}
+
+/* Tablet Styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .event-card {
+        width: 85%;
+        padding: 1.5rem;
+    }
+
+    .event-column-left-column {
+        width: 35%;
+    }
+
+    .event-image {
+        width: 60%;
+    }
+
+    .learn-more, .register, .add-to-calendar {
+        width: 50%;
+    }
+
+    .header-title {
+        font-size: 2rem;
+    }
+
+    .logo {
+        width: 60px;
+    }
+
+    .navigation-btn {
+        height: 6vh;
+        width: 6vh;
+        margin: 0 3vw;
+    }
+
+    .page-number span {
+        font-size: 250%;
+    }
+}

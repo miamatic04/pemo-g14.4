@@ -182,3 +182,67 @@
     padding: 0;
     z-index: 1;
 }
+
+@media screen and (max-width: 1024px) {
+    .review-card {
+        max-width: 40rem;
+        padding: 1.25rem;
+    }
+
+    .review-title {
+        font-size: 1.75rem;
+    }
+
+    .star {
+        font-size: 2.25rem;
+    }
+}
+
+/* Mobile View (max-width: 768px) */
+@media screen and (max-width: 768px) {
+    .review-card {
+        max-width: 100%;
+        padding: 1rem;
+        border-width: 6px;
+    }
+
+    .review-title {
+        font-size: 1.5rem;
+    }
+
+    .review-header img {
+        width: 3rem;
+    }
+
+    .section-label {
+        font-size: 1.1rem;
+    }
+
+    .star {
+        font-size: 2rem;
+    }
+
+    .star-container {
+        justify-content: center;
+    }
+
+    .upload-btn {
+        font-size: 1rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .submit-btn {
+        font-size: 1.1rem;
+        padding: 0.6rem;
+        margin-top: 2rem;
+    }
+
+    .review-content1 {
+        gap: 1rem;
+    }
+
+    .preview1 {
+        width: 4rem;
+        height: 4rem;
+    }
+}

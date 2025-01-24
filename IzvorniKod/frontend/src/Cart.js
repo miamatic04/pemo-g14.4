@@ -213,6 +213,8 @@ const Cart = () => {
                                     <div className="cart-item-column">
                                         €{(item.discountedPrice * item.quantity) || (item.price * item.quantity).toFixed(2)}
                                     </div>
+                                    <div className="cart-item-column"> <p className="za-mob">Cijena: </p> €{item.price}</div>
+                                    <div className="cart-item-column"> <p className="za-mob">Ukupno: </p>€{(item.price * item.quantity).toFixed(2)}</div>
                                     <div className="cart-item-column">
                                         <button className="remove-item" onClick={() => removeItem(item.id, item.quantity)}>
                                             Ukloni

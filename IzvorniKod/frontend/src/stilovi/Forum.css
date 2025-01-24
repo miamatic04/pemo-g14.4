@@ -204,7 +204,6 @@
     }
 }
 
-/* Mobile styles */
 @media screen and (max-width: 768px) {
     .header-forum {
         flex-direction: column;

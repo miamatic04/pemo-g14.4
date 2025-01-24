@@ -113,9 +113,19 @@ const Section = ({ title, items, itemType }) => {
 
     const scroll = (direction) => {
         if (contentRef.current) {
+            const width = window.innerWidth;
+            let scrollAmount;
+
+            if (width <= 768) { // Mobile - one card
+                scrollAmount = contentRef.current.offsetWidth;
+            } else if (width <= 1024) { // Tablet - two cards
+                scrollAmount = contentRef.current.offsetWidth / 2;
+            } else { // Desktop - six cards
+                scrollAmount = 225 * 6;
+            }
 
             contentRef.current.scrollBy({
-                left: direction === 'left' ? -(225*6) : (225*6),
+                left: direction === 'left' ? -scrollAmount : scrollAmount,
                 behavior: 'smooth'
             });
         }

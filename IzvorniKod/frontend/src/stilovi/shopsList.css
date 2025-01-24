@@ -124,12 +124,79 @@
 }
 
 .filter-container-list{
-   background-color: midnightblue;
+    background-color: midnightblue;
     color: white;
     padding: 0.5%;
     width: 18%;
 }
 
 .select-filter-shopList{
-    margin-left: 5%;
+    margin-left: 1%;
+}
+
+.labellll{
+    color: white;
+}
+
+@media screen and (max-width: 1024px) {
+    .header-title {
+        font-size: 200%;
+    }
+
+    .shops-card {
+        width: 40vw;
+        margin-right: 2vh;
+    }
+
+    .filter-container-list {
+        width: 25%;
+    }
+}
+
+/* Mobile */
+@media screen and (max-width: 768px) {
+    .header-shopsList {
+        flex-direction: column;
+        padding: 3%;
+    }
+
+    .header-title {
+        font-size: 150%;
+        margin: 2vh 0;
+    }
+
+    .logo {
+        width: 80%;
+    }
+
+    .shops-card {
+        width: 80vw;
+        margin-right: 0;
+    }
+
+    .filter-container-list {
+        width: 80%;
+        margin-top: 2vh;
+        padding: 2%;
+    }
+
+    .select-filter-shopList {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 1vh;
+    }
+
+    .pagination {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 2vh;
+        width: 100%;
+    }
+
+    .page-number {
+        display: flex;
+        gap: 1vh;
+    }
 }

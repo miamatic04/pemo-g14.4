@@ -121,3 +121,43 @@
     background-color: #2563eb;
 }
 
+@media screen and (max-width: 1024px) {
+    .modal-content {
+        max-width: 95%;
+        min-height: 70vh;
+    }
+
+    .product-image {
+        height: 25rem;
+    }
+
+    .product-name {
+        font-size: 1.8rem;
+    }
+
+    .btn {
+        font-size: 1.1rem;
+    }
+}
+
+/* Mobile View */
+@media screen and (max-width: 768px) {
+    .modal-content {
+        max-width: 100%;
+        min-height: 60vh;
+        margin: 0.5rem;
+        font-size: 1.6rem;
+    }
+
+    .product-image {
+        height: 20rem;
+    }
+
+    .product-name {
+        font-size: 1.6rem;
+    }
+
+    .btn {
+        font-size: 1.6rem;
+    }
+}

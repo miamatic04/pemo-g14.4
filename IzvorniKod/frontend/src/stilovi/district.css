@@ -67,7 +67,7 @@
     scroll-behavior: smooth;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    padding: 0.5rem 0;
+    padding: 0 0;
     align-items: center;
 }
 
@@ -155,4 +155,97 @@
     color: #6B7280;
     text-align: center;
     margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .carousel-button {
+        width: 32px;
+        height: 32px;
+    }
+
+    .carousel-content{
+        padding-bottom: 0;
+    }
+
+    .carousel-items {
+        gap:0;
+        margin-left:0;
+        padding: 0;
+    }
+
+    .shop-card9 {
+        flex: 0 0 100%;
+        min-height: 225px;
+    }
+
+    .shop-image-container9 {
+        height: 185px;
+    }
+
+    .shop-title {
+        font-size: 1.25rem;
+    }
+
+    .header-shopsList {
+        padding: 1.5rem;
+    }
+
+    .logo-container {
+        width: 50px;
+        height: 50px;
+    }
+
+    .header-title {
+        font-size: 2rem;
+    }
+}
+
+/* Tablet styles */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .section-title {
+        font-size: 1.75rem;
+    }
+
+    .carousel-button {
+        width: 28px;
+        height: 28px;
+    }
+
+    .carousel-content {
+        padding-bottom: 0;
+    }
+
+    .carousel-items {
+        gap: 2%;
+    }
+
+    .shop-card9 {
+        flex: 0 0 48%;
+        min-height: 200px;
+    }
+
+    .shop-image-container9 {
+        height: 160px;
+    }
+
+    .shop-title {
+        font-size: 1.1rem;
+    }
+
+    .header-shopsList {
+        padding: 1.25rem;
+    }
+
+    .logo-container {
+        width: 45px;
+        height: 45px;
+    }
+
+    .header-title {
+        font-size: 1.75rem;
+    }
 }

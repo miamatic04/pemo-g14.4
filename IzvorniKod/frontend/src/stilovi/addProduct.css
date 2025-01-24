@@ -97,3 +97,62 @@ textarea {
 .back-button:hover {
     background-color: #e53935;
 }
+
+@media screen and (max-width: 1024px) {
+    .product-creator {
+        max-width: 80%;
+        margin: 2rem auto;
+        padding: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    #productName,
+    #productCategory,
+    #productPrice,
+    textarea {
+        padding: 6px;
+        font-size: 15px;
+    }
+}
+
+/* Mobile View (max-width: 768px) */
+@media screen and (max-width: 768px) {
+    .product-creator {
+        max-width: 95%;
+        padding: 1.5rem;
+        margin: 1rem auto;
+        border-width: 3px;
+    }
+
+    .dodajProizvod {
+        font-size: 1.5rem;
+        padding-bottom: 1rem;
+    }
+
+    #productName,
+    #productCategory,
+    #productPrice,
+    textarea {
+        padding: 5px;
+        font-size: 14px;
+        border-width: 2px;
+    }
+
+    #description {
+        height: 80px;
+    }
+
+    .submit-button33,
+    .back-button {
+        padding: 8px;
+        font-size: 14px;
+        margin-top: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+}

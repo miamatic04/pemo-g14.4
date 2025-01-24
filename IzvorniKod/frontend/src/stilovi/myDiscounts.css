@@ -74,3 +74,41 @@
 .dodajNoviPopust:hover{
     cursor: pointer;
 }
+
+@media screen and (max-width: 1024px) {
+    .discounts-container-owner {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .dodajNoviPopust {
+        width: 20%;
+    }
+
+    .header-title-discounts-owner {
+        font-size: 1.8rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .discounts-container-owner {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .dodajNoviPopust {
+        width: 40%;
+    }
+
+    .header-title-discounts-owner {
+        font-size: 1.5rem;
+    }
+
+    .discount-card-owner {
+        border-width: 3px;
+    }
+
+    .discount-title-owner {
+        font-size: 1rem;
+    }
+}
