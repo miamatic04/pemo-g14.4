@@ -142,17 +142,20 @@ const EditShop = () => {
     return (
         <div className="edit-shop-page">
             <div className="edit-shop-container">
-                    <div className="edit-shop-card">
+                <div className="edit-shop-card">
+                    <div className="logo-title-container">
                         <div className="logo1">
                             <img
                                 src={logo1}
                                 onClick={() => navigate('/ownerhome')}
-                                style={{ cursor: 'pointer' }}
+                                style={{cursor: 'pointer'}}
                                 alt="Logo"
+                                className="logo-edit-shop"
                             />
                         </div>
 
-                        <h2>Uredi trgovinu</h2>
+                        <h2 className="title-uredi-trgovinu">Uredi trgovinu</h2>
+                    </div>
                         <form onSubmit={handleSubmit} className="edit-shop-form">
                             <div className="form-group">
                                 <label>Ime trgovine:</label>
@@ -190,14 +193,14 @@ const EditShop = () => {
                                     />
                                 )}
                             </div>
-                            <div className="form-group">
-                                <button type="submit">Spremi promjene</button>
+                            <div className="form-group-edit-shops">
+                                <button type="submit" className="btn-spremi-edit-shops">Spremi promjene</button>
                             </div>
                         </form>
                     </div>
+                </div>
             </div>
-        </div>
-    );
-};
+            );
+            };
 
-export default EditShop;
+            export default EditShop;

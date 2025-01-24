@@ -81,7 +81,9 @@ const ReportPopup = ({ onClose, onSubmit }) => {
     return (
         <div className="report-popup">
             <div className="report-popup-content">
-                <h2>Prijavi trgovinu</h2>
+                <div className="title-prijavi-trgovinu-container">
+                <h2 className="title-prijavi-trgovinu">Prijavi trgovinu</h2>
+                </div>
                 <p>Odaberite razloge za prijavu:</p>
                 <div className="report-reasons">
                     {REPORT_REASONS.map((reason) => (
@@ -103,10 +105,10 @@ const ReportPopup = ({ onClose, onSubmit }) => {
                     onChange={(e) => setNote(e.target.value)}
                 />
                 <div className="report-popup-actions">
-                    <button className="cancel-btn" onClick={onClose}>
+                    <button className="cancel-btn-report-popup" onClick={onClose}>
                         Odustani
                     </button>
-                    <button className="submit-btn" onClick={handleReportSubmit}>
+                    <button className="submit-btn-report-popup" onClick={handleReportSubmit}>
                         Prijavi
                     </button>
                 </div>

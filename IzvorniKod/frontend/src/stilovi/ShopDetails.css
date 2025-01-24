@@ -50,6 +50,17 @@
     margin: 5px 0;
 }
 
+.logo1-shopDetails {
+    display: flex; /* Koristi Flexbox za raspored */
+    justify-content: flex-end; /* Poravnava logo na desnu stranu */
+    margin-bottom: 2%; /* Razmak ispod loga */
+}
+
+.logo1-shopDetails-image{
+    width: 15%;
+    height: auto;
+}
+
 .shop-card .reviews-section {
     margin-top: 15px;
 }
@@ -77,16 +88,18 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    margin-left: 3%;
 }
 
 .product-item {
     display: flex;
     align-items: center;
     gap: 10px;
-    background-color: #f9f9f9;
+    background-color: #e1f2f7;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 10px;
+    margin-bottom: 2%;
 }
 
 .product-item img {
@@ -109,6 +122,26 @@
     font-size: 14px;
     color: #666;
     margin: 0;
+}
+
+.add-product-btn-container {
+    display: flex; /* Koristi Flexbox za raspored */
+    justify-content: center; /* Centriranje gumba horizontalno */
+    margin-top: 20px; /* Razmak iznad gumba */
+}
+
+.add-product-btn {
+    background-color: #9bd7eb; /* Boja pozadine gumba */
+    border: none; /* Uklanja okvir */
+    border-radius: 4px; /* Zaobljeni rubovi */
+    padding: 10px 20px; /* Unutarnji razmak */
+    cursor: pointer; /* Promjena kursora na pointer prilikom hovera */
+    width: 50%; /* Širina gumba, prilagodite prema potrebama */
+}
+
+.add-product-btn:hover {
+    background-color: #007bff; /* Tamnija boja na hover */
+    color: white;
 }
 
 .pagination {
@@ -160,6 +193,15 @@
 
 }
 
+.button-shopDetails-uredi{
+    background-color: #9bd7eb;
+}
+
+.title-recenzije-shop-details{
+    margin-bottom: 2%;
+    color: midnightblue;
+}
+
 @media screen and (max-width: 1024px) {
     .shop-container {
         width: 95%;
@@ -178,36 +220,21 @@
 
 /* Mobile View (max-width: 768px) */
 @media screen and (max-width: 768px) {
-    .shop-container {
-        flex-direction: column;
-        width: 100%;
-        padding: 15px;
-    }
-
-    .left-panel {
-        border-right: none;
-        border-bottom: 2px solid #eee;
-    }
-
-    .shop-card {
-        padding: 15px;
-    }
-
-    .shop-image img {
-        width: 120px;
-        height: 120px;
-    }
-
-    .product-item {
-        flex-direction: column;
-        text-align: center;
-    }
-
     .right-panel {
-        margin-top: 20px;
+        display: flex; /* Koristi Flexbox za raspored */
+        flex-direction: column; /* Postavlja elemente u kolonu */
+        align-items: center; /* Centriranje sadržaja */
     }
 
-    .shop-page {
-        padding: 10px;
+    .logo1-shopDetails {
+        margin-bottom: 20px; /* Razmak ispod loga */
+        width: 40%;
+        display: flex;
+        justify-content: center; /* Centriranje loga */
+    }
+
+    .logo1-shopDetails-image {
+        width: 50%; /* Širina loga, prilagodite prema potrebama */
+        height: auto; /* Održava proporcije slike */
     }
 }

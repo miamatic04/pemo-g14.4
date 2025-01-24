@@ -96,7 +96,7 @@ const ShopDetails = () => {
 
                         {shopDetails.shopOwner && (
                             <div className="owner-actions">
-                                <button onClick={() => navigate('/edit-shop', { state: { shopId } })}>
+                                <button className="button-shopDetails-uredi" onClick={() => navigate('/edit-shop', { state: { shopId } })}>
                                     Uredi informacije
                                 </button>
                             </div>
@@ -104,7 +104,7 @@ const ShopDetails = () => {
 
                         {/* Reviews Section */}
                         <div className="reviews-section">
-                            <h3>Recenzije:</h3>
+                            <h3 className="title-recenzije-shop-details">Recenzije:</h3>
                             {getCurrentReviews().map((review, index) => (
                                 <div key={index} className="review-item">
                                     <div className="review-content">
@@ -170,12 +170,13 @@ const ShopDetails = () => {
 
                 {/* Right Panel */}
                 <div className="right-panel">
-                    <div className="logo1">
+                    <div className="logo1-shopDetails">
                         <img
                             src={logo1}
                             onClick={() => navigate(userRole === 'owner' ? '/ownerhome' : '/userhome')}
                             style={{ cursor: 'pointer' }}
                             alt="Logo"
+                            className="logo1-shopDetails-image"
                         />
                     </div>
 
@@ -206,16 +207,18 @@ const ShopDetails = () => {
                             <p>Nema dostupnih proizvoda</p>
                         )}
 
-                        {shopDetails.shopOwner && (
-                            <button
-                                className="add-product-btn"
-                                onClick={() => {
-                                    localStorage.setItem("shopId", shopId);
-                                    navigate("/addProduct");
-                                }}
-                            >
-                                Dodaj novi proizvod
-                            </button>
+                        {userRole === 'owner' && (
+                            <div className="add-product-btn-container">
+                                <button
+                                    className="add-product-btn"
+                                    onClick={() => {
+                                        localStorage.setItem("shopId", shopId);
+                                        navigate("/addProduct");
+                                    }}
+                                >
+                                    Dodaj novi proizvod
+                                </button>
+                            </div>
                         )}
                     </div>
                 </div>

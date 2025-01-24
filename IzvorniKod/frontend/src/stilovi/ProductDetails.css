@@ -256,55 +256,18 @@
 /* Mobile View (max-width: 768px) */
 @media screen and (max-width: 768px) {
     .product-container {
-        flex-direction: column;
-        width: 100%;
-        padding: 15px;
-    }
-
-    .left-panel {
-        border-right: none;
-        border-bottom: 2px solid #eee;
-    }
-
-    .shop-card {
-        padding: 15px;
-    }
-
-    .shop-image {
-        width: 120px;
-        height: 120px;
-    }
-
-    .review-content-wrapper {
-        flex-direction: column;
-    }
-
-    .review-content {
-        margin-right: 0;
-        margin-bottom: 15px;
-    }
-
-    .review-text {
-        max-width: 100%;
-    }
-
-    .review-image {
-        width: 100%;
-        height: 200px;
-        margin-top: 10px;
+        flex-direction: column; /* Postavlja elemente u kolonu */
+        align-items: center; /* Centriranje sadržaja */
     }
 
     .logo111 {
-        margin-bottom: 10%;
+        margin-bottom: 10px; /* Razmak ispod loga kada je ekran manji */
+        order: -1; /* Postavlja logo na vrh */
     }
 
-    .reviews-section {
-        padding-left: 0;
-    }
-
-    .review-header {
-        flex-direction: column;
-        gap: 10px;
-        align-items: flex-start;
+    .left-panel, .right-panel {
+        width: 100%; /* Širina panela na manjim ekranima */
+        border-right: none; /* Uklanja desnu granicu */
+        border-bottom: 2px solid #eee; /* Dodaje donju granicu */
     }
 }
