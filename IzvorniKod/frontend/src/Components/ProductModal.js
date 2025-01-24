@@ -105,13 +105,13 @@ function ProductModal({ product, onClose }) {
                                 productId: product.id,
                             }
                         })}}
-                        className="btn btn-profile">
+                        className="btn-idi-na-profil-proizvoda">
                         Idi na profil proizvoda
                     </button>
-                    <button onClick={onClose} className="btn btn-close">
+                    <button onClick={onClose} className="btn-zatvori-product">
                         Zatvori
                     </button>
-                    <button onClick={handleAddToCart} className="btn btn-add">
+                    <button onClick={handleAddToCart} className="btn-dodaj-proizvod">
                         Dodaj u košaricu
                     </button>
                 </div>

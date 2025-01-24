@@ -57,7 +57,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #e5e7eb;
+    background-color: #e1f2f7;
     border: none;
     border-radius: 0.25rem;
     cursor: pointer;
@@ -65,7 +65,8 @@
 }
 
 .quantity-btn:hover {
-    background-color: #d1d5db;
+    background-color: #1e1e90;
+    color: white;
 }
 
 .quantity-display {
@@ -94,31 +95,36 @@
     transition: background-color 0.2s;
 }
 
-.btn-profile {
+.btn-idi-na-profil-proizvoda {
     background-color: #10b981;
     color: white;
+
 }
 
-.btn-profile:hover {
-    background-color: #059669;
+.btn-idi-na-profil-proizvoda:hover {
+    background-color: midnightblue;
+    color: white;
+    font-weight: bold;
 }
 
-.btn-close {
+.btn-zatvori-product {
     background-color: #e5e7eb;
     color: #1f2937;
 }
 
-.btn-close:hover {
-    background-color: #d1d5db;
+.btn-zatvori-product:hover {
+    background-color: red;
+    font-weight: bold;
 }
 
-.btn-add {
+.btn-dodaj-proizvod {
     background-color: #3b82f6;
     color: white;
 }
 
-.btn-add:hover {
-    background-color: #2563eb;
+.btn-dodaj-proizvod:hover {
+    background-color: limegreen;
+    font-weight: bold;
 }
 
 @media screen and (max-width: 1024px) {

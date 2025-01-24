@@ -25,6 +25,48 @@
     padding: 0 5rem;
 }
 
+.discount-card {
+    height: 140px; /* Compact height for discount cards */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Align to top */
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.discount-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensure space between elements */
+    height: 100%;
+}
+
+.discount-code {
+    font-size: 28px; /* Larger font for the code */
+    font-weight: bold; /* Bold font for emphasis */
+    color: #333;
+    margin: 0 0 5px;
+}
+
+.shop-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 5px 0;
+    color: #333;
+}
+
+.discount-percentage {
+    font-size: 50px; /* Bigger font for percentage */
+    font-weight: bold;
+    color: #007BFF; /* Blue color */
+    margin: 0;
+    align-self: center; /* Center the percentage horizontally */
+}
+
+
 .carousel-button {
     position: absolute;
     top: 50%;
