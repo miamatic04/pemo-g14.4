@@ -47,7 +47,7 @@ function ReportedUsers() {
 
         const fetchUserReports = async () => {
             try {
-                const token = localStorage.getItem('authToken');
+                const token = localStorage.getItem('token');
                 const response = await fetch(`http://${process.env.REACT_APP_WEB_URL}:8080/getUserReports`, {
                     method: 'GET',
                     headers: {
